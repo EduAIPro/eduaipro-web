@@ -25,3 +25,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+a:hover {
+  scale: 1.05;
+  animation-duration: 600ms;
+}
