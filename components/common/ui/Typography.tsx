@@ -1,6 +1,7 @@
 const textStyles = {
   size: {
-    xxlarge: "text-xl md:text-[32px] leading-[38.4px]",
+    xxlarge:
+      "text-xl md:text-[32px] lg:text-[56px] lg:leading-[67.2px] max-md:leading-[38.4px]",
     xlarge: "text-2xl",
     large: "text-lg",
     basePro: "text-xl",

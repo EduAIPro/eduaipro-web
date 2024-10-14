@@ -1,24 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-a:hover {
-  scale: 1.05;
-  animation-duration: 600ms;
-}
-.radix-themes {
-  --default-font-family: var(--font-montserrat) !important;
-}
-
 :root,
 .light,
 .light-theme {
@@ -173,37 +152,3 @@ a:hover {
 .radix-themes {
   --color-background: #fff;
 }
-.btn {
-  @apply !px-7 !h-10 !rounded-lg !cursor-pointer hover:!scale-105 !duration-500;
-}
-
-.primary__btn {
-  @apply !bg-brand;
-}
-
-.trusted__companies:before {
-  content: "";
-  position: absolute;
-  top: -40px;
-  left: 0;
-  height: 40px;
-  width: 40px;
-  border-bottom-left-radius: 50%;
-  background-color: transparent;
-  border: 0px;
-  box-shadow: 0 20px 0 0 #fff;
-}
-.trusted__companies:after {
-  content: "";
-  position: absolute;
-  bottom: 0px;
-  right: -70px;
-  height: 70px;
-  width: 70px;
-  border-bottom-left-radius: 100px;
-  background-color: red;
-  border: 0px;
-  box-shadow: 8px 16px 0px 0 #41dd0d;
-}
-/* 400: "#0551a6",
-600: "#08407f", */
