@@ -5,24 +5,22 @@ import Typography from "../common/ui/Typography";
 import { Apple, GooglePlay } from "iconsax-react";
 import { appIcons } from "./data";
 import { generateKey } from "@/utils/key";
+import CompaniesMarquee from "./CompaniesMarquee";
 
 export default function HeroSection() {
   return (
     <section>
       <Box
-        style={{ backgroundColor: "var(--blue-a12)", borderRadius: "24px" }}
+        style={{ backgroundColor: "var(--blue-10)", borderRadius: "24px" }}
         className="px-4 sm:px-6 lg:px-8 py-12 overflow-hidden relative"
       >
         {/* L-shaped border radius overlay */}
-        <div className="absolute trusted__companies bottom-0 left-0 w-full h-40 md:w-3/5 bg-white rounded-tr-[100px] py-20 flex items-center justify-between space-x-4">
-          {/* <img src="/logo-microsoft.png" alt="Microsoft" className="h-10" />
-            <img src="/logo-evernote.png" alt="Evernote" className="h-10" />
-            <img src="/logo-medium.png" alt="Medium" className="h-10" /> */}
-          {/* Add more logos as needed */}
+        <div className="absolute trusted__companies bottom-0 left-0 w-full md:w-3/5 bg-white rounded-tr-[50px] flex items-center justify-between space-x-4">
+          <CompaniesMarquee />
         </div>
 
         <div className="flex flex-col md:flex-row items-center p-8 md:p-12 relative z-10">
-          <div className="flex-1 text-white">
+          <div className="flex-1 text-white pb-14">
             <div className="inline-block bg-brand-900 bg-opacity-35 rounded-full px-4 py-1 mb-3">
               <Typography.P weight="semibold">
                 📈 ENHANCE YOUR CAREER
@@ -55,14 +53,6 @@ export default function HeroSection() {
               <Typography.P weight="semibold" fontColor="white">
                 Download now
               </Typography.P>
-            </div>
-            <div className="text-sm">
-              More than 100+ companies trusted us
-              <div className="flex space-x-4 mt-2">
-                <span>Microsoft</span>
-                <span>Evernote</span>
-                <span>Medium</span>
-              </div>
             </div>
           </div>
           <div className="flex-1 mt-8 md:mt-0">

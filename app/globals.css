@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,6 +11,9 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+p {
+  font-family: "Karla", sans-serif;
 }
 a:hover {
   scale: 1.05;
@@ -197,13 +201,13 @@ a:hover {
   content: "";
   position: absolute;
   bottom: 0px;
-  right: -70px;
-  height: 70px;
-  width: 70px;
-  border-bottom-left-radius: 100px;
-  background-color: red;
+  right: -100px;
+  height: 100px;
+  width: 100px;
+  border-bottom-left-radius: 50%;
+  background-color: transparent;
   border: 0px;
-  box-shadow: 8px 16px 0px 0 #41dd0d;
+  box-shadow: 0 45px 0 0 #fff;
 }
 /* 400: "#0551a6",
 600: "#08407f", */
