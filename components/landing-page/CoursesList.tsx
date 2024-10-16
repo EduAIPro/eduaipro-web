@@ -12,16 +12,17 @@ import {
   Video,
 } from "iconsax-react";
 import Pill from "../common/ui/Pill";
-import { Button, TextField } from "@radix-ui/themes";
+import { Button } from "@radix-ui/themes";
 
 export default function CoursesList() {
   return (
     <section className="responsive__section">
       <div className="flex flex-col gap-y-12">
         <div className="text-center flex flex-col gap-y-8">
-          <Pill text="BROWSE OUR COURSES" />
-
           <div>
+            <div className="pb-4">
+              <Pill text="BROWSE OUR COURSES" />
+            </div>
             <Typography.H2 weight="semibold" size="xlarge">
               Browse Through Our Top-Rated Courses
             </Typography.H2>

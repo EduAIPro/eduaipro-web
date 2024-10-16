@@ -12,6 +12,7 @@ body {
     )
     rgb(var(--background-start-rgb));
   scroll-behavior: smooth !important;
+  /* -webkit-user-drag: none; */
 }
 p {
   font-family: "Karla", sans-serif;
@@ -23,7 +24,11 @@ a:hover {
 .radix-themes {
   --default-font-family: var(--font-montserrat) !important;
 }
-
+@media (max-width: 400px) {
+  body {
+    user-select: none;
+  }
+}
 .course_card:hover {
   transform: scale3d(1.03, 1.03, 1.08) translate3d(0.1rem, -0.25rem, 20rem);
   box-shadow: 0 0 40px -8px rgb(0 0 0 / 16%), 0 0 24px -16px rgb(0 0 0 / 16%);
@@ -45,10 +50,13 @@ a:hover {
 }
 
 .responsive__section {
-  @apply py-[120px];
+  @apply py-[100px];
 }
 .box__shadow {
   box-shadow: -18px 20px 28px -25px rgba(0, 0, 0, 0.1);
+}
+.app__download {
+  @apply bg-white displace__animation hover:bg-opacity-70 bg-opacity-50 backdrop-blur-lg backdrop-filter rounded-lg p-2 flex items-center justify-center;
 }
 :root,
 .light,

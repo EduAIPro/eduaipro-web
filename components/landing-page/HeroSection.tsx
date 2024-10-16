@@ -11,8 +11,8 @@ export default function HeroSection() {
   return (
     <section className="pb-12">
       <Box
-        style={{ backgroundColor: "var(--blue-10)", borderRadius: "24px" }}
-        className="px-4 sm:px-6 lg:px-8 py-12 overflow-hidden relative"
+        style={{ borderRadius: "24px" }}
+        className="px-4 sm:px-6 lg:px-8 py-12 bg-brand-1000 overflow-hidden relative"
       >
         {/* L-shaped border radius overlay */}
         <div className="absolute trusted__companies bottom-0 left-0 w-full md:w-3/5 bg-white rounded-tr-[50px] flex items-center justify-between space-x-4">
@@ -48,10 +48,7 @@ export default function HeroSection() {
             </div>
             <div className="flex gap-x-4 my-6 items-center">
               {appIcons.map((item) => (
-                <div
-                  key={generateKey()}
-                  className="bg-white displace__animation hover:bg-opacity-70 bg-opacity-50 backdrop-blur-lg backdrop-filter rounded-lg p-2 flex items-center justify-center"
-                >
+                <div key={generateKey()} className="app__download">
                   <item.icon variant="Bold" color="white" />
                 </div>
               ))}

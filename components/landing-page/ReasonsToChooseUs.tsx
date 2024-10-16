@@ -9,9 +9,8 @@ export default function ReasonsToChooseUs() {
   return (
     <section className="responsive__section">
       <div className="flex flex-col gap-y-12">
-        <div className="text-center flex flex-col gap-y-6">
+        <div className="text-center flex flex-col gap-y-4">
           <Pill text="WHY CHOOSE US" />
-
           <div>
             <Typography.H2 weight="semibold" size="xlarge">
               A Platform Designed for Educators <br /> Supercharged by{" "}

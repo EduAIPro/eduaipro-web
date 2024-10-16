@@ -23,15 +23,6 @@ export default function BoostCareer() {
             </div>
           </div>
           <div className="w-full pr-8">
-            {/* <div className="w-fit mx-auto rounded-full py-2 px-5 border border-brand-600">
-              <Typography.H3
-                weight="medium"
-                size="base"
-                className="text-center text-brand-900 tracking-[5px]"
-              >
-                ENHANCE YOUR CAREER
-              </Typography.H3>
-            </div> */}
             <div className="flex flex-col gap-y-14 pb-6 border-b-2 border-b-grey-9/30">
               <div className="relative">
                 <Typography.H2
@@ -39,8 +30,8 @@ export default function BoostCareer() {
                   fontColor="white"
                   size="xlarge"
                 >
-                  Boost your teaching skills with AI-powered tools and courses
-                  on our online learning app
+                  Boost Your Teaching Skills with AI-powered Tools and Courses
+                  on Our Online Learning App
                 </Typography.H2>
                 <div className="absolute -bottom-14">
                   <Image

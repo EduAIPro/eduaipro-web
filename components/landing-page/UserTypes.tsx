@@ -4,6 +4,8 @@ import { generateKey } from "@/utils/key";
 import { SegmentedControl } from "@radix-ui/themes";
 import Image from "next/image";
 import React, { useState } from "react";
+import { educatorBenefits, institutionBenefits } from "./data";
+import Typography from "../common/ui/Typography";
 
 export default function UserTypes() {
   const [activeTab, setActiveTab] = useState<UserTypeTabSwitch>(
@@ -30,7 +32,11 @@ export default function UserTypes() {
           radius="full"
         >
           {tabs.map((tab) => (
-            <SegmentedControl.Item key={generateKey()} value={tab.value}>
+            <SegmentedControl.Item
+              key={generateKey()}
+              value={tab.value}
+              className="!cursor-pointer"
+            >
               {tab.title}
             </SegmentedControl.Item>
           ))}
@@ -56,9 +62,9 @@ export default function UserTypes() {
 
 function EducatorsComponent() {
   return (
-    <div className="p-6 bg-grey-2/30 rounded-lg ">
-      <div className="flex items-center gap-8">
-        <div>
+    <div className="py-6">
+      <div className="flex items-center gap-4">
+        <div className="w-full">
           <Image
             width={600}
             height={500}
@@ -67,12 +73,37 @@ function EducatorsComponent() {
             src="/assets/images/wo.jpg"
           />
         </div>
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Features for Educators</h2>
-          <ul className="list-disc pl-5">
-            <li>AI-powered tools to enhance teaching efficiency</li>
-            <li>Expert-led courses to expand your knowledge</li>
-            <li>Customizable teaching resources and materials</li>
+        <div className="w-full">
+          <div className="mb-5 flex flex-col gap-y-2">
+            <Typography.H2 size="basePro">
+              Empower Your Teaching with AI-Powered Learning and Professional
+              Development
+            </Typography.H2>
+            <Typography.P fontColor="medium">
+              As an educator, access a wide variety of courses designed to
+              enhance your skills, earn certifications, and track your progress
+              in real time.
+            </Typography.P>
+          </div>
+          <ul className="list-disc grid grid-cols-2 gap-x-4">
+            {educatorBenefits.map((benefit) => (
+              <li
+                key={generateKey()}
+                className="flex gap-x-2 items-center py-3"
+              >
+                <div>
+                  <benefit.icon className="w-6 h-6 text-grey-11" />
+                </div>
+                <div className="max-w-[70%]">
+                  <Typography.H3 fontColor="large" size="small" weight="medium">
+                    {benefit.title}
+                  </Typography.H3>
+                  {/* <Typography.P fontColor="medium">
+                    {benefit.description}
+                  </Typography.P> */}
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -82,13 +113,50 @@ function EducatorsComponent() {
 
 function InstitutionsComponent() {
   return (
-    <div className="p-6 bg-gray-100 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Features for Institutions</h2>
-      <ul className="list-disc pl-5">
-        <li>Comprehensive dashboard to track teacher progress</li>
-        <li>AI-driven insights on course effectiveness</li>
-        <li>Tools to manage institution-wide training programs</li>
-      </ul>
+    <div className="py-6">
+      <div className="flex items-center gap-4">
+        <div className="w-full">
+          <Image
+            width={600}
+            height={500}
+            alt=""
+            className="rounded-xl"
+            src="/assets/images/school.jpg"
+          />
+        </div>
+        <div className="w-full">
+          <div className="mb-5 flex flex-col gap-y-2">
+            <Typography.H2 size="basePro">
+              Maximize Staff Development with Advanced Insights and AI Support
+            </Typography.H2>
+            <Typography.P fontColor="medium">
+              With AI-powered chatbots and personalized support, you can provide
+              your educators with the resources they need to grow, while
+              accessing comprehensive data to drive institutional improvement.
+            </Typography.P>
+          </div>
+          <ul className="list-disc grid grid-cols-2 gap-x-4">
+            {institutionBenefits.map((benefit) => (
+              <li
+                key={generateKey()}
+                className="flex gap-x-2 items-center py-3"
+              >
+                <div>
+                  <benefit.icon className="w-6 h-6 text-grey-11" />
+                </div>
+                <div className="max-w-[70%]">
+                  <Typography.H3 fontColor="large" size="small" weight="medium">
+                    {benefit.title}
+                  </Typography.H3>
+                  {/* <Typography.P fontColor="medium">
+                        {benefit.description}
+                      </Typography.P> */}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

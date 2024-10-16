@@ -14,7 +14,10 @@ export default function CompaniesMarquee() {
         </Typography.H3>
       </div>
       <div>
-        <div className="flex items-center gap-x-12 mt-4">
+        <div
+          style={{ filter: "grayscale(1.5)" }}
+          className="flex items-center gap-x-6 mt-4"
+        >
           {schoolLogos.map((link) => (
             <Image
               key={generateKey()}
