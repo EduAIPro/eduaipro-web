@@ -77,7 +77,9 @@ export default function Navbar() {
           <Typography.P weight="semibold">Login</Typography.P>
         </Button>
         <Button className="primary__btn btn">
-          <Typography.P weight="semibold">Get started</Typography.P>
+          <Typography.P weight="semibold" fontColor="white">
+            Get started
+          </Typography.P>
         </Button>
       </Flex>
     </Flex>

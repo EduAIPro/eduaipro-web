@@ -9,7 +9,7 @@ import CompaniesMarquee from "./CompaniesMarquee";
 
 export default function HeroSection() {
   return (
-    <section>
+    <section className="pb-12">
       <Box
         style={{ backgroundColor: "var(--blue-10)", borderRadius: "24px" }}
         className="px-4 sm:px-6 lg:px-8 py-12 overflow-hidden relative"
@@ -20,21 +20,26 @@ export default function HeroSection() {
         </div>
 
         <div className="flex flex-col md:flex-row items-center p-8 md:p-12 relative z-10">
-          <div className="flex-1 text-white pb-14">
-            <div className="inline-block bg-brand-900 bg-opacity-35 rounded-full px-4 py-1 mb-3">
-              <Typography.P weight="semibold">
+          <div className="flex-1 text-white pb-28">
+            <div className="inline-block bg-brand-700 bg-opacity-35 rounded-full px-4 py-1 mb-3">
+              <Typography.H2 size="small" fontColor="large" weight="semibold">
                 📈 ENHANCE YOUR CAREER
-              </Typography.P>
+              </Typography.H2>
             </div>
             <div className="flex flex-col gap-y-4">
-              <Typography.H1 fontColor="white" size="xxlarge" weight="bold">
+              <Typography.H1
+                fontColor="white"
+                className="capitalize"
+                size="xxlarge"
+                weight="bold"
+              >
                 Access the world&apos;s
                 <br />
                 best learning course
                 <br />
                 with EduAIpro
               </Typography.H1>
-              <Typography.P weight="medium">
+              <Typography.P weight="medium" fontColor="white">
                 Unlock a world of educational resources with our cutting-edge
                 course app for teachers. Empower yourself to excel in your
                 teaching career, inspire your students, and streamline your
@@ -45,7 +50,7 @@ export default function HeroSection() {
               {appIcons.map((item) => (
                 <div
                   key={generateKey()}
-                  className="bg-white cursor-pointer hover:-translate-y-1 duration-500 bg-opacity-50 backdrop-blur-lg backdrop-filter rounded-lg p-2 flex items-center justify-center"
+                  className="bg-white displace__animation hover:bg-opacity-70 bg-opacity-50 backdrop-blur-lg backdrop-filter rounded-lg p-2 flex items-center justify-center"
                 >
                   <item.icon variant="Bold" color="white" />
                 </div>

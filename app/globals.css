@@ -11,6 +11,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  scroll-behavior: smooth !important;
 }
 p {
   font-family: "Karla", sans-serif;
@@ -23,6 +24,32 @@ a:hover {
   --default-font-family: var(--font-montserrat) !important;
 }
 
+.course_card:hover {
+  transform: scale3d(1.03, 1.03, 1.08) translate3d(0.1rem, -0.25rem, 20rem);
+  box-shadow: 0 0 40px -8px rgb(0 0 0 / 16%), 0 0 24px -16px rgb(0 0 0 / 16%);
+  animation-duration: 500ms;
+}
+.course_card {
+  border: 2px solid #e8eef7;
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
+  cursor: pointer;
+}
+
+.gradient__text {
+  @apply bg-clip-text text-transparent animate-gradient-bg bg-gradient-to-r from-[#3D66DD] via-[#84D2F6] to-[#3D66DD] bg-200%;
+}
+
+.displace__animation {
+  @apply cursor-pointer hover:-translate-y-1 duration-500;
+}
+
+.responsive__section {
+  @apply py-[120px];
+}
+.box__shadow {
+  box-shadow: -18px 20px 28px -25px rgba(0, 0, 0, 0.1);
+}
 :root,
 .light,
 .light-theme {

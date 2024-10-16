@@ -46,7 +46,7 @@ export const features = [
     icon: Element4,
     title: "Diverse course selection",
     description:
-      "Explore courses tailored for educators, from teaching methods to subject-specific content. AI recommends based on your teaching area.",
+      "Explore courses tailored for educators, from teaching methods to subject-specific content AI recommends based on your teaching area.",
 
     color: "#7c9885",
   },
@@ -58,4 +58,51 @@ export const features = [
 
     color: "#1F2041",
   },
+];
+
+export const courses = [
+  {
+    image: "/assets/images/course.png",
+    title: "Classroom Management",
+    categories: ["classroom", "management", "skills"],
+    isNew: true,
+    students: "1,200",
+    courseLength: "12 sessions",
+  },
+  {
+    image: "/assets/images/course.png",
+    title: "Classroom Management",
+    categories: ["classroom", "management", "skills"],
+    isNew: false,
+    students: "8,900",
+    courseLength: "16 sessions",
+  },
+  {
+    image: "/assets/images/course.png",
+    title: "Classroom Management",
+    categories: ["classroom", "management", "skills"],
+    isNew: true,
+    students: "120,000",
+    courseLength: "3 sessions",
+  },
+  {
+    image: "/assets/images/course.png",
+    title: "Classroom Management",
+    categories: ["classroom", "management", "skills"],
+    isNew: true,
+    students: "2,200",
+    courseLength: "8 sessions",
+  },
+];
+
+export const categories = [
+  "History",
+  "Science",
+  "Arts",
+  "Languages",
+  "Engineering",
+  "Medicine",
+  "Business management",
+  "Crafts",
+  "Astronomy",
 ];
