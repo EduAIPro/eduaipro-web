@@ -54,7 +54,11 @@ export default function Footer() {
         </div>
         <div className="bg-brand-800/10 rounded-xl xs:rounded-3xl p-4 xs:p-6 flex max-xs:flex-col max-xs:gap-y-4 xs:items-center justify-between">
           <div>
-            <Typography.H3 weight="semibold" fontColor="large" size="base">
+            <Typography.H3
+              weight="semibold"
+              fontColor="large"
+              className="text-sm xs:!text-basse"
+            >
               Copyright &copy; {new Date().getFullYear()} EduAiPro
             </Typography.H3>
           </div>

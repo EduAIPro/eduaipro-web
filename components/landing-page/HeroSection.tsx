@@ -8,13 +8,13 @@ import CompaniesMarquee from "./CompaniesMarquee";
 
 export default function HeroSection() {
   return (
-    <section className="pb-12">
+    <section className="">
       <Box
         style={{ borderRadius: "24px" }}
-        className="px-4 sm:px-6 lg:px-8 py-6 max-md:pb-12 md:py-12 bg-brand-1000 border-0 overflow-hidden relative"
+        className="px-4 sm:px-6 lg:px-8 py-6 max-md:pb-12 md:py-12 bg-brand-1000 border-white overflow-x-clip relative"
       >
         {/* L-shaped border radius overlay */}
-        <div className="absolute trusted__companies bottom-0 left-0 w-full md:w-3/5 border-0 bg-white rounded-tr-[50px] flex items-center justify-between space-x-4">
+        <div className="absolute trusted__companies bottom-0 left-0 w-full xl:w-3/5 bg-white rounded-tr-[50px] flex items-center justify-between space-x-4">
           <CompaniesMarquee />
         </div>
 

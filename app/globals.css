@@ -229,7 +229,7 @@ a:hover {
   width: 40px;
   border-bottom-left-radius: 50%;
   background-color: transparent;
-  border: 0px;
+  border: 0px !important;
   box-shadow: 0 20px 0 0 #fff;
 }
 .trusted__companies:after {
@@ -244,5 +244,11 @@ a:hover {
   border: 0px;
   box-shadow: 0 45px 0 0 #fff;
 }
-/* 400: "#0551a6",
-600: "#08407f", */
+.no__scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no__scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

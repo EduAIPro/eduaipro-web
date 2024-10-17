@@ -24,13 +24,13 @@ export default function ReasonsToChooseUs() {
               key={generateKey()}
               className="rounded-xl bg-white p-4 displace__animation box__shadow"
             >
-              <div className="flex gap-x-5">
+              <div className="xs:flex gap-x-5">
                 <div
                   style={{
                     backgroundColor: item.color,
                     boxShadow: `-5px 5px 15px 4px ${item.color}2B`,
                   }}
-                  className={`w-fit h-fit p-4 rounded-[6px] `}
+                  className={`w-fit h-fit p-4 rounded-[6px] max-xs:mb-4`}
                 >
                   <item.icon color="white" width={20} height={20} />
                 </div>

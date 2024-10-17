@@ -23,6 +23,12 @@ export default function UserTypes() {
 
   return (
     <section className="responsive__section">
+      <div className="md:max-w-[700px] mx-auto text-center mb-8">
+        <Typography.H2 weight="semibold" size="xlarge">
+          Transforming Education: Tailored Solutions for Educators and
+          Institutions
+        </Typography.H2>
+      </div>
       {/* Toggle Buttons */}
       <div className="flex justify-center space-x-4 md:mb-8">
         <SegmentedControl.Root
@@ -85,22 +91,16 @@ function EducatorsComponent() {
               in real time.
             </Typography.P>
           </div>
-          <ul className="list-disc grid grid-cols-2 gap-x-4">
+          <ul className="list-disc grid xs:grid-cols-2 gap-4">
             {educatorBenefits.map((benefit) => (
-              <li
-                key={generateKey()}
-                className="flex gap-x-2 items-center py-3"
-              >
+              <li key={generateKey()} className="flex gap-x-2 items-center">
                 <div>
-                  <benefit.icon className="w-6 h-6 text-grey-11" />
+                  <benefit.icon className="w-5 h-5 xs:w-6 xs:h-6 text-grey-11" />
                 </div>
                 <div className="max-w-[70%]">
                   <Typography.H3 fontColor="large" size="small" weight="medium">
                     {benefit.title}
                   </Typography.H3>
-                  {/* <Typography.P fontColor="medium">
-                    {benefit.description}
-                  </Typography.P> */}
                 </div>
               </li>
             ))}
@@ -135,14 +135,11 @@ function InstitutionsComponent() {
               accessing comprehensive data to drive institutional improvement.
             </Typography.P>
           </div>
-          <ul className="list-disc grid grid-cols-2 gap-x-4">
+          <ul className="list-disc grid xs:grid-cols-2 gap-4">
             {institutionBenefits.map((benefit) => (
-              <li
-                key={generateKey()}
-                className="flex gap-x-2 items-center py-3"
-              >
+              <li key={generateKey()} className="flex gap-x-2 items-center">
                 <div>
-                  <benefit.icon className="w-6 h-6 text-grey-11" />
+                  <benefit.icon className="w-5 h-5 xs:w-6 xs:h-6 text-grey-11" />
                 </div>
                 <div className="max-w-[70%]">
                   <Typography.H3 fontColor="large" size="small" weight="medium">
