@@ -9,7 +9,7 @@ import Pill from "../common/ui/Pill";
 export default function Testimonials() {
   return (
     <section className="responsive__section">
-      <div className="max-w-[60%] mx-auto text-center gap-y-4 flex flex-col mb-12">
+      <div className="sm:max-w-[60%] mx-auto text-center gap-y-4 flex flex-col mb-12">
         <Pill text="TESTIMONIALS" />
         <Typography.H2 weight="semibold" size="xlarge">
           What Educators and Institutions Are Saying About EduAiPro
@@ -20,9 +20,9 @@ export default function Testimonials() {
           {testimonials.map((testimonial) => (
             <div
               key={generateKey()}
-              className="flex flex-col mx-20 gap-y-6 items-center "
+              className="flex flex-col px-10 md:mx-20 gap-y-6 items-center "
             >
-              <div className="text-center max-w-[500px] mx-auto">
+              <div className="text-center max-sm:max-w-[400px] sm:max-w-[500px] mx-auto">
                 <Typography.P size="large">"{testimonial.talk}"</Typography.P>
               </div>
               <div className="mt-4">

@@ -24,7 +24,7 @@ export default function UserTypes() {
   return (
     <section className="responsive__section">
       {/* Toggle Buttons */}
-      <div className="flex justify-center space-x-4 mb-8">
+      <div className="flex justify-center space-x-4 md:mb-8">
         <SegmentedControl.Root
           variant="classic"
           defaultValue={activeTab}
@@ -63,8 +63,8 @@ export default function UserTypes() {
 function EducatorsComponent() {
   return (
     <div className="py-6">
-      <div className="flex items-center gap-4">
-        <div className="w-full">
+      <div className="flex max-lg:flex-col items-center gap-4">
+        <div className="w-full max-lg:hidden">
           <Image
             width={600}
             height={500}
@@ -114,8 +114,8 @@ function EducatorsComponent() {
 function InstitutionsComponent() {
   return (
     <div className="py-6">
-      <div className="flex items-center gap-4">
-        <div className="w-full">
+      <div className="flex max-lg:flex-col items-center gap-4">
+        <div className="w-full max-lg:hidden">
           <Image
             width={600}
             height={500}

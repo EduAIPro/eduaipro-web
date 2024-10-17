@@ -50,7 +50,7 @@ a:hover {
 }
 
 .responsive__section {
-  @apply py-[100px];
+  @apply py-[48px] md:py-[64px] lg:py-[100px];
 }
 .box__shadow {
   box-shadow: -18px 20px 28px -25px rgba(0, 0, 0, 0.1);

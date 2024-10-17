@@ -9,16 +9,16 @@ import { generateKey } from "@/utils/key";
 export default function BoostCareer() {
   return (
     <section className="responsive__section">
-      <div className="rounded-3xl bg-brand p-20 bg-boost-career-pattern">
-        <div className="flex items-center justify-between gap-x-12">
+      <div className="rounded-2xl lg:rounded-3xl bg-brand max-md:py-8 max-sm:px-4 sm:px-6 md:p-10 lg:p-12 xl:p-20 bg-boost-career-pattern">
+        <div className="flex items-center max-xl:flex-col-reverse justify-between gap-x-12">
           <div className="w-full">
-            <div className="border-8 border-grey-7/40 rounded-2xl w-fit mx-auto">
+            <div className="border-8 border-grey-7/40 rounded-2xl xl:w-fit xl:mx-auto">
               <Image
                 src="/assets/images/logo-white.png"
                 width={500}
                 height={300}
                 alt=""
-                className="rounded-lg"
+                className="rounded-lg object-cover w-full"
               />
             </div>
           </div>

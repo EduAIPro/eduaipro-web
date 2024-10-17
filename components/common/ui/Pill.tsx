@@ -7,7 +7,7 @@ export default function Pill({ text }: { text: string }) {
       <Typography.H3
         weight="medium"
         size="base"
-        className="text-center text-brand-900 tracking-[5px]"
+        className="text-center text-brand-900 tracking-[3px] sm:tracking-[5px] !text-sm sm:!text-base"
       >
         {text}
       </Typography.H3>

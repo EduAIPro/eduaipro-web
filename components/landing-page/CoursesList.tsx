@@ -17,18 +17,22 @@ import { Button } from "@radix-ui/themes";
 export default function CoursesList() {
   return (
     <section className="responsive__section">
-      <div className="flex flex-col gap-y-12">
+      <div className="flex flex-col gap-y-6 md:gap-y-12">
         <div className="text-center flex flex-col gap-y-8">
           <div>
             <div className="pb-4">
               <Pill text="BROWSE OUR COURSES" />
             </div>
-            <Typography.H2 weight="semibold" size="xlarge">
+            <Typography.H2
+              weight="semibold"
+              size="xlarge"
+              className="max-sm:max-w-[360px] mx-auto"
+            >
               Browse Through Our Top-Rated Courses
             </Typography.H2>
-            <div className="flex items-center gap-x-6 mx-auto w-fit my-4">
+            <div className="flex max-sm:flex-col max-sm:gap-y-3 max-sm:w-full sm:items-center gap-x-6 mx-auto w-fit my-4">
               <div>
-                <div className=" shadow-lg !shadow-grey-2 flex items-center gap-x-3 py-2 px-3 w-[300px] border border-grey-8/50 rounded-lg">
+                <div className="max-sm:w-full shadow-lg !shadow-grey-2 flex items-center gap-x-3 py-2 px-3 w-[300px] border border-grey-8/50 rounded-lg">
                   <SearchNormal1 className="h-4 w-4 font-semibold text-grey-11" />
                   <input
                     type="text"
@@ -37,19 +41,19 @@ export default function CoursesList() {
                   />
                 </div>
               </div>
-              <div>
-                <button className="btn primary__btn">
+              <div className="max-sm:w-full">
+                <button className="btn primary__btn max-sm:w-full">
                   <Typography.P fontColor="white">Search</Typography.P>
                 </button>
               </div>
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-4 gap-x-4 gap-y-8 mx-auto">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 max-md:gap-y-4 md:gap-y-8 sm:mx-auto">
           {[...courses, ...courses].map((item) => (
             <div
               key={generateKey()}
-              className="bg-white p-3 relative max-w-xs course_card"
+              className="bg-white p-3 relative w-full sm:max-w-xs course_card"
             >
               {item.isNew ? (
                 <div className="rounded-md border absolute left-5 px-1 pt-[2px] top-5 bg-white border-gray-500 flex gap-x-1">
@@ -64,11 +68,11 @@ export default function CoursesList() {
                     alt="course image"
                     width={400}
                     height={250}
-                    className="rounded-lg"
+                    className="rounded-lg max-sm:w-full"
                   />
                 </div>
                 <div className="flex flex-col gap-y-2">
-                  <div className="flex flex-wrap gap-x-2">
+                  <div className="flex flex-wrap gap-2">
                     {item.categories.map((category) => (
                       <div
                         key={generateKey()}
@@ -137,13 +141,13 @@ export default function CoursesList() {
             </div>
           ))}
         </div>
-        <div className="flex gap-x-4 mx-auto w-fit">
-          <Button variant="outline" className="btn !w-44">
+        <div className="flex max-sm:flex-col max-sm:gap-y-3 max-sm:w-full gap-x-4 sm:mx-auto w-fit">
+          <Button variant="outline" className="btn sm:!w-44">
             <p className="font-semibold text-base">My courses</p>
           </Button>
           <Button className="primary__btn btn">
             <Typography.P weight="semibold" fontColor="white">
-              View all
+              View all courses
             </Typography.P>
             <ArrowRight />
           </Button>

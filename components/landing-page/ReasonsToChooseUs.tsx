@@ -8,7 +8,7 @@ import Pill from "../common/ui/Pill";
 export default function ReasonsToChooseUs() {
   return (
     <section className="responsive__section">
-      <div className="flex flex-col gap-y-12">
+      <div className="flex flex-col gap-y-6 md:gap-y-12">
         <div className="text-center flex flex-col gap-y-4">
           <Pill text="WHY CHOOSE US" />
           <div>
@@ -18,7 +18,7 @@ export default function ReasonsToChooseUs() {
             </Typography.H2>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-10 w-4/5 mx-auto">
+        <div className="grid md:grid-cols-2 gap-5 md:gap-10 xl:w-4/5 mx-auto">
           {features.map((item) => (
             <div
               key={generateKey()}

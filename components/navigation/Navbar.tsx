@@ -17,7 +17,7 @@ export default function Navbar() {
           alt=""
         />
       </div>
-      <Flex gap="6" align="center">
+      <Flex gap="6" align="center" className="max-lg:!hidden">
         {navLinks.map((item) => (
           <div key={generateKey()}>
             {item.href ? (

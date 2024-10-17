@@ -1,7 +1,6 @@
 import {
   Activity,
   Apple,
-  Book,
   Book1,
   Chart,
   DeviceMessage,
@@ -11,7 +10,6 @@ import {
   MedalStar,
   MessageNotif,
   Messages1,
-  Receipt,
   Receipt1,
   Video,
 } from "iconsax-react";
@@ -20,10 +18,14 @@ export const appIcons = [
   {
     icon: Apple,
     link: "",
+    title: "Download on the",
+    platformName: "App Store",
   },
   {
     icon: GooglePlay,
     link: "",
+    title: "Get it on",
+    platformName: "Google Play",
   },
 ];
 
