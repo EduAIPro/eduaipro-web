@@ -12,13 +12,15 @@ export default function CallToAction() {
           <div className="w-full">
             <div className="flex flex-col gap-y-2">
               <Typography.H2 weight="semibold" fontColor="white" size="xlarge">
-                Take Your Teaching to the Next Level with EduAiPro's Mobile App
+                Take Your Teaching to the Next Level with EduAiPro&apos;s Mobile
+                App
               </Typography.H2>
               <Typography.P fontColor="light">
                 Stay connected and enhance your learning anytime, anywhere with
-                EduAiPro's mobile app. Access courses, track your progress, and
-                get support from our AI chatbot—all at your fingertips. Download
-                now and start maximizing your teaching potential on the go!
+                EduAiPro&apos;s mobile app. Access courses, track your progress,
+                and get support from our AI chatbot—all at your fingertips.
+                Download now and start maximizing your teaching potential on the
+                go!
               </Typography.P>
             </div>
             <div className="flex max-sm:flex-wrap max-sm:gap-y-2 max-sm:w-full items-center gap-x-2 sm:gap-x-5 mt-6">

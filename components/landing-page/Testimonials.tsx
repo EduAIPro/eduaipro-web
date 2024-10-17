@@ -23,7 +23,9 @@ export default function Testimonials() {
               className="flex flex-col px-10 md:mx-20 gap-y-6 items-center "
             >
               <div className="text-center max-sm:max-w-[400px] sm:max-w-[500px] mx-auto">
-                <Typography.P size="large">"{testimonial.talk}"</Typography.P>
+                <Typography.P size="large">
+                  &quot;{testimonial.talk}&quot;
+                </Typography.P>
               </div>
               <div className="mt-4">
                 <Image
