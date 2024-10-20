@@ -13,7 +13,7 @@ export default function ReasonsToChooseUs() {
           <Pill text="WHY CHOOSE US" />
           <div>
             <Typography.H2 weight="semibold" size="xlarge">
-              A Platform Designed for Educators <br /> Supercharged by{" "}
+              A Platform Designed for Teachers <br /> Supercharged by{" "}
               <span className="gradient__text">AI</span>
             </Typography.H2>
           </div>

@@ -36,7 +36,7 @@ export const navLinks = [
 
 export const footerLinks = [
   {
-    title: "For Educators",
+    title: "For Teachers",
     links: [
       {
         title: "My dashboard",

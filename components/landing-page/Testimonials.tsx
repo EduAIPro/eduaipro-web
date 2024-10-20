@@ -12,7 +12,7 @@ export default function Testimonials() {
       <div className="sm:max-w-[60%] mx-auto text-center gap-y-4 flex flex-col mb-12">
         <Pill text="TESTIMONIALS" />
         <Typography.H2 weight="semibold" size="xlarge">
-          What Educators and Institutions Are Saying About EduAiPro
+          What Teachers and Institutions Are Saying About EduAiPro
         </Typography.H2>
       </div>
       <div>

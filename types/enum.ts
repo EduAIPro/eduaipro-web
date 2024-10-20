@@ -1,4 +1,4 @@
 export enum UserTypeTabSwitch {
-  educator = "educators",
+  teachers = "teachers",
   institution = "institutions",
 }

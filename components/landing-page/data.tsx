@@ -1,17 +1,23 @@
 import {
   Activity,
   Apple,
+  Arrow,
+  ArrowSquare,
   Book1,
+  Buildings2,
   Chart,
+  Cup,
   DeviceMessage,
   Element4,
   GlobalSearch,
   GooglePlay,
   MedalStar,
-  MessageNotif,
   Messages1,
   Receipt1,
+  ShieldTick,
+  Star1,
   Video,
+  WalletMoney,
 } from "iconsax-react";
 
 export const appIcons = [
@@ -40,9 +46,9 @@ export const schoolLogos = [
 export const features = [
   {
     icon: MedalStar,
-    title: "Progress Tracking and Certifications",
+    title: "Accredited and Recognised Certifications",
     description:
-      "Monitor your learning journey with detailed progress tracking and earn certifications to showcase your achievements.",
+      "Earn accredited certifications recognized locally and internationally, enhancing your professional standing and supporting lifelong learning.",
     color: "#84D2F6",
   },
   {
@@ -55,17 +61,16 @@ export const features = [
   },
   {
     icon: Element4,
-    title: "Diverse course selection",
+    title: "AI-Driven Professional Development Course",
     description:
-      "Explore courses tailored for educators, from teaching methods to subject-specific content AI recommends based on your teaching area.",
-
+      "Continued professional development course with tailored units, equipping teachers with modern teaching skills and accredited certification.",
     color: "#7c9885",
   },
   {
     icon: DeviceMessage,
-    title: "Interactive Learning Experience",
+    title: "Collaborative Community Engagement",
     description:
-      "Engage with AI-powered classroom simulations, virtual workshops, and receive personalized feedback on your teaching strategies.",
+      "Connect globally with teachers, exchange insights, collaborate on best practices, and expand your professional network through meaningful knowledge-sharing opportunities.",
 
     color: "#1F2041",
   },
@@ -109,13 +114,13 @@ export const courses = [
 export const categories = [
   "History",
   "Science",
-  "Arts",
+  "Literature",
   "Languages",
-  "Engineering",
-  "Medicine",
-  "Business management",
-  "Crafts",
-  "Astronomy",
+  "Mathematics",
+  "Physics",
+  "Biology",
+  "Government",
+  "Economics",
 ];
 
 // export const educatorBenefits = [
@@ -171,47 +176,55 @@ export const categories = [
 
 export const educatorBenefits = [
   {
-    title: "Enroll in a Variety of Professional Courses",
+    title: "Flexibility and Convenience",
     icon: Video,
   },
   {
-    title: "Earn Industry-Recognized Certifications",
-    icon: MedalStar,
+    title: "Access to Globally Recognized Certifications",
+    icon: Cup,
   },
   {
-    title: "Track Your Learning Progress in Real Time",
-    icon: Activity,
+    title: "Personalized Learning Paths",
+    icon: ArrowSquare,
   },
   {
-    title: "Instant Assistance with Personalized AI Chatbot",
+    title: "Collaboration and Networking",
     icon: Messages1,
   },
   {
-    title: "Access Comprehensive Text-Based Learning Resources",
+    title: "Ongoing Learning Opportunities",
     icon: Book1,
   },
   {
-    title: "Get AI-Driven Course Recommendations",
-    icon: MessageNotif,
+    title: "Empowerment and Confidence",
+    icon: MedalStar,
   },
 ];
 
 export const institutionBenefits = [
   {
-    title: "Monitor the Overall Progress of Your Staff",
+    title: "Improved Teacher Performance",
     icon: Activity,
   },
   {
-    title: "Access to AI Chatbots and Personalized Support",
-    icon: DeviceMessage,
+    title: "Streamlined Certification Management",
+    icon: ShieldTick,
   },
   {
-    title: "Access In-Depth Reports on Staff Performance",
-    icon: Receipt1,
+    title: "Cost-Effective Professional Development",
+    icon: WalletMoney,
   },
   {
-    title: "Track School Metrics and Staff Development",
+    title: "Data-Driven Decision-Making",
     icon: Chart,
+  },
+  {
+    title: "Collaboration Across Schools",
+    icon: Buildings2,
+  },
+  {
+    title: "Enhanced Institutional Reputation",
+    icon: Star1,
   },
 ];
 
@@ -219,7 +232,7 @@ export const testimonials = [
   {
     name: "Sarah Mitchell",
     position: "Social Studies Teacher at Westbrook High School",
-    talk: "The AI-powered tools and expert-led courses have helped me elevate my skills and stay updated with the latest teaching techniques. The progress tracking and certification process are seamless, making it easier to achieve my goals as an educator.",
+    talk: "The AI-powered tools and expert-led courses have helped me elevate my skills and stay updated with the latest teaching techniques. The progress tracking and certification process are seamless, making it easier to achieve my goals as a teacher.",
   },
   {
     name: "David Chen",
@@ -229,7 +242,7 @@ export const testimonials = [
   {
     name: "James Patel",
     position: "Superintendent at Redwood Academy",
-    talk: "We can easily monitor our educators’ progress and track how they’re performing in their courses. The detailed reports give us a complete view of their professional growth, helping us ensure high teaching standards at our institution.",
+    talk: "We can easily monitor our teachers progress and track how they’re performing in their courses. The detailed reports give us a complete view of their professional growth, helping us ensure high teaching standards at our institution.",
   },
   {
     name: "Emily Davis",

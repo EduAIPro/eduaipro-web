@@ -9,7 +9,7 @@ import Typography from "../common/ui/Typography";
 
 export default function UserTypes() {
   const [activeTab, setActiveTab] = useState<UserTypeTabSwitch>(
-    UserTypeTabSwitch.educator
+    UserTypeTabSwitch.teachers
   );
 
   const handleTabSwitch = (tab: UserTypeTabSwitch) => {
@@ -17,7 +17,7 @@ export default function UserTypes() {
   };
 
   const tabs = [
-    { title: "For Educators", value: UserTypeTabSwitch.educator },
+    { title: "For Teachers", value: UserTypeTabSwitch.teachers },
     { title: "For Institutions", value: UserTypeTabSwitch.institution },
   ];
 
@@ -25,7 +25,7 @@ export default function UserTypes() {
     <section className="responsive__section">
       <div className="md:max-w-[700px] mx-auto text-center mb-8">
         <Typography.H2 weight="semibold" size="xlarge">
-          Transforming Education: Tailored Solutions for Educators and
+          Transforming Education: Tailored Solutions for Teachers and
           Institutions
         </Typography.H2>
       </div>
@@ -51,7 +51,7 @@ export default function UserTypes() {
 
       {/* Content Section with Animation */}
       <div className="relative">
-        {activeTab === UserTypeTabSwitch.educator && (
+        {activeTab === UserTypeTabSwitch.teachers && (
           <div className="animate-fade-in-up">
             <EducatorsComponent />
           </div>
@@ -86,9 +86,9 @@ function EducatorsComponent() {
               Development
             </Typography.H2>
             <Typography.P fontColor="medium">
-              As an educator, access a wide variety of courses designed to
-              enhance your skills, earn certifications, and track your progress
-              in real time.
+              As a teacher, access a wide variety of courses designed to enhance
+              your skills, earn certifications, and track your progress in real
+              time.
             </Typography.P>
           </div>
           <ul className="list-disc grid xs:grid-cols-2 gap-4">
@@ -131,7 +131,7 @@ function InstitutionsComponent() {
             </Typography.H2>
             <Typography.P fontColor="medium">
               With AI-powered chatbots and personalized support, you can provide
-              your educators with the resources they need to grow, while
+              your teachers with the resources they need to grow, while
               accessing comprehensive data to drive institutional improvement.
             </Typography.P>
           </div>

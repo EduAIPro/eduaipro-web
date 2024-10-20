@@ -31,8 +31,8 @@ export default function Navbar() {
       <div
         className={`transform ${
           menuOpen
-            ? "opacity-100 translate-y-0 max-lg:z-50"
-            : "-translate-y-[140%] max-lg:z-50"
+            ? "opacity-100 max-lg:translate-y-0 max-lg:z-50"
+            : "max-lg:-translate-y-[140%] max-lg:z-50"
         } transition-all transform max-lg:fixed w-full max-lg:h-screen lg:flex lg:justify-around left-0 bg-white max-lg:py-4 max-lg:top-16 duration-700 ease-in-out`}
       >
         <Flex align="center" className="max-lg:flex-col lg:gap-6">
