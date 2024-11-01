@@ -4,12 +4,8 @@ export const navLinks = [
     href: "/",
   },
   {
-    title: "Courses",
+    title: "Professional Development Courses",
     href: "/courses",
-  },
-  {
-    title: "Resources",
-    href: "/resources",
   },
   {
     title: "National Register",

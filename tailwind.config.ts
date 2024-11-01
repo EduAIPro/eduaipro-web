@@ -82,6 +82,11 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "boost-career-pattern": "url('/assets/images/shape-bg.png')",
+        "courses-hero": "url('/assets/images/wo.jpg')",
+        "high-sch-course":
+          "url('/assets/images/high-school.jpg'), linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.5))",
+        "primary-sch-course":
+          "url('/assets/images/elementary.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
       },
       animation: {
         "gradient-bg": "gradient 5s ease infinite",

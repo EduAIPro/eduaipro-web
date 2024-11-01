@@ -18,7 +18,7 @@ export default function Navbar() {
     <Flex
       justify="between"
       align="center"
-      className="px-4 lg:px-[48px] xl:px-[100px] py-6"
+      className="px-4 lg:px-[48px] xl:px-[100px] py-6 sticky"
     >
       <div>
         <Image
