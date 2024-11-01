@@ -28,13 +28,13 @@ export default function CoursesRender() {
   //   console.log(noPerPage);
   //   console.log(startingIndex + noPerPage);
   return (
-    <section className="grid sm:grid-cols-2 gap-6 h-[80vh] sm:max-w-[90%] lg:max-w-[75%] mx-auto">
+    <section className="grid sm:grid-cols-2 gap-6 sm:h-[80vh] sm:max-w-[90%] lg:max-w-[75%] mx-auto">
       {courses.map((course) => (
         <div
           key={generateKey()}
-          className={`rounded-lg h-full flex flex-col justify-between ${
+          className={`rounded-lg h-full flex flex-col justify-between max-sm:gap-y-24 ${
             course.id === "1" ? "bg-primary-sch-course" : "bg-high-sch-course"
-          }  bg-cover bg-center bg-blend-overlay px-6 py-8`}
+          }  bg-cover bg-center bg-blend-overlay px-4 sm:px-6 py-8`}
         >
           <div>
             <div className="flex gap-x-1 mt-1 items-center mb-3">
