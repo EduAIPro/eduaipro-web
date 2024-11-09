@@ -23,7 +23,7 @@ export default function CallToAction() {
                 go!
               </Typography.P>
             </div>
-            <div className="flex max-sm:flex-wrap max-sm:gap-y-2 max-sm:w-full items-center gap-x-2 sm:gap-x-5 mt-6">
+            <div className="flex max-sm:justify-between max-sm:gap-y-2 max-sm:w-full items-center gap-x-2 sm:gap-x-5 mt-6">
               {appIcons.map((item) => (
                 <div
                   key={generateKey()}

@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
+import Container from "@/components/common/ui/Container";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        <Theme>{children}</Theme>
+        <Theme>
+          <Container>{children}</Container>
+        </Theme>
       </body>
     </html>
   );

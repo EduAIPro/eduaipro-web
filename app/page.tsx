@@ -12,7 +12,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <Container>
+    <>
       <HeroSection />
       <ReasonsToChooseUs />
       <UserTypes />
@@ -21,6 +21,6 @@ export default function Home() {
       <Testimonials />
       <CallToAction />
       <Footer />
-    </Container>
+    </>
   );
 }

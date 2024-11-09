@@ -20,7 +20,7 @@ export const navLinks = [
       },
       {
         title: "FAQs",
-        href: "/faqs",
+        href: "/faq",
       },
     ],
   },

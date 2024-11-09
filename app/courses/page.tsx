@@ -1,4 +1,3 @@
-import Container from "@/components/common/ui/Container";
 import CoursesHeroSection from "@/components/courses/CoursesHeroSection";
 import CoursesRender from "@/components/courses/CoursesRender";
 import Filter from "@/components/courses/Filter";
@@ -8,12 +7,12 @@ import React from "react";
 
 export default function CoursesPage() {
   return (
-    <Container>
+    <>
       <CoursesHeroSection />
 
       <CoursesRender />
       <CallToAction />
       <Footer />
-    </Container>
+    </>
   );
 }

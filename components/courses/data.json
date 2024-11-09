@@ -1,0 +1,222 @@
+[
+  {
+    "id": "1",
+    "bgImage": "bg-primary-sch-course",
+    "name": "Professional Development Course for Primary School Teachers",
+    "description": "This course focuses on equipping primary school teachers with essential skills in values education, citizenship, and fundamental human rights, while also addressing important topics such as traffic regulations and inter-communal relationships to foster a well-rounded educational experience.",
+    "topics": [
+      "values",
+      "citizenship",
+      "ways of acquiring citizenship",
+      "fundamental human rights",
+      "traffic regulations",
+      "inter-communal relationship",
+      "nationality",
+      "cultism"
+    ],
+    "overview": "This comprehensive course is designed to enhance the teaching capabilities of primary school educators. Participants will engage in a variety of modules that cover essential topics, including but not limited to: an in-depth exploration of values education, which emphasizes the importance of instilling core values in students to promote ethical behavior and social responsibility. The course will delve into the principles of citizenship education, where teachers will learn how to effectively guide students in understanding their rights and responsibilities as citizens, fostering a sense of belonging and community involvement. Additionally, the course will address fundamental human rights, equipping educators with the knowledge to teach students about their rights and the importance of respecting the rights of others. Traffic regulations will be covered extensively, providing teachers with strategies to educate young learners about road safety, pedestrian awareness, and the significance of following traffic rules to ensure their safety and that of others. Furthermore, the course will promote inter-communal relationships, encouraging teachers to create inclusive classrooms that celebrate diversity and teach students the value of understanding and respecting different cultures and perspectives. By the end of this course, participants will be well-prepared to implement these essential teachings in their classrooms, ultimately contributing to the development of well-rounded, responsible, and informed young citizens.",
+    "students": "22,200",
+    "courseLength": "18 units",
+    "totalTime": "18hrs 20mins",
+    "courseContents": [
+      {
+        "name": "Course Introduction",
+        "length": "2:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 1",
+        "length": "9:23",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 2",
+        "length": "4:05",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 3",
+        "length": "7:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 4",
+        "length": "2:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 5",
+        "length": "1:00",
+        "isResource": true
+      },
+      {
+        "name": "Course Teaching 6",
+        "length": "2:09",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 7",
+        "length": "12:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 8",
+        "length": "4:50",
+        "isResource": false
+      },
+      {
+        "name": "Assessment",
+        "length": "4:50",
+        "isResource": false
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "bgImage": "bg-high-sch-course",
+    "name": "Professional Development Course for Secondary School Teachers",
+    "description": "This course equips secondary school teachers with essential skills in database modeling, data integrity, and transaction management, while also exploring the biological taxonomy of life, including flowers and fruits, to foster a comprehensive understanding of both technical and natural sciences.",
+    "topics": [
+      "normalization",
+      "database modelling",
+      "data integrity",
+      "transactions",
+      "rules of transactions",
+      "skeletons and bones",
+      "taxonomy of life",
+      "flowers",
+      "fruits",
+      "photosynthesis"
+    ],
+    "overview": "This extensive course is designed to empower secondary school teachers with advanced pedagogical techniques and subject-specific knowledge. Participants will delve into a variety of modules that cover critical areas essential for effective teaching in secondary education. The course will begin with an in-depth examination of database modeling, where educators will learn the foundational concepts of designing and implementing databases, understanding relationships between data entities, and applying normalization techniques to ensure data integrity. Following this, the course will explore data integrity and transaction management, equipping teachers with the skills to teach students about the importance of maintaining accurate and reliable data, as well as the principles of transactions in database systems. Additionally, the course will cover the biological taxonomy of life, providing educators with insights into the classification of living organisms, including detailed studies of flowers and fruits, which will enhance their ability to teach natural sciences effectively. Participants will engage in hands-on activities and collaborative projects that encourage the application of theoretical knowledge in practical scenarios. By the end of this course, teachers will be well-prepared to implement these advanced concepts in their classrooms, fostering a deeper understanding of both technical and natural sciences among their students.",
+    "students": "19,200",
+    "totalTime": "10hrs 5mins",
+    "courseLength": "10 units",
+    "courseContents": [
+      {
+        "name": "Course Introduction",
+        "length": "2:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 1",
+        "length": "9:23",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 2",
+        "length": "4:05",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 3",
+        "length": "7:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 4",
+        "length": "2:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 5",
+        "length": "1:00",
+        "isResource": true
+      },
+      {
+        "name": "Course Teaching 6",
+        "length": "2:09",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 7",
+        "length": "12:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 8",
+        "length": "4:50",
+        "isResource": false
+      },
+      {
+        "name": "Assessment",
+        "length": "4:50",
+        "isResource": false
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "bgImage": "bg-uni-course",
+    "name": "Professional Development Course for Higher Institutions Teachers",
+    "description": "This course is specifically designed for higher institutions, focusing on advanced pedagogical techniques, subject-specific knowledge, and critical areas essential for effective teaching in higher education.",
+    "overview": "This comprehensive course aims to equip higher institutions educators with the skills and knowledge necessary to excel in their teaching roles. The course covers a range of modules that delve into advanced pedagogical techniques, subject-specific knowledge, and critical areas essential for effective teaching in higher education. Participants will engage in in-depth explorations of topics such as curriculum design, instructional strategies, and assessment methods, as well as subject-specific content in areas like data science, biological taxonomy, and more. Through a combination of theoretical and practical learning, educators will gain the skills and confidence to implement these advanced concepts in their classrooms, ultimately enhancing the learning experience for their students.",
+    "topics": [
+      "advanced database concepts",
+      "data analysis techniques",
+      "transaction processing",
+      "biological classification",
+      "ecosystem dynamics",
+      "research methodologies",
+      "pedagogical strategies",
+      "curriculum development",
+      "assessment techniques",
+      "educational technology"
+    ],
+    "students": "4,220",
+    "totalTime": "17hrs 35mins",
+    "courseLength": "10 units",
+    "courseContents": [
+      {
+        "name": "Course Introduction",
+        "length": "2:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 1",
+        "length": "9:23",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 2",
+        "length": "4:05",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 3",
+        "length": "7:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 4",
+        "length": "2:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 5",
+        "length": "1:00",
+        "isResource": true
+      },
+      {
+        "name": "Course Teaching 6",
+        "length": "2:09",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 7",
+        "length": "12:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 8",
+        "length": "4:50",
+        "isResource": false
+      },
+      {
+        "name": "Assessment",
+        "length": "4:50",
+        "isResource": false
+      }
+    ]
+  }
+]

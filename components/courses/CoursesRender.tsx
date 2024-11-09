@@ -1,40 +1,32 @@
 "use client";
 
 import React, { useState } from "react";
-import Pagination from "../common/ui/Pagination";
-// import { courses } from "../landing-page/data";
-import Course from "../common/lib/Course";
 import { generateKey } from "@/utils/key";
 import Typography from "../common/ui/Typography";
-import { courses } from "./data";
-import {
-  ArrowRight,
-  ArrowRight2,
-  Discover,
-  MedalStar,
-  Profile2User,
-  Video,
-} from "iconsax-react";
+import courses from "./data.json";
+import { ArrowRight, MedalStar, Profile2User, Video } from "iconsax-react";
 import { Button } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
 
 export default function CoursesRender() {
   const [currPage, setCurrPage] = useState(1);
   const noPerPage = 12;
-  const allCourses = [...courses, ...courses, ...courses, ...courses];
-  const startingIndex = currPage === 1 ? 0 : currPage - 1 + noPerPage;
+  const router = useRouter();
+  // const allCourses = [...courses, ...courses, ...courses, ...courses];
+  // const startingIndex = currPage === 1 ? 0 : currPage - 1 + noPerPage;
 
-  //   console.log(startingIndex);
-  //   console.log(currPage);
-  //   console.log(noPerPage);
-  //   console.log(startingIndex + noPerPage);
   return (
-    <section className="grid sm:grid-cols-2 gap-6 sm:h-[80vh] sm:max-w-[90%] lg:max-w-[75%] mx-auto">
+    <section className="grid lg:grid-cols-3 gap-6 lg:h-[80vh] sm:max-w-[90%] mx-auto">
       {courses.map((course) => (
         <div
           key={generateKey()}
-          className={`rounded-lg h-full flex flex-col justify-between max-sm:gap-y-24 ${
-            course.id === "1" ? "bg-primary-sch-course" : "bg-high-sch-course"
-          }  bg-cover bg-center bg-blend-overlay px-4 sm:px-6 py-8`}
+          className={`rounded-lg h-full flex flex-col justify-between max-lg:gap-y-24 ${
+            course.id == "1"
+              ? "bg-primary-sch-course"
+              : course.id === "2"
+              ? "bg-high-sch-course"
+              : "bg-uni-course"
+          } bg-cover bg-center bg-blend-overlay px-4 sm:px-6 py-8`}
         >
           <div>
             <div className="flex gap-x-1 mt-1 items-center mb-3">
@@ -88,7 +80,11 @@ export default function CoursesRender() {
             </div>
           </div>
           <div>
-            <Button size="4" className="!w-full btn border-2 border-red-700">
+            <Button
+              size="4"
+              className="!w-full btn border-2 border-red-700"
+              onClick={() => router.push(`/courses/${encodeURI(course.name)}`)}
+            >
               <Typography.P fontColor="white">Enroll</Typography.P>
               <ArrowRight strokeWidth={2} color="white" />
             </Button>
