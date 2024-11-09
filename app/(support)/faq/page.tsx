@@ -7,6 +7,7 @@ import Pill from "@/components/common/ui/Pill";
 import Typography from "@/components/common/ui/Typography";
 import CallToAction from "@/components/landing-page/CallToAction";
 import Footer from "@/components/navigation/Footer";
+import { generateKey } from "@/utils/key";
 import { Link } from "@radix-ui/themes";
 import { Arrow, ArrowRight, ArrowRight2 } from "iconsax-react";
 import React, { useState } from "react";
@@ -41,6 +42,7 @@ export default function FaqPage() {
               answer={faq.answer}
               isOpen={openIndex === index}
               onClick={() => toggleFAQ(index)}
+              key={generateKey()}
             />
           ))}
         </div>
