@@ -11,7 +11,7 @@ export default function Filter() {
       <div>
         <Typography.H3 weight="semibold">Filter by</Typography.H3>
         <div className="flex items-center gap-x-3 mt-3">
-          <FormInput onChange={(value) => {}} placeholder="Browse by name" />
+          <FormInput name="" placeholder="Browse by name" />
           <Button size="3">Search</Button>
         </div>
         <div></div>
