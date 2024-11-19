@@ -218,5 +218,79 @@
         "isResource": false
       }
     ]
+  },
+  {
+    "id": "4",
+    "bgImage": "bg-uni-course",
+    "name": "Professional Development Course for Mentors",
+    "description": "This course is specifically designed for higher institutions, focusing on advanced pedagogical techniques, subject-specific knowledge, and critical areas essential for effective teaching in higher education.",
+    "overview": "This comprehensive course aims to equip higher institutions educators with the skills and knowledge necessary to excel in their teaching roles. The course covers a range of modules that delve into advanced pedagogical techniques, subject-specific knowledge, and critical areas essential for effective teaching in higher education. Participants will engage in in-depth explorations of topics such as curriculum design, instructional strategies, and assessment methods, as well as subject-specific content in areas like data science, biological taxonomy, and more. Through a combination of theoretical and practical learning, educators will gain the skills and confidence to implement these advanced concepts in their classrooms, ultimately enhancing the learning experience for their students.",
+    "topics": [
+      "advanced database concepts",
+      "data analysis techniques",
+      "transaction processing",
+      "biological classification",
+      "ecosystem dynamics",
+      "research methodologies",
+      "pedagogical strategies",
+      "curriculum development",
+      "assessment techniques",
+      "educational technology"
+    ],
+    "students": "4,220",
+    "totalTime": "17hrs 35mins",
+    "courseLength": "10 units",
+    "courseContents": [
+      {
+        "name": "Course Introduction",
+        "length": "2:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 1",
+        "length": "9:23",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 2",
+        "length": "4:05",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 3",
+        "length": "7:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 4",
+        "length": "2:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 5",
+        "length": "1:00",
+        "isResource": true
+      },
+      {
+        "name": "Course Teaching 6",
+        "length": "2:09",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 7",
+        "length": "12:03",
+        "isResource": false
+      },
+      {
+        "name": "Course Teaching 8",
+        "length": "4:50",
+        "isResource": false
+      },
+      {
+        "name": "Assessment",
+        "length": "4:50",
+        "isResource": false
+      }
+    ]
   }
 ]

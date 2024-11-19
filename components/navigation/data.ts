@@ -24,10 +24,6 @@ export const navLinks = [
       },
     ],
   },
-  {
-    title: "ChatBot",
-    href: "/chat",
-  },
 ];
 
 export const footerLinks = [
@@ -80,10 +76,7 @@ export const footerLinks = [
         title: "FAQs",
         href: "",
       },
-      {
-        title: "Chatbot",
-        href: "",
-      },
+
       {
         title: "Send us an email",
         href: "mailto:support@eduaipro.co.uk",

@@ -89,6 +89,10 @@ const config: Config = {
           "url('/assets/images/elementary.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "uni-course":
           "url('/assets/images/university.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
+        "auth-bg":
+          "url('/assets/images/img14.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
+        "auth-mentor":
+          "url('/assets/images/img17.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
       },
       animation: {
         "gradient-bg": "gradient 5s ease infinite",

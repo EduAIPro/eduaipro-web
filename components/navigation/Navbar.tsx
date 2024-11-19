@@ -6,9 +6,11 @@ import { navLinks } from "./data";
 import { generateKey } from "@/utils/key";
 import Typography from "../common/ui/Typography";
 import { HambergerMenu } from "iconsax-react";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -94,12 +96,19 @@ export default function Navbar() {
           className="max-lg:px-4 max-lg:w-full max-lg:mt-5 max-lg:justify-between"
         >
           <div className="max-lg:w-full">
-            <Button variant="outline" className="btn !w-full lg:!w-36">
+            <Button
+              variant="outline"
+              className="btn !w-full lg:!w-36"
+              onClick={() => router.push("/login")}
+            >
               <Typography.P weight="semibold">Login</Typography.P>
             </Button>
           </div>
           <div className="max-lg:w-full">
-            <Button className="primary__btn btn !w-full">
+            <Button
+              onClick={() => router.push("/register")}
+              className="primary__btn btn !w-full"
+            >
               <Typography.P weight="semibold" fontColor="white">
                 Get started
               </Typography.P>

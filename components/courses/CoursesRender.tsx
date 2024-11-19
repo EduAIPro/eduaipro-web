@@ -16,16 +16,18 @@ export default function CoursesRender() {
   // const startingIndex = currPage === 1 ? 0 : currPage - 1 + noPerPage;
 
   return (
-    <section className="grid lg:grid-cols-3 gap-6 lg:h-[80vh] sm:max-w-[90%] mx-auto">
+    <section className="grid lg:grid-cols-2 gap-6 sm:max-w-[90%] mx-auto">
       {courses.map((course) => (
         <div
           key={generateKey()}
-          className={`rounded-lg h-full flex flex-col justify-between max-lg:gap-y-24 ${
+          className={`rounded-lg min-h-[60vh] flex flex-col justify-between max-lg:gap-y-24 ${
             course.id == "1"
               ? "bg-primary-sch-course"
               : course.id === "2"
               ? "bg-high-sch-course"
-              : "bg-uni-course"
+              : course.id === "3"
+              ? "bg-uni-course"
+              : "bg-auth-mentor"
           } bg-cover bg-center bg-blend-overlay px-4 sm:px-6 py-8`}
         >
           <div>

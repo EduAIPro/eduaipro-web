@@ -16,7 +16,7 @@ export default function Footer() {
             <div>
               <Image
                 alt=""
-                src="/assets/images/logo-no-bg.png"
+                src="/assets/images/logo-outline.png"
                 width={150}
                 height={70}
               />
