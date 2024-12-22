@@ -58,6 +58,15 @@ a:hover {
   @apply cursor-pointer hover:-translate-y-1 duration-500;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 .responsive__section {
   @apply py-[48px] md:py-[64px] lg:py-[100px];
 }

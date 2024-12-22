@@ -90,3 +90,64 @@ export const preferredLearningMethod = [
     value: "Video-Based Learning",
   },
 ];
+
+export const schoolType = [
+  {
+    label: "Primary School",
+    value: "Primary School",
+  },
+  {
+    label: "Secondary School",
+    value: "Secondary School",
+  },
+  {
+    label: "Higher Education",
+    value: "Higher Education",
+  },
+  {
+    label: "Other (Specify)",
+    value: "other",
+  },
+];
+
+export const schoolFocusAreas = [
+  {
+    label: "Digital Literacy",
+    value: "Digital Literacy",
+  },
+  {
+    label: "Pedagogical Strategies",
+    value: "Pedagogical Strategies",
+  },
+  {
+    label: "Education Technology",
+    value: "Education Technology",
+  },
+  {
+    label: "Leadership in Education",
+    value: "Leadership in Education",
+  },
+  {
+    label: "Inclusive Teaching Practice",
+    value: "Inclusive Teaching Practice",
+  },
+];
+
+export const adminRoles = [
+  {
+    label: "Principal/Headteacher",
+    value: "Principal/Headteacher",
+  },
+  {
+    label: "Department Head",
+    value: "Department Head",
+  },
+  {
+    label: "Training Coordinator",
+    value: "Training Coordinator",
+  },
+  {
+    label: "Other (Specify)",
+    value: "other",
+  },
+];
