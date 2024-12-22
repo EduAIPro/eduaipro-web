@@ -152,7 +152,7 @@ export default function InstitutionSignup() {
               }
             />
 
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex max-sm:flex-col items-center justify-between gap-3">
               <SelectInput
                 name="focusAreas"
                 className="w-full"

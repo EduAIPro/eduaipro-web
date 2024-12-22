@@ -37,7 +37,7 @@ export default function RegisterPage() {
             <LoginComp />
           </div>
         </div>
-        <div className="lg:h-[85vh] max-xs:mt-10 max-lg:mt-20 sm:justify-center flex flex-col">
+        <div className="lg:h-[85vh] max-lg:mt-10 sm:justify-center flex flex-col">
           {!userType ? (
             <div className="h-full w-full lg:max-w-[70%] mx-auto flex flex-col justify-center">
               <div className="flex flex-col gap-1 mb-5">
@@ -76,8 +76,8 @@ export default function RegisterPage() {
             </div>
           ) : userTypes.includes(userType) ? (
             <div
-              className={`w-full sm:w-2/3 mx-auto gap-6 flex-col flex ${
-                userType === userTypes[0] ? "mt-20" : ""
+              className={`w-full sm:w-4/5 md:w-2/3 mx-auto gap-6 flex-col flex ${
+                userType === userTypes[0] ? "lg:mt-20" : ""
               }`}
             >
               <Link href="/register">
