@@ -44,7 +44,7 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
               key={item.name}
               onClick={() => handleNavigation(item.path)}
               className={`block w-full px-4 py-2 text-left text-gray-700 hover:bg-blue-100 hover:text-blue-600 ${
-                pathname === item.path && "bg-blue-100 text-blue-600"
+                pathname === item.path && "bg-blue-100 !text-blue-600"
               }`}
             >
               {item.name}
