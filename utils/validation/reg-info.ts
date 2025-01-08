@@ -9,7 +9,7 @@ export const personalInfoValidation = Yup.object().shape({
 });
 
 export const professionalBackgroundValidation = Yup.object().shape({
-  teachingLevel: Yup.string().required("Your teaching level is required"),
+  teachingLevel: Yup.string().required("Your professional level is required"),
   educationLevel: Yup.string().required("Your educational level is required"),
   areaOfSpecialization: Yup.string().required(
     "An area of specialization is required"
@@ -28,7 +28,5 @@ export const goalsValidation = Yup.object().shape({
   learningGoals: Yup.string().required(
     "Your learning goals are required to tailor your experience"
   ),
-  learningMethod: Yup.string().required(
-    "Your preferred learning method is required"
-  ),
+  otherLearningGoals: Yup.string(),
 });

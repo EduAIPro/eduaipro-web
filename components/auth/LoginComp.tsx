@@ -1,6 +1,6 @@
-import { Link } from "iconsax-react";
 import Typography from "../common/ui/Typography";
 import { Button } from "@radix-ui/themes";
+import Link from "next/link";
 import React from "react";
 
 export function LoginComp() {

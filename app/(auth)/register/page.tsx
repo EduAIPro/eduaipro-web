@@ -12,18 +12,16 @@ import { LoginComp } from "@/components/auth/LoginComp";
 import TeacherSignup from "@/components/auth/TeacherSignup";
 import InstitutionSignup from "@/components/auth/InstitutionSignup";
 import AdminSignup from "@/components/auth/AdminSignup";
+import { userRoles } from "@/utils/data";
 
 export default function RegisterPage() {
   const router = useRouter();
   const currentPath = usePathname();
   const userType = useSearchParams().get("type");
   const userTypes = ["institution", "teacher", "admin"];
-
-  const selectionClass =
-    "w-full rounded-[6px] hover:bg-blue-500/10 duration-700 p-2 h-full";
   return (
     <main className="lg:flex flex-row justify-between">
-      <section className="w-full p-4 xs:p-6 max-lg:min-h-screen">
+      <section className="w-full p-4 xs:p-6 min-h-screen">
         <div className="flex items-center justify-between">
           <Link href="/">
             <Image
@@ -37,7 +35,7 @@ export default function RegisterPage() {
             <LoginComp />
           </div>
         </div>
-        <div className="lg:h-[85vh] max-lg:mt-10 sm:justify-center flex flex-col">
+        <div className="lg:min-h-[85vh] mt-10 sm:justify-center flex flex-col">
           {!userType ? (
             <div className="h-full w-full lg:max-w-[70%] mx-auto flex flex-col justify-center">
               <div className="flex flex-col gap-1 mb-5">
@@ -51,33 +49,39 @@ export default function RegisterPage() {
                   Please select your role to personalize your experience.
                 </Typography.P>
               </div>
-              <div className="w-full sm:w-[70%] lg:w-[60%] flex items-center justify-center mx-auto border rounded-lg gap-2 p-2">
-                <button
-                  className={selectionClass}
-                  onClick={() => router.replace(`${currentPath}?type=teacher`)}
-                >
-                  <SlBookOpen size={20} className="mx-auto" />
-                  <Typography.H3 weight="medium" size="base">
-                    I teach
-                  </Typography.H3>
-                </button>
-                <button
-                  className={selectionClass}
-                  onClick={() =>
-                    router.replace(`${currentPath}?type=institution`)
-                  }
-                >
-                  <LuGraduationCap size={19} className="mx-auto" />
-                  <Typography.H3 weight="medium" size="base">
-                    I own a school
-                  </Typography.H3>
-                </button>
+              <div className="w-full sm:w-[70%] lg:w-[60%] flex flex-col mx-auto rounded-lg gap-2 p-2">
+                {userRoles.map((item, idx) => (
+                  <button
+                    className="w-full rounded-[6px] hover:bg-blue-500/10 duration-700 p-3 h-full flex items-center gap-3 border"
+                    key={idx + "hardman"}
+                    onClick={() =>
+                      router.replace(
+                        idx !== 4
+                          ? `${currentPath}?type=teacher`
+                          : `${currentPath}?type=institution`
+                      )
+                    }
+                  >
+                    <div>
+                      {idx !== 4 ? (
+                        <SlBookOpen size={20} className="mx-auto" />
+                      ) : (
+                        <LuGraduationCap size={19} className="mx-auto" />
+                      )}
+                    </div>
+                    <div>
+                      <Typography.H3 weight="medium" size="base">
+                        {item}
+                      </Typography.H3>
+                    </div>
+                  </button>
+                ))}
               </div>
             </div>
           ) : userTypes.includes(userType) ? (
             <div
               className={`w-full sm:w-4/5 md:w-2/3 mx-auto gap-6 flex-col flex ${
-                userType === userTypes[0] ? "lg:mt-20" : ""
+                userType === userTypes[0] ? "mt-20" : ""
               }`}
             >
               <Link href="/register">
@@ -108,7 +112,7 @@ export default function RegisterPage() {
           )}
         </div>
       </section>
-      <section className="w-full h-screen bg-auth-bg bg-cover max-lg:hidden" />
+      <section className="w-full min-h-screen bg-auth-bg bg-cover max-lg:hidden" />
     </main>
   );
 }

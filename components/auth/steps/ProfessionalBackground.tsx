@@ -21,9 +21,11 @@ import {
 export default function ProfessionalBackground({
   touched,
   errors,
+  values,
 }: {
   touched: FormikTouched<PostRegistrationFormValues>;
   errors: FormikErrors<PostRegistrationFormValues>;
+  values: PostRegistrationFormValues;
 }) {
   return (
     <div>
@@ -34,28 +36,60 @@ export default function ProfessionalBackground({
       />
 
       <div className="mt-6 flex-col flex gap-y-4">
-        <SelectInput
-          name="teachingLevel"
-          label="Teaching Level"
-          options={teachingLevels}
-          error={
-            touched.teachingLevel && errors.teachingLevel
-              ? errors.teachingLevel
-              : null
-          }
-          leftIcon={<ArchiveBook />}
-        />
-        <SelectInput
-          name="educationLevel"
-          label="Educational Level"
-          options={educationalLevels}
-          error={
-            touched.educationLevel && errors.educationLevel
-              ? errors.educationLevel
-              : null
-          }
-          leftIcon={<Book />}
-        />
+        {values.teachingLevel === "other" ? (
+          <FormInput
+            label="Professional Level"
+            placeholder="Enter your professional level"
+            className="w-full"
+            name="otherTeachingLevel"
+            error={
+              touched.otherTeachingLevel && errors.teachingLevel
+                ? errors.teachingLevel
+                : null
+            }
+            leftIcon={<ArchiveBook />}
+          />
+        ) : (
+          <SelectInput
+            name="teachingLevel"
+            label="Professional Level"
+            options={teachingLevels}
+            error={
+              touched.teachingLevel && errors.teachingLevel
+                ? errors.teachingLevel
+                : null
+            }
+            leftIcon={<ArchiveBook />}
+          />
+        )}
+
+        {values.educationLevel === "other" ? (
+          <FormInput
+            label="Educational Level"
+            placeholder="Enter your educational level"
+            className="w-full"
+            name="otherEducationLevel"
+            error={
+              touched.otherEducationLevel && errors.educationLevel
+                ? errors.educationLevel
+                : null
+            }
+            leftIcon={<Book />}
+          />
+        ) : (
+          <SelectInput
+            name="educationLevel"
+            label="Educational Level"
+            options={educationalLevels}
+            error={
+              touched.educationLevel && errors.educationLevel
+                ? errors.educationLevel
+                : null
+            }
+            leftIcon={<Book />}
+          />
+        )}
+
         <FormInput
           label="Area of specialization"
           placeholder="Enter the subject which you specialize in"
@@ -68,10 +102,13 @@ export default function ProfessionalBackground({
           }
           leftIcon={<Star1 />}
         />
-        <SelectInput
-          name="interestInSkills"
+
+        <FormInput
           label="Interested Skills"
-          options={interestedSkills}
+          placeholder="Enter skills you want to learn"
+          className="w-full"
+          name="interestInSkills"
+          note="Separate by a comma"
           error={
             touched.interestInSkills && errors.interestInSkills
               ? errors.interestInSkills
@@ -79,6 +116,18 @@ export default function ProfessionalBackground({
           }
           leftIcon={<PenAdd />}
         />
+
+        {/* <SelectInput
+          name="interestInSkills"
+          
+          options={interestedSkills}
+          error={
+            touched.interestInSkills && errors.interestInSkills
+              ? errors.interestInSkills
+              : null
+          }
+          leftIcon={<PenAdd />}
+        /> */}
         <SelectInput
           name="yearsOfExperience"
           label="Years of Experience"

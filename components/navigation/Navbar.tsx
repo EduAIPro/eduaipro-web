@@ -24,9 +24,10 @@ export default function Navbar() {
     >
       <div>
         <Image
-          src={"/assets/images/logo-no-bg.png"}
-          width={120}
-          height={56}
+          src={"/assets/images/logo-outline.png"}
+          width={220}
+          height={80}
+          className="w-[200px] h-[60px]"
           alt=""
         />
       </div>

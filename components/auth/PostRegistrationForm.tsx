@@ -22,12 +22,14 @@ export interface PostRegistrationFormValues {
   language: string;
   termsAccepted: boolean;
   teachingLevel: string;
+  otherTeachingLevel: string;
   educationLevel: string;
+  otherEducationLevel: string;
   areaOfSpecialization: string;
   interestInSkills: string;
   yearsOfExperience: string;
   learningGoals: string;
-  learningMethod: string;
+  otherLearningGoals: string;
   securityQuestion: string;
 }
 
@@ -82,6 +84,7 @@ export default function MultiStepFormModal() {
           <ProfessionalBackground
             touched={formik.touched}
             errors={formik.errors}
+            values={formik.values}
           />
         )}
         {currentStep === 3 && (
@@ -102,7 +105,7 @@ export default function MultiStepFormModal() {
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-          <div className="bg-white xs:rounded-lg shadow-xl w-full max-xs:h-screen max-w-xl p-4 xs:p-6 relative">
+          <div className="bg-white xs:rounded-lg shadow-xl w-full max-xs:h-screen xs:h-[60vh] overflow-y-scroll no__scrollbar max-w-xl p-4 xs:p-6 relative">
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-4 right-4"

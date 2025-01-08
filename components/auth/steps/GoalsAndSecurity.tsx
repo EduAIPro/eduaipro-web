@@ -27,7 +27,7 @@ export default function GoalsAndSecurity({
       <div className="mt-6 flex-col flex gap-y-4">
         <SelectInput
           name="learningGoals"
-          label="Learning Goals"
+          label="Primary Learning Goal"
           options={learningGoal}
           error={
             touched.learningGoals && errors.learningGoals
@@ -36,7 +36,20 @@ export default function GoalsAndSecurity({
           }
           leftIcon={<Cup />}
         />
-        <SelectInput
+        <FormInput
+          label="Other Learning Goals (optional)"
+          placeholder="Enter other goals you are looking to achieve"
+          className="w-full"
+          name="otherLearningGoals"
+          note="Separate by a comma"
+          error={
+            touched.otherLearningGoals && errors.otherLearningGoals
+              ? errors.otherLearningGoals
+              : null
+          }
+          leftIcon={<Cup />}
+        />
+        {/* <SelectInput
           name="learningMethod"
           label="Preferred Learning Method"
           options={preferredLearningMethod}
@@ -46,7 +59,7 @@ export default function GoalsAndSecurity({
               : null
           }
           leftIcon={<Book />}
-        />
+        /> */}
         <FormInput
           label="Security Question"
           placeholder="Enter a security question in case you forget your password"

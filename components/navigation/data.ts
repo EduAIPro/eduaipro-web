@@ -8,7 +8,7 @@ export const navLinks = [
     href: "/courses",
   },
   {
-    title: "National Register",
+    title: "Personalised Course Development",
     href: "/",
   },
   {

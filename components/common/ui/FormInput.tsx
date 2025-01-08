@@ -18,6 +18,7 @@ interface FormInputProps {
   label?: string;
   type?: HTMLInputTypeAttribute;
   placeholder?: string;
+  note?: string;
   name: string;
   error?: string | null;
   className?: string;
@@ -32,6 +33,7 @@ export default function FormInput({
   name,
   className,
   error,
+  note,
 }: FormInputProps) {
   return (
     <div className={`${className}`}>
@@ -60,13 +62,14 @@ export default function FormInput({
         />
         {rightIcon}
       </div>
-      {error && (
+      {note ? <span className="text-sm text-grey-9">{note}</span> : null}
+      {error ? (
         <div className="mt-2">
           <Typography.P size="small" fontColor="error">
             {error}
           </Typography.P>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
@@ -170,7 +173,9 @@ export function SelectInput({
             <>
               <div className="flex-1 text-base text-grey-12">
                 {field.value ? (
-                  options.find((opt) => opt.value === field.value)?.label
+                  <span>
+                    {options.find((opt) => opt.value === field.value)?.label}
+                  </span>
                 ) : (
                   <span className="text-gray-400">{placeholder}</span>
                 )}

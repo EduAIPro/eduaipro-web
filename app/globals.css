@@ -15,7 +15,8 @@ body {
   /* -webkit-user-drag: none; */
 }
 p,
-input {
+input,
+span {
   font-family: "Karla", sans-serif;
 }
 h1,

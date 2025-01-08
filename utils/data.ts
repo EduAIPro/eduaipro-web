@@ -26,6 +26,18 @@ export const teachingLevels = [
     label: "Tertiary",
     value: "tertiary",
   },
+  {
+    label: "Mentor",
+    value: "mentor",
+  },
+  {
+    label: "Teaching Assistant (TA)",
+    value: "teaching assistant",
+  },
+  {
+    label: "Other",
+    value: "other",
+  },
 ];
 
 export const interestedSkills = [
@@ -150,4 +162,12 @@ export const adminRoles = [
     label: "Other (Specify)",
     value: "other",
   },
+];
+
+export const userRoles = [
+  "I am a Primary School Teacher",
+  "I am a Secondary School Teacher",
+  "I am a Mentor",
+  "I am a Teaching Assistant(TA)",
+  "I own/run an Institution",
 ];
