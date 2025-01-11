@@ -26,6 +26,9 @@ export default function RootLayout({
   const pathname = usePathname();
   const AUTH_PATHS = ["/login", "/register"];
   const LANDING_PATHS = ["/", "/faq", "/courses"];
+  const DefaultLayout = ({ children }: { children: ReactNode }) => (
+    <main>{children}</main>
+  );
   let AppLayout: ({
     children,
   }: {
@@ -35,11 +38,12 @@ export default function RootLayout({
     AppLayout = Container;
   }
   if (AUTH_PATHS.includes(pathname)) {
-    const LoginLayout = ({ children }: { children: ReactNode }) => (
-      <main>{children}</main>
-    );
-    LoginLayout.displayName = "LoginLayout";
-    AppLayout = LoginLayout;
+    DefaultLayout.displayName = "LoginLayout";
+    AppLayout = DefaultLayout;
+  }
+  if (pathname.includes("/dashboard")) {
+    DefaultLayout.displayName = "DashboardLayout";
+    AppLayout = DefaultLayout;
   }
   return (
     <html lang="en">
