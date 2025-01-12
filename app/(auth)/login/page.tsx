@@ -51,7 +51,7 @@ export default function LoginPage() {
                 password: "",
               }}
               validationSchema={loginValidation}
-              onSubmit={() => router.push("/dashboard")}
+              onSubmit={() => router.push("/dashboard/overview")}
               autoComplete="off"
             >
               {({ errors, touched }) => (
