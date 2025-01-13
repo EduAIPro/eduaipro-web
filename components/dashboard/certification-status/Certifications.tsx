@@ -1,11 +1,11 @@
 import React from "react";
 
-interface Certification {
+export type Certification = {
   id: number;
   name: string;
   issuedDate: string;
   status: string;
-}
+};
 
 interface Props {
   setModalData: (data: Certification | null) => void;

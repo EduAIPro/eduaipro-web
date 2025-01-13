@@ -1,3 +1,12 @@
+import {
+  Building3,
+  Building4,
+  People,
+  Profile2User,
+  UserEdit,
+} from "iconsax-react";
+import { SlBookOpen } from "react-icons/sl";
+
 export const educationalLevels = [
   {
     label: "Bachelor of Science (BSc)",
@@ -165,9 +174,9 @@ export const adminRoles = [
 ];
 
 export const userRoles = [
-  "I am a Primary School Teacher",
-  "I am a Secondary School Teacher",
-  "I am a Mentor",
-  "I am a Teaching Assistant(TA)",
-  "I own/run an Institution",
+  { title: "I am a Primary School Teacher", icon: SlBookOpen },
+  { title: "I am a Secondary School Teacher", icon: People },
+  { title: "I am a Mentor", icon: UserEdit },
+  { title: "I am a Teaching Assistant(TA)", icon: Profile2User },
+  { title: "I own/run an Institution", icon: Building4 },
 ];
