@@ -28,7 +28,7 @@ const CertificationStatus: React.FC = () => {
         </section>
 
         <section className="col-span-1 lg:border-l border-grey-3 px-3 h-full">
-          <Certifications setModalData={setModalData} />
+          {/* <Certifications setModalData={setModalData} /> */}
         </section>
       </main>
 
