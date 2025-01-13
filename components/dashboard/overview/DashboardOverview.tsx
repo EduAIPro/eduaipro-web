@@ -5,75 +5,86 @@ import { BiTask } from "react-icons/bi";
 import { AiOutlineFileText } from "react-icons/ai";
 import { MdOutlinePendingActions } from "react-icons/md";
 import Image from "next/image";
+import { greetUser } from "@/utils/dashboard";
+import MediaPlayer from "./MediaPlayer";
 
 const DashboardOverview = () => {
+  const username = "Jasper";
+
   return (
     <div className="flex flex-col gap-2 md:px-2">
-      <Typography.H5 className="font-semibold text-lg">
-        Dashboard Overview
-      </Typography.H5>
-
       {/* overview items */}
-      <div className="flex justify-between flex-wrap gap-y-3">
+      <div className="grid md:grid-cols-3 w-full gap-3">
+        <OverviewItem title="Tests" digits="4" Icon={BiTask} />
+        <OverviewItem title="Exams" digits="2" Icon={AiOutlineFileText} />
         <OverviewItem
-          title="Tests"
-          digits="4"
-          Icon={<BiTask size={24} className="text-brand-1001" />}
+          title="Accreditation status"
+          status="In progress"
+          Icon={MdOutlinePendingActions}
         />
-        <OverviewItem
-          title="Exams"
-          digits="2"
-          Icon={<AiOutlineFileText size={24} className="text-brand-1001" />}
-        />
-        <OverviewItem title="Accreditation status" status="In progress" />
       </div>
 
       {/* active courses */}
       <div className="flex flex-col gap-2 mt-10">
-        <Typography.H5 className="font-semibold">Recent Courses</Typography.H5>
+        <div>
+          <Typography.H3 size="large" weight="medium">
+            {greetUser(username)}
+          </Typography.H3>
+          <Typography.P size="small" fontColor="medium">
+            Resume your learning journey
+          </Typography.P>
+        </div>
 
         <ul className="flex flex-col gap-3">
-          {recentCourses.map((item) => (
-            <li className="flex items-center gap-2 bg-white shadow-lg p-2 rounded-md">
-              <Image
-                className="w-20 h-16 md:w-28 md:h-20 object-cover"
-                height={200}
-                width={200}
-                src={item.image}
-                alt={item.title}
+          <li className="flex max-md:flex-col items-center gap-2 light_shadow bg-white rounded-lg border-2 border-blue-50">
+            <div className="w-full md:w-[50%] max-md:h-40">
+              <MediaPlayer
+                course={{
+                  title: "First course",
+                  // progress: 45,
+                  image: "/assets/images/course.png",
+                  // author: "John Doe",
+                  previewUrl: "https://www.youtube.com/watch?v=8ILww0tUSxw",
+                  // description:
+                  //   "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem dolor cumque dolorem repellendus rem nemo odit. Sint, commodi rerum! Animi?",
+                }}
               />
-              <div className="flex flex-col gap-2 justify-around flex-1">
-                <div>
-                  <Typography.H5 className="font-semibold">
-                    {item.title}
-                  </Typography.H5>
-                  <Typography.P className="text-grey-10 text-sm line-clamp-1">
-                    {item.description}
-                  </Typography.P>
-                  <Typography.P className="text-grey-11 text-sm line-clamp-1 font-semibold">
-                    Author: {item.author}
-                  </Typography.P>
-                </div>
+            </div>
+            <div className="flex flex-col gap-8 flex-1 px-4 justify-between">
+              <div>
+                <Typography.H3 size="xl" className="font-semibold">
+                  {recentCourses[0].title}
+                </Typography.H3>
+                <Typography.P className="text-grey-10 text-sm line-clamp-1">
+                  {recentCourses[0].description}
+                </Typography.P>
+              </div>
+              <div>
                 <div className="flex flex-col gap-1">
                   <div className="bg-grey-6  h-[6px] md:h-2 rounded-full">
                     <div
-                      style={{ width: `${item.progress}%` }}
+                      style={{ width: `${recentCourses[0].progress}%` }}
                       className={`h-full rounded-full ${
-                        item.progress < 30
+                        recentCourses[0].progress < 30
                           ? "bg-error"
-                          : item.progress < 75
+                          : recentCourses[0].progress < 75
                           ? "bg-yellow-400"
                           : "bg-success"
                       }`}
                     ></div>
                   </div>
-                  <Typography.P className="self-end text-sm">
-                    {item.progress}%
+                  <Typography.P
+                    size="xl"
+                    weight="medium"
+                    fontColor="medium"
+                    className="self-end"
+                  >
+                    {recentCourses[0].progress}%
                   </Typography.P>
                 </div>
               </div>
-            </li>
-          ))}
+            </div>
+          </li>
         </ul>
       </div>
     </div>
@@ -89,6 +100,7 @@ const recentCourses = [
     progress: 45,
     image: "/assets/images/course.png",
     author: "John Doe",
+    previewUrl: "https://www.youtube.com/watch?v=8ILww0tUSxw",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem dolor cumque dolorem repellendus rem nemo odit. Sint, commodi rerum! Animi?",
   },

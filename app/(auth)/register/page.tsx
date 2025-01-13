@@ -49,10 +49,10 @@ export default function RegisterPage() {
                   Please select your role to personalize your experience.
                 </Typography.P>
               </div>
-              <div className="w-full sm:w-[70%] lg:w-[60%] flex flex-col mx-auto rounded-lg gap-2 p-2">
+              <div className="w-full sm:w-[80%] lg:w-[65%] flex flex-col mx-auto rounded-lg gap-2 p-2">
                 {userRoles.map((item, idx) => (
                   <button
-                    className="w-full rounded-[6px] hover:bg-blue-500/10 duration-700 p-3 h-full flex items-center gap-3 border"
+                    className="w-full rounded-[6px] group hover:bg-blue-500/10 duration-700 p-3 h-full flex items-center gap-3 border"
                     key={idx + "hardman"}
                     onClick={() =>
                       router.replace(
@@ -62,16 +62,17 @@ export default function RegisterPage() {
                       )
                     }
                   >
-                    <div>
-                      {idx !== 4 ? (
-                        <SlBookOpen size={20} className="mx-auto" />
-                      ) : (
-                        <LuGraduationCap size={19} className="mx-auto" />
-                      )}
+                    <div className="w-fit rounded-full bg-blue-300/10 group-hover:bg-white/70 duration-500 p-2">
+                      <item.icon
+                        size={20}
+                        className="mx-auto text-brand-1001"
+                        stroke="3"
+                      />
+                      {/* <LuGraduationCap size={19} className="mx-auto" /> */}
                     </div>
                     <div>
                       <Typography.H3 weight="medium" size="base">
-                        {item}
+                        {item.title}
                       </Typography.H3>
                     </div>
                   </button>

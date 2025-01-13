@@ -17,6 +17,7 @@
     "framer-motion": "^11.11.17",
     "iconsax-react": "^0.0.8",
     "next": "13.5.7",
+    "next-cloudinary": "^6.16.0",
     "react": "^18",
     "react-dom": "^18",
     "react-fast-marquee": "^1.6.5",

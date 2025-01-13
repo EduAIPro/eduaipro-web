@@ -3,6 +3,9 @@ import React, { ChangeEvent, useRef, useState } from "react";
 import Image from "next/image";
 import { FaCamera } from "react-icons/fa";
 import defaultImage from "@/public/assets/images/default-profile.webp";
+import Field from "../common/Field";
+import { capitalizeFirstLetter } from "@/utils/text";
+import Status from "../common/Status";
 
 const DashboardProfile = () => {
   const [profileImg, setProfileImg] = useState<string | ArrayBuffer | null>(
@@ -23,10 +26,16 @@ const DashboardProfile = () => {
     }
   };
 
+  const user = {
+    name: "King Japser",
+    role: "Teacher/Mentor",
+    school: "Nnamdi Azikiwe University",
+  };
+
   return (
     <div className="flex flex-col items-center gap-5 w-full p-2 px-3">
       <Typography.H5 className="font-semibold text-xl">Profile</Typography.H5>
-      <div className="flex flex-col items-center gap-1 w-full">
+      <div className="flex flex-col items-center gap-3 w-full">
         {/* profile image */}
         <div className="relative flex items-center justify-center w-32 h-32 rounded-full overflow-hidden border">
           <Image
@@ -51,25 +60,17 @@ const DashboardProfile = () => {
             />
           </div>
         </div>
-        <Typography.H5 className="text-success font-semibold">
-          Accredited
-        </Typography.H5>
+        <Status status="pending" text="Not Accredited" />
+
         {/* details */}
         <div className="flex flex-col gap-3 w-full">
-          <div className="flex items-center gap-2 p-2 rounded-md border-2">
-            <Typography.P className="font-semibold text-lg">Name:</Typography.P>
-            <Typography.P>King Japser</Typography.P>
-          </div>
-          <div className="flex items-center gap-2 p-2 rounded-md border-2">
-            <Typography.P className="font-semibold text-lg">Role:</Typography.P>
-            <Typography.P>Student</Typography.P>
-          </div>
-          <div className="flex items-center gap-2 p-2 rounded-md border-2">
-            <Typography.P className="font-semibold text-lg">
-              School:
-            </Typography.P>
-            <Typography.P>Some School located somewhere</Typography.P>
-          </div>
+          {Object.entries(user).map(([key, value], index) => (
+            <Field
+              key={index + key}
+              title={capitalizeFirstLetter(key)}
+              value={capitalizeFirstLetter(value)}
+            />
+          ))}
         </div>
       </div>
     </div>

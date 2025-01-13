@@ -51,6 +51,10 @@ a:hover {
   cursor: pointer;
 }
 
+.light_shadow {
+  box-shadow: 0 0 30px -16px rgb(0 0 0 / 16%), 0 0 12px -8px rgb(0 0 0 /16%);
+}
+
 .gradient__text {
   @apply bg-clip-text text-transparent animate-gradient-bg bg-gradient-to-r from-[#3D66DD] via-[#84D2F6] to-[#3D66DD] bg-200%;
 }

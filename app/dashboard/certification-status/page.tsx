@@ -1,13 +1,15 @@
 "use client";
 import React, { useState } from "react";
 
-import Certifications from "@/components/dashboard/certification-status/Certifications";
+import Certifications, {
+  Certification,
+} from "@/components/dashboard/certification-status/Certifications";
 import ProgressOverview from "@/components/dashboard/certification-status/ProgressOverview";
 import NextAccreditation from "@/components/dashboard/certification-status/NextAccreditation";
 import DashboardHeaderAndSubtitle from "@/components/dashboard/common/DashboardHeaderAndSubtitle";
 
 const CertificationStatus: React.FC = () => {
-  const [modalData, setModalData] = useState(null);
+  const [modalData, setModalData] = useState<null | Certification>(null);
 
   return (
     <div className="!h-full">
