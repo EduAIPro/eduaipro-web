@@ -17,115 +17,192 @@ export default function Navbar() {
   };
 
   return (
-    <Flex
-      justify="between"
-      align="center"
-      className="px-4 lg:px-[48px] xl:px-[100px] py-6"
-    >
-      <div>
-        <Image
-          src={"/assets/images/logo-outline.png"}
-          width={220}
-          height={80}
-          className="w-[200px] h-[60px]"
-          alt=""
-        />
-      </div>
-      <div
-        className={`transform ${
-          menuOpen
-            ? "opacity-100 max-lg:translate-y-0 max-lg:!z-50"
-            : "max-lg:-translate-y-[140%] max-lg:!z-50"
-        } transition-all transform max-lg:fixed w-full max-lg:h-screen lg:flex lg:justify-around left-0 bg-white max-lg:py-4 max-lg:top-16 duration-700 ease-in-out`}
+    <nav>
+      <Flex
+        justify="between"
+        align="center"
+        className="px-4 lg:px-[48px] xl:px-0 xl:max-w-[1350px] xl:mx-auto py-3 md:py-6"
       >
-        <Flex align="center" className="max-lg:flex-col lg:gap-6">
-          {navLinks.map((item) => (
-            <div key={generateKey()} className="max-lg:w-full">
-              {item.href ? (
-                <Link href={item.href}>
-                  <div className="max-lg:border-b border-b-grey-7/60 max-lg:p-4 max-lg:w-full">
-                    <Typography.H3 className="hover:scale-105 max-lg:font-medium !text-lg lg:!text-base duration-300 !text-grey-12">
-                      {item.title}
-                    </Typography.H3>
-                  </div>
-                </Link>
-              ) : (
-                <DropdownMenu.Root>
-                  <DropdownMenu.Trigger>
-                    <Flex
-                      align="center"
-                      gapX="3"
-                      className="hover:cursor-pointer max-lg:border-b max-lg:p-4 border-b-grey-7/60 "
-                    >
-                      <div className="max-lg:w-full">
-                        <Typography.H3 className="hover:scale-105 max-lg:font-medium !text-lg lg:!text-base duration-300 !text-grey-12">
-                          {item.title}
-                        </Typography.H3>
-                      </div>
-                      <DropdownMenu.TriggerIcon
-                        width={16}
-                        height={16}
-                        fontWeight={500}
-                      />
-                    </Flex>
-                  </DropdownMenu.Trigger>
-                  <DropdownMenu.Content
-                    variant="soft"
-                    className="max-lg:!w-[calc(100vw-16px)]"
-                  >
-                    {item.subItems?.map((itemSub) => (
-                      <DropdownMenu.Item key={generateKey()}>
-                        <Link href={itemSub.href}>
-                          <Typography.H3
-                            size="small"
-                            className="hover:scale-105 duration-300 text-black"
-                          >
-                            {itemSub.title}
+        <div>
+          <Image
+            src={"/assets/images/logo-outline.png"}
+            width={220}
+            height={80}
+            className="w-[140px] h-[48px] lg:w-[200px] lg:h-[60px]"
+            alt=""
+          />
+        </div>
+        {/* desktop view  */}
+        <>
+          <div className="gap-6 flex items-center max-lg:hidden">
+            {navLinks.map((item) => (
+              <div key={generateKey()}>
+                {item.href ? (
+                  <Link href={item.href}>
+                    <div className="border-b-grey-7/60">
+                      <Typography.H3 className="hover:scale-105 !text-lg lg:!text-base duration-300 !text-grey-12">
+                        {item.title}
+                      </Typography.H3>
+                    </div>
+                  </Link>
+                ) : (
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Trigger>
+                      <Flex
+                        align="center"
+                        gapX="3"
+                        className="hover:cursor-pointer max-lg:p-4 border-b-grey-7/60 "
+                      >
+                        <div className="max-lg:w-full">
+                          <Typography.H3 className="hover:scale-105 !text-lg lg:!text-base duration-300 !text-grey-12">
+                            {item.title}
                           </Typography.H3>
-                        </Link>
-                      </DropdownMenu.Item>
-                    ))}
-                  </DropdownMenu.Content>
-                </DropdownMenu.Root>
-              )}
+                        </div>
+                        <DropdownMenu.TriggerIcon
+                          width={16}
+                          height={16}
+                          fontWeight={500}
+                        />
+                      </Flex>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content variant="soft">
+                      {item.subItems?.map((itemSub) => (
+                        <DropdownMenu.Item key={generateKey()}>
+                          <Link href={itemSub.href}>
+                            <Typography.H3
+                              size="small"
+                              className="hover:scale-105 duration-300 text-black"
+                            >
+                              {itemSub.title}
+                            </Typography.H3>
+                          </Link>
+                        </DropdownMenu.Item>
+                      ))}
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Root>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="gap-4 items-center flex max-lg:hidden">
+            <div className="max-lg:w-full">
+              <Button
+                variant="outline"
+                className="btn !w-full lg:!w-36"
+                onClick={() => router.push("/login")}
+              >
+                <Typography.P weight="semibold">Login</Typography.P>
+              </Button>
             </div>
-          ))}
-        </Flex>
-        <Flex
-          gap="4"
-          align="center"
-          className="max-lg:px-4 max-lg:w-full max-lg:mt-5 max-lg:justify-between"
-        >
-          <div className="max-lg:w-full">
-            <Button
-              variant="outline"
-              className="btn !w-full lg:!w-36"
-              onClick={() => router.push("/login")}
-            >
-              <Typography.P weight="semibold">Login</Typography.P>
-            </Button>
+            <div className="max-lg:w-full">
+              <Button
+                onClick={() => router.push("/register")}
+                className="primary__btn btn !w-full"
+              >
+                <Typography.P weight="semibold" fontColor="white">
+                  Get started
+                </Typography.P>
+              </Button>
+            </div>
           </div>
-          <div className="max-lg:w-full">
-            <Button
-              onClick={() => router.push("/register")}
-              className="primary__btn btn !w-full"
-            >
-              <Typography.P weight="semibold" fontColor="white">
-                Get started
-              </Typography.P>
-            </Button>
-          </div>
-        </Flex>
-      </div>
-      <div className="lg:hidden">
-        <Button
-          onClick={toggleMenu}
-          variant="outline"
-          className="!cursor-pointer"
+        </>
+        <div
+          className={`transform lg:hidden ${
+            menuOpen
+              ? "opacity-100 translate-y-0 !z-50"
+              : "-translate-y-[140%] !z-50"
+          } transition-all transform fixed w-full h-screen left-0 bg-white py-4 top-16 duration-700 ease-in-out`}
         >
-          <HambergerMenu width={24} height={24} />
-        </Button>
-      </div>
-    </Flex>
+          <Flex align="center" className="flex-col lg:gap-6">
+            {navLinks.map((item) => (
+              <div key={generateKey()} className="w-full">
+                {item.href ? (
+                  <Link href={item.href}>
+                    <div className="border-b border-b-grey-7/60 p-4 w-full">
+                      <Typography.H3 className="hover:scale-105 font-medium !text-lg lg:!text-base duration-300 !text-grey-12">
+                        {item.title}
+                      </Typography.H3>
+                    </div>
+                  </Link>
+                ) : (
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Trigger>
+                      <Flex
+                        align="center"
+                        gapX="3"
+                        className="hover:cursor-pointer border-b p-4 border-b-grey-7/60 "
+                      >
+                        <div className="w-full">
+                          <Typography.H3 className="hover:scale-105 font-medium !text-lg lg:!text-base duration-300 !text-grey-12">
+                            {item.title}
+                          </Typography.H3>
+                        </div>
+                        <DropdownMenu.TriggerIcon
+                          width={16}
+                          height={16}
+                          fontWeight={500}
+                        />
+                      </Flex>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content
+                      variant="soft"
+                      className="!w-[calc(100vw-16px)]"
+                    >
+                      {item.subItems?.map((itemSub) => (
+                        <DropdownMenu.Item key={generateKey()}>
+                          <Link href={itemSub.href}>
+                            <Typography.H3
+                              size="small"
+                              className="hover:scale-105 duration-300 text-black"
+                            >
+                              {itemSub.title}
+                            </Typography.H3>
+                          </Link>
+                        </DropdownMenu.Item>
+                      ))}
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Root>
+                )}
+              </div>
+            ))}
+          </Flex>
+          <Flex
+            gap="4"
+            align="center"
+            className="px-4 w-full mt-5 justify-between"
+          >
+            <div className="w-full">
+              <Button
+                variant="outline"
+                className="btn !w-full lg:!w-36"
+                onClick={() => router.push("/login")}
+              >
+                <Typography.P weight="semibold">Login</Typography.P>
+              </Button>
+            </div>
+            <div className="w-full">
+              <Button
+                onClick={() => router.push("/register")}
+                className="primary__btn btn !w-full"
+              >
+                <Typography.P weight="semibold" fontColor="white">
+                  Get started
+                </Typography.P>
+              </Button>
+            </div>
+          </Flex>
+        </div>
+
+        <div className="lg:hidden">
+          <Button
+            onClick={toggleMenu}
+            variant="outline"
+            className="!cursor-pointer"
+          >
+            <HambergerMenu width={24} height={24} />
+          </Button>
+        </div>
+      </Flex>
+    </nav>
   );
 }

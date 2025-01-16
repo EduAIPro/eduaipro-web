@@ -76,6 +76,17 @@ const config: Config = {
         success: {
           DEFAULT: "#00dd66",
         },
+        accent: {
+          100: "#EBEFF9",
+          200: "#D7DEF4",
+          300: "#C4CEEE",
+          400: "#B0BDE9",
+          500: "#889DDD",
+          600: "#617CD2",
+          700: "#395BC7",
+          800: "#2E499F",
+          900: "#223777",
+        },
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

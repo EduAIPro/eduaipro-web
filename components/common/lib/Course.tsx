@@ -14,51 +14,28 @@ export default function Course({
   coursesPage?: boolean;
 }) {
   return (
-    <div
-      className={`bg-white p-3 relative w-full ${
-        !coursesPage ? "sm:max-w-xs" : ""
-      } course_card`}
-    >
-      {courseItem.isNew ? (
-        <div className="rounded-md border absolute left-5 px-1 pt-[2px] top-5 bg-white border-gray-500 flex gap-x-1">
-          <StarIcon />
-          <Typography.H2 size="small">New</Typography.H2>
-        </div>
-      ) : null}
+    <div className={`bg-white p-3 relative w-full course_card`}>
+      {/* {courseItem.isNew ? ( */}
+      <div className="rounded-md border absolute left-5 px-1 pt-[2px] top-5 bg-white border-gray-500 flex gap-x-1">
+        <StarIcon />
+        <Typography.H2 size="small">New</Typography.H2>
+      </div>
+      {/* ) : null} */}
       <div className="flex flex-col h-full justify-between">
         <div className="flex flex-col gap-y-4">
           <div>
             <Image
               src={"/assets/images/course.png"}
               alt="course image"
-              width={400}
+              width={780}
               height={250}
               className="rounded-lg max-sm:w-full"
             />
           </div>
           <div className="flex flex-col gap-y-2">
-            <div className="flex flex-wrap gap-2">
-              {courseItem.categories.map((category) => (
-                <div
-                  key={generateKey()}
-                  className="w-fit py-1 px-2 rounded-md bg-brand-1001/80"
-                >
-                  <Typography.P
-                    className="capitalize"
-                    fontColor="white"
-                    size="small"
-                  >
-                    {category}
-                  </Typography.P>
-                </div>
-              ))}
-            </div>
             <div className="flex flex-col gap-y-4">
               <div>
-                <Typography.H2 size="large" fontColor="large" weight="semibold">
-                  {courseItem.title}
-                </Typography.H2>
-                <div className="flex gap-x-1 mt-1 items-center">
+                <div className="flex gap-x-1 mb-2 items-center">
                   <MedalStar
                     className="w-5 h-5"
                     width={10}
@@ -69,6 +46,17 @@ export default function Course({
                     Certified
                   </Typography.P>
                 </div>
+                <Typography.H2 size="large" fontColor="large" weight="semibold">
+                  {courseItem.name}
+                </Typography.H2>
+                <Typography.P
+                  className="capitalize"
+                  fontColor="medium"
+                  size="small"
+                >
+                  {courseItem.description.slice(0, 100) + "..."}
+                </Typography.P>
+
                 {coursesPage ? (
                   <div className="mt-4">
                     <Typography.P fontColor="grey" weight="medium" size="small">
@@ -78,12 +66,30 @@ export default function Course({
                           (value) =>
                             value.charAt(0).toUpperCase() + value.slice(1)
                         )
-                        .join(", ")
+                        .join(",")
                         .slice(0, 100) + "..."}
                     </Typography.P>
                   </div>
                 ) : null}
               </div>
+            </div>
+            <div className="gap-2 mt-6 max-lg:hidden">
+              <Typography.H3
+                weight="bold"
+                size="small"
+                className="!text-gray-600"
+              >
+                Units:{" "}
+              </Typography.H3>
+              <ul className="px-4">
+                {courseItem.topics.slice(0, 8).map((item) => (
+                  <li key={generateKey()} className="list-disc">
+                    <Typography.P fontColor="medium" size="small">
+                      {item}
+                    </Typography.P>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
