@@ -1,24 +1,38 @@
 import {
   Activity,
   Apple,
-  Arrow,
   ArrowSquare,
-  Book1,
-  Buildings2,
+  Book,
+  Briefcase,
   Chart,
   Cup,
+  Data,
   DeviceMessage,
+  Diagram,
   Element4,
   GlobalSearch,
   GooglePlay,
   MedalStar,
   Messages1,
-  Receipt1,
+  People,
+  Profile2User,
   ShieldTick,
   Star1,
   Video,
   WalletMoney,
 } from "iconsax-react";
+import { BsGraphUpArrow } from "react-icons/bs";
+import { FaChalkboardTeacher, FaRegChartBar } from "react-icons/fa";
+import { FaComputer, FaHandsHoldingChild } from "react-icons/fa6";
+import { HiOutlineDesktopComputer } from "react-icons/hi";
+import { HiOutlineComputerDesktop } from "react-icons/hi2";
+import {
+  LiaChalkboardTeacherSolid,
+  LiaHandHoldingHeartSolid,
+} from "react-icons/lia";
+import { LuChartNoAxesCombined, LuClipboardList } from "react-icons/lu";
+import { PiStudent } from "react-icons/pi";
+import { SlBookOpen } from "react-icons/sl";
 
 export const appIcons = [
   {
@@ -63,14 +77,14 @@ export const features = [
     icon: Element4,
     title: "AI-Driven Professional Development Course",
     description:
-      "Continued professional development course with tailored units, equipping teachers with modern teaching skills and accredited certification.",
+      "Continued professional development course with tailored units, equipping educators with modern teaching skills and accredited certification.",
     color: "#7c9885",
   },
   {
     icon: DeviceMessage,
     title: "Collaborative Community Engagement",
     description:
-      "Connect globally with teachers, exchange insights, collaborate on best practices, and expand your professional network through meaningful knowledge-sharing opportunities.",
+      "Connect globally with educators, exchange insights, collaborate on best practices, and expand your professional network through meaningful knowledge-sharing opportunities.",
 
     color: "#1F2041",
   },
@@ -266,54 +280,222 @@ export const categories = [
 
 export const educatorBenefits = [
   {
-    title: "Flexibility and Convenience",
-    icon: Video,
+    type: "Primary School Teachers",
+    values: [
+      {
+        title: "Innovative Teaching",
+        description:
+          "Integrate creative methods like play-based and experiential learning to engage young learners. Gain tools to make lessons more dynamic and interactive.",
+        icon: FaChalkboardTeacher,
+      },
+      {
+        title: "Classroom Management",
+        description:
+          "Learn effective techniques to maintain structure and address disruptive behavior. Promote inclusivity while fostering a positive learning environment.",
+        icon: People,
+      },
+      {
+        title: "Technological Proficiency",
+        description:
+          "Leverage digital tools to create interactive lessons and stay current with educational trends. Develop skills to integrate technology seamlessly into teaching.",
+        icon: HiOutlineDesktopComputer,
+      },
+      {
+        title: "Professional Growth",
+        description:
+          "Build leadership skills, network with peers, and earn certifications to enhance career prospects. Stay motivated and confident in delivering impactful teaching.",
+        icon: FaRegChartBar,
+      },
+    ],
   },
   {
-    title: "Access to Globally Recognized Certifications",
-    icon: Cup,
+    type: "Secondary School Teachers",
+    values: [
+      {
+        title: "Advanced Subject Knowledge",
+        description:
+          "Deepen expertise in your subject and stay updated on recent developments. Use your knowledge to enhance teaching quality and engage students effectively.",
+        icon: Book,
+      },
+      {
+        title: "Technology Integration",
+        description:
+          "Master tools and platforms to create interactive learning environments. Incorporate online resources to support diverse learning styles.",
+        icon: DeviceMessage,
+      },
+      {
+        title: "Career Growth",
+        description:
+          "Prepare for leadership roles like department head or academic advisor. Earn certifications that validate your expertise and improve career prospects.",
+        icon: ArrowSquare,
+      },
+      {
+        title: "Networking & Assessment",
+        description:
+          "Connect with peers to share resources and refine assessment techniques. Use formative and summative assessments to track progress and inform instruction.",
+        icon: LuClipboardList,
+      },
+    ],
   },
   {
-    title: "Personalized Learning Paths",
-    icon: ArrowSquare,
+    type: "Higher Institution Teachers",
+    values: [
+      {
+        title: "Pedagogical Advancements",
+        description:
+          "Learn strategies like flipped classrooms and problem-based learning to engage adult learners. Promote critical thinking and self-directed learning in students.",
+        icon: BsGraphUpArrow,
+      },
+      {
+        title: "Curriculum Development",
+        description:
+          "Design innovative courses that reflect industry trends and academic standards. Incorporate research-based practices into teaching for improved outcomes.",
+        icon: SlBookOpen,
+      },
+      {
+        title: "Technological Expertise",
+        description:
+          "Use online platforms and tools to enhance hybrid and online teaching. Stay current with digital advancements in higher education.",
+        icon: FaComputer,
+      },
+      {
+        title: "Leadership & Networking",
+        description:
+          "Prepare for administrative roles like program director or department chair. Engage with academic communities to share resources and foster mentorship opportunities.",
+        icon: LiaChalkboardTeacherSolid,
+      },
+    ],
+  },
+];
+
+export const teacherBenefits = [
+  {
+    title: "Pedagogical Advancements",
+    description:
+      "Learn strategies like flipped classrooms and problem-based learning to engage adult learners. Promote critical thinking and self-directed learning in students.",
+    icon: LuChartNoAxesCombined,
   },
   {
-    title: "Collaboration and Networking",
+    title: "Curriculum Development",
+    description:
+      "Design innovative courses that reflect industry trends and academic standards. Incorporate research-based practices into teaching for improved outcomes.",
+    icon: SlBookOpen,
+  },
+  {
+    title: "Technological Expertise",
+    description:
+      "Use online platforms and tools to enhance hybrid and online teaching. Stay current with digital advancements in higher education.",
+    icon: HiOutlineComputerDesktop,
+  },
+  {
+    title: "Leadership & Networking",
+    description:
+      "Prepare for administrative roles like program director or department chair. Engage with academic communities to share resources and foster mentorship opportunities.",
+    icon: LiaChalkboardTeacherSolid,
+  },
+];
+
+export const teachingAssistantBenefits = [
+  {
+    title: "Enhanced Support Skills",
+    description:
+      "Learn effective lesson planning and classroom management strategies to assist teachers. Develop skills to prepare engaging teaching materials and support diverse learners.",
+    icon: Profile2User,
+  },
+  {
+    title: "Inclusive Practices",
+    description:
+      "Understand how to support students with special needs and foster an inclusive learning environment. Gain insights into adaptive teaching methods for equity in the classroom.",
+    icon: LiaHandHoldingHeartSolid,
+  },
+  {
+    title: "Career Growth",
+    description:
+      "Earn certifications to improve job prospects and confidence for expanded roles. Access opportunities for mentorship and professional recognition.",
+    icon: LuChartNoAxesCombined,
+  },
+  {
+    title: "Technology & Collaboration",
+    description:
+      "Learn to use classroom tools effectively and strengthen teamwork with teachers. Enhance communication and collaboration within the school setting.",
     icon: Messages1,
   },
+];
+
+export const mentorBenefits = [
   {
-    title: "Ongoing Learning Opportunities",
-    icon: Book1,
+    title: "Enhanced Communication Skills",
+    description:
+      "Master active listening, empathetic communication, and providing clear, actionable feedback.",
+    icon: DeviceMessage,
   },
   {
-    title: "Empowerment and Confidence",
-    icon: MedalStar,
+    title: "Improved Mentoring Techniques:",
+    description:
+      "Gain insights into building trust with mentees and developing adaptive approaches for mentoring diverse learners.",
+    icon: People,
+  },
+  {
+    title: "Conflict Resolution Abilities",
+    description:
+      "Acquire strategies for conflict resolution and techniques to de-escalate challenging situations.",
+    icon: LiaHandHoldingHeartSolid,
+  },
+  {
+    title: "Career Development Support",
+    description:
+      "Gain tools to help mentees explore career paths, prepare for job opportunities, and provide guidance on resumes, interviews, and skill-building.",
+    icon: Diagram,
+  },
+  {
+    title: "Professional Recognition",
+    description:
+      "Receive accreditation and certifications to validate mentoring expertise.",
+    icon: Briefcase,
+  },
+  {
+    title: "Expanded Networking Opportunities:",
+    description:
+      "Join mentoring communities to share experiences and learn from peers.",
+    icon: Data,
   },
 ];
 
 export const institutionBenefits = [
   {
-    title: "Improved Teacher Performance",
+    title: "Improved Teacher Quality and Performance",
+    description:
+      "Personalized learning pathways enable teachers to focus on areas of improvement, enhancing their skills and classroom performance.",
     icon: Activity,
   },
   {
-    title: "Streamlined Certification Management",
+    title: "Streamlined Accreditation and Compliance",
+    description:
+      "EduAI Pro serves as a National Register, helping schools verify and track the accreditation status of their teaching staff ensuring that all teachers meet professional requirements.",
     icon: ShieldTick,
   },
   {
-    title: "Cost-Effective Professional Development",
-    icon: WalletMoney,
+    title: "Improved Student Outcomes",
+    description:
+      "With ongoing professional development, teachers can implement more effective teaching strategies, leading to improved student engagement and academic performance.",
+    icon: PiStudent,
   },
   {
-    title: "Data-Driven Decision-Making",
+    title: "Support for Institutional Growth",
+    description:
+      "EduAI Pro provides schools with insights into teacher performance, driving data-informed decisions for growth and improvement.",
     icon: Chart,
   },
   {
-    title: "Collaboration Across Schools",
-    icon: Buildings2,
+    title: "Resource Optimization",
+    description:
+      "EduAI Pro centralizes professional growth, reducing reliance on costly external training and offering a budget-friendly solution for teacher development.",
+    icon: WalletMoney,
   },
   {
-    title: "Enhanced Institutional Reputation",
+    title: "Strengthened Reputation and Competitiveness",
+    description:
+      "Schools that invest in staff development demonstrate a commitment to quality education, enhancing their reputation and attracting high-caliber educators dedicated to professional growth.",
     icon: Star1,
   },
 ];

@@ -11,7 +11,7 @@ export default function HeroSection() {
     <section className="">
       <Box
         style={{ borderRadius: "24px" }}
-        className="px-4 sm:px-6 lg:px-8 py-6 max-md:pb-12 md:py-12 bg-brand-600/50 border-white overflow-x-clip relative"
+        className="px-4 sm:px-6 lg:px-8 py-6 max-md:pb-12 md:py-12 bg-accent-100 border-white overflow-x-clip relative"
       >
         {/* L-shaped border radius overlay */}
         <div className="absolute trusted__companies bottom-0 left-0 w-full xl:w-3/5 bg-white rounded-tr-[50px] flex items-center justify-between space-x-4">
@@ -20,24 +20,26 @@ export default function HeroSection() {
 
         <div className="flex flex-col md:flex-row items-centermd:p-6 lg:p-12 relative z-10">
           <div className="flex-1 text-brand max-sm:pb-24 pb-14 md:pb-28">
-            <div className="inline-block bg-brand-700 bg-opacity-35 rounded-full px-4 py-1 mb-3">
-              <Typography.H2 size="small" fontColor="brand" weight="semibold">
-                📈 ENHANCE YOUR CAREER
+            <div className="inline-block bg-accent-400 bg-opacity-35 rounded-full px-4 py-1 mb-3">
+              <Typography.H2
+                size="small"
+                fontColor="brand"
+                weight="semibold"
+                className="uppercase"
+              >
+                📈 Enhance Teaching Excellence
               </Typography.H2>
             </div>
             <div className="flex flex-col gap-y-4">
-              <Typography.H1 fontColor="brand" size="xxlarge" weight="bold">
-                Access the World&apos;s
-                <br />
-                Best Learning course
-                <br />
-                with EduAIpro
+              <Typography.H1 fontColor="brand" size="xlarge" weight="bold">
+                {
+                  "Access the world's best AI-Powered Accredited Continued Professional Development"
+                }
               </Typography.H1>
               <Typography.P weight="medium" fontColor="brand">
-                Unlock a world of educational resources with our cutting-edge
-                course app for teachers. Empower yourself to excel in your
-                teaching career, inspire your students, and streamline your
-                classroom management.
+                {
+                  "Transform your teaching with EduAI Pro's accredited Continued Professional Development courses. Designed for mentors, teaching assistants, primary, secondary, and higher institution educators, our AI-powered platform equips you with the tools to thrive and make a lasting impact."
+                }
               </Typography.P>
             </div>
             <div className="flex gap-x-4 my-6 items-center">

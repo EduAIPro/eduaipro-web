@@ -1,9 +1,16 @@
 export type Course = {
-  image: string;
-  title: string;
-  categories: string[];
+  id: string;
+  bgImage: string;
+  name: string;
+  description: string;
   topics: string[];
-  isNew: boolean;
+  overview: string;
   students: string;
   courseLength: string;
+  totalTime: string;
+  courseContents: {
+    name: string;
+    length: string;
+    isResource: boolean;
+  }[];
 };

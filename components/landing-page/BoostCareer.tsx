@@ -45,9 +45,9 @@ export default function BoostCareer() {
               </div>
               <Typography.P fontColor="light">
                 Enhance your teaching skills with our AI-powered learning
-                platform designed for teachers. Access expert-led courses and
+                platform designed for educators. Access expert-led courses and
                 advanced tools to elevate your teaching experience and student
-                engagement. Join a community of innovative teachers and stay
+                engagement. Join a community of innovative educators and stay
                 ahead in education today!
               </Typography.P>
             </div>
