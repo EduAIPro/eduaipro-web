@@ -4,12 +4,33 @@ export const navLinks = [
     href: "/",
   },
   {
-    title: "Professional Development Courses",
-    href: "/courses",
+    title: "About us",
+    href: "/about",
   },
   {
-    title: "Personalised Course Development",
-    href: "/",
+    title: "Continued Professional Development Program",
+    subItems: [
+      {
+        title: "Professional Development Courses",
+        href: "/courses",
+      },
+      {
+        title: "Bespoke course development ",
+        href: "/",
+      },
+      {
+        title: "Accreditation",
+        href: "/",
+      },
+      {
+        title: "Certification",
+        href: "/",
+      },
+    ],
+  },
+  {
+    title: "Pricing",
+    href: "/pricing",
   },
   {
     title: "Support",
@@ -28,7 +49,7 @@ export const navLinks = [
 
 export const footerLinks = [
   {
-    title: "For Teachers",
+    title: "For Educators",
     links: [
       {
         title: "My dashboard",

@@ -22,9 +22,9 @@ export default function Footer() {
               />
             </div>
             <Typography.P>
-              EduAiPro empowers teachers and institutions with AI-driven tools
+              EduAiPro empowers educators and institutions with AI-driven tools
               for professional development. With personalized AI support,
-              EduAiPro enhances learning and growth for both teachers and
+              EduAiPro enhances learning and growth for both educators and
               schools.
             </Typography.P>
           </div>

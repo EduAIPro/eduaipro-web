@@ -1,8 +1,6 @@
 "use client";
 import { faqs } from "@/components/common/data";
 import Accordion from "@/components/common/lib/Accordion";
-import Container from "@/components/common/ui/Container";
-import GridBackground from "@/components/common/ui/GridBackground";
 import Pill from "@/components/common/ui/Pill";
 import Typography from "@/components/common/ui/Typography";
 import CallToAction from "@/components/landing-page/CallToAction";
@@ -26,7 +24,7 @@ export default function FaqPage() {
             <Pill text="SUPPORT" variant="dark" />
           </div>
           <div className="lg:max-w-[70%]">
-            <Typography.H1 size="xxlarge" weight="bold" fontColor="brand">
+            <Typography.H1 size="xlarge" weight="bold" fontColor="brand">
               Find answers to frequently asked questions and get the information
               you need.
             </Typography.H1>
