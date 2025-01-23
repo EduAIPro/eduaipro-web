@@ -1,8 +1,8 @@
 "use client";
 import Typography from "@/components/common/ui/Typography";
 import { Button } from "@radix-ui/themes";
-import router from "next/router";
 import React, { useState } from "react";
+import CourseMedia from "./CourseMedia";
 
 type ExamItemProps = {
   id: string;
@@ -52,7 +52,7 @@ const PersonalDevPlan = () => {
               </div>
             ) : (
               <div className="w-48 self-end">
-                <Button variant="outline" className="btn !w-full">
+                <Button variant="outline" className="btn !w-full" disabled>
                   <Typography.P weight="semibold">Coming Soon</Typography.P>
                 </Button>
               </div>
@@ -66,8 +66,8 @@ const PersonalDevPlan = () => {
   return (
     <div className="flex flex-col md:flex-row min-h-[100vh] justify-between">
       <div className="flex flex-col gap-5 md:w-[65%] md:border-r-2 p-2">
-        <div className="flex  h-[15rem] md:h-[18rem] items-center justify-center lg:h-[25rem] w-full bg-red-500">
-          In Progress
+        <div className="flex  h-[15rem] md:h-[18rem] lg:h-[25rem] w-full">
+          <CourseMedia />
         </div>
         <div className="flex flex-col gap-2">
           <h5 className="font-semibold text-lg">EXAMS</h5>
@@ -105,7 +105,7 @@ const PersonalDevPlan = () => {
           </div>
 
           {/* list */}
-          <ul className="flex flex-col gap-2 mt-2">
+          <ul className="flex flex-col gap-2 mt-2 mb-5">
             {filteredList.map((item) => (
               <ExamItem key={item.id} item={item} />
             ))}
