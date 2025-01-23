@@ -5,12 +5,16 @@ import Image from "next/image";
 export default function CoursesHeroSection() {
   return (
     <section>
-      <div className="bg-courses-hero max-sm:pt-52 sm:pt-32 rounded-lg pb-48 md:pb-60 bg-black/50 bg-blend-overlay px-8 md:px-14 lg:px-20 w-full bg-cover max-md:bg-right bg-top max-xs:mb-5 xs:my-10 relative">
+      <div className="bg-courses-hero max-sm:pt-52 sm:pt-32 rounded-2xl pb-48 md:pb-60 bg-black/50 bg-blend-overlay px-8 md:px-14 lg:px-20 w-full bg-cover max-md:bg-right bg-top max-xs:mb-5 xs:my-10 relative">
         <div className="bg-white p-6 max-xs:hidden flex flex-col gap-y-2 max-w-3xl shadow-2xl rounded-md">
-          <Typography.H2 weight="semibold" fontColor="large">
+          <Typography.H2 weight="semibold" fontColor="brand">
             Explore our Professional Development Courses
           </Typography.H2>
-          <Typography.P className="md:max-w-[80%]" weight="medium">
+          <Typography.P
+            className="md:max-w-[80%]"
+            fontColor="medium"
+            weight="medium"
+          >
             Choose from our expertly crafted courses that cater to upgrade your
             different skill levels, providing you with the tools you need to
             succeed in your professional journey.

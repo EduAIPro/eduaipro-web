@@ -7,7 +7,7 @@ import { generateKey } from "@/utils/key";
 export default function CallToAction() {
   return (
     <section className="responsive__section">
-      <div className="rounded-3xl bg-brand-1000 p-6 sm:p-10 md:p-20">
+      <div className="rounded-3xl bg-accent-800 p-6 sm:p-10 md:p-20">
         <div className="flex max-sm:flex-col items-center justify-between gap-x-12">
           <div className="w-full">
             <div className="flex flex-col gap-y-2">

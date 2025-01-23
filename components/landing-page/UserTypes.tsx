@@ -84,6 +84,7 @@ export default function UserTypes() {
               ? "Get instant help with lesson preparation and classroom management, while developing your skills through AI-powered resources and personalized learning paths."
               : "Boost your confidence as a mentor with cutting-edge AI tools and resources. Lead transformative change while advancing your professional expertise."
           }
+          type={activeTab}
           data={
             activeTab === UserTypeTabSwitch.institution
               ? institutionBenefits
@@ -150,25 +151,33 @@ function OtherTypeComponent({
   title,
   description,
   data,
+  type,
 }: {
+  type: UserTypeTabSwitch;
   title: string;
   description: string;
   data: { title: string; description: string; icon: IconType | Icon }[];
 }) {
   return (
     <div className="py-6">
-      <div className="flex flex-col items-center gap-4">
-        {/* <div className="w-full max-lg:hidden border-2">
+      <div className="flex items-center gap-4">
+        <div className="w-full max-lg:hidden border-2">
           <Image
             width={600}
             height={500}
             alt=""
             className="rounded-xl"
-            src="/assets/images/school.jpg"
+            src={
+              type === UserTypeTabSwitch.teachers
+                ? "/assets/images/wo.jpg"
+                : type === UserTypeTabSwitch.mentors
+                ? "/assets/images/mentor1.jpg"
+                : "/assets/images/school.jpg"
+            }
           />
-        </div> */}
+        </div>
         <div className="w-full">
-          <div className="mb-5 flex flex-col gap-y-2 sm:max-w-[65%]">
+          <div className="mb-5 flex flex-col gap-y-2">
             <Typography.H2 size="basePro" weight="medium">
               {title}
             </Typography.H2>
@@ -176,9 +185,9 @@ function OtherTypeComponent({
           </div>
           <ul className="list-disc grid md:grid-cols-2 gap-x-4 gap-y-8">
             {data.map((benefit) => (
-              <li key={generateKey()} className="flex flex-col gap-2">
+              <li key={generateKey()} className="flex items-center gap-2">
                 <div className="bg-accent-100 rounded-full p-2 w-fit">
-                  <benefit.icon className="w-5 h-5 xs:w-7 xs:h-7 text-brand-1001" />
+                  <benefit.icon className="w-5 h-5 text-brand-1001" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <Typography.H3
@@ -188,9 +197,9 @@ function OtherTypeComponent({
                   >
                     {benefit.title}
                   </Typography.H3>
-                  <Typography.P size="small" fontColor="medium">
+                  {/* <Typography.P size="small" fontColor="medium">
                     {benefit.description}
-                  </Typography.P>
+                  </Typography.P> */}
                 </div>
               </li>
             ))}

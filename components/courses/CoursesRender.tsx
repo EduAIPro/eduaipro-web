@@ -16,17 +16,19 @@ export default function CoursesRender() {
   // const startingIndex = currPage === 1 ? 0 : currPage - 1 + noPerPage;
 
   return (
-    <section className="grid lg:grid-cols-2 gap-6 sm:max-w-[90%] mx-auto">
+    <section className="flex items-center flex-wrap justify-center gap-4 mx-auto">
       {courses.map((course) => (
         <div
           key={generateKey()}
-          className={`rounded-lg min-h-[60vh] flex flex-col justify-between max-lg:gap-y-24 ${
+          className={`rounded-lg min-h-[60vh] sm:w-[48%] lg:w-[30%] flex flex-col justify-between max-lg:gap-y-24 ${
             course.id == "1"
               ? "bg-primary-sch-course"
               : course.id === "2"
               ? "bg-high-sch-course"
               : course.id === "3"
               ? "bg-uni-course"
+              : course.id === "5"
+              ? "bg-assistant-course"
               : "bg-auth-mentor"
           } bg-cover bg-center bg-blend-overlay px-4 sm:px-6 py-8`}
         >
@@ -42,7 +44,7 @@ export default function CoursesRender() {
                 Certified
               </Typography.P>
             </div>
-            <Typography.H2 size="xlarge" fontColor="white" weight="semibold">
+            <Typography.H2 size="basePro" fontColor="white" weight="semibold">
               {course.name}
             </Typography.H2>
             <div className="mt-4">

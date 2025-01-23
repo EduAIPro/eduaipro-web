@@ -69,6 +69,12 @@ const config: Config = {
         },
         warning: {
           DEFAULT: "#ced613",
+          100: "#FFE29A",
+          200: "#FFD468",
+          300: "#FFC535",
+          400: "#FFB703",
+          500: "#CC9202",
+          600: "#996E02",
         },
         error: {
           DEFAULT: "#d6132a",
@@ -100,10 +106,13 @@ const config: Config = {
           "url('/assets/images/elementary.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "uni-course":
           "url('/assets/images/university.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
+        "assistant-course":
+          "url('/assets/images/mentor1.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "auth-bg":
           "url('/assets/images/img14.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "auth-mentor":
           "url('/assets/images/img17.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
+        "gradient-45": "linear-gradient(205deg, var(--tw-gradient-stops))",
       },
       animation: {
         "gradient-bg": "gradient 5s ease infinite",

@@ -28,7 +28,7 @@ const textStyles = {
     grey: "text-grey-10",
     light: "text-grey-6",
     medium: "text-grey-11",
-    brand: "text-brand",
+    brand: "text-accent-900",
     large: "text-grey-12",
     green: "text-success-300",
     white: "text-white",
@@ -47,7 +47,7 @@ function H1({
   children,
   size = "xlarge",
   weight = "medium",
-  fontColor = "dark",
+  fontColor = "brand",
   className,
 }: HeaderProps) {
   return (
@@ -62,7 +62,7 @@ function H2({
   children,
   size = "xlarge",
   weight = "medium",
-  fontColor = "dark",
+  fontColor = "brand",
   className,
 }: HeaderProps) {
   return (
@@ -128,7 +128,7 @@ function P({
 }: HeaderProps) {
   return (
     <p
-      className={`${textStyles.size[size]} ${textStyles.weight[weight]} ${textStyles.fontColor[fontColor]} ${className}`}
+      className={`${textStyles.size[size]} tracking-tight ${textStyles.weight[weight]} ${textStyles.fontColor[fontColor]} ${className}`}
     >
       {children}
     </p>

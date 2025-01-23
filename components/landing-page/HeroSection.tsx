@@ -32,13 +32,11 @@ export default function HeroSection() {
             </div>
             <div className="flex flex-col gap-y-4">
               <Typography.H1 fontColor="brand" size="xlarge" weight="bold">
-                {
-                  "Access the world's best AI-Powered Accredited Continued Professional Development"
-                }
+                {"Access the world's best AI-Powered Accredited CDP Program"}
               </Typography.H1>
               <Typography.P weight="medium" fontColor="brand">
                 {
-                  "Transform your teaching with EduAI Pro's accredited Continued Professional Development courses. Designed for mentors, teaching assistants, primary, secondary, and higher institution educators, our AI-powered platform equips you with the tools to thrive and make a lasting impact."
+                  "Transform your teaching with EduAI Pro's accredited Continued Professional Development (CPD) courses. Designed for mentors, teaching assistants, primary, secondary, and higher institution educators, our AI-powered platform equips you with the tools to thrive and make a lasting impact."
                 }
               </Typography.P>
             </div>

@@ -34,7 +34,7 @@ export default function Footer() {
                 key={generateKey()}
                 className="flex flex-col gap-y-2 xs:gap-y-3"
               >
-                <Typography.H2 size="base" weight="medium">
+                <Typography.H2 size="base" weight="semibold">
                   {footerItem.title}
                 </Typography.H2>
                 <ul className="flex flex-col gap-y-1 xs:gap-y-2">
@@ -68,7 +68,7 @@ export default function Footer() {
                 key={generateKey()}
                 className="bg-brand-800/20 rounded-full p-3 displace__animation"
               >
-                <IconItem className="text-brand-900" width={16} height={16} />
+                <IconItem className="text-accent-900" width={16} height={16} />
               </div>
             ))}
           </div>

@@ -8,7 +8,7 @@ export const navLinks = [
     href: "/about",
   },
   {
-    title: "Continued Professional Development Program",
+    title: "Our CPD Program",
     subItems: [
       {
         title: "Professional Development Courses",
@@ -18,14 +18,14 @@ export const navLinks = [
         title: "Bespoke course development ",
         href: "/",
       },
-      {
-        title: "Accreditation",
-        href: "/",
-      },
-      {
-        title: "Certification",
-        href: "/",
-      },
+      // {
+      //   title: "Accreditation",
+      //   href: "/",
+      // },
+      // {
+      //   title: "Certification",
+      //   href: "/",
+      // },
     ],
   },
   {
