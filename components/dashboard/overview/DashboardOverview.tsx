@@ -1,5 +1,5 @@
 import Typography from "@/components/common/ui/Typography";
-import React from "react";
+import React, { useState } from "react";
 import OverviewItem from "./OverviewItem";
 import { BiTask } from "react-icons/bi";
 import { AiOutlineFileText } from "react-icons/ai";
@@ -9,12 +9,17 @@ import { greetUser } from "@/utils/dashboard";
 import MediaPlayer from "./MediaPlayer";
 
 const DashboardOverview = () => {
+  const [activeUnit, setActiveUnit] = useState<string | null>(null);
+
+  const toggleUnit = (unitId: string) => {
+    setActiveUnit((prev) => (prev === unitId ? null : unitId));
+  };
   const username = "Jasper";
 
   return (
     <div className="flex flex-col gap-2 md:px-2">
       {/* overview items */}
-      <div className="grid md:grid-cols-3 w-full gap-3">
+      {/* <div className="grid md:grid-cols-3 w-full gap-3">
         <OverviewItem title="Tests" digits="4" Icon={BiTask} />
         <OverviewItem title="Exams" digits="2" Icon={AiOutlineFileText} />
         <OverviewItem
@@ -22,10 +27,10 @@ const DashboardOverview = () => {
           status="In progress"
           Icon={MdOutlinePendingActions}
         />
-      </div>
+      </div> */}
 
       {/* active courses */}
-      <div className="flex flex-col gap-2 mt-10">
+      <div className="flex flex-col gap-2 ">
         <div>
           <Typography.H3 size="large" weight="medium">
             {greetUser(username)}
@@ -86,6 +91,44 @@ const DashboardOverview = () => {
             </div>
           </li>
         </ul>
+
+        <div className="flex flex-col gap-3 p-2 mt-10">
+          <h4 className="font-semibold text-xl">Course Content</h4>
+          <ul>
+            {courseUnits.map((unit) => (
+              <li key={unit.id} className="mb-4 shadow w-full">
+                <div
+                  role="button"
+                  onClick={() => toggleUnit(unit.id)}
+                  className="flex items-center justify-between cursor-pointer p-2 border-b-2 "
+                >
+                  <h5 className="font-semibold lg:text-lg line-clamp-1 w-[50%]">
+                    {unit.title}
+                  </h5>
+                  <span className="text-xs lg:text-sm line-clamp-1 max-w-[50%]">
+                    {unit.courses.length} lectures | {unit.time}
+                  </span>
+                </div>
+                <div
+                  className={`overflow-hidden transition-all duration-500 ease-in-out overflow-y-auto ${
+                    activeUnit === unit.id ? "max-h-[500px]" : "max-h-0"
+                  }`}
+                >
+                  <ul className="mt-2">
+                    {unit.courses.map((course) => (
+                      <li
+                        key={course.id}
+                        className="text-sm lg:text-base pl-5 py-1"
+                      >
+                        {course.title}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
@@ -130,5 +173,48 @@ const recentCourses = [
     author: "John Doe",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem dolor cumque dolorem repellendus rem nemo odit. Sint, commodi rerum! Animi?",
+  },
+];
+
+const courseUnits = [
+  {
+    id: "1",
+    title: "Class 1",
+    time: "1hr 30mins",
+    courses: [
+      { id: "1", title: "Section Intro" },
+      { id: "2", title: "First Topic" },
+      { id: "3", title: "Second Topic" },
+    ],
+  },
+  {
+    id: "2",
+    title: "Class 2",
+    time: "1hr 30mins",
+    courses: [
+      { id: "1", title: "Section Intro" },
+      { id: "2", title: "First Topic" },
+      { id: "3", title: "Second Topic" },
+    ],
+  },
+  {
+    id: "3",
+    title: "Class 3",
+    time: "1hr 30mins",
+    courses: [
+      { id: "1", title: "Section Intro" },
+      { id: "2", title: "First Topic" },
+      { id: "3", title: "Second Topic" },
+    ],
+  },
+  {
+    id: "4",
+    title: "Class 4",
+    time: "1hr 30mins",
+    courses: [
+      { id: "1", title: "Section Intro" },
+      { id: "2", title: "First Topic" },
+      { id: "3", title: "Second Topic" },
+    ],
   },
 ];
