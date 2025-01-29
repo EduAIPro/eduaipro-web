@@ -26,12 +26,12 @@ export default function UserTypes() {
   };
 
   const tabs = [
-    { title: "Teachers", value: UserTypeTabSwitch.teachers },
+    { title: "Educators", value: UserTypeTabSwitch.teachers },
     // {
     //   title: "Teaching Assistants",
     //   value: UserTypeTabSwitch.teachingAssistants,
     // },
-    { title: "Mentors", value: UserTypeTabSwitch.mentors },
+    // { title: "Mentors", value: UserTypeTabSwitch.mentors },
     { title: "Institutions", value: UserTypeTabSwitch.institution },
   ];
 
@@ -68,31 +68,26 @@ export default function UserTypes() {
         <OtherTypeComponent
           title={
             activeTab === UserTypeTabSwitch.institution
-              ? "Maximize Staff Development with Advanced Insights and AI Support"
-              : activeTab === UserTypeTabSwitch.teachingAssistants
-              ? "Enhance Your Teaching Support with Smart Tools and AI Guidance"
-              : activeTab === UserTypeTabSwitch.teachers
-              ? "Empower Your Teaching with AI-Powered Learning and Professional Development"
-              : "Elevate Your Mentorship with AI-Powered Guidance and Professional Excellence"
+              ? "Benefits of the EduAI Pro Platform for Institutions"
+              : // : activeTab === UserTypeTabSwitch.teachingAssistants
+                // ? "Enhance Your Teaching Support with Smart Tools and AI Guidance"
+                "Benefits of the EduAI Pro Platform for Mentors, Teaching Assistant, Primary Teachers, Secondary Teachers and higher-education teachers (Educators)"
+            // : "Elevate Your Mentorship with AI-Powered Guidance and Professional Excellence"
           }
-          description={
-            activeTab === UserTypeTabSwitch.institution
-              ? "With AI-powered chatbots and personalized support, you can provide your teachers with the resources they need to grow, while accessing comprehensive data to drive institutional improvement."
-              : activeTab === UserTypeTabSwitch.teachers
-              ? " As an educator, access a wide variety of courses designed to enhance your skills, earn certifications, and track your progress in real time."
-              : activeTab === UserTypeTabSwitch.teachingAssistants
-              ? "Get instant help with lesson preparation and classroom management, while developing your skills through AI-powered resources and personalized learning paths."
-              : "Boost your confidence as a mentor with cutting-edge AI tools and resources. Lead transformative change while advancing your professional expertise."
-          }
+          // description={
+          //   activeTab === UserTypeTabSwitch.institution
+          //     ? "With AI-powered chatbots and personalized support, you can provide your teachers with the resources they need to grow, while accessing comprehensive data to drive institutional improvement."
+          //     : activeTab === UserTypeTabSwitch.teachers
+          //     ? " As an educator, access a wide variety of courses designed to enhance your skills, earn certifications, and track your progress in real time."
+          //     : activeTab === UserTypeTabSwitch.teachingAssistants
+          //     ? "Get instant help with lesson preparation and classroom management, while developing your skills through AI-powered resources and personalized learning paths."
+          //     : "Boost your confidence as a mentor with cutting-edge AI tools and resources. Lead transformative change while advancing your professional expertise."
+          // }
           type={activeTab}
           data={
             activeTab === UserTypeTabSwitch.institution
               ? institutionBenefits
-              : activeTab === UserTypeTabSwitch.teachingAssistants
-              ? teachingAssistantBenefits
-              : activeTab === UserTypeTabSwitch.teachers
-              ? teacherBenefits
-              : mentorBenefits
+              : teacherBenefits
           }
         />
       </div>
@@ -103,7 +98,7 @@ export default function UserTypes() {
 function EducatorsComponent() {
   return (
     <div className="py-6">
-      <div className="flex max-lg:flex-col items-center gap-4">
+      <div className="grid grid-cols-3 max-lg:flex-col items-center gap-4">
         {/* <div className="w-full max-lg:hidden">
           <Image
             width={600}
@@ -149,20 +144,26 @@ function EducatorsComponent() {
 
 function OtherTypeComponent({
   title,
-  description,
+  // description,
   data,
   type,
 }: {
   type: UserTypeTabSwitch;
   title: string;
-  description: string;
+  // description: string;
   data: { title: string; description: string; icon: IconType | Icon }[];
 }) {
   return (
     <div className="py-6">
-      <div className="flex items-center gap-4">
-        <div className="w-full max-lg:hidden border-2">
-          <Image
+      <div className="grid grid-cols-3 items-center gap-6">
+        <div
+          className={`w-full max-lg:hidden min-h-[70vh] rounded-xl bg-cover ${
+            type === UserTypeTabSwitch.teachers
+              ? "bg-courses-hero bg-right"
+              : "bg-institution-benefits bg-left"
+          }`}
+        >
+          {/* <Image
             width={600}
             height={500}
             alt=""
@@ -174,18 +175,18 @@ function OtherTypeComponent({
                 ? "/assets/images/mentor1.jpg"
                 : "/assets/images/school.jpg"
             }
-          />
+          /> */}
         </div>
-        <div className="w-full">
-          <div className="mb-5 flex flex-col gap-y-2">
-            <Typography.H2 size="basePro" weight="medium">
+        <div className="w-full col-span-2">
+          <div className="mb-10 flex flex-col gap-y-2">
+            <Typography.H2 size="xl" weight="medium">
               {title}
             </Typography.H2>
-            <Typography.P fontColor="medium">{description}</Typography.P>
+            {/* <Typography.P fontColor="medium">{description}</Typography.P> */}
           </div>
           <ul className="list-disc grid md:grid-cols-2 gap-x-4 gap-y-8">
             {data.map((benefit) => (
-              <li key={generateKey()} className="flex items-center gap-2">
+              <li key={generateKey()} className="flex items-start gap-2">
                 <div className="bg-accent-100 rounded-full p-2 w-fit">
                   <benefit.icon className="w-5 h-5 text-brand-1001" />
                 </div>
@@ -197,9 +198,9 @@ function OtherTypeComponent({
                   >
                     {benefit.title}
                   </Typography.H3>
-                  {/* <Typography.P size="small" fontColor="medium">
+                  <Typography.P size="small" fontColor="medium">
                     {benefit.description}
-                  </Typography.P> */}
+                  </Typography.P>
                 </div>
               </li>
             ))}

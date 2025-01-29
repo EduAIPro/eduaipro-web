@@ -7,6 +7,9 @@ import { Theme } from "@radix-ui/themes";
 import Container from "@/components/common/ui/Container";
 import { usePathname, useSearchParams } from "next/navigation";
 import { ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -48,9 +51,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        <Theme>
-          <AppLayout>{children}</AppLayout>
-        </Theme>
+        <QueryClientProvider client={queryClient}>
+          <Theme>
+            <AppLayout>{children}</AppLayout>
+          </Theme>
+        </QueryClientProvider>
       </body>
     </html>
   );

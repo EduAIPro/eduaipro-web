@@ -18,12 +18,14 @@ export default function LoginPage() {
     <main className="lg:flex flex-row justify-between">
       <section className="w-full p-4 xs:p-6 max-lg:min-h-screen">
         <div className="flex items-center justify-between">
-          <Image
-            src="/assets/images/logo-outline.png"
-            width={120}
-            height={70}
-            alt=""
-          />
+          <Link href="/">
+            <Image
+              src="/assets/images/logo-outline.png"
+              width={120}
+              height={70}
+              alt=""
+            />
+          </Link>
           <div className="flex items-center gap-x-3 max-sm:hidden">
             <Typography.H3 className="text-center" weight="medium" size="base">
               {"Don't"} have an account?{" "}

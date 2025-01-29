@@ -8,10 +8,19 @@ import FormInput from "../common/ui/FormInput";
 import { signupValidation } from "@/utils/validation/auth";
 import { Button } from "@radix-ui/themes";
 import { LoginComp } from "./LoginComp";
+import { useMutationApi } from "@/api/hooks/useMutationApi";
+import { signup } from "@/api/mutations";
+import { SIGNUP_EDUCATOR_MUTATION_KEY } from "@/api/keys";
 
 export default function TeacherSignup() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const signupMutation = useMutationApi(SIGNUP_EDUCATOR_MUTATION_KEY, signup, {
+    onSuccess: (data) => {
+      console.log({ data });
+      // router.push("/dashboard?type=teacher");
+    },
+  });
 
   return (
     <div className="flex-col flex gap-y-6">
@@ -36,7 +45,7 @@ export default function TeacherSignup() {
           if (values.password !== values.confirmPassword) {
             alert("Your password must match");
           } else {
-            router.push("/dashboard?type=teacher");
+            signupMutation.mutate(values);
           }
         }}
         validationSchema={signupValidation}
@@ -124,7 +133,10 @@ export default function TeacherSignup() {
               }
             />
             <div className="mt-4 w-full">
-              <Button className="primary__btn btn !w-full">
+              <Button
+                loading={signupMutation.isLoading}
+                className="primary__btn btn !w-full"
+              >
                 <Typography.P fontColor="white">Register</Typography.P>
               </Button>
             </div>

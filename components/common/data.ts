@@ -70,10 +70,10 @@ export const pricingData = [
         title: "Priority Support",
         description: "Access to dedicated support for any inquiries or issues.",
       },
-      {
-        title: "National Register Verification",
-        description: "Ability to verify credentials and accreditation status.",
-      },
+      // {
+      //   title: "National Register Verification",
+      //   description: "Ability to verify credentials and accreditation status.",
+      // },
       {
         title: "Progress Analytics and Personalized Reports",
         description: "Insights into learning progress and performance metrics.",
@@ -98,10 +98,10 @@ export const pricingData = [
         description:
           "Comprehensive analytics on teacher performance and development.",
       },
-      {
-        title: "National Register Access",
-        description: "Verify teacher credentials conveniently.",
-      },
+      // {
+      //   title: "National Register Access",
+      //   description: "Verify teacher credentials conveniently.",
+      // },
       {
         title: "Customized Training Programs",
         description:

@@ -88,7 +88,7 @@ export default function RegisterPage() {
               <Link href="/register">
                 <div className="flex items-center gap-2">
                   <ArrowLeft />
-                  <Typography.H3>Back</Typography.H3>
+                  <Typography.H3 size="base">Back</Typography.H3>
                 </div>
               </Link>
               {userType === userTypes[1] ? (

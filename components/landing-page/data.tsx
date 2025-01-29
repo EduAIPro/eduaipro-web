@@ -5,6 +5,7 @@ import {
   Book,
   Briefcase,
   Chart,
+  ChartCircle,
   Cup,
   Data,
   DeviceMessage,
@@ -21,18 +22,36 @@ import {
   Video,
   WalletMoney,
 } from "iconsax-react";
-import { BsGraphUpArrow } from "react-icons/bs";
+import {
+  BsGlobe,
+  BsGlobeAmericas,
+  BsGraphUpArrow,
+  BsRobot,
+} from "react-icons/bs";
 import { FaChalkboardTeacher, FaRegChartBar } from "react-icons/fa";
 import { FaComputer, FaHandsHoldingChild } from "react-icons/fa6";
+import { GiStarsStack } from "react-icons/gi";
+import { GrCertificate } from "react-icons/gr";
 import { HiOutlineDesktopComputer } from "react-icons/hi";
 import { HiOutlineComputerDesktop } from "react-icons/hi2";
 import {
   LiaChalkboardTeacherSolid,
   LiaHandHoldingHeartSolid,
 } from "react-icons/lia";
-import { LuChartNoAxesCombined, LuClipboardList } from "react-icons/lu";
-import { PiStudent } from "react-icons/pi";
+import {
+  LuChartNoAxesCombined,
+  LuClipboardList,
+  LuClock2,
+} from "react-icons/lu";
+import { MdOutlineUpdate } from "react-icons/md";
+import {
+  PiCertificate,
+  PiClipboardText,
+  PiGlobeLight,
+  PiStudent,
+} from "react-icons/pi";
 import { SlBookOpen } from "react-icons/sl";
+import { TbStars } from "react-icons/tb";
 
 export const appIcons = [
   {
@@ -370,28 +389,63 @@ export const educatorBenefits = [
 
 export const teacherBenefits = [
   {
-    title: "Pedagogical Advancements",
-    description:
-      "Learn strategies like flipped classrooms and problem-based learning to engage adult learners. Promote critical thinking and self-directed learning in students.",
-    icon: LuChartNoAxesCombined,
+    title: "User-Friendly Interface",
+    description: "Simple navigation with clear progress tracking and updates.",
+    icon: Element4,
   },
   {
-    title: "Curriculum Development",
+    title: "24/7 Accessibility",
     description:
-      "Design innovative courses that reflect industry trends and academic standards. Incorporate research-based practices into teaching for improved outcomes.",
-    icon: SlBookOpen,
+      "Access anytime, anywhere, with compatibility across multiple devices.",
+    icon: LuClock2,
   },
   {
-    title: "Technological Expertise",
+    title: "AI-Powered Insights",
     description:
-      "Use online platforms and tools to enhance hybrid and online teaching. Stay current with digital advancements in higher education.",
-    icon: HiOutlineComputerDesktop,
+      "Personalised development plan and progress analysis to target improvement areas.",
+    icon: BsRobot,
   },
   {
-    title: "Leadership & Networking",
+    title: "Secure and Private",
     description:
-      "Prepare for administrative roles like program director or department chair. Engage with academic communities to share resources and foster mentorship opportunities.",
-    icon: LiaChalkboardTeacherSolid,
+      "Data protection and encrypted access for safe and confidential use.",
+    icon: ShieldTick,
+  },
+  {
+    title: "Interactive Learning Features",
+    description:
+      "Real-time feedback, discussion boards, and peer interaction to enhance the learning experience.",
+    icon: DeviceMessage,
+  },
+  {
+    title: "Progress Dashboards",
+    description:
+      "Visual tools to monitor milestones and receive notifications for tasks and certification deadlines.",
+    icon: ChartCircle,
+  },
+  {
+    title: "Certification Management",
+    description:
+      "Automated reminders for renewals and instant access to digital certificates upon completion.",
+    icon: MedalStar,
+  },
+  {
+    title: "Comprehensive Resource Library",
+    description:
+      "Downloadable eBooks, templates, and videos for offline access and classroom use.",
+    icon: Book,
+  },
+  {
+    title: "Regular Content Updates",
+    description:
+      "Stay updated with the latest educational tools and AI-refreshed learning material.",
+    icon: MdOutlineUpdate,
+  },
+  {
+    title: "Globally Recognized Certification",
+    description:
+      "Accredited programs that elevate professional standing locally and internationally.",
+    icon: PiGlobeLight,
   },
 ];
 
@@ -463,39 +517,63 @@ export const mentorBenefits = [
 
 export const institutionBenefits = [
   {
-    title: "Improved Teacher Quality and Performance",
+    title: "Enhanced Educator Quality",
     description:
-      "Personalized learning pathways enable teachers to focus on areas of improvement, enhancing their skills and classroom performance.",
+      "Provide educators with internationally accredited courses and AI-driven learning paths to improve teaching performance.",
     icon: Activity,
   },
   {
-    title: "Streamlined Accreditation and Compliance",
+    title: "Streamlined Certification Management",
     description:
-      "EduAI Pro serves as a National Register, helping schools verify and track the accreditation status of their teaching staff ensuring that all teachers meet professional requirements.",
-    icon: ShieldTick,
+      "Simplify the process of tracking, managing, and renewing teacher certifications, reducing administrative workload.",
+    icon: PiCertificate,
   },
   {
     title: "Improved Student Outcomes",
     description:
-      "With ongoing professional development, teachers can implement more effective teaching strategies, leading to improved student engagement and academic performance.",
+      "Equip educators with innovative teaching strategies to foster student engagement and boost academic performance.",
     icon: PiStudent,
   },
   {
-    title: "Support for Institutional Growth",
+    title: "Data-Driven Insights",
     description:
-      "EduAI Pro provides schools with insights into teacher performance, driving data-informed decisions for growth and improvement.",
+      "Generate actionable data on educator performance for strategic decision-making and institutional growth.",
     icon: Chart,
   },
   {
-    title: "Resource Optimization",
+    title: "Global Collaboration",
     description:
-      "EduAI Pro centralizes professional growth, reducing reliance on costly external training and offering a budget-friendly solution for teacher development.",
+      "Join a global community to promote networking and knowledge-sharing among institutions and educators.",
+    icon: BsGlobe,
+  },
+  {
+    title: "Cost-Effective Professional Development",
+    description:
+      "Optimize budgets with centralized, scalable training programs that deliver high-quality courses in a flexible, convenient online format.",
     icon: WalletMoney,
   },
   {
-    title: "Strengthened Reputation and Competitiveness",
+    title: "Strengthened Institutional Reputation",
     description:
-      "Schools that invest in staff development demonstrate a commitment to quality education, enhancing their reputation and attracting high-caliber educators dedicated to professional growth.",
+      "Demonstrate commitment to quality education by investing in professional development to attract top teaching talent.",
+    icon: TbStars,
+  },
+  {
+    title: "Bespoke Curriculum Development",
+    description:
+      "Create tailored development programs that align with institutional goals for maximum impact.",
+    icon: PiClipboardText,
+  },
+  {
+    title: "Institution Dashboard",
+    description:
+      "Track and monitor staff progress with a user-friendly dashboard offering real-time updates.",
+    icon: Element4,
+  },
+  {
+    title: "Global Educational Standards",
+    description:
+      "Access the latest global trends and practices to maintain competitiveness in the education sector.",
     icon: Star1,
   },
 ];

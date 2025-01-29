@@ -15,7 +15,7 @@ export default function CompaniesMarquee() {
       </div>
       <div>
         <div
-          style={{ filter: "grayscale(1.5)" }}
+          // style={{ filter: "grayscale(1.5)" }}
           className="flex items-center gap-x-6 max-md:px-4 mt-4 overflow-x-auto no__scrollbar"
         >
           {schoolLogos.map((link) => (

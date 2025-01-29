@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 // Create Axios instance
 const api = axios.create({
-  baseURL: "https://eduai-p14s.onrender.com/api/v1", // Replace with your API base URL
+  baseURL: BASE_URL, // Replace with your API base URL
   headers: {
     "Content-Type": "application/json",
   },

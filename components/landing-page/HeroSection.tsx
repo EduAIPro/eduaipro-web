@@ -32,7 +32,7 @@ export default function HeroSection() {
             </div>
             <div className="flex flex-col gap-y-4">
               <Typography.H1 fontColor="brand" size="xlarge" weight="bold">
-                {"Access the world's best AI-Powered Accredited CDP Program"}
+                {"Access the world's best AI-Powered Accredited CPD Program"}
               </Typography.H1>
               <Typography.P weight="medium" fontColor="brand">
                 {

@@ -14,7 +14,7 @@ export default function ReasonsToChooseUs() {
           <div>
             <Typography.H2 weight="semibold" size="xlarge">
               A Platform Designed for Educators <br /> Supercharged by{" "}
-              <span className="gradient__text">AI</span>
+              <h2 className="gradient__text inline-flex">AI</h2>
             </Typography.H2>
           </div>
         </div>

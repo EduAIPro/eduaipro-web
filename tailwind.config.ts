@@ -100,6 +100,7 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "boost-career-pattern": "url('/assets/images/shape-bg.png')",
         "courses-hero": "url('/assets/images/wo.jpg')",
+        "institution-benefits": "url('/assets/images/school.jpg')",
         "high-sch-course":
           "url('/assets/images/high-school.jpg'), linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.5))",
         "primary-sch-course":

@@ -5,6 +5,8 @@ import {
   Profile2User,
   UserEdit,
 } from "iconsax-react";
+import { LuUniversity } from "react-icons/lu";
+import { PiChalkboardTeacher } from "react-icons/pi";
 import { SlBookOpen } from "react-icons/sl";
 
 export const educationalLevels = [
@@ -174,9 +176,10 @@ export const adminRoles = [
 ];
 
 export const userRoles = [
-  { title: "I am a Primary School Teacher", icon: SlBookOpen },
-  { title: "I am a Secondary School Teacher", icon: People },
-  { title: "I am a Mentor", icon: UserEdit },
-  { title: "I am a Teaching Assistant(TA)", icon: Profile2User },
-  { title: "I own/run an Institution", icon: Building4 },
+  { title: "Mentor", icon: UserEdit },
+  { title: "Teaching Assistant (TA)", icon: Profile2User },
+  { title: "Primary School Teacher", icon: SlBookOpen },
+  { title: "Secondary School Teacher", icon: People },
+  { title: "Higher Institution School Teacher", icon: PiChalkboardTeacher },
+  { title: "Institution", icon: Building4 },
 ];
