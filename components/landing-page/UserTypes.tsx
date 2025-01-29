@@ -155,7 +155,7 @@ function OtherTypeComponent({
 }) {
   return (
     <div className="py-6">
-      <div className="grid grid-cols-3 items-center gap-6">
+      <div className="grid lg:grid-cols-3 items-center gap-6">
         <div
           className={`w-full max-lg:hidden min-h-[70vh] rounded-xl bg-cover ${
             type === UserTypeTabSwitch.teachers
@@ -177,7 +177,7 @@ function OtherTypeComponent({
             }
           /> */}
         </div>
-        <div className="w-full col-span-2">
+        <div className="w-full lg:col-span-2">
           <div className="mb-10 flex flex-col gap-y-2">
             <Typography.H2 size="xl" weight="medium">
               {title}
