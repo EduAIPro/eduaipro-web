@@ -72,7 +72,7 @@ export default function PricingPage() {
                     <ul className="flex flex-col gap-2 mt-3">
                       {item.features.map((item) => (
                         <li
-                          className="flex items-center gap-2"
+                          className="flex items-start sm:items-center gap-2"
                           key={generateKey()}
                         >
                           <div className="w-fit">
@@ -119,7 +119,7 @@ export default function PricingPage() {
                       <Typography.P fontColor="white">Get started</Typography.P>
                     ) : (
                       <Typography.P fontColor="white">
-                        Talk to support
+                        Contact support
                       </Typography.P>
                     )}
                   </Button>
