@@ -74,6 +74,8 @@ export const schoolLogos = [
   "/assets/images/unizik.png",
   "/assets/images/unn.png",
   "/assets/images/waec.png",
+  "/assets/images/mu.png",
+  "/assets/images/ccu.png",
 ];
 
 export const features = [

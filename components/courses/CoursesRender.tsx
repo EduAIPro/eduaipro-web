@@ -20,7 +20,7 @@ export default function CoursesRender() {
       {courses.map((course) => (
         <div
           key={generateKey()}
-          className={`rounded-lg min-h-[60vh] sm:w-[48%] lg:w-[30%] flex flex-col justify-between max-lg:gap-y-24 ${
+          className={`rounded-lg min-h-[600px] sm:w-[48%] hover:scale-105 duration-500 lg:w-[30%] flex flex-col justify-between max-lg:gap-y-24 ${
             course.id == "1"
               ? "bg-primary-sch-course"
               : course.id === "2"

@@ -37,7 +37,7 @@ export default function RegisterPage() {
         </div>
         <div className="lg:min-h-[85vh] mt-10 sm:justify-center flex flex-col">
           {!userType ? (
-            <div className="h-full w-full lg:max-w-[70%] mx-auto flex flex-col justify-center">
+            <div className="h-full w-full lg:max-w-[80%] xl:max-w-[70%] mx-auto flex flex-col justify-center">
               <div className="flex flex-col gap-1 mb-5">
                 <Typography.H2 size="xl" weight="semibold">
                   Welcome to EduAiPro
@@ -49,7 +49,7 @@ export default function RegisterPage() {
                   Please select your role to personalize your experience.
                 </Typography.P>
               </div>
-              <div className="w-full sm:w-[80%] lg:w-[65%] flex flex-col mx-auto rounded-lg gap-2 p-2">
+              <div className="w-full sm:w-[80%] md:w-full xl:w-[65%] flex flex-col mx-auto rounded-lg gap-2 p-2">
                 {userRoles.map((item, idx) => (
                   <button
                     className="w-full rounded-[6px] group hover:bg-blue-500/10 duration-700 p-3 h-full flex items-center gap-3 border"
