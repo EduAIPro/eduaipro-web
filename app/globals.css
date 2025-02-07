@@ -379,3 +379,7 @@ article {
 .bg-4 {
   background: #b29d73;
 }
+
+.detail_card:hover {
+  box-shadow: 1px 2px 10px 6px rgb(249 249 251 / 0.9);
+}

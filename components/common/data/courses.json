@@ -1,0 +1,1448 @@
+[
+  {
+    "id": "1",
+    "name": "CPD Curriculum for Primary Teachers",
+    "overview": {
+      "introduction": "Elevate your classroom expertise and support the developmental needs of young learners with our CPD curriculum for primary teachers. This course focuses on a holistic approach to teaching that integrates child development, classroom management, and modern educational tools to create positive learning environments.",
+      "objectives": [
+        "Deepen Child Development Knowledge: Understand the stages of early childhood development to better support your students' learning journeys",
+        "Improve Classroom Management: Acquire practical techniques to create and sustain an organized, nurturing classroom",
+        "Refine Lesson Planning: Learn how to craft engaging lesson plans that cater to a variety of learning styles and abilities",
+        "Enhance Emotional Intelligence: Develop skills to recognize and support the emotional well-being of your students",
+        "Promote Inclusivity: Implement strategies that ensure every student feels valued and included",
+        "Integrate Technology Effectively: Discover ways to incorporate technology into your teaching to enrich the learning experience",
+        "Raise Mental Health Awareness: Equip yourself with the knowledge to address and support mental health in your classroom"
+      ],
+      "duration": {
+        "totalHours": 20,
+        "numberOfUnits": 12,
+        "hoursPerUnit": "3.5-4"
+      }
+    },
+    "structure": {
+      "format": "12 comprehensive modules with multiple lessons",
+      "resources": [
+        "Downloadable PDFs",
+        "Videos of classroom scenarios",
+        "Reading links",
+        "Interactive tests"
+      ]
+    },
+    "certification": {
+      "type": "CPD accredited certificate",
+      "benefits": [
+        "Add to portfolio",
+        "Add to resume",
+        "Add to LinkedIn profile",
+        "Share on social media",
+        "Use in performance review"
+      ]
+    },
+    "skillsAndCompetencies": [
+      "Effective Classroom Management Strategies",
+      "Inclusive Learning Environments",
+      "Technology Integration for Enhanced Learning",
+      "Differentiated Instruction for Diverse Learners",
+      "Emotional Intelligence",
+      "Mental Health Awareness",
+      "Reflective Practice"
+    ],
+    "accessibility": {
+      "platforms": ["Desktop", "Tablet", "Smartphone"],
+      "features": [
+        "Mobile app version",
+        "Progress tracking",
+        "Learn at own convenience"
+      ]
+    },
+    "support": {
+      "features": [
+        "Discussion forums",
+        "Chatbot support",
+        "Community engagement",
+        "Collaborative learning opportunities"
+      ]
+    },
+    "units": [
+      {
+        "number": 1,
+        "title": "Understanding Child Development",
+        "introduction": "This unit will help primary school teachers understand the cognitive, emotional, and social development of children at different stages. It will provide insight into the developmental milestones and how these influence teaching strategies.",
+        "objectives": [
+          "Understand the stages of child development",
+          "Identify key developmental milestones for primary-aged children",
+          "Apply developmental theory to classroom practice",
+          "Understand the impact of development on learning outcomes"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Child Development",
+            "duration": 1
+          },
+          {
+            "title": "Milestones in Primary Age Children",
+            "duration": 1
+          },
+          {
+            "title": "Developmental Theory in Practice",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 3.5
+      },
+      {
+        "number": 2,
+        "title": "Effective Classroom Management",
+        "introduction": "Teachers will explore strategies to create a positive, safe, and productive classroom environment, focusing on behavior management and fostering respect.",
+        "objectives": [
+          "Understand key classroom management strategies",
+          "Develop proactive behavior management techniques",
+          "Create a positive classroom culture",
+          "Implement strategies for dealing with disruptive behavior"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Classroom Management",
+            "duration": 1
+          },
+          {
+            "title": "Positive Reinforcement Techniques",
+            "duration": 1.5
+          },
+          {
+            "title": "Managing Disruptive Behavior",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 3,
+        "title": "Effective Lesson Planning and Delivery",
+        "introduction": "This unit helps teachers create well-structured lesson plans that are engaging and meet diverse learning needs. It will cover differentiation, assessment, and reflective practice.",
+        "objectives": [
+          "Learn the principles of effective lesson planning",
+          "Understand how to differentiate lessons to meet all learners' needs",
+          "Implement assessment strategies in lessons",
+          "Reflect on and evaluate lesson effectiveness"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Lesson Planning",
+            "duration": 1
+          },
+          {
+            "title": "Differentiation in the Classroom",
+            "duration": 1.5
+          },
+          {
+            "title": "Assessment and Reflection",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 4,
+        "title": "Building Emotional Intelligence in Students",
+        "introduction": "This unit explores how teachers can support students in developing emotional intelligence, which is essential for personal growth and learning.",
+        "objectives": [
+          "Understand the components of emotional intelligence",
+          "Learn strategies to develop emotional intelligence in students",
+          "Recognize the impact of emotional intelligence on learning",
+          "Foster a classroom environment that supports emotional growth"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Emotional Intelligence",
+            "duration": 1
+          },
+          {
+            "title": "Strategies for Building Emotional Intelligence",
+            "duration": 1.5
+          },
+          {
+            "title": "Creating an Emotionally Supportive Classroom",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 5,
+        "title": "Inclusive Education and Differentiation",
+        "introduction": "Teachers will gain a deeper understanding of inclusive education practices, including how to support students with different learning needs and abilities.",
+        "objectives": [
+          "Understand the principles of inclusive education",
+          "Identify barriers to learning and how to overcome them",
+          "Learn how to differentiate instruction for diverse learners",
+          "Support students with special educational needs"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Inclusive Education",
+            "duration": 1
+          },
+          {
+            "title": "Identifying and Overcoming Barriers to Learning",
+            "duration": 1.5
+          },
+          {
+            "title": "Differentiating Instruction",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 6,
+        "title": "The Role of Technology in Education",
+        "introduction": "This unit introduces the role of technology in the classroom, focusing on tools that enhance learning and engagement.",
+        "objectives": [
+          "Understand the impact of technology on education",
+          "Learn how to integrate technology into lessons",
+          "Use digital tools to support student learning",
+          "Evaluate the effectiveness of technology in the classroom"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Educational Technology",
+            "duration": 1
+          },
+          {
+            "title": "Integrating Technology into Lessons",
+            "duration": 1.5
+          },
+          {
+            "title": "Evaluating Technology in Education",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 7,
+        "title": "Assessment for Learning",
+        "introduction": "Teachers will explore assessment strategies that help guide student progress, focusing on formative and summative assessments.",
+        "objectives": [
+          "Understand the different types of assessments",
+          "Learn how to use assessment data to inform teaching",
+          "Implement strategies for formative assessment",
+          "Evaluate the effectiveness of assessment methods"
+        ],
+        "modules": [
+          {
+            "title": "Types of Assessments",
+            "duration": 1
+          },
+          {
+            "title": "Using Assessment Data to Inform Teaching",
+            "duration": 1.5
+          },
+          {
+            "title": "Formative Assessment Strategies",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 8,
+        "title": "Cultural Awareness and Global Citizenship",
+        "introduction": "This unit focuses on building cultural awareness and preparing students to be global citizens, fostering understanding and respect for diversity.",
+        "objectives": [
+          "Understand the importance of cultural awareness in education",
+          "Promote respect for diversity in the classroom",
+          "Learn strategies to teach global citizenship",
+          "Encourage students to engage with global issues"
+        ],
+        "modules": [
+          {
+            "title": "Understanding Cultural Awareness",
+            "duration": 1
+          },
+          {
+            "title": "Promoting Respect for Diversity",
+            "duration": 1.5
+          },
+          {
+            "title": "Teaching Global Citizenship",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 9,
+        "title": "Developing Literacy and Numeracy Skills",
+        "introduction": "This unit explores methods for improving literacy and numeracy skills in primary school students, with a focus on practical strategies and interventions.",
+        "objectives": [
+          "Identify strategies to support literacy and numeracy development",
+          "Learn techniques for teaching reading and writing",
+          "Understand the role of numeracy in everyday life",
+          "Support struggling learners in literacy and numeracy"
+        ],
+        "modules": [
+          {
+            "title": "Strategies for Developing Literacy",
+            "duration": 1
+          },
+          {
+            "title": "Teaching Numeracy Skills",
+            "duration": 1.5
+          },
+          {
+            "title": "Supporting Struggling Learners",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 10,
+        "title": "Fostering Collaboration and Teamwork",
+        "introduction": "Teachers will learn how to encourage collaboration and teamwork among students, fostering cooperation and communication skills.",
+        "objectives": [
+          "Understand the importance of collaboration in education",
+          "Develop strategies to encourage teamwork in the classroom",
+          "Foster communication and problem-solving skills",
+          "Evaluate the outcomes of collaborative learning"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Collaboration",
+            "duration": 1
+          },
+          {
+            "title": "Encouraging Teamwork in the Classroom",
+            "duration": 1.5
+          },
+          {
+            "title": "Evaluating Collaborative Learning Outcomes",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 11,
+        "title": "Building Resilience and Mental Health Awareness",
+        "introduction": "This unit focuses on promoting resilience and mental health awareness in the classroom, supporting students to overcome challenges.",
+        "objectives": [
+          "Understand the factors influencing student resilience",
+          "Learn strategies to support mental health in the classroom",
+          "Recognize signs of mental health issues in students",
+          "Promote strategies to build emotional resilience"
+        ],
+        "modules": [
+          {
+            "title": "Understanding Resilience and Mental Health",
+            "duration": 1
+          },
+          {
+            "title": "Supporting Mental Health in the Classroom",
+            "duration": 1.5
+          },
+          {
+            "title": "Building Emotional Resilience",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 12,
+        "title": "Reflective Practice and Professional Growth",
+        "introduction": "Teachers will explore the importance of reflective practice for professional development, focusing on self-evaluation and continuous improvement.",
+        "objectives": [
+          "Understand the concept of reflective practice",
+          "Learn strategies for self-evaluation and improvement",
+          "Set personal goals for professional development",
+          "Develop a plan for ongoing growth as an educator"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Reflective Practice",
+            "duration": 1
+          },
+          {
+            "title": "Self-Evaluation and Goal Setting",
+            "duration": 1.5
+          },
+          {
+            "title": "Continuous Professional Growth",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "CPD Curriculum for Secondary Teachers",
+    "overview": {
+      "introduction": "Enhance your teaching practices and foster a dynamic classroom environment with our CPD curriculum for secondary teachers. This course is designed to boost student engagement and academic outcomes while providing practical strategies for addressing the unique challenges of adolescent education.",
+      "objectives": [
+        "Understand Adolescent Development: Gain insights into the physical, emotional, and cognitive development of adolescents to tailor your teaching approach effectively",
+        "Master Classroom Management: Learn strategies for maintaining a respectful and orderly classroom environment that encourages active learning",
+        "Enhance Lesson Planning: Develop structured and engaging lesson plans that cater to the diverse needs of secondary students",
+        "Build Emotional Intelligence: Improve your ability to recognize and respond to the emotional dynamics within your classroom",
+        "Foster Inclusive Education: Adopt practices that support a respectful and inclusive learning environment for all students"
+      ],
+      "duration": {
+        "totalHours": 25,
+        "numberOfUnits": 12,
+        "hoursPerModule": "1-1.5"
+      }
+    },
+    "structure": {
+      "format": "12 units with 3-4 modules each",
+      "resources": [
+        "Downloadable resources",
+        "Lesson plans",
+        "Case studies",
+        "Templates",
+        "Videos",
+        "Reading links"
+      ]
+    },
+    "certification": {
+      "type": "CPD Accredited Certificate",
+      "benefits": [
+        "Verifies structured professional development",
+        "Recognized by educational institutions and accrediting bodies",
+        "Share with employers or add to professional portfolio"
+      ]
+    },
+    "skillsAndCompetencies": [
+      "Lesson Planning",
+      "Classroom Management",
+      "Differentiation",
+      "Technology Integration in the Classroom",
+      "Fostering Emotional Intelligence",
+      "Supporting Diverse Learners"
+    ],
+    "accessibility": {
+      "platforms": ["Desktop", "Tablet", "Smartphone"],
+      "features": [
+        "Mobile-friendly design",
+        "Flexible scheduling",
+        "Progress tracking"
+      ]
+    },
+    "support": {
+      "features": [
+        "Discussion forums",
+        "Peer interaction",
+        "Chatbot support",
+        "Professional networking opportunities"
+      ]
+    },
+    "units": [
+      {
+        "number": 1,
+        "title": "Understanding Adolescent Development",
+        "introduction": "This unit focuses on the cognitive, emotional, and social development of adolescents, equipping teachers with insights into how students at different developmental stages learn and behave.",
+        "objectives": [
+          "Understand the stages of adolescent development",
+          "Identify key developmental milestones for adolescents",
+          "Apply developmental theory to teaching strategies",
+          "Recognize how development impacts classroom behavior and learning"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Adolescent Development",
+            "duration": 1
+          },
+          {
+            "title": "Cognitive, Emotional, and Social Milestones",
+            "duration": 1.5
+          },
+          {
+            "title": "Applying Developmental Theory in Teaching",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 2,
+        "title": "Classroom Management for Secondary Schools",
+        "introduction": "This unit explores strategies to create a productive, respectful, and safe learning environment, focusing on preventing and managing challenging behavior.",
+        "objectives": [
+          "Understand the principles of effective classroom management",
+          "Develop proactive strategies to prevent disruptive behavior",
+          "Foster a positive classroom culture",
+          "Handle difficult situations with effective behavior management techniques"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Classroom Management",
+            "duration": 1
+          },
+          {
+            "title": "Positive Reinforcement Techniques",
+            "duration": 1.5
+          },
+          {
+            "title": "Dealing with Disruptive Behavior",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 3,
+        "title": "Effective Lesson Planning and Differentiation",
+        "introduction": "This unit covers effective lesson planning strategies that cater to diverse learners and ensure engagement and participation from all students.",
+        "objectives": [
+          "Develop clear, measurable learning objectives",
+          "Differentiate lessons to meet diverse learning needs",
+          "Use various assessment methods to guide instruction",
+          "Implement reflective practices to evaluate and improve lessons"
+        ],
+        "modules": [
+          {
+            "title": "Planning Effective Lessons",
+            "duration": 1
+          },
+          {
+            "title": "Differentiating Instruction",
+            "duration": 1.5
+          },
+          {
+            "title": "Assessment and Reflection",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 4,
+        "title": "Fostering Emotional Intelligence in Students",
+        "introduction": "This unit explores how educators can foster emotional intelligence in their students, contributing to better academic performance and overall well-being.",
+        "objectives": [
+          "Understand the key components of emotional intelligence",
+          "Learn strategies to nurture emotional intelligence in students",
+          "Recognize the link between emotional intelligence and academic success",
+          "Create an emotionally supportive classroom environment"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Emotional Intelligence",
+            "duration": 1
+          },
+          {
+            "title": "Strategies for Developing Emotional Intelligence",
+            "duration": 1.5
+          },
+          {
+            "title": "Creating an Emotionally Supportive Classroom",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 5,
+        "title": "Promoting Inclusivity and Diversity in the Classroom",
+        "introduction": "This unit equips teachers with the knowledge and tools to create inclusive classrooms that value diversity and support all students, including those with learning disabilities.",
+        "objectives": [
+          "Understand the principles of inclusive education",
+          "Identify and address barriers to learning for diverse students",
+          "Implement differentiated instruction to support inclusivity",
+          "Promote respect for diversity in the classroom"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Inclusive Education",
+            "duration": 1
+          },
+          {
+            "title": "Identifying Barriers and Supporting Diverse Learners",
+            "duration": 1.5
+          },
+          {
+            "title": "Differentiating for Inclusivity",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 6,
+        "title": "The Role of Technology in Teaching and Learning",
+        "introduction": "This unit focuses on the effective integration of technology in the classroom to enhance learning experiences and student engagement.",
+        "objectives": [
+          "Understand the role of technology in modern education",
+          "Integrate technology tools effectively into lessons",
+          "Use digital resources to support student learning",
+          "Evaluate the effectiveness of technology in achieving learning outcomes"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Educational Technology",
+            "duration": 1
+          },
+          {
+            "title": "Integrating Technology into Lessons",
+            "duration": 1.5
+          },
+          {
+            "title": "Evaluating Technology's Impact on Learning",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 7,
+        "title": "Assessment for Learning and Feedback",
+        "introduction": "This unit explores formative and summative assessment methods to support student progress and improve learning outcomes through effective feedback.",
+        "objectives": [
+          "Understand different types of assessments",
+          "Use formative assessments to monitor and guide student progress",
+          "Provide constructive feedback to students",
+          "Evaluate the impact of assessment on student learning"
+        ],
+        "modules": [
+          {
+            "title": "Types of Assessment",
+            "duration": 1
+          },
+          {
+            "title": "Using Formative Assessment",
+            "duration": 1.5
+          },
+          {
+            "title": "Effective Feedback Techniques",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 8,
+        "title": "Cultural Awareness and Global Citizenship",
+        "introduction": "This unit fosters cultural awareness and global citizenship by exploring how teachers can prepare students to engage with a diverse, interconnected world.",
+        "objectives": [
+          "Understand the importance of cultural awareness in education",
+          "Encourage respect and appreciation for cultural diversity",
+          "Promote global citizenship among students",
+          "Integrate global issues into the curriculum"
+        ],
+        "modules": [
+          {
+            "title": "Understanding Cultural Awareness",
+            "duration": 1
+          },
+          {
+            "title": "Promoting Respect for Diversity",
+            "duration": 1.5
+          },
+          {
+            "title": "Teaching Global Citizenship",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 9,
+        "title": "Improving Literacy and Numeracy in Secondary Education",
+        "introduction": "This unit focuses on strategies for improving literacy and numeracy skills, essential for secondary school students to succeed academically and beyond.",
+        "objectives": [
+          "Identify strategies to improve literacy and numeracy",
+          "Develop teaching techniques for reading and writing skills",
+          "Implement numeracy interventions in various subjects",
+          "Support students struggling with literacy and numeracy"
+        ],
+        "modules": [
+          {
+            "title": "Improving Literacy Skills",
+            "duration": 1
+          },
+          {
+            "title": "Strategies for Teaching Numeracy",
+            "duration": 1.5
+          },
+          {
+            "title": "Supporting Struggling Students",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 10,
+        "title": "Encouraging Collaboration and Teamwork",
+        "introduction": "This unit focuses on the importance of fostering collaboration among students to develop teamwork, communication, and problem-solving skills.",
+        "objectives": [
+          "Understand the benefits of collaboration in education",
+          "Develop strategies to encourage teamwork in the classroom",
+          "Foster communication skills among students",
+          "Evaluate the outcomes of collaborative activities"
+        ],
+        "modules": [
+          {
+            "title": "Understanding Collaboration in Education",
+            "duration": 1
+          },
+          {
+            "title": "Encouraging Teamwork in the Classroom",
+            "duration": 1.5
+          },
+          {
+            "title": "Evaluating Collaborative Learning",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 11,
+        "title": "Mental Health and Wellbeing in the Classroom",
+        "introduction": "This unit provides teachers with the knowledge and tools to support students' mental health, helping them cope with stress, anxiety, and other challenges.",
+        "objectives": [
+          "Understand the factors affecting student mental health",
+          "Recognize signs of mental health issues in students",
+          "Provide mental health support in the classroom",
+          "Promote resilience and emotional wellbeing"
+        ],
+        "modules": [
+          {
+            "title": "Understanding Mental Health Issues",
+            "duration": 1
+          },
+          {
+            "title": "Supporting Mental Health in Students",
+            "duration": 1.5
+          },
+          {
+            "title": "Building Resilience in Students",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 12,
+        "title": "Reflective Practice for Continuous Professional Development",
+        "introduction": "This unit focuses on the importance of reflective practice in teacher development, helping educators set personal goals and continuously improve their teaching methods.",
+        "objectives": [
+          "Understand the concept of reflective practice",
+          "Develop self-evaluation strategies for professional growth",
+          "Set actionable goals for continuous improvement",
+          "Implement ongoing strategies for personal and professional development"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Reflective Practice",
+            "duration": 1
+          },
+          {
+            "title": "Self-Evaluation and Goal Setting",
+            "duration": 1.5
+          },
+          {
+            "title": "Planning for Professional Growth",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Higher Education CPD Program",
+    "overview": {
+      "introduction": "Enhance your teaching practices and foster professional growth through a comprehensive CPD program tailored for higher education educators. This curriculum equips teachers with innovative strategies and modern tools to transform classroom dynamics and improve student engagement and outcomes.",
+      "objectives": [
+        "Explore Contemporary Practices: Delve into effective pedagogy, technology integration, and reflective practices that are reshaping education today",
+        "Master Assessment Strategies: Learn advanced techniques in assessment and feedback to better gauge and enhance student learning",
+        "Promote Inclusive Teaching: Understand and implement inclusive teaching strategies that cater to the diverse needs of all learners",
+        "Develop Employability Skills: Enhance your ability to foster skills that improve both student employability and overall classroom engagement",
+        "Integrate Technology: Acquire practical methods for incorporating technology seamlessly into your teaching, enhancing learning experiences"
+      ],
+
+      "duration": {
+        "totalHours": 25,
+        "numberOfUnits": 12,
+        "hoursPerModule": "1-1.5"
+      }
+    },
+    "structure": {
+      "format": "Spread across 12 comprehensive units, designed for flexible completion at own pace",
+      "totalUnits": 12,
+      "modulesPerUnit": 3,
+      "totalModules": 36,
+      "components": [
+        "lessons",
+        "interactive activities",
+        "practical applications"
+      ],
+      "resources": [
+        "downloadable reading materials",
+        "video lectures",
+        "additional reading links",
+        "tests and quizzes"
+      ]
+    },
+    "certification": {
+      "type": "CPD Accredited Certificate of Completion",
+      "benefits": [
+        "Acknowledged by educational authorities",
+        "CPD credits for career progression",
+        "Sharable on social media",
+        "Valuable for performance reviews"
+      ]
+    },
+    "skillsAndCompetencies": [
+      "Effective Communication",
+      "Leadership",
+      "Curriculum Design",
+      "Assessment Techniques",
+      "Inclusive Teaching Practice"
+    ],
+    "accessibility": {
+      "platforms": ["Desktop", "Tablet", "Smartphone"],
+      "features": [
+        "Dedicated mobile app",
+        "Self-paced learning",
+        "Flexible access"
+      ]
+    },
+    "support": {
+      "features": [
+        "Discussion forum",
+        "Chatbot support",
+        "Peer learning opportunities"
+      ]
+    },
+    "units": [
+      {
+        "number": 1,
+        "title": "Effective Pedagogy in Higher Education",
+        "introduction": "This unit focuses on the principles and practices of effective teaching in higher education, exploring evidence-based strategies for engaging students and promoting active learning.",
+        "objectives": [
+          "Understand the principles of effective pedagogy in higher education",
+          "Apply active learning strategies in classroom settings",
+          "Develop inclusive teaching practices that cater to diverse learners",
+          "Evaluate the effectiveness of different teaching methods"
+        ],
+        "modules": [
+          {
+            "title": "Foundations of Effective Pedagogy",
+            "duration": 1
+          },
+          {
+            "title": "Active Learning Strategies",
+            "duration": 1.5
+          },
+          {
+            "title": "Teaching for Diversity and Inclusion",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 2,
+        "title": "Assessment and Feedback in Higher Education",
+        "introduction": "This unit covers various assessment methods, how to provide constructive feedback, and how to use assessment results to improve student learning.",
+        "objectives": [
+          "Understand the different types of assessments used in higher education",
+          "Design effective formative and summative assessments",
+          "Provide actionable feedback that promotes student growth",
+          "Use assessment data to improve teaching and learning"
+        ],
+        "modules": [
+          {
+            "title": "Types of Assessment",
+            "duration": 1
+          },
+          {
+            "title": "Effective Feedback Strategies",
+            "duration": 1.5
+          },
+          {
+            "title": "Using Assessment for Continuous Improvement",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      },
+      {
+        "number": 3,
+        "title": "Technology Integration in Higher Education",
+        "introduction": "This unit focuses on integrating technology into teaching and learning processes to enhance student engagement and facilitate interactive learning experiences.",
+        "objectives": [
+          "Understand the role of technology in modern higher education",
+          "Integrate digital tools and platforms into teaching strategies",
+          "Develop and deliver technology-enhanced learning experiences",
+          "Evaluate the effectiveness of technology use in the classroom"
+        ],
+        "modules": [
+          {
+            "title": "The Role of Technology in Education",
+            "duration": 1
+          },
+          {
+            "title": "Digital Tools for Active Learning",
+            "duration": 1.5
+          },
+          {
+            "title": "Evaluating the Impact of Educational Technology",
+            "duration": 1.5
+          }
+        ],
+        "totalDuration": 4
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "name": "Mentoring Professional Development CPD Program",
+    "overview": {
+      "introduction": "Empower your mentoring role and elevate the professional development of your mentees with our specialized CPD curriculum for mentors. This course provides a comprehensive exploration of essential mentoring skills and practical strategies to create a supportive and inclusive mentoring environment.",
+      "objectives": [
+        "Enhance Communication Skills: Learn effective communication techniques to build strong, open relationships with mentees",
+        "Build Trust: Understand the foundations of trust-building to foster a safe and supportive mentoring atmosphere",
+        "Set Clear Goals: Master the art of goal setting to guide mentees toward personal, academic, and professional success",
+        "Develop Conflict Resolution Strategies: Acquire practical methods to address and resolve conflicts that may arise during the mentoring process",
+        "Focus on Personal Development: Embrace strategies for continuous self-improvement and support the growth of your mentees"
+      ],
+      "duration": {
+        "totalHours": 20,
+        "numberOfUnits": 10,
+        "hoursPerUnit": "3.5-4"
+      }
+    },
+    "structure": {
+      "format": "Spread across 10 engaging units, designed for self-paced progression",
+      "resources": [
+        "downloadable reading materials",
+        "templates",
+        "worksheets",
+        "videos",
+        "reading links",
+        "in-module tests"
+      ]
+    },
+    "certification": {
+      "type": "CPD Accredited Certificate of Completion",
+      "benefits": [
+        "Recognizes achievement in mentoring professional development",
+        "Add credential to portfolio, resume, or LinkedIn profile",
+        "Share success on social media and in performance reviews"
+      ]
+    },
+    "skillsAndCompetencies": [
+      "Effective Communication",
+      "Active Listening",
+      "Conflict Resolution",
+      "Goal Setting",
+      "Constructive Feedback",
+      "Supporting Diverse Learners",
+      "Promoting Personal Development",
+      "Managing Mentoring Challenge"
+    ],
+    "accessibility": {
+      "platforms": ["Desktop", "Tablet", "Smartphone"],
+      "features": ["mobile app", "self-paced learning", "anytime access"]
+    },
+    "support": {
+      "features": [
+        "discussion forums",
+        "chatbot assistance",
+        "peer interaction"
+      ],
+      "benefits": [
+        "share insights",
+        "ask questions",
+        "interact with participants",
+        "expert advice"
+      ]
+    },
+    "units": [
+      {
+        "number": 1,
+        "title": "Understanding Mentorship: Roles and Responsibilities",
+        "introduction": "This unit will define the concept of mentorship in the context of education and professional development. It will explore the key roles and responsibilities of a mentor, helping mentors understand their role in supporting personal and professional growth. The unit will guide mentors in cultivating a supportive, safe environment that promotes self-efficacy in mentees. It will also address challenges mentors face and strategies for overcoming them.",
+        "objectives": [
+          "Understand the core principles of mentorship",
+          "Recognize the responsibilities of mentors in supporting mentees",
+          "Explore the importance of a mentoring relationship in education",
+          "Identify challenges in mentorship and ways to address them"
+        ],
+        "modules": [
+          {
+            "title": "Defining Mentorship",
+            "duration": 0.5
+          },
+          {
+            "title": "Responsibilities and Ethical Considerations",
+            "duration": 0.67
+          },
+          {
+            "title": "Building Trust and Communication",
+            "duration": 0.5
+          },
+          {
+            "title": "Mentoring Challenges and Solutions",
+            "duration": 0.5
+          }
+        ],
+        "totalDuration": 2.17
+      },
+      {
+        "number": 2,
+        "title": "Effective Communication in Mentoring",
+        "introduction": "Communication is key in mentorship. This unit focuses on improving verbal and non-verbal communication skills, emphasizing active listening and empathy. The unit will help mentors understand the importance of clear, open communication to build strong relationships with mentees, create a safe environment for dialogue, and effectively support their development.",
+        "objectives": [
+          "Develop effective verbal and non-verbal communication skills",
+          "Practice active listening techniques",
+          "Cultivate empathy and emotional intelligence",
+          "Use feedback to improve communication"
+        ],
+        "modules": [
+          {
+            "title": "Verbal and Non-Verbal Communication",
+            "duration": 0.67
+          },
+          {
+            "title": "Active Listening and Empathy",
+            "duration": 0.67
+          },
+          {
+            "title": "Effective Feedback in Mentoring",
+            "duration": 0.5
+          },
+          {
+            "title": "Practical Communication Exercises",
+            "duration": 0.5
+          }
+        ],
+        "totalDuration": 2.34
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "name": "Teaching Assistant CPD Program",
+    "overview": {
+      "introduction": "Advance your role as a Teaching Assistant with our CPD curriculum, designed to equip you with the essential knowledge and skills for success in modern educational settings. This program combines practical and theoretical learning to prepare you for the diverse challenges of classroom support.",
+      "objectives": [
+        "Strengthen Communication Skills: Develop effective communication techniques to collaborate with teachers and support students",
+        "Master Behavior Management: Learn strategies for managing classroom behavior and fostering a positive learning environment",
+        "Enhance Safeguarding Practices: Understand and implement best practices to ensure the safety and well-being of all students",
+        "Support Diverse Learners: Gain insights and methods to effectively assist students with varied learning needs and backgrounds"
+      ],
+      "duration": {
+        "totalHours": 20,
+        "numberOfUnits": 12,
+        "hoursPerUnit": "2-3"
+      }
+    },
+
+    "structure": {
+      "format": "Sequential lessons with progress tracking",
+      "resources": [
+        "downloadable handouts",
+        "instructional videos",
+        "case studies",
+        "curated reading lists"
+      ]
+    },
+    "certification": {
+      "type": "CPD Accredited Certificate of Completion",
+      "benefits": [
+        "Acknowledged by educational authorities",
+        "CPD credits for career progression",
+        "Sharable on social media",
+        "Valuable for performance reviews"
+      ]
+    },
+    "skillsAndCompetencies": [
+      "Supporting Students with Special Educational Needs (SEN)",
+      "Mastering Classroom Technologies",
+      "Managing Behavior",
+      "Delivering High-Quality Support"
+    ],
+    "accessibility": {
+      "platforms": ["Desktop", "Tablet", "Smartphone"],
+      "features": ["self-paced learning", "anytime access", "inclusive design"]
+    },
+    "support": {
+      "features": [
+        "discussion forums",
+        "chatbot assistance",
+        "real-time guidance"
+      ]
+    },
+    "units": [
+      {
+        "number": 1,
+        "title": "Understanding the Role of a Teaching Assistant",
+        "introduction": "This unit explores the multifaceted role of a teaching assistant (TA) in the classroom, providing an understanding of how TAs contribute to student success. It covers key responsibilities, such as supporting learning, assisting teachers with lesson delivery, and promoting a positive classroom environment. The unit also highlights the importance of teamwork and professional boundaries.",
+        "objectives": [
+          "Understand the key roles and responsibilities of a teaching assistant",
+          "Explore the impact of TAs on student learning and development",
+          "Learn to balance support for students and collaboration with teachers",
+          "Identify professional boundaries and ethical considerations"
+        ],
+        "modules": [
+          {
+            "title": "Roles and Responsibilities of TAs",
+            "duration": 0.5
+          },
+          {
+            "title": "Collaboration with Teachers",
+            "duration": 0.5
+          },
+          {
+            "title": "Supporting Student Development",
+            "duration": 0.67
+          },
+          {
+            "title": "Professional Boundaries and Ethics",
+            "duration": 0.67
+          }
+        ],
+        "totalDuration": 2.34
+      },
+      {
+        "number": 2,
+        "title": "Effective Classroom Support Techniques",
+        "introduction": "This unit equips TAs with practical strategies for supporting teachers and students during lessons. From preparing materials to assisting in group activities, TAs will learn how to enhance the learning experience. Emphasis is placed on active observation, providing immediate support, and encouraging student independence.",
+        "objectives": [
+          "Learn effective classroom observation and intervention techniques",
+          "Assist in lesson preparation and delivery",
+          "Facilitate group work and individual student support",
+          "Encourage student engagement and independence"
+        ],
+        "modules": [
+          {
+            "title": "Observing and Supporting Lessons",
+            "duration": 0.5
+          },
+          {
+            "title": "Lesson Preparation Techniques",
+            "duration": 0.67
+          },
+          {
+            "title": "Facilitating Group Activities",
+            "duration": 0.5
+          },
+          {
+            "title": "Encouraging Student Independence",
+            "duration": 0.67
+          }
+        ],
+        "totalDuration": 2.34
+      },
+      {
+        "number": 3,
+        "title": "Promoting Inclusive Education",
+        "introduction": "Inclusive education ensures all students, regardless of ability or background, have equal opportunities to learn. This unit focuses on the TA's role in fostering inclusivity, addressing barriers to learning, and promoting equity. Strategies for supporting diverse learners are also covered.",
+        "objectives": [
+          "Understand the principles of inclusive education",
+          "Identify barriers to learning and strategies to overcome them",
+          "Support the needs of diverse learners",
+          "Promote equity and inclusion in the classroom"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Inclusive Education",
+            "duration": 0.67
+          },
+          {
+            "title": "Identifying and Overcoming Barriers",
+            "duration": 0.67
+          },
+          {
+            "title": "Supporting Diverse Learners",
+            "duration": 0.5
+          },
+          {
+            "title": "Promoting Equity and Inclusion",
+            "duration": 0.5
+          }
+        ],
+        "totalDuration": 2.34
+      },
+      {
+        "number": 4,
+        "title": "Supporting Literacy Development",
+        "introduction": "This unit provides TAs with the tools and techniques to support literacy development. It covers strategies for helping students improve their reading, writing, and communication skills, with an emphasis on early intervention and differentiated instruction to cater to varying literacy levels.",
+        "objectives": [
+          "Support reading and comprehension development",
+          "Assist with writing skills and language usage",
+          "Implement differentiated literacy strategies",
+          "Promote a love of reading and communication"
+        ],
+        "modules": [
+          {
+            "title": "Supporting Reading Skills",
+            "duration": 0.5
+          },
+          {
+            "title": "Enhancing Writing and Communication",
+            "duration": 0.67
+          },
+          {
+            "title": "Differentiated Literacy Instruction",
+            "duration": 0.5
+          },
+          {
+            "title": "Promoting a Love for Literacy",
+            "duration": 0.67
+          }
+        ],
+        "totalDuration": 2.34
+      },
+      {
+        "number": 5,
+        "title": "Enhancing Numeracy Skills",
+        "introduction": "This unit focuses on empowering TAs to support students in developing numeracy skills, from foundational concepts to more advanced problem-solving techniques. TAs will learn strategies for teaching number sense, fostering confidence in mathematics, and addressing math anxiety in students.",
+        "objectives": [
+          "Support foundational numeracy skills",
+          "Assist with problem-solving techniques in mathematics",
+          "Address and reduce math anxiety in students",
+          "Use tools and resources to enhance numeracy learning"
+        ],
+        "modules": [
+          {
+            "title": "Developing Number Sense",
+            "duration": 0.67
+          },
+          {
+            "title": "Supporting Problem-Solving Skills",
+            "duration": 0.5
+          },
+          {
+            "title": "Addressing Math Anxiety",
+            "duration": 0.67
+          },
+          {
+            "title": "Using Resources for Numeracy Support",
+            "duration": 0.5
+          }
+        ],
+        "totalDuration": 2.34
+      },
+      {
+        "number": 6,
+        "title": "Behavior Management Strategies for Teaching Assistants",
+        "introduction": "This unit equips TAs with practical strategies for promoting positive behavior and managing disruptions in the classroom. It covers understanding student behavior, de-escalation techniques, and reinforcing positive actions to create a supportive learning environment.",
+        "objectives": [
+          "Understand the principles of behavior management",
+          "Learn effective de-escalation techniques",
+          "Support positive behavior reinforcement",
+          "Collaborate with teachers on behavior strategies"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Behavior Management",
+            "duration": 0.67
+          },
+          {
+            "title": "De-escalation Techniques",
+            "duration": 0.5
+          },
+          {
+            "title": "Reinforcing Positive Behavior",
+            "duration": 0.67
+          },
+          {
+            "title": "Collaborative Behavior Strategies",
+            "duration": 0.5
+          }
+        ],
+        "totalDuration": 2.34
+      },
+      {
+        "number": 7,
+        "title": "Safeguarding and Child Protection",
+        "introduction": "Safeguarding children is a critical responsibility for TAs. This unit provides essential knowledge about identifying and reporting safeguarding concerns, understanding child protection policies, and maintaining a safe environment for all students.",
+        "objectives": [
+          "Understand safeguarding principles and responsibilities",
+          "Recognize signs of abuse and neglect",
+          "Learn reporting procedures for safeguarding concerns",
+          "Maintain a safe and supportive classroom environment"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Safeguarding",
+            "duration": 0.67
+          },
+          {
+            "title": "Recognizing Signs of Abuse",
+            "duration": 0.67
+          },
+          {
+            "title": "Reporting Procedures",
+            "duration": 0.5
+          },
+          {
+            "title": "Promoting a Safe Classroom Environment",
+            "duration": 0.5
+          }
+        ],
+        "totalDuration": 2.34
+      },
+      {
+        "number": 8,
+        "title": "Working with Students with Special Educational Needs (SEN)",
+        "introduction": "This unit focuses on supporting students with SEN. TAs will learn how to adapt teaching strategies, provide individualized support, and collaborate with teachers and specialists to meet the unique needs of these learners.",
+        "objectives": [
+          "Understand the needs of students with SEN",
+          "Learn strategies for differentiated instruction",
+          "Provide individualized support for SEN learners",
+          "Collaborate with teachers and SEN specialists"
+        ],
+        "modules": [
+          {
+            "title": "Understanding SEN",
+            "duration": 0.67
+          },
+          {
+            "title": "Differentiated Instruction Strategies",
+            "duration": 0.67
+          },
+          {
+            "title": "Individualized Support Techniques",
+            "duration": 0.5
+          },
+          {
+            "title": "Collaboration for SEN Success",
+            "duration": 0.5
+          }
+        ],
+        "totalDuration": 2.34
+      },
+      {
+        "number": 9,
+        "title": "Effective Communication with Students and Staff",
+        "introduction": "Strong communication skills are essential for TAs. This unit teaches verbal and non-verbal communication techniques, active listening, and collaboration with teachers and other staff to foster a positive and productive school environment.",
+        "objectives": [
+          "Develop effective communication techniques",
+          "Practice active listening skills",
+          "Enhance collaboration with staff and teachers",
+          "Build rapport with students"
+        ],
+        "modules": [
+          {
+            "title": "Communication Basics for TAs",
+            "duration": 0.5
+          },
+          {
+            "title": "Active Listening in Action",
+            "duration": 0.67
+          },
+          {
+            "title": "Staff Collaboration Skills",
+            "duration": 0.5
+          },
+          {
+            "title": "Building Student Rapport",
+            "duration": 0.67
+          }
+        ],
+        "totalDuration": 2.34
+      },
+      {
+        "number": 10,
+        "title": "Fostering Positive Relationships with Parents and Guardians",
+        "introduction": "This unit highlights the importance of engaging parents and guardians in the learning process. TAs will learn strategies for effective communication, conflict resolution, and fostering trust to create a collaborative approach to student success.",
+        "objectives": [
+          "Communicate effectively with parents and guardians",
+          "Resolve conflicts constructively",
+          "Build trust and rapport with families",
+          "Support parental involvement in learning"
+        ],
+        "modules": [
+          {
+            "title": "Engaging Parents in Education",
+            "duration": 0.67
+          },
+          {
+            "title": "Effective Parent-Guardian Communication",
+            "duration": 0.5
+          },
+          {
+            "title": "Conflict Resolution Techniques",
+            "duration": 0.67
+          },
+          {
+            "title": "Building Trust and Collaboration",
+            "duration": 0.5
+          }
+        ],
+        "totalDuration": 2.34
+      },
+      {
+        "number": 11,
+        "title": "Using Technology to Support Learning",
+        "introduction": "This unit provides TAs with the knowledge and tools to integrate technology effectively into the learning environment. It includes using educational apps, assisting with virtual learning, and ensuring digital literacy among students.",
+        "objectives": [
+          "Understand the role of technology in education",
+          "Assist with the use of educational tools and apps",
+          "Support virtual and hybrid learning environments",
+          "Promote digital literacy and safety"
+        ],
+        "modules": [
+          {
+            "title": "Technology in Education",
+            "duration": 0.5
+          },
+          {
+            "title": "Tools and Apps for Learning",
+            "duration": 0.67
+          },
+          {
+            "title": "Supporting Virtual Learning",
+            "duration": 0.67
+          },
+          {
+            "title": "Digital Literacy and Safety",
+            "duration": 0.5
+          }
+        ],
+        "totalDuration": 2.34
+      },
+      {
+        "number": 12,
+        "title": "Developing Professionalism as a Teaching Assistant",
+        "introduction": "Professionalism is key to the success of TAs in their role. This unit focuses on developing skills such as time management, self-reflection, and continuous professional development to enhance their impact in the classroom.",
+        "objectives": [
+          "Understand the importance of professionalism in the TA role",
+          "Develop time management and organizational skills",
+          "Engage in self-reflection for growth",
+          "Commit to ongoing professional development"
+        ],
+        "modules": [
+          {
+            "title": "Understanding Professionalism",
+            "duration": 0.5
+          },
+          {
+            "title": "Time Management and Organization",
+            "duration": 0.67
+          },
+          {
+            "title": "Reflective Practices for TAs",
+            "duration": 0.5
+          },
+          {
+            "title": "Continuous Professional Development",
+            "duration": 0.67
+          }
+        ],
+        "totalDuration": 2.34
+      }
+    ]
+  }
+]

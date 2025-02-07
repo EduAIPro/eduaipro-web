@@ -21,7 +21,7 @@ export default function Navbar() {
       <Flex
         justify="between"
         align="center"
-        className="px-4 lg:px-[48px] xl:px-0 xl:max-w-[1350px] xl:mx-auto py-3 md:py-6"
+        className="max-sm:px-4 max-md:px-6 max-lg:px-[56px] xl:px-0 xl:max-w-[1350px] xl:mx-auto py-3 md:py-6"
       >
         <div>
           <Image

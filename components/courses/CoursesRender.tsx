@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { generateKey } from "@/utils/key";
 import Typography from "../common/ui/Typography";
-import courses from "./data.json";
+import courses from "../common/data/courses.json";
 import { ArrowRight, MedalStar, Profile2User, Video } from "iconsax-react";
 import { Button } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
@@ -49,8 +49,8 @@ export default function CoursesRender() {
             </Typography.H2>
             <div className="mt-4">
               <Typography.P fontColor="light" weight="medium">
-                <strong className="text-grey-6">Topics taught:</strong>{" "}
-                {course.topics
+                <strong className="text-grey-6">Skills taught:</strong>{" "}
+                {course.skillsAndCompetencies
                   .map(
                     (value) => value.charAt(0).toUpperCase() + value.slice(1)
                   )
@@ -68,7 +68,7 @@ export default function CoursesRender() {
                   />
                 </div>
                 <Typography.P fontColor="white" size="small">
-                  {course.courseLength}
+                  {course.overview.duration.totalHours} hours
                 </Typography.P>
               </div>
               <div className="flex items-center gap-x-1">
@@ -78,7 +78,7 @@ export default function CoursesRender() {
                   height={10}
                 />
                 <Typography.P fontColor="white" size="small">
-                  {course.students}
+                  400
                 </Typography.P>
               </div>
             </div>
