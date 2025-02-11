@@ -35,6 +35,7 @@ import { GrCertificate } from "react-icons/gr";
 import { HiOutlineDesktopComputer } from "react-icons/hi";
 import { HiOutlineComputerDesktop } from "react-icons/hi2";
 import {
+  LiaCertificateSolid,
   LiaChalkboardTeacherSolid,
   LiaHandHoldingHeartSolid,
 } from "react-icons/lia";
@@ -43,7 +44,11 @@ import {
   LuClipboardList,
   LuClock2,
 } from "react-icons/lu";
-import { MdOutlineUpdate } from "react-icons/md";
+import {
+  MdOutlineForum,
+  MdOutlineUpdate,
+  MdSupportAgent,
+} from "react-icons/md";
 import {
   PiCertificate,
   PiClipboardText,
@@ -51,7 +56,7 @@ import {
   PiStudent,
 } from "react-icons/pi";
 import { SlBookOpen } from "react-icons/sl";
-import { TbStars } from "react-icons/tb";
+import { TbMessageChatbot, TbStars } from "react-icons/tb";
 
 export const appIcons = [
   {
@@ -414,12 +419,6 @@ export const teacherBenefits = [
     icon: ShieldTick,
   },
   {
-    title: "Interactive Learning Features",
-    description:
-      "Real-time feedback, discussion boards, and peer interaction to enhance the learning experience.",
-    icon: DeviceMessage,
-  },
-  {
     title: "Progress Dashboards",
     description:
       "Visual tools to monitor milestones and receive notifications for tasks and certification deadlines.",
@@ -448,6 +447,24 @@ export const teacherBenefits = [
     description:
       "Accredited programs that elevate professional standing locally and internationally.",
     icon: PiGlobeLight,
+  },
+  {
+    title: "Forum",
+    description:
+      "Forum connects educators, fostering collaboration, sharing best practices, and advancing innovative teaching strategies for impactful professional growth.",
+    icon: MdOutlineForum,
+  },
+  {
+    title: "Chatbot",
+    description:
+      "Provides instant teaching support, lesson ideas, and AI-driven insights to enhance classroom engagement and professional development.",
+    icon: TbMessageChatbot,
+  },
+  {
+    title: "Support",
+    description:
+      "Dedicated technical support, ensuring seamless integration, troubleshooting, and guidance to help educators maximize AI-powered teaching tools.",
+    icon: MdSupportAgent,
   },
 ];
 
@@ -577,6 +594,30 @@ export const institutionBenefits = [
     description:
       "Access the latest global trends and practices to maintain competitiveness in the education sector.",
     icon: Star1,
+  },
+  {
+    title: "Quality Mark Plaque",
+    description:
+      "Quality Mark plaque recognizes schools as Centers of Excellence, showcasing commitment to innovation, professional development, and student success.",
+    icon: LiaCertificateSolid,
+  },
+  {
+    title: "Forum",
+    description:
+      "Forum helps institutions share best practices, collaborate on innovations, resolve challenges, and stay updated on AI-driven education trends.",
+    icon: MdOutlineForum,
+  },
+  {
+    title: "Chatbot",
+    description:
+      "Streamlines administrative tasks, supports teacher training, and enhances school operations with AI-powered solutions for efficiency and excellence.",
+    icon: TbMessageChatbot,
+  },
+  {
+    title: "Support",
+    description:
+      "Comprehensive technical support for institutions, assisting with AI implementation, system maintenance, and optimizing digital education solutions.",
+    icon: MdSupportAgent,
   },
 ];
 

@@ -308,7 +308,7 @@ export default async function CoursePage({
                   Course content - {courseInfo?.overview.duration.numberOfUnits}{" "}
                   unit series
                 </Typography.H3>
-                <ExpandableText text={courseInfo?.overview.introduction!} />
+                <ExpandableText text={courseInfo?.description!} />
               </div>
               <div>
                 {courseInfo?.units.map((unit) => (

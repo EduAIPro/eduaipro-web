@@ -95,53 +95,6 @@ export default function UserTypes() {
   );
 }
 
-function EducatorsComponent() {
-  return (
-    <div className="py-6">
-      <div className="grid grid-cols-3 max-lg:flex-col items-center gap-4">
-        {/* <div className="w-full max-lg:hidden">
-          <Image
-            width={600}
-            height={500}
-            alt=""
-            className="rounded-xl"
-            src="/assets/images/wo.jpg"
-          />
-        </div> */}
-        <div className="w-full">
-          <div className="mb-5 flex flex-col gap-y-2 max-w-[65%]">
-            <Typography.H2 size="basePro" weight="medium">
-              Empower Your Teaching with AI-Powered Learning and Professional
-              Development
-            </Typography.H2>
-            <Typography.P fontColor="medium">
-              As an educator, access a wide variety of courses designed to
-              enhance your skills, earn certifications, and track your progress
-              in real time.
-            </Typography.P>
-          </div>
-          <div></div>
-          {/* <TeachersBenefits /> */}
-          {/* <ul className="list-disc grid xs:grid-cols-2 gap-4">
-            {educatorBenefits.map((benefit) => (
-              <li key={generateKey()} className="flex gap-x-2 items-center">
-                <div>
-                  <benefit.icon className="w-5 h-5 xs:w-6 xs:h-6 text-brand-1001" />
-                </div>
-                <div className="max-w-[70%]">
-                  <Typography.H3 fontColor="large" size="small" weight="medium">
-                    {benefit.title}
-                  </Typography.H3>
-                </div>
-              </li>
-            ))}
-          </ul> */}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function OtherTypeComponent({
   title,
   // description,
@@ -154,58 +107,31 @@ function OtherTypeComponent({
   data: { title: string; description: string; icon: IconType | Icon }[];
 }) {
   return (
-    <div className="py-6">
-      <div className="grid lg:grid-cols-3 items-center gap-6">
-        <div
-          className={`w-full max-lg:hidden min-h-[70vh] rounded-xl bg-cover ${
-            type === UserTypeTabSwitch.teachers
-              ? "bg-courses-hero bg-right"
-              : "bg-institution-benefits bg-left"
-          }`}
-        >
-          {/* <Image
-            width={600}
-            height={500}
-            alt=""
-            className="rounded-xl"
-            src={
-              type === UserTypeTabSwitch.teachers
-                ? "/assets/images/wo.jpg"
-                : type === UserTypeTabSwitch.mentors
-                ? "/assets/images/mentor1.jpg"
-                : "/assets/images/school.jpg"
-            }
-          /> */}
-        </div>
-        <div className="w-full lg:col-span-2">
-          <div className="mb-10 flex flex-col gap-y-2">
-            <Typography.H2 size="xl" weight="medium">
-              {title}
-            </Typography.H2>
-            {/* <Typography.P fontColor="medium">{description}</Typography.P> */}
-          </div>
-          <ul className="list-disc grid md:grid-cols-2 gap-x-4 gap-y-8">
-            {data.map((benefit) => (
-              <li key={generateKey()} className="flex items-start gap-2">
-                <div className="bg-accent-100 rounded-full p-2 w-fit">
-                  <benefit.icon className="w-5 h-5 text-brand-1001" />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <Typography.H3
-                    fontColor="large"
-                    size="base"
-                    weight="semibold"
-                  >
-                    {benefit.title}
-                  </Typography.H3>
-                  <Typography.P size="small" fontColor="medium">
-                    {benefit.description}
-                  </Typography.P>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div className="py-6 max-md:mt-6">
+      <div className="w-full">
+        {/* <div className="mb-10 flex flex-col gap-y-2">
+          <Typography.H2 size="xl" weight="medium">
+            {title}
+          </Typography.H2>
+          {/* <Typography.P fontColor="medium">{description}</Typography.P> 
+        </div> */}
+        <ul className="list-disc grid sm:grid-cols-2 lg:grid-cols-4 gap-8 gap-y-10">
+          {data.map((benefit) => (
+            <li key={generateKey()} className="flex items-start gap-2">
+              <div className="bg-accent-100 rounded-full p-2 w-fit">
+                <benefit.icon className="w-6 h-6 text-brand-1001" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <Typography.H3 fontColor="large" size="base" weight="semibold">
+                  {benefit.title}
+                </Typography.H3>
+                <Typography.P size="small" fontColor="medium">
+                  {benefit.description}
+                </Typography.P>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

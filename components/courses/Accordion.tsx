@@ -14,7 +14,7 @@ export default function CourseContentAccordion({
 }: {
   children: ReactNode;
   title: string;
-  courseName: string;
+  courseName?: string;
   unitId?: number;
   unitCount: number;
   unitLength: number;
@@ -40,12 +40,24 @@ export default function CourseContentAccordion({
         className="w-full flex justify-between items-center py-2 px-5 text-left text-lg font-semibold text-gray-800 hover:bg-gray-50 transition-colors"
       >
         <div>
-          <Typography.H2
-            weight="semibold"
-            className="!text-base lg:!text-[20px] hover:underline hover:!text-black"
-          >
-            {title}
-          </Typography.H2>
+          <Link legacyBehavior href={`/courses/${courseName}/${unitId}`}>
+            <a
+              onClick={(e) => {
+                if (isModule) {
+                  e.preventDefault();
+                }
+              }}
+              style={isModule ? { pointerEvents: "none" } : {}}
+              href=""
+            >
+              <Typography.H2
+                weight="semibold"
+                className="!text-base lg:!text-[20px] hover:underline hover:!text-black"
+              >
+                {title}
+              </Typography.H2>
+            </a>
+          </Link>
           <div className="flex items-center gap-2">
             <Typography.P fontColor="grey" weight="medium" size="small">
               Unit {unitId}

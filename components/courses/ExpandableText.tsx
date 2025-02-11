@@ -8,7 +8,7 @@ const ExpandableText = ({ text }: { text: string }) => {
   return (
     <div className="max-w-2xl">
       <p
-        className={`text-gray-700 max-sm:text-base ${
+        className={`text-gray-700 whitespace-pre-wrap max-sm:text-base ${
           !isExpanded && "line-clamp-3"
         }`}
       >
@@ -21,7 +21,7 @@ const ExpandableText = ({ text }: { text: string }) => {
         <Typography.P
           fontColor="brand"
           weight="semibold"
-          className="!text-sm lg:!text-lg"
+          className="!text-sm lg:!text-base"
         >
           {isExpanded ? "Read less" : "Read more"}{" "}
         </Typography.P>
