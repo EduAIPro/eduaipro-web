@@ -1,16 +1,15 @@
 "use client";
-import React, { ChangeEvent, useRef, useState } from "react";
-import { FaCamera } from "react-icons/fa";
-import Image from "next/image";
-import defaultImage from "@/public/assets/images/default-profile.webp";
-import Status from "../common/Status";
 import FormInput from "@/components/common/ui/FormInput";
 import Typography from "@/components/common/ui/Typography";
+import defaultImage from "@/public/assets/images/default-profile.webp";
 import { signupValidation } from "@/utils/validation/auth";
 import { Button } from "@radix-ui/themes";
-import { Formik, Form } from "formik";
-import { ProfileCircle, Sms, KeySquare, Eye, EyeSlash } from "iconsax-react";
-import router from "next/router";
+import { Form, Formik } from "formik";
+import { Eye, EyeSlash, KeySquare, ProfileCircle, Sms } from "iconsax-react";
+import Image from "next/image";
+import { ChangeEvent, useRef, useState } from "react";
+import { FaCamera } from "react-icons/fa";
+import Status from "../common/Status";
 
 const Profile = () => {
   const [profileImg, setProfileImg] = useState<string | ArrayBuffer | null>(
@@ -33,7 +32,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex flex-col gap-2 items-center justify-center light_shadow w-full md:w-[70%] lg:w-[60%] mx-auto p-3 rounded-md">
+    <div className="flex flex-col gap-2 items-center justify-center  shadow-grey-6 w-full md:w-[70%] lg:w-[60%] mx-auto max-sm:p-3 p-6 rounded-md">
       {/* profile image */}
       <div className="relative flex items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border">
         <Image
