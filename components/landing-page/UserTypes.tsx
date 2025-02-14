@@ -2,19 +2,11 @@
 import { UserTypeTabSwitch } from "@/types/enum";
 import { generateKey } from "@/utils/key";
 import { SegmentedControl } from "@radix-ui/themes";
-import Image from "next/image";
-import React, { useState } from "react";
-import {
-  educatorBenefits,
-  institutionBenefits,
-  mentorBenefits,
-  teacherBenefits,
-  teachingAssistantBenefits,
-} from "./data";
-import Typography from "../common/ui/Typography";
-import TeachersBenefits from "./TeachersBenefits";
 import { Icon } from "iconsax-react";
+import { useState } from "react";
 import { IconType } from "react-icons";
+import Typography from "../common/ui/Typography";
+import { institutionBenefits, teacherBenefits } from "./data";
 
 export default function UserTypes() {
   const [activeTab, setActiveTab] = useState<UserTypeTabSwitch>(
@@ -44,12 +36,13 @@ export default function UserTypes() {
         </Typography.H2>
       </div>
       {/* Toggle Buttons */}
-      <div className="flex justify-center space-x-4 md:mb-8">
+      <div className="flex justify-center md:mb-8">
         <SegmentedControl.Root
           variant="classic"
           defaultValue={activeTab}
           onValueChange={(value) => handleTabSwitch(value as UserTypeTabSwitch)}
           radius="full"
+          size={"3"}
         >
           {tabs.map((tab) => (
             <SegmentedControl.Item

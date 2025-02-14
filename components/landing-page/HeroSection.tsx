@@ -1,10 +1,8 @@
-import { Box, Button, Flex, Text, Theme } from "@radix-ui/themes";
-import Image from "next/image";
-import React from "react";
-import Typography from "../common/ui/Typography";
-import { appIcons } from "./data";
 import { generateKey } from "@/utils/key";
+import { Box } from "@radix-ui/themes";
+import Typography from "../common/ui/Typography";
 import CompaniesMarquee from "./CompaniesMarquee";
+import { appIcons } from "./data";
 
 export default function HeroSection() {
   return (
@@ -14,7 +12,7 @@ export default function HeroSection() {
         className="px-4 sm:px-6 lg:px-8 py-6 max-md:pb-12 md:py-12 bg-accent-100 border-white overflow-x-clip relative"
       >
         {/* L-shaped border radius overlay */}
-        <div className="absolute trusted__companies bottom-0 left-0 w-full xl:w-3/5 bg-white rounded-tr-[50px] flex items-center justify-between space-x-4">
+        <div className="absolute trusted__companies bottom-0 left-0 w-full xl:w-3/5 bg-white xs:rounded-tr-[50px] flex items-center justify-between space-x-4">
           <CompaniesMarquee />
         </div>
 

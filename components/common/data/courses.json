@@ -40,13 +40,54 @@
       ]
     },
     "skillsAndCompetencies": [
-      "Effective Classroom Management Strategies",
-      "Inclusive Learning Environments",
-      "Technology Integration for Enhanced Learning",
-      "Differentiated Instruction for Diverse Learners",
-      "Emotional Intelligence",
-      "Mental Health Awareness",
-      "Reflective Practice"
+      {
+        "title": "Understanding Child Development",
+        "description": "Recognizing cognitive, emotional, and social developmental milestones in primary-aged children."
+      },
+      {
+        "title": "Classroom Management",
+        "description": " Implementing strategies to create a structured, respectful, and engaging learning environment."
+      },
+      {
+        "title": "Lesson Planning and Differentiation",
+        "description": "Designing effective lesson plans that cater to diverse learning needs."
+      },
+      {
+        "title": "Emotional Intelligence",
+        "description": "Helping students develop self-awareness, empathy, and emotional regulation."
+      },
+      {
+        "title": "Inclusive Teaching",
+        "description": "Supporting students with special educational needs and overcoming learning barriers."
+      },
+      {
+        "title": "Technology Integration",
+        "description": "Using digital tools and technology to enhance learning and student engagement."
+      },
+      {
+        "title": "Assessment for Learning",
+        "description": "Designing formative and summative assessments to track and improve student progress."
+      },
+      {
+        "title": "Cultural Awareness and Global Citizenship",
+        "description": "Promoting diversity, respect, and global perspectives in education."
+      },
+      {
+        "title": "Literacy and Numeracy Development",
+        "description": "Teaching strategies to enhance reading, writing, and numeracy skills."
+      },
+      {
+        "title": "Behaviour Management",
+        "description": "Using positive reinforcement and intervention strategies to handle disruptive behaviour."
+      },
+      {
+        "title": "Reflective Teaching Practice",
+        "description": "Evaluating and improving personal teaching methods for continuous professional growth."
+      },
+      {
+        "title": "Parental and Community Engagement",
+        "description": "Collaborating with parents and stakeholders to support student learning."
+      }
     ],
     "accessibility": {
       "platforms": ["Desktop", "Tablet", "Smartphone"],
@@ -418,12 +459,54 @@
       ]
     },
     "skillsAndCompetencies": [
-      "Lesson Planning",
-      "Classroom Management",
-      "Differentiation",
-      "Technology Integration in the Classroom",
-      "Fostering Emotional Intelligence",
-      "Supporting Diverse Learners"
+      {
+        "title": "Understanding Adolescent Development",
+        "description": "Recognizing cognitive, emotional, and social growth in teenagers and its impact on learning."
+      },
+      {
+        "title": "Classroom Management",
+        "description": "Implementing proactive strategies to create a structured, respectful, and engaging learning environment."
+      },
+      {
+        "title": "Lesson Planning and Differentiation",
+        "description": "Designing effective lesson plans that cater to diverse learning needs and abilities."
+      },
+      {
+        "title": "Emotional Intelligence Development",
+        "description": "Helping students build self-awareness, emotional regulation, and social skills."
+      },
+      {
+        "title": "Inclusive and Diverse Teaching",
+        "description": "Supporting students with diverse backgrounds and learning needs while fostering an inclusive classroom."
+      },
+      {
+        "title": "Technology Integration in Teaching",
+        "description": "Using digital tools and resources to enhance student learning and engagement."
+      },
+      {
+        "title": "Assessment and Feedback",
+        "description": "Designing formative and summative assessments to track progress and provide constructive feedback."
+      },
+      {
+        "title": "Cultural Awareness and Global Citizenship",
+        "description": "Encouraging students to respect diversity and engage with global issues."
+      },
+      {
+        "title": "Literacy and Numeracy Enhancement",
+        "description": "Teaching strategies to improve reading, writing, and numerical understanding in secondary students."
+      },
+      {
+        "title": "Collaboration and Teamwork",
+        "description": "Promoting cooperative learning to enhance problem-solving and communication skills."
+      },
+      {
+        "title": "Student Mental Health and Wellbeing",
+        "description": "Identifying and supporting students facing mental health challenges."
+      },
+      {
+        "title": "Reflective Teaching Practice",
+        "description": "Continuously improving teaching methods through self-evaluation and professional development."
+      }
     ],
     "accessibility": {
       "platforms": ["Desktop", "Tablet", "Smartphone"],
@@ -803,11 +886,54 @@
       ]
     },
     "skillsAndCompetencies": [
-      "Effective Communication",
-      "Leadership",
-      "Curriculum Design",
-      "Assessment Techniques",
-      "Inclusive Teaching Practice"
+      {
+        "title": "Active Learning Strategies",
+        "description": "Ability to engage students through interactive and participatory teaching methods."
+      },
+      {
+        "title": "Inclusive Teaching Practices",
+        "description": "Adapting lessons to support diverse learners, including those with disabilities."
+      },
+      {
+        "title": "Assessment Design",
+        "description": "Developing formative and summative assessments to evaluate student progress effectively."
+      },
+      {
+        "title": "Constructive Feedback",
+        "description": "Providing actionable feedback to improve student learning outcomes."
+      },
+      {
+        "title": "Technology Integration",
+        "description": "Using digital tools and platforms to enhance teaching and learning experiences."
+      },
+      {
+        "title": "Curriculum Development",
+        "description": "Designing structured and outcome-driven curricula that align with learning objectives."
+      },
+      {
+        "title": "Research-Based Teaching",
+        "description": "Incorporating academic research into teaching to develop critical thinking and inquiry skills."
+      },
+      {
+        "title": "Student-Centered Learning",
+        "description": "Creating an environment that fosters collaboration, autonomy, and self-directed learning."
+      },
+      {
+        "title": "Graduate Employability Development",
+        "description": "Embedding real-world skills into the curriculum to enhance student career readiness."
+      },
+      {
+        "title": "Reflective Practice",
+        "description": "Engaging in continuous self-assessment and professional development to improve teaching quality."
+      },
+      {
+        "title": "Effective Communication and Presentation",
+        "description": "Delivering clear, engaging, and interactive lectures."
+      },
+      {
+        "title": "Leadership and Mentoring",
+        "description": "Supporting colleagues and students through mentorship and leadership in higher education."
+      }
     ],
     "accessibility": {
       "platforms": ["Desktop", "Tablet", "Smartphone"],
@@ -944,15 +1070,56 @@
       ]
     },
     "skillsAndCompetencies": [
-      "Effective Communication",
-      "Active Listening",
-      "Conflict Resolution",
-      "Goal Setting",
-      "Constructive Feedback",
-      "Supporting Diverse Learners",
-      "Promoting Personal Development",
-      "Managing Mentoring Challenge"
+      {
+        "title": "Effective Communication",
+        "description": "Ability to convey ideas clearly and engage in meaningful discussions."
+      },
+      {
+        "title": "Active Listening",
+        "description": "Understanding and responding thoughtfully to mentees’ concerns."
+      },
+      {
+        "title": "Conflict Resolution",
+        "description": "Managing and resolving disagreements professionally."
+      },
+      {
+        "title": "Goal Setting",
+        "description": "Helping mentees establish and achieve personal and professional objectives."
+      },
+      {
+        "title": "Providing Constructive Feedback",
+        "description": "Offering guidance in a supportive and developmental manner."
+      },
+      {
+        "title": "Supporting Diverse Learners",
+        "description": "Adapting mentoring approaches to suit different learning styles and backgrounds."
+      },
+      {
+        "title": "Promoting Personal Development",
+        "description": "Encouraging growth in confidence, skills, and self-awareness."
+      },
+      {
+        "title": "Managing Mentoring Challenges",
+        "description": "Addressing difficulties that arise in mentoring relationships."
+      },
+      {
+        "title": "Building Rapport and Trust",
+        "description": "Establishing a strong and supportive mentor-mentee connection."
+      },
+      {
+        "title": "Time Management",
+        "description": "Effectively balancing mentoring responsibilities with other commitments."
+      },
+      {
+        "title": "Professional Ethics in Mentoring",
+        "description": "Upholding confidentiality, integrity, and ethical standards."
+      },
+      {
+        "title": "Problem-Solving Skills",
+        "description": "Helping mentees navigate challenges and develop critical thinking abilities."
+      }
     ],
+
     "accessibility": {
       "platforms": ["Desktop", "Tablet", "Smartphone"],
       "features": ["mobile app", "self-paced learning", "anytime access"]
@@ -1071,10 +1238,54 @@
       ]
     },
     "skillsAndCompetencies": [
-      "Supporting Students with Special Educational Needs (SEN)",
-      "Mastering Classroom Technologies",
-      "Managing Behavior",
-      "Delivering High-Quality Support"
+      {
+        "title": "Classroom Support",
+        "description": "Assisting teachers with lesson preparation, delivery, and student engagement."
+      },
+      {
+        "title": "Inclusive Education",
+        "description": "Supporting diverse learners by identifying and overcoming learning barriers."
+      },
+      {
+        "title": "Literacy Development",
+        "description": "Helping students improve reading, writing, and communication skills."
+      },
+      {
+        "title": "Numeracy Support",
+        "description": "Enhancing students' number sense, problem-solving skills, and confidence in math."
+      },
+      {
+        "title": "Behavior Management",
+        "description": "Implementing strategies to reinforce positive behavior and de-escalate disruptions."
+      },
+      {
+        "title": "Safeguarding and Child Protection",
+        "description": "Identifying and reporting safeguarding concerns while maintaining a safe learning environment."
+      },
+      {
+        "title": "Supporting SEN Students",
+        "description": "Adapting instruction and providing individualized support for special educational needs."
+      },
+      {
+        "title": "Effective Communication",
+        "description": "Using verbal and non-verbal communication to collaborate with staff and engage students."
+      },
+      {
+        "title": "Parental Engagement",
+        "description": "Building trust with parents/guardians and fostering their involvement in student learning."
+      },
+      {
+        "title": "Technology Integration",
+        "description": "Utilizing educational tools, apps, and virtual learning platforms effectively."
+      },
+      {
+        "title": "Professionalism and Time Management",
+        "description": "Demonstrating reliability, organization, and a commitment to continuous learning."
+      },
+      {
+        "title": "Encouraging Student Independence",
+        "description": "Guiding students to become self-sufficient learners while offering appropriate support."
+      }
     ],
     "accessibility": {
       "platforms": ["Desktop", "Tablet", "Smartphone"],

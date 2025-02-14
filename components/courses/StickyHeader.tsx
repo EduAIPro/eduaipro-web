@@ -1,9 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
-import Typography from "../common/ui/Typography";
 import { Button } from "@radix-ui/themes";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Typography from "../common/ui/Typography";
 
 const sections = [
   { id: "objectives", title: "Objectives" },
@@ -11,7 +11,13 @@ const sections = [
   { id: "courses", title: "Courses" },
 ];
 
-const StickyHeader = ({ courseName }: { courseName: string }) => {
+const StickyHeader = ({
+  courseName,
+  sectionsData,
+}: {
+  courseName: string;
+  sectionsData?: { id: string; title: string }[];
+}) => {
   const [activeSection, setActiveSection] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const router = useRouter();
@@ -77,7 +83,7 @@ const StickyHeader = ({ courseName }: { courseName: string }) => {
             </Button>
           </div>
           <ul className="flex items-center gap-3 md:gap-10 py-3">
-            {sections.map((section) => (
+            {(sectionsData ?? sections).map((section) => (
               <li key={section.id}>
                 <button
                   onClick={() => scrollToSection(section.id)}

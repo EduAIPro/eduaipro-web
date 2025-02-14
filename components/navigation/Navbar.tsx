@@ -1,12 +1,12 @@
 "use client";
-import { Button, DropdownMenu, Flex, Link } from "@radix-ui/themes";
-import Image from "next/image";
-import React, { useState } from "react";
-import { navLinks } from "./data";
 import { generateKey } from "@/utils/key";
-import Typography from "../common/ui/Typography";
+import { Button, DropdownMenu, Flex, Link } from "@radix-ui/themes";
 import { HambergerMenu } from "iconsax-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Typography from "../common/ui/Typography";
+import { navLinks } from "./data";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,13 +24,15 @@ export default function Navbar() {
         className="max-sm:px-4 max-md:px-6 max-lg:px-[56px] xl:px-0 xl:max-w-[1350px] xl:mx-auto py-3 md:py-6"
       >
         <div>
-          <Image
-            src={"/assets/images/logo-outline.png"}
-            width={220}
-            height={80}
-            className="w-[140px] h-[48px] lg:w-[200px] lg:h-[60px]"
-            alt=""
-          />
+          <Link href="/">
+            <Image
+              src={"/assets/images/logo-outline.png"}
+              width={220}
+              height={80}
+              className="w-[140px] h-[48px] lg:w-[200px] lg:h-[60px]"
+              alt=""
+            />
+          </Link>
         </div>
         {/* desktop view  */}
         <>

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
 import { generateKey } from "@/utils/key";
-import Typography from "../common/ui/Typography";
-import courses from "../common/data/courses.json";
-import { ArrowRight, MedalStar, Profile2User, Video } from "iconsax-react";
 import { Button } from "@radix-ui/themes";
+import { ArrowRight, MedalStar, Profile2User, Video } from "iconsax-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import courses from "../common/data/courses.json";
+import Typography from "../common/ui/Typography";
 
 export default function CoursesRender() {
   const [currPage, setCurrPage] = useState(1);
@@ -48,14 +48,15 @@ export default function CoursesRender() {
               {course.name}
             </Typography.H2>
             <div className="mt-4">
-              <Typography.P fontColor="light" weight="medium">
+              <Typography.P
+                fontColor="light"
+                weight="medium"
+                className="line-clamp-4"
+              >
                 <strong className="text-grey-6">Skills taught:</strong>{" "}
                 {course.skillsAndCompetencies
-                  .map(
-                    (value) => value.charAt(0).toUpperCase() + value.slice(1)
-                  )
-                  .join(", ")
-                  .slice(0, 120) + "..."}
+                  .map((value) => value.title)
+                  .join(", ")}
               </Typography.P>
             </div>
             <div className="flex items-center gap-x-4 mt-2 pb-3">

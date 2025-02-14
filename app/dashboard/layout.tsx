@@ -1,18 +1,12 @@
 "use client";
 export const dynamic = "force-static";
-import React, { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import {
-  Home2,
-  MedalStar,
-  NotificationBing,
-  ProfileCircle,
-  RouteSquare,
-} from "iconsax-react";
-import Image from "next/image";
-import { RxHamburgerMenu } from "react-icons/rx";
 import Typography from "@/components/common/ui/Typography";
+import { Home2, MedalStar, ProfileCircle, RouteSquare } from "iconsax-react";
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 type DefaultLayoutProps = {
   children: React.ReactNode;
@@ -43,12 +37,12 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       path: "/profile",
       icon: <ProfileCircle />,
     },
-    {
-      name: "Notifications",
-      path: "/notifications",
-      id: "notifications",
-      icon: <NotificationBing />,
-    },
+    // {
+    //   name: "Notifications",
+    //   path: "/notifications",
+    //   id: "notifications",
+    //   icon: <NotificationBing />,
+    // },
     // { name: "Logout", path: "/logout" },
   ];
 

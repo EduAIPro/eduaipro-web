@@ -1,11 +1,4 @@
-import {
-  Building3,
-  Building4,
-  People,
-  Profile2User,
-  UserEdit,
-} from "iconsax-react";
-import { LuUniversity } from "react-icons/lu";
+import { Building4, People, Profile2User, UserEdit } from "iconsax-react";
 import { PiChalkboardTeacher } from "react-icons/pi";
 import { SlBookOpen } from "react-icons/sl";
 
@@ -178,8 +171,8 @@ export const adminRoles = [
 export const userRoles = [
   { title: "Mentor", icon: UserEdit },
   { title: "Teaching Assistant (TA)", icon: Profile2User },
-  { title: "Primary School Teacher", icon: SlBookOpen },
-  { title: "Secondary School Teacher", icon: People },
-  { title: "Higher Institution School Teacher", icon: PiChalkboardTeacher },
+  { title: "Primary Teacher", icon: SlBookOpen },
+  { title: "Secondary Teacher", icon: People },
+  { title: "Higher Institution Teacher", icon: PiChalkboardTeacher },
   { title: "Institution", icon: Building4 },
 ];

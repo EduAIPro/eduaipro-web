@@ -6,7 +6,6 @@ import {
   Briefcase,
   Chart,
   ChartCircle,
-  Cup,
   Data,
   DeviceMessage,
   Diagram,
@@ -19,21 +18,12 @@ import {
   Profile2User,
   ShieldTick,
   Star1,
-  Video,
   WalletMoney,
 } from "iconsax-react";
-import {
-  BsGlobe,
-  BsGlobeAmericas,
-  BsGraphUpArrow,
-  BsRobot,
-} from "react-icons/bs";
+import { BsGlobe, BsGraphUpArrow, BsRobot } from "react-icons/bs";
 import { FaChalkboardTeacher, FaRegChartBar } from "react-icons/fa";
-import { FaComputer, FaHandsHoldingChild } from "react-icons/fa6";
-import { GiStarsStack } from "react-icons/gi";
-import { GrCertificate } from "react-icons/gr";
+import { FaComputer } from "react-icons/fa6";
 import { HiOutlineDesktopComputer } from "react-icons/hi";
-import { HiOutlineComputerDesktop } from "react-icons/hi2";
 import {
   LiaCertificateSolid,
   LiaChalkboardTeacherSolid,
@@ -449,7 +439,7 @@ export const teacherBenefits = [
     icon: PiGlobeLight,
   },
   {
-    title: "Forum",
+    title: "Online Forum",
     description:
       "Forum connects educators, fostering collaboration, sharing best practices, and advancing innovative teaching strategies for impactful professional growth.",
     icon: MdOutlineForum,
@@ -602,7 +592,7 @@ export const institutionBenefits = [
     icon: LiaCertificateSolid,
   },
   {
-    title: "Forum",
+    title: "Online Forum",
     description:
       "Forum helps institutions share best practices, collaborate on innovations, resolve challenges, and stay updated on AI-driven education trends.",
     icon: MdOutlineForum,

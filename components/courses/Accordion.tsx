@@ -1,12 +1,12 @@
 "use client";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
-import Typography from "../common/ui/Typography";
 import Link from "next/link";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import Typography from "../common/ui/Typography";
 
 export default function CourseContentAccordion({
   children,
   title,
-  unitCount,
+  // unitCount,
   unitLength,
   courseName,
   unitId,
@@ -16,7 +16,7 @@ export default function CourseContentAccordion({
   title: string;
   courseName?: string;
   unitId?: number;
-  unitCount: number;
+  // unitCount: number;
   unitLength: number;
   isModule?: boolean;
 }) {
@@ -60,7 +60,7 @@ export default function CourseContentAccordion({
           </Link>
           <div className="flex items-center gap-2">
             <Typography.P fontColor="grey" weight="medium" size="small">
-              Unit {unitId}
+              {isModule ? "Module" : "Unit"} {unitId}
             </Typography.P>
             <Typography.P>•</Typography.P>
             <Typography.P fontColor="grey" weight="medium" size="small">
