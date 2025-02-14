@@ -41,7 +41,7 @@ const AttentionPopup: React.FC<AttentionPopupProps> = ({ onClose }) => (
           <X size={16} />
         </button>
         <p className="text-sm text-gray-600 pt-2">
-          👋 Hi! I'm George, your AI assistant. How can I help you today?
+          👋 Hi! {"I'm"} George, your AI assistant. How can I help you today?
         </p>
       </CardContent>
     </Card>
