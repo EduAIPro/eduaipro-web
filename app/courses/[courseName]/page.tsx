@@ -124,7 +124,7 @@ export default function CoursePage() {
             </div>
             <div className="flex px-4 py-6 border-b-2 border-grey-3 flex-col gap-5 justify-evenly">
               <div>
-                <Link href="#courses">
+                <Link scroll href="#courses">
                   <Typography.H4
                     className="!text-base md:!text-lg hover:!underline"
                     weight="medium"
@@ -218,25 +218,13 @@ export default function CoursePage() {
                   }`}
                 >
                   {courseInfo?.skillsAndCompetencies.map((item, i) => (
-                    <li
-                      key={i}
-                      className="gap-4 opacity-80 flex xl:items-center"
-                    >
+                    <li key={i} className="gap-4 flex xl:items-center">
                       <div className="w-fit max-xl:hidden">
                         <GoDotFill size={15} />
                       </div>
-                      <div className="flex max-xl:flex-col xl:items-start gap-1 xl:gap-2">
-                        <Typography.H2
-                          className="whitespace-nowrap"
-                          weight="semibold"
-                          size="base"
-                        >
-                          {item.title}:
-                        </Typography.H2>
-                        <Typography.P className="whitespace-nowrap" size="base">
-                          {item.description}
-                        </Typography.P>
-                      </div>
+                      <Typography.P fontColor="medium">
+                        <strong>{item.title}:</strong> {item.description}
+                      </Typography.P>
                     </li>
                   ))}
                 </ul>

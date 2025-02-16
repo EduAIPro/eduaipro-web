@@ -54,17 +54,13 @@ export default function CourseContentAccordion({
                 weight="semibold"
                 className="!text-base lg:!text-[20px] hover:underline hover:!text-black"
               >
-                {title}
+                {isModule ? "Module" : "Unit"} {unitId} - {title}
               </Typography.H2>
             </a>
           </Link>
-          <div className="flex items-center gap-2">
-            <Typography.P fontColor="grey" weight="medium" size="small">
-              {isModule ? "Module" : "Unit"} {unitId}
-            </Typography.P>
-            <Typography.P>•</Typography.P>
-            <Typography.P fontColor="grey" weight="medium" size="small">
-              {unitLength} hours
+          <div>
+            <Typography.P fontColor="grey" weight="medium">
+              {unitLength} total hours
             </Typography.P>
           </div>
         </div>
