@@ -1,24 +1,23 @@
-import React from "react";
-import Pill from "../common/ui/Pill";
-import Typography from "../common/ui/Typography";
-import { UnderlineOneIcon } from "../svgs";
-import Image from "next/image";
-import { categories } from "./data";
+"use client";
 import { generateKey } from "@/utils/key";
+import Image from "next/image";
+import { useRef } from "react";
+import ReactPlayer from "react-player";
+import Typography from "../common/ui/Typography";
+import { categories } from "./data";
 
 export default function BoostCareer() {
+  const playerRef = useRef<ReactPlayer>(null);
   return (
     <section className="responsive__section">
       <div className="rounded-2xl lg:rounded-3xl bg-brand max-md:py-8 max-sm:px-4 sm:px-6 md:p-10 lg:p-12 xl:p-20 bg-boost-career-pattern">
         <div className="flex items-center max-xl:flex-col-reverse justify-between gap-x-12">
           <div className="w-full">
             <div className="border-8 border-grey-7/40 rounded-2xl xl:w-fit xl:mx-auto">
-              <Image
-                src="/assets/images/logo-white.png"
-                width={500}
-                height={300}
-                alt=""
-                className="rounded-lg object-cover w-full"
+              <ReactPlayer
+                ref={playerRef}
+                playing
+                url="https://share.synthesia.io/embeds/videos/fb108eb7-1f04-4f9b-afed-ecac4ded464c"
               />
             </div>
           </div>

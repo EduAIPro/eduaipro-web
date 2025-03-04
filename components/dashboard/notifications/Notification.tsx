@@ -38,6 +38,15 @@ const dummyNotifications: Notification[] = [
     read: false,
   },
   {
+    id: 11,
+    title: "Upcoming Exam",
+    description: "You've got an exam coming up",
+    content:
+      "You have an upcoming exam on the 7th of August 2025. Prepare yourself, revise your learnings and get ready to ace it!",
+    timestamp: "2 hours ago",
+    read: false,
+  },
+  {
     id: 2,
     title: "System Update",
     description: "Important system changes have been applied",
@@ -115,7 +124,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             transition={{ duration: 0.3 }}
             className="mt-2"
           >
-            <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded">
+            <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">
               {notification.content}
             </p>
           </motion.div>
@@ -161,7 +170,7 @@ export const Notifications: React.FC = () => {
       </PopoverTrigger>
       <PopoverContent
         side="bottom"
-        className="w-96 p-0 border-gray-100 xs:mr-10"
+        className="w-96 p-0 border-gray-100 xs:mr-10 rounded-lg"
       >
         <Tabs defaultValue="unread" className="w-full">
           <div className="flex flex-col justify-between px-4 pt-3 border-b">

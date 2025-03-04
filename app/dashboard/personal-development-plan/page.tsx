@@ -1,13 +1,22 @@
+"use client";
 import DashboardHeaderAndSubtitle from "@/components/dashboard/common/DashboardHeaderAndSubtitle";
+import ProgressTracker from "@/components/dashboard/common/ProgressTracker";
+import { Notifications } from "@/components/dashboard/notifications";
 import PersonalDevPlan from "@/components/dashboard/PersonalDevPlan/PersonalDevPlan";
-import React from "react";
+import { greetUser } from "@/utils/dashboard";
 
 const PersonalDevelopmentPalnPage = () => {
   return (
     <div className="flex flex-col gap-5">
       <DashboardHeaderAndSubtitle
-        title="Personal Development Plan"
-        subtitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, alias."
+        title={greetUser("James")}
+        subtitle="Resume your learning journey"
+        rightElement={
+          <div className="flex items-center max-sm:justify-between gap-6">
+            <ProgressTracker />
+            <Notifications />
+          </div>
+        }
       />
       <PersonalDevPlan />
     </div>
