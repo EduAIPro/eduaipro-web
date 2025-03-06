@@ -323,7 +323,7 @@ export default function CoursePage() {
                 {courseInfo?.units.map((unit) => (
                   <CourseContentAccordion
                     // unitCount={unit.modules.length}
-                    unitLength={unit.totalDuration}
+                    unitLength={unit.totalDuration as number}
                     title={unit.title}
                     key={generateKey()}
                     courseName={courseInfo?.name}

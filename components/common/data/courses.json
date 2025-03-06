@@ -119,15 +119,66 @@
         "modules": [
           {
             "title": "Introduction to Child Development",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Theories of Child Development",
+                "readingMaterial": "Piaget's Cognitive Development Theory and its applications in education",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Child Development in Context",
+                "readingMaterial": "Bronfenbrenner's Ecological Systems Theory and its relevance to classroom environments",
+                "lessonType": "video"
+              },
+              {
+                "title": "Understanding Developmental Psychology",
+                "readingMaterial": "Critical periods in child development and implications for learning",
+                "lessonType": "reading"
+              }
+            ]
           },
           {
             "title": "Milestones in Primary Age Children",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Cognitive Milestones",
+                "readingMaterial": "Expected cognitive abilities of children aged 5-11 years",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Social and Emotional Development",
+                "readingMaterial": "Friendship formation and emotional regulation in primary school children",
+                "lessonType": "caseStudy"
+              },
+              {
+                "title": "Physical Development",
+                "readingMaterial": "Fine and gross motor skill development and classroom activities",
+                "lessonType": "video"
+              }
+            ]
           },
           {
             "title": "Developmental Theory in Practice",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Vygotsky in the Classroom",
+                "readingMaterial": "Zone of Proximal Development and scaffolding techniques for teachers",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Applying Gardner's Multiple Intelligences",
+                "readingMaterial": "Recognizing and supporting different learning styles in the classroom",
+                "lessonType": "caseStudy"
+              },
+              {
+                "title": "Adapting Teaching to Developmental Needs",
+                "readingMaterial": "Creating developmentally appropriate learning experiences",
+                "lessonType": "video"
+              }
+            ]
           }
         ],
         "totalDuration": 3.5
@@ -145,15 +196,66 @@
         "modules": [
           {
             "title": "Introduction to Classroom Management",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Foundational Principles",
+                "readingMaterial": "Key theories and approaches to effective classroom management",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Building Classroom Culture",
+                "readingMaterial": "Strategies for establishing norms and routines in the first weeks of school",
+                "lessonType": "video"
+              },
+              {
+                "title": "Teacher Presence and Authority",
+                "readingMaterial": "Developing your teaching persona and establishing respectful authority",
+                "lessonType": "reading"
+              }
+            ]
           },
           {
             "title": "Positive Reinforcement Techniques",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Principles of Positive Behavior Support",
+                "readingMaterial": "Using praise, rewards, and encouragement effectively",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Successful Classroom Reward Systems",
+                "readingMaterial": "Examples of age-appropriate incentive systems for primary students",
+                "lessonType": "caseStudy"
+              },
+              {
+                "title": "Beyond Stickers: Intrinsic Motivation",
+                "readingMaterial": "Moving from extrinsic to intrinsic motivation in the classroom",
+                "lessonType": "video"
+              }
+            ]
           },
           {
             "title": "Managing Disruptive Behavior",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Understanding Challenging Behavior",
+                "readingMaterial": "Identifying the root causes of disruptive behaviors in primary students",
+                "lessonType": "reading"
+              },
+              {
+                "title": "De-escalation Techniques",
+                "readingMaterial": "Strategies for calming challenging situations in the classroom",
+                "lessonType": "video"
+              },
+              {
+                "title": "Consistent Consequences",
+                "readingMaterial": "Implementing fair and effective behavior management systems",
+                "lessonType": "caseStudy"
+              }
+            ]
           }
         ],
         "totalDuration": 4
@@ -171,15 +273,66 @@
         "modules": [
           {
             "title": "Principles of Lesson Planning",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Lesson Planning Fundamentals",
+                "readingMaterial": "Essential components of an effective lesson plan for primary education",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Learning Objectives and Success Criteria",
+                "readingMaterial": "Writing clear, measurable objectives and communicating them to students",
+                "lessonType": "video"
+              },
+              {
+                "title": "Engaging Lesson Hooks",
+                "readingMaterial": "Creative ways to begin lessons and capture student attention",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Differentiation in the Classroom",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Principles of Differentiation",
+                "readingMaterial": "Understanding differentiation by content, process, and product",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Scaffolding Learning for All Students",
+                "readingMaterial": "Techniques to support struggling learners while challenging advanced students",
+                "lessonType": "caseStudy"
+              },
+              {
+                "title": "Flexible Grouping Strategies",
+                "readingMaterial": "Using various grouping methods to maximize learning opportunities",
+                "lessonType": "video"
+              }
+            ]
           },
           {
             "title": "Assessment and Reflection",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Formative Assessment Techniques",
+                "readingMaterial": "Quick, effective ways to check for understanding during lessons",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Student Self-Assessment",
+                "readingMaterial": "Teaching students to evaluate their own learning progress",
+                "lessonType": "video"
+              },
+              {
+                "title": "Reflective Teaching Practice",
+                "readingMaterial": "Using lesson outcomes to improve future planning and delivery",
+                "lessonType": "caseStudy"
+              }
+            ]
           }
         ],
         "totalDuration": 4
@@ -197,15 +350,66 @@
         "modules": [
           {
             "title": "Introduction to Emotional Intelligence",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "The Five Components of EQ",
+                "readingMaterial": "Understanding self-awareness, self-regulation, motivation, empathy, and social skills",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Emotional Intelligence and Academic Success",
+                "readingMaterial": "Research on the links between EQ and learning outcomes",
+                "lessonType": "video"
+              },
+              {
+                "title": "Assessing Emotional Intelligence",
+                "readingMaterial": "Age-appropriate ways to recognize emotional intelligence levels in students",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Strategies for Building Emotional Intelligence",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Teaching Emotional Vocabulary",
+                "readingMaterial": "Helping students identify and express their feelings accurately",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Emotion Regulation Activities",
+                "readingMaterial": "Classroom strategies for helping students manage strong emotions",
+                "lessonType": "video"
+              },
+              {
+                "title": "Developing Empathy",
+                "readingMaterial": "Exercises to help students understand others' perspectives and feelings",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Creating an Emotionally Supportive Classroom",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Establishing Psychological Safety",
+                "readingMaterial": "Creating an environment where students feel safe to express emotions",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Modeling Emotional Intelligence",
+                "readingMaterial": "How teachers can demonstrate healthy emotional responses",
+                "lessonType": "video"
+              },
+              {
+                "title": "Addressing Emotional Challenges",
+                "readingMaterial": "Supporting students through difficult emotional experiences and conflicts",
+                "lessonType": "caseStudy"
+              }
+            ]
           }
         ],
         "totalDuration": 4
@@ -223,15 +427,66 @@
         "modules": [
           {
             "title": "Principles of Inclusive Education",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Foundations of Inclusion",
+                "readingMaterial": "Historical context and current best practices in inclusive education",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Universal Design for Learning",
+                "readingMaterial": "Designing learning experiences that work for all students",
+                "lessonType": "video"
+              },
+              {
+                "title": "Inclusion Success Stories",
+                "readingMaterial": "Examples of successful inclusive classroom practices",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Identifying and Overcoming Barriers to Learning",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Types of Learning Barriers",
+                "readingMaterial": "Identifying physical, cognitive, emotional, and cultural barriers to learning",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Student-Centered Problem Solving",
+                "readingMaterial": "Approaches to identifying and addressing individual learning challenges",
+                "lessonType": "caseStudy"
+              },
+              {
+                "title": "Creating Accessible Learning Materials",
+                "readingMaterial": "Adapting classroom resources to meet diverse learning needs",
+                "lessonType": "video"
+              }
+            ]
           },
           {
             "title": "Differentiating Instruction",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Differentiation Strategies for Mixed-Ability Classes",
+                "readingMaterial": "Practical approaches to teaching diverse groups effectively",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Supporting Students with Special Educational Needs",
+                "readingMaterial": "Strategies for common learning differences including dyslexia, ADHD, and autism",
+                "lessonType": "video"
+              },
+              {
+                "title": "Collaborative Teaching Models",
+                "readingMaterial": "Working with teaching assistants and specialists to support inclusive classrooms",
+                "lessonType": "caseStudy"
+              }
+            ]
           }
         ],
         "totalDuration": 4
@@ -249,15 +504,66 @@
         "modules": [
           {
             "title": "Introduction to Educational Technology",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Digital Learning Fundamentals",
+                "readingMaterial": "Current trends and research in educational technology",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Digital Citizenship for Primary Students",
+                "readingMaterial": "Teaching responsible and safe technology use",
+                "lessonType": "video"
+              },
+              {
+                "title": "Technology Access and Equity",
+                "readingMaterial": "Addressing the digital divide in primary education",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Integrating Technology into Lessons",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Technology-Enhanced Learning Activities",
+                "readingMaterial": "Designing engaging digital learning experiences for primary students",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Digital Tools for Core Subjects",
+                "readingMaterial": "Effective applications and resources for literacy, numeracy, and science",
+                "lessonType": "video"
+              },
+              {
+                "title": "Blended Learning Models",
+                "readingMaterial": "Combining traditional and digital approaches in the primary classroom",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Evaluating Technology in Education",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Assessing Educational Technology",
+                "readingMaterial": "Frameworks for evaluating digital tools and resources",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Measuring Impact on Learning",
+                "readingMaterial": "Research-based approaches to determining technology effectiveness",
+                "lessonType": "caseStudy"
+              },
+              {
+                "title": "Future Trends in Educational Technology",
+                "readingMaterial": "Emerging technologies and their potential impact on primary education",
+                "lessonType": "video"
+              }
+            ]
           }
         ],
         "totalDuration": 4
@@ -275,15 +581,66 @@
         "modules": [
           {
             "title": "Types of Assessments",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Assessment Fundamentals",
+                "readingMaterial": "Understanding diagnostic, formative, and summative assessment approaches",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Authentic Assessment",
+                "readingMaterial": "Creating real-world assessment tasks that measure genuine understanding",
+                "lessonType": "video"
+              },
+              {
+                "title": "Balancing Assessment Types",
+                "readingMaterial": "Creating a comprehensive assessment strategy for primary classrooms",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Using Assessment Data to Inform Teaching",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Data-Driven Instruction",
+                "readingMaterial": "Using assessment results to adjust teaching practices",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Student Progress Tracking",
+                "readingMaterial": "Systems for monitoring and recording student achievement",
+                "lessonType": "video"
+              },
+              {
+                "title": "Assessment-Based Intervention",
+                "readingMaterial": "Identifying and supporting students who need additional help",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Formative Assessment Strategies",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Quick Check Techniques",
+                "readingMaterial": "Efficient methods to gauge understanding during lessons",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Effective Questioning",
+                "readingMaterial": "Using questions to assess and deepen student understanding",
+                "lessonType": "video"
+              },
+              {
+                "title": "Feedback that Moves Learning Forward",
+                "readingMaterial": "Providing constructive, actionable feedback to primary students",
+                "lessonType": "caseStudy"
+              }
+            ]
           }
         ],
         "totalDuration": 4
@@ -301,15 +658,66 @@
         "modules": [
           {
             "title": "Understanding Cultural Awareness",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Cultural Competence in Education",
+                "readingMaterial": "Developing teacher awareness of cultural influences on learning",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Cultural Responsiveness",
+                "readingMaterial": "Creating teaching practices that respect and incorporate diverse perspectives",
+                "lessonType": "video"
+              },
+              {
+                "title": "Cultural Bias Awareness",
+                "readingMaterial": "Recognizing and addressing unconscious bias in teaching",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Promoting Respect for Diversity",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Inclusive Classroom Environments",
+                "readingMaterial": "Strategies for creating a classroom that celebrates diversity",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Multicultural Literature and Resources",
+                "readingMaterial": "Selecting and using diverse learning materials",
+                "lessonType": "video"
+              },
+              {
+                "title": "Addressing Stereotypes and Prejudice",
+                "readingMaterial": "Age-appropriate approaches to discussing bias with primary students",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Teaching Global Citizenship",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Global Citizenship Education Framework",
+                "readingMaterial": "Core concepts and competencies for global citizenship",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Global Issues for Primary Students",
+                "readingMaterial": "Making global challenges accessible to young learners",
+                "lessonType": "video"
+              },
+              {
+                "title": "International Connections",
+                "readingMaterial": "Creating global classroom partnerships and collaborative projects",
+                "lessonType": "caseStudy"
+              }
+            ]
           }
         ],
         "totalDuration": 4
@@ -327,15 +735,66 @@
         "modules": [
           {
             "title": "Strategies for Developing Literacy",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Balanced Literacy Approach",
+                "readingMaterial": "Integrating reading, writing, speaking, and listening skills",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Phonics and Word Recognition",
+                "readingMaterial": "Evidence-based approaches to teaching early reading skills",
+                "lessonType": "video"
+              },
+              {
+                "title": "Comprehension Strategies",
+                "readingMaterial": "Teaching students to understand and analyze texts at deeper levels",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Teaching Numeracy Skills",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Mathematical Thinking Development",
+                "readingMaterial": "Fostering number sense and mathematical reasoning",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Concrete-Pictorial-Abstract Approach",
+                "readingMaterial": "Using manipulatives and visual representations to build understanding",
+                "lessonType": "video"
+              },
+              {
+                "title": "Real-World Mathematics",
+                "readingMaterial": "Connecting numeracy skills to everyday applications",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Supporting Struggling Learners",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Early Identification of Difficulties",
+                "readingMaterial": "Recognizing signs of dyslexia, dyscalculia, and other learning challenges",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Intervention Strategies",
+                "readingMaterial": "Evidence-based approaches for literacy and numeracy support",
+                "lessonType": "video"
+              },
+              {
+                "title": "Building Confidence in Struggling Learners",
+                "readingMaterial": "Psychological approaches to overcome anxiety and build self-efficacy",
+                "lessonType": "caseStudy"
+              }
+            ]
           }
         ],
         "totalDuration": 4
@@ -353,15 +812,66 @@
         "modules": [
           {
             "title": "Introduction to Collaboration",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Benefits of Collaborative Learning",
+                "readingMaterial": "Research on how collaboration enhances learning outcomes",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Social Skills Foundation",
+                "readingMaterial": "Core social competencies needed for effective teamwork",
+                "lessonType": "video"
+              },
+              {
+                "title": "Types of Collaborative Learning",
+                "readingMaterial": "Various models and approaches to group work in primary classrooms",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Encouraging Teamwork in the Classroom",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Designing Collaborative Tasks",
+                "readingMaterial": "Creating activities that require genuine cooperation",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Group Formation Strategies",
+                "readingMaterial": "Methods for creating effective and balanced student teams",
+                "lessonType": "video"
+              },
+              {
+                "title": "Managing Group Dynamics",
+                "readingMaterial": "Addressing common challenges in collaborative work",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Evaluating Collaborative Learning Outcomes",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Assessing Collaboration Skills",
+                "readingMaterial": "Methods for evaluating teamwork and cooperation",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Individual Accountability in Groups",
+                "readingMaterial": "Ensuring all students participate and learn during group work",
+                "lessonType": "video"
+              },
+              {
+                "title": "Reflection on Collaborative Processes",
+                "readingMaterial": "Teaching students to evaluate and improve their teamwork",
+                "lessonType": "caseStudy"
+              }
+            ]
           }
         ],
         "totalDuration": 4
@@ -379,15 +889,66 @@
         "modules": [
           {
             "title": "Understanding Resilience and Mental Health",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Resilience in Child Development",
+                "readingMaterial": "Research on factors that contribute to resilience in children",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Mental Health Continuum",
+                "readingMaterial": "Understanding the spectrum from mental wellness to mental illness",
+                "lessonType": "video"
+              },
+              {
+                "title": "Risk and Protective Factors",
+                "readingMaterial": "Identifying influences that affect child mental health and resilience",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Supporting Mental Health in the Classroom",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Creating a Mentally Healthy Classroom",
+                "readingMaterial": "Strategies for reducing stress and promoting wellbeing",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Recognizing Warning Signs",
+                "readingMaterial": "Identifying students who may need additional support",
+                "lessonType": "video"
+              },
+              {
+                "title": "School-Based Interventions",
+                "readingMaterial": "Programs and approaches for supporting student mental health",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Building Emotional Resilience",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Growth Mindset Development",
+                "readingMaterial": "Teaching students to embrace challenges and persist through difficulties",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Coping Strategies for Children",
+                "readingMaterial": "Age-appropriate techniques for managing stress and adversity",
+                "lessonType": "video"
+              },
+              {
+                "title": "Strengths-Based Approaches",
+                "readingMaterial": "Helping students identify and leverage their personal strengths",
+                "lessonType": "caseStudy"
+              }
+            ]
           }
         ],
         "totalDuration": 4
@@ -405,18 +966,68 @@
         "modules": [
           {
             "title": "Introduction to Reflective Practice",
-            "duration": 1
+            "duration": 1,
+            "content": [
+              {
+                "title": "Models of Reflection",
+                "readingMaterial": "Key frameworks for structured reflection on teaching practice",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Benefits of Reflective Teaching",
+                "readingMaterial": "Research on how reflection improves teaching quality and student outcomes",
+                "lessonType": "video"
+              },
+              {
+                "title": "Barriers to Reflection",
+                "readingMaterial": "Common challenges and how to overcome them",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Self-Evaluation and Goal Setting",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Self-Assessment Tools",
+                "readingMaterial": "Frameworks and methods for evaluating your teaching practice",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Effective Goal Setting",
+                "readingMaterial": "Creating SMART goals for professional development",
+                "lessonType": "video"
+              },
+              {
+                "title": "Using Feedback for Growth",
+                "readingMaterial": "Gathering and analyzing feedback from students, colleagues, and supervisors",
+                "lessonType": "caseStudy"
+              }
+            ]
           },
           {
             "title": "Continuous Professional Growth",
-            "duration": 1.5
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Building a Professional Learning Network",
+                "readingMaterial": "Connecting with other educators for ongoing support and growth",
+                "lessonType": "reading"
+              },
+              {
+                "title": "Action Research in the Classroom",
+                "readingMaterial": "Using systematic inquiry to improve teaching practices",
+                "lessonType": "caseStudy"
+              },
+              {
+                "title": "Career-Long Learning Strategies",
+                "readingMaterial": "Maintaining motivation and engagement throughout your teaching career",
+                "lessonType": "video"
+              }
+            ]
           }
-        ],
-        "totalDuration": 4
+        ]
       }
     ]
   },

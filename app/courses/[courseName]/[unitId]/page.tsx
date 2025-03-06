@@ -107,7 +107,7 @@ const assignments = [
 ];
 
 export default function CourseUnitPage() {
-  const [unitInfo, setUnitInfo] = useState<null | Unit>(null);
+  const [unitInfo, setUnitInfo] = useState<null | any>(null);
   const { unitId, courseName } = useParams();
 
   useEffect(() => {
@@ -207,7 +207,7 @@ export default function CourseUnitPage() {
                   Learning objectives
                 </Typography.H3>
                 <ul className="flex flex-col gap-2 mt-4">
-                  {unitInfo?.objectives.map((item, i) => (
+                  {unitInfo?.objectives.map((item: string, i: number) => (
                     <li key={i} className="flex items-start gap-2">
                       <TickCircle className="text-green-600" size={20} />
                       <Typography.P>{item}</Typography.P>
@@ -256,7 +256,7 @@ export default function CourseUnitPage() {
                 <ExpandableText text={unitInfo?.introduction!} />
               </div>
               <div>
-                {unitInfo?.modules.map((module, index) => (
+                {unitInfo?.modules.map((module: any, index: number) => (
                   <CourseContentAccordion
                     unitId={index + 1}
                     unitLength={module.duration}
