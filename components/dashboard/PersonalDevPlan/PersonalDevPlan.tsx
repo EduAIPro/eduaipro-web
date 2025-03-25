@@ -10,7 +10,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@radix-ui/themes";
 import { Circle, CircleCheck } from "lucide-react";
 import React, { useState } from "react";
-import CourseMedia from "./CourseMedia";
+import { MdOutlineLock } from "react-icons/md";
+import ModuleContent from "../common/ModuleContent";
 
 type ExamItemProps = {
   id: string;
@@ -31,6 +32,7 @@ const PersonalDevPlan = () => {
   const [filteredList, setFilteredList] = useState<ExamItemProps[]>(
     examsList.filter((item) => item.status === "past")
   );
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const toggleUnit = (unitId: string) => {
     setActiveUnit((prev) => (prev === unitId ? null : unitId));
@@ -76,7 +78,7 @@ const PersonalDevPlan = () => {
 
   return (
     <div className="">
-      <div className="lg:grid grid-cols-5 gap-6 w-full justify-between">
+      <div className="xl:grid grid-cols-4 min-[1600px]:grid-cols-5 gap-6 w-full justify-between">
         <div className="col-span-3 h-fit space-y-3">
           <Typography.H3
             className="text-gray-800/90 max-sm:!text-lg"
@@ -85,9 +87,13 @@ const PersonalDevPlan = () => {
           >
             {course?.name}
           </Typography.H3>
-          <CourseMedia mediaType={mediaType} />
+          <ModuleContent
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+          />
+          {/* <CourseMedia mediaType={mediaType} /> */}
         </div>
-        <div className="max-lg:mt-6 col-span-2">
+        <div className="max-xl:mt-6 min-[1600px]:col-span-2">
           <Typography.H4 className="font-semibold !text-base">
             Course Units
           </Typography.H4>
@@ -100,14 +106,21 @@ const PersonalDevPlan = () => {
                   key={unit.number}
                 >
                   <AccordionTrigger>
-                    <div className="">
-                      <h5 className="font-semibold text-sm text-grey-12/90 text-left">
-                        {unit.title}
-                      </h5>
-                      <span className="text-xs lg:text-sm line-clamp-1 text-grey-10 w-full text-left">
-                        {unit.modules.length} lectures | {unit.totalDuration}{" "}
-                        hours
-                      </span>
+                    <div className="flex items-center gap-3">
+                      {i > 1 ? (
+                        <div className="w-fit">
+                          <MdOutlineLock size={20} className="text-gray-600" />
+                        </div>
+                      ) : null}
+                      <div className="">
+                        <h5 className="font-semibold text-sm text-grey-12/90 text-left">
+                          {unit.title}
+                        </h5>
+                        <span className="text-xs lg:text-sm line-clamp-1 text-grey-10 w-full text-left">
+                          {unit.modules.length} lectures | {unit.totalDuration}{" "}
+                          hours
+                        </span>
+                      </div>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
@@ -146,18 +159,23 @@ const PersonalDevPlan = () => {
                                         <div
                                           key={index + "90u"}
                                           onClick={() => {
-                                            if (item.lessonType === "video") {
-                                              setMediaType("video");
-                                            } else if (
-                                              item.lessonType === "reading"
-                                            ) {
-                                              window.open(
-                                                "https://www.aft.org/sites/default/files/Rosenshine.pdf",
-                                                "_blank"
+                                            if (i !== 0) {
+                                              setCurrentPage((prev) =>
+                                                prev !== 8 ? prev + 1 : 1
                                               );
-                                            } else {
-                                              setMediaType("quiz");
                                             }
+                                            // if (item.lessonType === "video") {
+                                            //   setMediaType("video");
+                                            // } else if (
+                                            //   item.lessonType === "reading"
+                                            // ) {
+                                            //   window.open(
+                                            //     "https://www.aft.org/sites/default/files/Rosenshine.pdf",
+                                            //     "_blank"
+                                            //   );
+                                            // } else {
+                                            //   setMediaType("quiz");
+                                            // }
                                           }}
                                           role="button"
                                           className=" flex items-center gap-2 cursor-pointer"
