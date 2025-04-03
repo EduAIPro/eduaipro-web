@@ -1,8 +1,6 @@
 "use client";
-import React, { HTMLInputTypeAttribute, ReactNode, useState } from "react";
-import Typography from "./Typography";
+import { cn } from "@/lib/utils";
 import { Field } from "formik";
-import { div } from "framer-motion/client";
 import {
   ArrowDown2,
   ArrowUp2,
@@ -11,6 +9,8 @@ import {
   NotificationCircle,
   TickCircle,
 } from "iconsax-react";
+import { HTMLInputTypeAttribute, ReactNode, useState } from "react";
+import Typography from "./Typography";
 
 interface FormInputProps {
   rightIcon?: ReactNode;
@@ -35,6 +35,7 @@ export default function FormInput({
   error,
   note,
 }: FormInputProps) {
+  const [isFocused, setIsFocused] = useState(false);
   return (
     <div className={`${className}`}>
       {label && (
@@ -43,14 +44,19 @@ export default function FormInput({
         </Typography.H4>
       )}
       <div
-        className={`shadow-lg !shadow-grey-2  flex items-center gap-x-3 py-2 px-2 w-full border ${
-          error ? "border-red-400" : "border-grey-4/50"
-        }  rounded-lg`}
+        className={cn(
+          "shadow-lg !shadow-grey-2  flex items-center gap-x-3 py-2 px-2 w-full border rounded-lg",
+          error ? "border-red-400" : "border-grey-4/50",
+          isFocused
+            ? "border-brand-1001 transition-colors duration-300 border-[1.5px]"
+            : ""
+        )}
       >
         <div
-          className={`py-1 px-[6px] rounded-lg  ${
+          className={cn(
+            "py-1 px-[6px] rounded-lg",
             error ? "bg-red-100/50" : "bg-blue-500/10"
-          } `}
+          )}
         >
           {leftIcon}
         </div>
@@ -58,6 +64,12 @@ export default function FormInput({
           name={name}
           type={type}
           placeholder={placeholder}
+          onFocus={() => {
+            setIsFocused(true);
+          }}
+          onBlur={() => {
+            setIsFocused(false);
+          }}
           className="outline-none text-base text-grey-12 w-full"
         />
         {rightIcon}
@@ -82,6 +94,7 @@ export function DateInput({
   className,
   error,
 }: FormInputProps) {
+  const [isFocused, setIsFocused] = useState(false);
   return (
     <div className={`${className}`}>
       {label && (
@@ -90,9 +103,13 @@ export function DateInput({
         </Typography.H4>
       )}
       <div
-        className={`shadow-lg !shadow-grey-2 flex items-center gap-x-3 py-2 px-2 w-full border ${
-          error ? "border-red-400" : "border-grey-4/50"
-        } rounded-lg`}
+        className={cn(
+          "shadow-lg !shadow-grey-2 flex items-center gap-x-3 py-2 px-2 w-full border rounded-lg",
+          error ? "border-red-400" : "border-grey-4/50",
+          isFocused
+            ? "border-brand-1001 transition-colors duration-300 border-[1.5px]"
+            : ""
+        )}
       >
         <div
           className={`py-1 px-[6px] rounded-lg ${
@@ -105,6 +122,12 @@ export function DateInput({
           name={name}
           type="date"
           placeholder={placeholder}
+          onFocus={() => {
+            setIsFocused(true);
+          }}
+          onBlur={() => {
+            setIsFocused(false);
+          }}
           className="outline-none text-base text-grey-12 w-full [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-60"
         />
         {rightIcon}
@@ -145,6 +168,7 @@ export function SelectInput({
   options: Option[];
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <div className={`${className} relative`}>
@@ -154,10 +178,17 @@ export function SelectInput({
         </Typography.H4>
       )}
       <div
-        className={`shadow-lg !shadow-grey-2 flex items-center gap-x-3 py-2 px-2 w-full border ${
-          error ? "border-red-400" : "border-grey-4/50"
-        } rounded-lg cursor-pointer relative`}
-        onClick={() => setIsOpen(!isOpen)}
+        className={cn(
+          "shadow-lg !shadow-grey-2 flex items-center gap-x-3 py-2 px-2 w-full border rounded-lg cursor-pointer relative",
+          error ? "border-red-400" : "border-grey-4/50",
+          isFocused
+            ? "border-brand-1001 transition-colors duration-300 border-[1.5px]"
+            : ""
+        )}
+        onClick={() => {
+          setIsOpen(!isOpen);
+          setIsFocused(!isFocused);
+        }}
       >
         {leftIcon && (
           <div

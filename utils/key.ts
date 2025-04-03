@@ -10,3 +10,12 @@ export const generateKey = () => {
 
   return result;
 };
+
+export function trimObj<T extends Record<string, any>>(obj: T): T {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [
+      key,
+      typeof value === "string" ? value.trim() : value,
+    ])
+  ) as T;
+}

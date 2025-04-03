@@ -1,13 +1,13 @@
 "use client";
-import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
-import "./globals.css";
-import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
 import Container from "@/components/common/ui/Container";
-import { usePathname, useSearchParams } from "next/navigation";
+import { Toaster } from "@/components/ui/toaster";
+import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
+import { Montserrat } from "next/font/google";
+import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import "./globals.css";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +56,7 @@ export default function RootLayout({
             <AppLayout>{children}</AppLayout>
           </Theme>
         </QueryClientProvider>
+        <Toaster />
       </body>
     </html>
   );

@@ -30,7 +30,7 @@ const AttentionPopup: React.FC<AttentionPopupProps> = ({ onClose }) => (
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: 20 }}
-    className="absolute bottom-24 right-4 mb-4"
+    className="fixed bottom-36 xs:bottom-20 right-4 z-50 mb-4"
   >
     <Card className="w-64 shadow-lg border-2 border-accent-500">
       <CardContent className="p-4">
@@ -137,7 +137,7 @@ export const ChatBot: React.FC = () => {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", bounce: 0.3 }}
-        className="fixed bottom-4 right-4 z-50"
+        className="fixed bottom-24 xs:bottom-4 right-4 z-50"
       >
         {!isOpen && (
           <motion.button

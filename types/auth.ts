@@ -1,12 +1,4 @@
 export type CreateEducatorAccountPayload = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  username: string;
-  phoneNumber: string;
-  password: string;
-  confirmPassword: string;
-  isMentor: boolean;
   teachingLevel: string;
   subjectsTaught: string[];
   specialSkills: string[];
@@ -19,12 +11,13 @@ export type CreateEducatorAccountPayload = {
   };
   interestInNetworkingOrCommunityEvents: boolean;
   privacySettings: {
-    profileVisibility: string;
+    profileVisibility: "public" | "private";
     dataSharing: string;
   };
   securityQuestions: string[];
   qualifications: string;
   dateOfBirth: string;
+  role: "Teacher" | "Mentor" | "Teaching Assistant";
 };
 
 export type EducatorSignup = {
@@ -35,6 +28,25 @@ export type EducatorSignup = {
   phoneNumber?: string;
   password: string;
   confirmPassword: string;
+};
+
+export type Login = {
+  email: string;
+  password: string;
+};
+
+export type EducatorLoginResponse = {
+  statusCode: number;
+  message: string;
+  data: {
+    userId: string;
+    role: null | string;
+    tokens: {
+      token: string;
+      refreshToken: string;
+    };
+  };
+  error: null | string;
 };
 
 export type EducatorSignupResponse = {

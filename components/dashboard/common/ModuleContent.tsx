@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import React, {
   Dispatch,
   memo,
@@ -111,6 +112,8 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<HTMLDivElement | null>(null);
 
+  const isMobile = containerWidth <= 500;
+
   useEffect(() => {
     if (containerRef.current) {
       setContainerWidth(containerRef.current.clientWidth);
@@ -217,12 +220,17 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
     <div
       ref={viewerRef}
       className={cn(
-        "space-y-6 bg-white ",
-        isFullscreen ? " max-h-screen overflow-y-scroll p-4" : ""
+        "xs:space-y-6 bg-white ",
+        isFullscreen ? "max-h-screen overflow-y-scroll xs:p-4" : ""
       )}
     >
       {/* Progress Bar */}
-      <div className="w-full bg-gray-200 rounded-full h-2">
+      <div
+        className={cn(
+          "w-full bg-gray-200 rounded-full h-2",
+          isFullscreen ? "max-xs:hidden" : ""
+        )}
+      >
         <div
           className="bg-blue-600 h-2 rounded-full"
           style={{ width: `${progressPercent}%` }}
@@ -231,9 +239,16 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
       {/* Main PDF Viewer */}
       <div
         ref={containerRef}
-        className="relative rounded overflow-hidden min-h-[400px] flex items-center justify-center"
+        className={cn(
+          "relative rounded overflow-hidden min-h-[400px] flex items-center justify-center",
+          isFullscreen ? "max-xs:h-screen" : ""
+        )}
       >
-        <Document file={courseData.file} onLoadSuccess={onDocumentLoadSuccess}>
+        <Document
+          file={courseData.file}
+          onLoadSuccess={onDocumentLoadSuccess}
+          className={cn(isFullscreen ? "max-xs:rotate-90 py-2" : "")}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={currentPage}
@@ -247,13 +262,18 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
                 <div className="w-full h-96 bg-gray-200 animate-pulse" />
               ) : (
                 <Page
-                  //   className={cn(
-                  //     "max-xs:w-[400px] border-2 border-red-600",
-                  //     isFullscreen ? "w-[1024px]" : ""
-                  //   )}
                   pdf={pdfDoc}
                   pageNumber={currentPage}
-                  width={containerWidth}
+                  height={
+                    isMobile && isFullscreen
+                      ? window?.innerWidth - 200
+                      : undefined
+                  }
+                  width={
+                    isMobile && isFullscreen
+                      ? window?.innerHeight - 200
+                      : containerWidth
+                  }
                 />
               )}
             </motion.div>
@@ -269,24 +289,47 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
       </div>
 
       {/* Navigation */}
-      <div className="flex justify-between">
+      <div
+        className={cn(
+          "flex justify-between"
+          // isFullscreen ? "max-xs:hidden" : ""
+        )}
+      >
         <Button
           onClick={handlePrev}
           disabled={currentPage === 1}
           variant="secondary"
+          className={cn(
+            isFullscreen
+              ? "max-xs:fixed max-xs:top-3 max-xs:z-20 max-xs:left-2"
+              : ""
+          )}
         >
-          <p>Previous page</p>
+          {isFullscreen && isMobile ? (
+            <ChevronLeftIcon className="rotate-90" />
+          ) : (
+            <p>Previous page</p>
+          )}
         </Button>
         <Button
           onClick={handleNext}
           disabled={numPages ? currentPage >= numPages : true}
+          className={cn(
+            isFullscreen
+              ? "max-xs:fixed max-xs:bottom-3 max-xs:z-20 max-xs:left-2"
+              : ""
+          )}
         >
-          <p>Next page</p>
+          {isFullscreen && isMobile ? (
+            <ChevronRightIcon className="rotate-90" />
+          ) : (
+            <p>Next page</p>
+          )}
         </Button>
       </div>
 
       {/* Thumbnail Visualizer */}
-      <div className="overflow-x-auto whitespace-nowrap py-2 space-x-2">
+      <div className="overflow-x-auto whitespace-nowrap py-2 space-x-2 max-xs:hidden">
         {pdfLoading || !thumbnails
           ? // Show skeleton loaders if PDF is still loading.
             Array.from({ length: 10 }).map((_, idx) => (

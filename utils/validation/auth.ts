@@ -19,6 +19,7 @@ export const signupValidation = Yup.object().shape({
     .required("A username is required")
     .min(4, "Your username must be at least 4 characters long"),
   email: Yup.string().email().required("Email address is required"),
+  phoneNumber: Yup.string().required("Your phone number is required"),
   password: Yup.string().password().required("Your password is required"),
   confirmPassword: Yup.string()
     .password()

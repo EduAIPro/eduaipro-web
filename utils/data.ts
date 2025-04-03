@@ -12,8 +12,8 @@ export const educationalLevels = [
     value: "MSc",
   },
   {
-    label: "Doctor of Philosophy (Phd)",
-    value: "Phd",
+    label: "Doctor of Philosophy (PhD)",
+    value: "PhD",
   },
 ];
 
@@ -24,23 +24,23 @@ export const teachingLevels = [
   },
   {
     label: "Secondary",
-    value: "secondary",
+    value: "Secondary",
   },
   {
     label: "Tertiary",
-    value: "tertiary",
+    value: "Tertiary",
   },
   {
     label: "Mentor",
-    value: "mentor",
+    value: "Mentor",
   },
   {
     label: "Teaching Assistant (TA)",
-    value: "teaching assistant",
+    value: "Teaching assistant",
   },
   {
     label: "Other",
-    value: "other",
+    value: "Other",
   },
 ];
 

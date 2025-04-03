@@ -1,9 +1,8 @@
 "use client";
-import React from "react";
-import Typography from "../common/ui/Typography";
 import { generateKey } from "@/utils/key";
-import { features } from "./data";
 import Pill from "../common/ui/Pill";
+import Typography from "../common/ui/Typography";
+import { features } from "./data";
 
 export default function ReasonsToChooseUs() {
   return (
@@ -14,7 +13,7 @@ export default function ReasonsToChooseUs() {
           <div>
             <Typography.H2 weight="semibold" size="xlarge">
               A Platform Designed for Educators <br /> Supercharged by{" "}
-              <h2 className="gradient__text inline-flex">AI</h2>
+              <span className="gradient__text inline-flex montserrat">AI</span>
             </Typography.H2>
           </div>
         </div>

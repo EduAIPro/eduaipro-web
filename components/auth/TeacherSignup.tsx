@@ -1,24 +1,49 @@
 "use client";
-import { Eye, EyeSlash, KeySquare, ProfileCircle, Sms } from "iconsax-react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import Typography from "../common/ui/Typography";
-import { Form, Formik } from "formik";
-import FormInput from "../common/ui/FormInput";
+import { useMutationApi } from "@/api/hooks/useMutationApi";
+import { SIGNUP_EDUCATOR_MUTATION_KEY } from "@/api/keys";
+import { signup } from "@/api/mutations";
+import { useToast } from "@/hooks/use-toast";
+import { trimObj } from "@/utils/key";
 import { signupValidation } from "@/utils/validation/auth";
 import { Button } from "@radix-ui/themes";
+import { Form, Formik } from "formik";
+import { Eye, EyeSlash, KeySquare, ProfileCircle, Sms } from "iconsax-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import FormInput from "../common/ui/FormInput";
+import PhoneInput from "../common/ui/PhoneInput";
+import Typography from "../common/ui/Typography";
 import { LoginComp } from "./LoginComp";
-import { useMutationApi } from "@/api/hooks/useMutationApi";
-import { signup } from "@/api/mutations";
-import { SIGNUP_EDUCATOR_MUTATION_KEY } from "@/api/keys";
 
 export default function TeacherSignup() {
   const [showPassword, setShowPassword] = useState(false);
+  const { toast } = useToast();
   const router = useRouter();
+
   const signupMutation = useMutationApi(SIGNUP_EDUCATOR_MUTATION_KEY, signup, {
     onSuccess: (data) => {
-      console.log({ data });
-      // router.push("/dashboard?type=teacher");
+      const _res = data.data;
+      window.localStorage.setItem("user", JSON.stringify(_res.user));
+      window.localStorage.setItem(
+        "access_token",
+        JSON.stringify(_res.tokens.token)
+      );
+      window.localStorage.setItem(
+        "refresh_token",
+        JSON.stringify(_res.tokens.refreshToken)
+      );
+
+      toast({
+        title: "Registration successful 🎉",
+      });
+
+      router.push("/dashboard/personal-development-plan?type=teacher");
+    },
+    onError(err) {
+      toast({
+        title: err as string,
+        variant: "destructive",
+      });
     },
   });
 
@@ -38,19 +63,23 @@ export default function TeacherSignup() {
           lastName: "",
           email: "",
           username: "",
+          phoneNumber: "",
           password: "",
           confirmPassword: "",
         }}
         onSubmit={(values) => {
           if (values.password !== values.confirmPassword) {
-            alert("Your password must match");
+            toast({
+              title: "Your password must match",
+              variant: "destructive",
+            });
           } else {
-            signupMutation.mutate(values);
+            signupMutation.mutate(trimObj(values));
           }
         }}
         validationSchema={signupValidation}
       >
-        {({ touched, errors }) => (
+        {({ touched, errors, setFieldValue }) => (
           <Form className="flex-col flex gap-y-4">
             <div className="flex items-center justify-between gap-x-3">
               <FormInput
@@ -94,6 +123,16 @@ export default function TeacherSignup() {
               error={touched.email && errors.email ? errors.email : null}
               leftIcon={<Sms />}
             />
+            <PhoneInput
+              label="Phone number"
+              name="phoneNumber"
+              setFieldValue={setFieldValue}
+              error={
+                touched.phoneNumber && errors.phoneNumber
+                  ? errors.phoneNumber
+                  : null
+              }
+            />
             <FormInput
               label="Password"
               name="password"
@@ -135,6 +174,8 @@ export default function TeacherSignup() {
             <div className="mt-4 w-full">
               <Button
                 loading={signupMutation.isLoading}
+                disabled={signupMutation.isLoading}
+                type="submit"
                 className="primary__btn btn !w-full"
               >
                 <Typography.P fontColor="white">Register</Typography.P>

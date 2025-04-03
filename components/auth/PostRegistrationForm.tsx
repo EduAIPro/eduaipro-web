@@ -1,18 +1,20 @@
-import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { motion, AnimatePresence } from "framer-motion";
-import { CloseCircle } from "iconsax-react";
-import PersonalInfo from "./steps/PersonalInfo";
+import { useMutationApi } from "@/api/hooks/useMutationApi";
+import { UPDATE_PROFILE_MUTATION_KEY } from "@/api/keys";
+import { updateProfile } from "@/api/mutations";
 import {
   goalsValidation,
   personalInfoValidation,
   professionalBackgroundValidation,
 } from "@/utils/validation/reg-info";
-import ProfessionalBackground from "./steps/ProfessionalBackground";
-import GoalsAndSecurity from "./steps/GoalsAndSecurity";
 import { Button } from "@radix-ui/themes";
+import { Form, Formik } from "formik";
+import { AnimatePresence, motion } from "framer-motion";
+import { CloseCircle } from "iconsax-react";
+import { useState } from "react";
 import Typography from "../common/ui/Typography";
+import GoalsAndSecurity from "./steps/GoalsAndSecurity";
+import PersonalInfo from "./steps/PersonalInfo";
+import ProfessionalBackground from "./steps/ProfessionalBackground";
 
 export interface PostRegistrationFormValues {
   dateOfBirth: string;
@@ -94,83 +96,111 @@ export default function MultiStepFormModal() {
     );
   };
 
-  return (
-    <>
-      <button
-        onClick={() => setIsOpen(true)}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Open Form
-      </button>
-
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
-          <div className="bg-white xs:rounded-lg shadow-xl w-full max-xs:h-screen xs:h-[60vh] overflow-y-scroll no__scrollbar max-w-xl p-4 xs:p-6 relative">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4"
-            >
-              <CloseCircle className="text-gray-500" />
-            </button>
-
-            <Formik
-              initialValues={{
-                dateOfBirth: "",
-                schoolName: "",
-                phone: "",
-                location: "",
-                language: "",
-                teachingLevel: "",
-                educationLevel: "",
-                areaOfSpecialization: "",
-                interestInSkills: "",
-                yearsOfExperience: "",
-                learningGoals: "",
-                learningMethod: "",
-                securityQuestion: "",
-                termsAccepted: false,
-              }}
-              validationSchema={validationSchemas[currentStep - 1]}
-              onSubmit={(values, { setSubmitting }) => {
-                if (currentStep < 3) {
-                  setCurrentStep(currentStep + 1);
-                  setSubmitting(false);
-                } else {
-                  console.log("Form submitted:", values);
-                  setIsOpen(false);
-                  setSubmitting(false);
-                }
-              }}
-            >
-              {(formik) => (
-                <Form>
-                  <AnimatePresence mode="wait">
-                    {renderStep(formik)}
-                  </AnimatePresence>
-
-                  <div className="flex justify-between mt-6">
-                    {currentStep > 1 && (
-                      <Button
-                        variant="outline"
-                        type="button"
-                        onClick={() => setCurrentStep(currentStep - 1)}
-                        className="btn"
-                      >
-                        Previous
-                      </Button>
-                    )}
-                    <Button type="submit" className="primary__btn btn">
-                      <Typography.P fontColor="white">
-                        {currentStep === 3 ? "Submit" : "Next"}
-                      </Typography.P>
-                    </Button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
-        </div>
-      )}
-    </>
+  const updateProfileMutation = useMutationApi(
+    UPDATE_PROFILE_MUTATION_KEY,
+    updateProfile,
+    {
+      onSuccess: (data) => {
+        const _res = data.data;
+        console.log({ res: _res });
+      },
+      onError(err) {
+        console.log({ err });
+      },
+    }
   );
+
+  return isOpen ? (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+      <div className="bg-white xs:rounded-lg shadow-xl w-full max-xs:h-screen xs:h-[60vh] overflow-y-scroll no__scrollbar max-w-xl p-4 xs:p-6 relative">
+        <button
+          onClick={() => setIsOpen(false)}
+          className="absolute top-4 right-4"
+        >
+          <CloseCircle className="text-gray-500" />
+        </button>
+
+        <Formik
+          initialValues={{
+            dateOfBirth: "",
+            schoolName: "",
+            phone: "",
+            location: "",
+            teachingLevel: "",
+            educationLevel: "",
+            areaOfSpecialization: "",
+            interestInSkills: "",
+            yearsOfExperience: "",
+            learningGoals: "",
+            learningMethod: "",
+            securityQuestion: "",
+            termsAccepted: false,
+          }}
+          validationSchema={validationSchemas[currentStep - 1]}
+          onSubmit={(values, { setSubmitting }) => {
+            if (currentStep < 3) {
+              setCurrentStep(currentStep + 1);
+            } else {
+              // const payload = {
+              //   teachingLevel: values.teachingLevel
+              //   subjectsTaught: string[];
+              //   specialSkills: string[];
+              //   mentorDomain: string;
+              //   expertiseAreas: string[];
+              //   learningGoals: {
+              //     careerAdvancement: boolean;
+              //     skillDevelopment: boolean;
+              //     subjectSpecificKnowledge: boolean;
+              //   };
+              //   interestInNetworkingOrCommunityEvents: boolean;
+              //   privacySettings: {
+              //     profileVisibility: "public" | "private";
+              //     dataSharing: string;
+              //   };
+              //   securityQuestions: string[];
+              //   qualifications: string;
+              //   dateOfBirth: string;
+              //   role: "Teacher" | "Mentor" | "Teaching Assistant";
+              // };
+              // updateProfileMutation.mutate(trimObj(payload));
+              console.log("Form submitted:", values);
+              setIsOpen(false);
+            }
+          }}
+        >
+          {(formik) => (
+            <Form>
+              <AnimatePresence mode="wait">
+                {renderStep(formik)}
+              </AnimatePresence>
+
+              <div className="flex justify-between mt-6">
+                {currentStep > 1 && (
+                  <Button
+                    variant="outline"
+                    type="button"
+                    onClick={() => setCurrentStep(currentStep - 1)}
+                    className="btn"
+                    disabled={updateProfileMutation.isLoading}
+                  >
+                    Previous
+                  </Button>
+                )}
+                <Button
+                  loading={updateProfileMutation.isLoading}
+                  disabled={updateProfileMutation.isLoading}
+                  type="submit"
+                  className="primary__btn btn"
+                >
+                  <Typography.P fontColor="white">
+                    {currentStep === 3 ? "Submit" : "Next"}
+                  </Typography.P>
+                </Button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </div>
+  ) : null;
 }

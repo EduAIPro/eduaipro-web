@@ -25,11 +25,12 @@ export async function apiPostRequest<T>(
   } catch (error) {
     const axiosError = error as AxiosError;
 
-    if (axiosError.response) {
+    if (
+      axiosError.response &&
+      (axiosError.response.data as any)?.error?.message
+    ) {
       // Handle HTTP errors (4xx, 5xx)
-      throw new Error(
-        `API Error: ${axiosError.response.status} - ${axiosError.response.statusText}`
-      );
+      throw (axiosError.response.data as any)?.error?.message;
     } else if (axiosError.request) {
       // Handle network errors (no response received)
       throw new Error("Network Error: No response received from the server");
