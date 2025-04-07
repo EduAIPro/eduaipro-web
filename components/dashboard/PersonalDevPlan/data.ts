@@ -121,9 +121,9 @@ export const course = {
   units: [
     {
       number: 1,
-      title: "Understanding Child Development",
+      title: "Child Development for Primary Educators",
       introduction:
-        "This unit will help primary school teachers understand the cognitive, emotional, and social development of children at different stages. It will provide insight into the developmental milestones and how these influence teaching strategies.",
+        "Welcome to this professional development series on child development, specifically designed for primary school teachers. This comprehensive course will equip you with essential knowledge about how children grow and learn, enabling you to create more effective and supportive classroom environments. \n \nUnderstanding the developmental stages your students  are experiencing is crucial for tailoring your teaching approaches, managing classroom behavior, and fostering holistic growth. As we explore cognitive, emotional, social, and physical development, you'll gain practical insights to enhance your teaching practice and better support each unique child in your classroom",
       objectives: [
         "Understand the stages of child development",
         "Identify key developmental milestones for primary-aged children",
@@ -136,22 +136,11 @@ export const course = {
           duration: 1,
           content: [
             {
-              title: "Theories of Child Development",
+              title: "Foundations of Child Development",
               readingMaterial:
                 "Piaget's Cognitive Development Theory and its applications in education",
               lessonType: "reading",
-            },
-            {
-              title: "Child Development in Context",
-              readingMaterial:
-                "Bronfenbrenner's Ecological Systems Theory and its relevance to classroom environments",
-              lessonType: "video",
-            },
-            {
-              title: "Understanding Developmental Psychology",
-              readingMaterial:
-                "Critical periods in child development and implications for learning",
-              lessonType: "reading",
+              page: 2,
             },
           ],
         },
@@ -160,22 +149,32 @@ export const course = {
           duration: 1,
           content: [
             {
-              title: "Cognitive Milestones",
+              title: "Cognitive Development Milestones",
               readingMaterial:
-                "Expected cognitive abilities of children aged 5-11 years",
+                "Bronfenbrenner's Ecological Systems Theory and its relevance to classroom environments",
+              lessonType: "video",
+              page: 3,
+            },
+            {
+              title: "Emotional Development in the Classroom",
+              readingMaterial:
+                "Critical periods in child development and implications for learning",
               lessonType: "reading",
+              page: 4,
             },
             {
-              title: "Social and Emotional Development",
-              readingMaterial:
-                "Friendship formation and emotional regulation in primary school children",
-              lessonType: "caseStudy",
-            },
-            {
-              title: "Physical Development",
+              title: "Social Development and Peer Relationships",
               readingMaterial:
                 "Fine and gross motor skill development and classroom activities",
               lessonType: "video",
+              page: 5,
+            },
+            {
+              title: "Physical Development and Learning",
+              readingMaterial:
+                "Fine and gross motor skill development and classroom activities",
+              lessonType: "video",
+              page: 6,
             },
           ],
         },
@@ -184,22 +183,18 @@ export const course = {
           duration: 1.5,
           content: [
             {
-              title: "Vygotsky in the Classroom",
+              title: "Influences on Development",
               readingMaterial:
                 "Zone of Proximal Development and scaffolding techniques for teachers",
               lessonType: "reading",
+              page: 7,
             },
             {
-              title: "Applying Gardner's Multiple Intelligences",
+              title: "Supporting Diverse Developmental Needs",
               readingMaterial:
                 "Recognizing and supporting different learning styles in the classroom",
               lessonType: "caseStudy",
-            },
-            {
-              title: "Adapting Teaching to Developmental Needs",
-              readingMaterial:
-                "Creating developmentally appropriate learning experiences",
-              lessonType: "video",
+              page: 8,
             },
           ],
         },
@@ -208,9 +203,9 @@ export const course = {
     },
     {
       number: 2,
-      title: "Effective Classroom Management",
+      title: "Mastering the Art of Classroom Management",
       introduction:
-        "Teachers will explore strategies to create a positive, safe, and productive classroom environment, focusing on behavior management and fostering respect.",
+        "Welcome to Unit 2: Effective Classroom Management. In this comprehensive exploration, you'll discover proven strategies to create a positive, safe, and productive learning environment where students can thrive. Through the following modules, you'll gain valuable insights into managing behavior, maintaining discipline, and fostering a classroom culture built on mutual respect and inclusion. \n \nLet's begin with Module 1, where we'll introduce the fundamental principles and practices that form the foundation of effective classroom management. These skills will empower you to create an environment where every student feels valued, motivated, and ready to learn.",
       objectives: [
         "Understand key classroom management strategies",
         "Develop proactive behavior management techniques",
@@ -223,22 +218,25 @@ export const course = {
           duration: 1,
           content: [
             {
-              title: "Foundational Principles",
+              title: "What is Classroom management?",
               readingMaterial:
                 "Key theories and approaches to effective classroom management",
               lessonType: "reading",
+              page: 2,
             },
             {
-              title: "Building Classroom Culture",
+              title: "Why Classroom Management Matters",
               readingMaterial:
                 "Strategies for establishing norms and routines in the first weeks of school",
               lessonType: "video",
+              page: 3,
             },
             {
-              title: "Teacher Presence and Authority",
+              title: "Principles of Effective Management",
               readingMaterial:
                 "Developing your teaching persona and establishing respectful authority",
               lessonType: "reading",
+              page: 4,
             },
           ],
         },
@@ -247,46 +245,32 @@ export const course = {
           duration: 1.5,
           content: [
             {
-              title: "Principles of Positive Behavior Support",
+              title: "Creating a Positive Clasroom Environment",
               readingMaterial:
                 "Using praise, rewards, and encouragement effectively",
               lessonType: "reading",
+              page: 5,
             },
             {
-              title: "Successful Classroom Reward Systems",
+              title: "Establishing Expectations and Rules",
               readingMaterial:
                 "Examples of age-appropriate incentive systems for primary students",
               lessonType: "caseStudy",
+              page: 6,
             },
             {
-              title: "Beyond Stickers: Intrinsic Motivation",
+              title: "Promoting Student Engagement",
               readingMaterial:
                 "Moving from extrinsic to intrinsic motivation in the classroom",
               lessonType: "video",
-            },
-          ],
-        },
-        {
-          title: "Managing Disruptive Behavior",
-          duration: 1.5,
-          content: [
-            {
-              title: "Understanding Challenging Behavior",
-              readingMaterial:
-                "Identifying the root causes of disruptive behaviors in primary students",
-              lessonType: "reading",
+              page: 7,
             },
             {
-              title: "De-escalation Techniques",
+              title: "Putting It All Together",
               readingMaterial:
-                "Strategies for calming challenging situations in the classroom",
+                "Moving from extrinsic to intrinsic motivation in the classroom",
               lessonType: "video",
-            },
-            {
-              title: "Consistent Consequences",
-              readingMaterial:
-                "Implementing fair and effective behavior management systems",
-              lessonType: "caseStudy",
+              page: 8,
             },
           ],
         },

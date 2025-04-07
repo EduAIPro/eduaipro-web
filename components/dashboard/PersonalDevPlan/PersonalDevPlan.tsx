@@ -21,6 +21,7 @@ import { course } from "./data";
 
 const PersonalDevPlan = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [unitIndex, setUnitIndex] = useState<number>(0);
 
   const isMobile = useIsMobile();
   return (
@@ -30,8 +31,13 @@ const PersonalDevPlan = () => {
           <CourseMedia
             setCurrentPage={setCurrentPage}
             currentPage={currentPage}
+            unitIndex={unitIndex}
           />
-          <CourseContent setCurrentPage={setCurrentPage} />
+          <CourseContent
+            selectUnit={(unit) => setUnitIndex(unit)}
+            setCurrentPage={setCurrentPage}
+            unitIndex={unitIndex}
+          />
         </div>
       ) : (
         <ResizablePanelGroup direction="horizontal" className="space-x-5">
@@ -39,11 +45,16 @@ const PersonalDevPlan = () => {
             <CourseMedia
               setCurrentPage={setCurrentPage}
               currentPage={currentPage}
+              unitIndex={unitIndex}
             />
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={25}>
-            <CourseContent setCurrentPage={setCurrentPage} />
+            <CourseContent
+              selectUnit={(unit) => setUnitIndex(unit)}
+              setCurrentPage={setCurrentPage}
+              unitIndex={unitIndex}
+            />
           </ResizablePanel>
         </ResizablePanelGroup>
       )}
@@ -54,21 +65,22 @@ const PersonalDevPlan = () => {
 type CoursePageProps = {
   setCurrentPage: Dispatch<SetStateAction<number>>;
   currentPage: number;
+  unitIndex: number;
 };
 
-function CourseMedia({ currentPage, setCurrentPage }: CoursePageProps) {
+function CourseMedia({
+  currentPage,
+  setCurrentPage,
+  unitIndex,
+}: CoursePageProps) {
+  const courses = ["unit_1.pdf", "test.pdf"];
+
   return (
     <div className="col-span-3 h-fit space-y-3">
-      <Typography.H3
-        className="text-gray-800/90 max-sm:!text-lg"
-        weight="semibold"
-        size="xl"
-      >
-        {course?.name}
-      </Typography.H3>
       <ModuleContent
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
+        fileName={courses[unitIndex]}
       />
     </div>
   );
@@ -76,8 +88,12 @@ function CourseMedia({ currentPage, setCurrentPage }: CoursePageProps) {
 
 function CourseContent({
   setCurrentPage,
+  selectUnit,
+  unitIndex,
 }: {
   setCurrentPage: Dispatch<SetStateAction<number>>;
+  selectUnit: (unit: number) => void;
+  unitIndex: number;
 }) {
   return (
     <div className="max-lg:mt-6 min-[1600px]:col-span-2">
@@ -101,7 +117,7 @@ function CourseContent({
                   ) : null}
                   <div className="">
                     <h5 className="font-semibold text-sm text-grey-12/90 text-left">
-                      {unit.title}
+                      Unit {unit.number} - {unit.title}
                     </h5>
                     <span className="text-xs lg:text-sm line-clamp-1 text-grey-10 w-full text-left">
                       {unit.modules.length} lectures | {unit.totalDuration}{" "}
@@ -113,7 +129,7 @@ function CourseContent({
               <AccordionContent>
                 <div className="overflow-hidden transition-all duration-500 ease-in-out overflow-y-auto">
                   <div>
-                    <p className="text-sm font-medium text-grey-11">
+                    <p className="text-sm font-medium text-grey-11 whitespace-pre-line">
                       {unit.introduction}
                     </p>
                     <h2 className="mt-2 font-semibold text-accent-900">
@@ -147,7 +163,7 @@ function CourseContent({
                                     strokeWidth={2}
                                   />
                                 )}
-                                <h4 className="text-sm font-medium text-gray-600">
+                                <h4 className="text-sm font-semibold text-gray-600">
                                   {course.title}
                                 </h4>
                               </div>
@@ -155,24 +171,34 @@ function CourseContent({
                             <AccordionContent className="space-y-2">
                               {course?.content ? (
                                 <>
+                                  <h2 className="font-semibold text-sm">
+                                    Titles
+                                  </h2>
                                   {course.content.map((item, index) => (
                                     <div
                                       key={index + "90u"}
                                       onClick={() => {
-                                        if (i !== 0) {
-                                          setCurrentPage((prev) =>
-                                            prev !== 8 ? prev + 1 : 1
-                                          );
+                                        if (item.page && unitIndex === i) {
+                                          console.log("hiiii");
+                                          setCurrentPage(item.page);
+                                        } else if (item.page) {
+                                          console.log("hello world");
+                                          setCurrentPage(item.page);
+                                          selectUnit(i);
                                         }
                                       }}
                                       role="button"
-                                      className="cursor-pointer"
+                                      className="cursor-pointer pl-6"
                                     >
-                                      <p>{item.title}</p>
+                                      <p className="hover:underline hover:text-black">
+                                        - {item.title}
+                                      </p>
                                     </div>
                                   ))}
-                                  <p>Case study</p>
-                                  <p>Practical Applications</p>
+                                  <div className="space-y-2 font-semibold text-sm">
+                                    <h2>Case study</h2>
+                                    <h2>Practical Applications</h2>
+                                  </div>
                                 </>
                               ) : null}
                             </AccordionContent>
@@ -192,58 +218,3 @@ function CourseContent({
 }
 
 export default PersonalDevPlan;
-
-function DottedOrSolidList({ stepsData }: { stepsData: string[] }) {
-  // Track clicked state for each item
-  const [clicked, setClicked] = useState<boolean[]>(
-    Array(stepsData.length).fill(false)
-  );
-
-  const toggleClick = (index: number) => {
-    const newClicked = [...clicked];
-    newClicked[index] = !newClicked[index];
-    setClicked(newClicked);
-  };
-
-  return (
-    <div className="max-w-md mx-auto py-6">
-      {stepsData.map((step, index) => {
-        const isLast = index === stepsData.length - 1;
-        // Check if the next item is clicked
-        const isNextClicked = !isLast && clicked[index + 1];
-        console.log({ isLast });
-        console.log({ isNextClicked });
-        return (
-          <div key={index} className="relative flex items-start mb-6">
-            {/* Circle / bullet */}
-            <div className="mr-2 flex flex-col items-center">
-              {/* The small circle for the current item */}
-              <div className="w-3 h-3 bg-blue-600 rounded-full" />
-
-              {/* Vertical line extending to the next item */}
-              {!isLast && (
-                <div
-                  className={
-                    isNextClicked
-                      ? // Solid line if the next item is clicked
-                        "w-px flex-1 bg-blue-600"
-                      : // Dotted line if the next item is NOT clicked
-                        "w-px flex-1 border-l-2 bg-white border-blue-600 border-dotted"
-                  }
-                />
-              )}
-            </div>
-
-            {/* Clickable text */}
-            <button
-              onClick={() => toggleClick(index)}
-              className="text-left focus:outline-none border-2"
-            >
-              {step}
-            </button>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
