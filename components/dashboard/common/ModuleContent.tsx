@@ -86,7 +86,7 @@ const Thumbnail: React.FC<ThumbnailProps> = memo(function ThumbnailComponent({
       ) : (
         <div className="w-20 h-28 bg-gray-200 animate-pulse" />
       )}
-      <div className="text-xs text-center mt-1">Page {page}</div>
+      {/* <div className="text-xs text-center mt-1">Page {page}</div> */}
     </button>
   );
 });
