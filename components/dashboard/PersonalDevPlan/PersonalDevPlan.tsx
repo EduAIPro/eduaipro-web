@@ -14,10 +14,10 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Circle, CircleCheck } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { MdOutlineLock } from "react-icons/md";
 import ModuleContent from "../common/ModuleContent";
-import { course } from "./data";
+import { course, coursesFiles } from "./data";
 
 const PersonalDevPlan = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -28,10 +28,11 @@ const PersonalDevPlan = () => {
     <div>
       {isMobile ? (
         <div className="lg:grid grid-cols-4 min-[1600px]:grid-cols-5 gap-6 w-full justify-between">
-          <CourseMedia
+          <CourseMediaComponent
             setCurrentPage={setCurrentPage}
             currentPage={currentPage}
             unitIndex={unitIndex}
+            setUnitIndex={setUnitIndex}
           />
           <CourseContent
             selectUnit={(unit) => setUnitIndex(unit)}
@@ -42,10 +43,11 @@ const PersonalDevPlan = () => {
       ) : (
         <ResizablePanelGroup direction="horizontal" className="space-x-5">
           <ResizablePanel defaultSize={75}>
-            <CourseMedia
+            <CourseMediaComponent
               setCurrentPage={setCurrentPage}
               currentPage={currentPage}
               unitIndex={unitIndex}
+              setUnitIndex={setUnitIndex}
             />
           </ResizablePanel>
           <ResizableHandle withHandle />
@@ -64,6 +66,7 @@ const PersonalDevPlan = () => {
 
 type CoursePageProps = {
   setCurrentPage: Dispatch<SetStateAction<number>>;
+  setUnitIndex: Dispatch<SetStateAction<number>>;
   currentPage: number;
   unitIndex: number;
 };
@@ -72,19 +75,21 @@ function CourseMedia({
   currentPage,
   setCurrentPage,
   unitIndex,
+  setUnitIndex,
 }: CoursePageProps) {
-  const courses = ["unit_1.pdf", "test.pdf"];
-
   return (
     <div className="col-span-3 h-fit space-y-3">
       <ModuleContent
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
-        fileName={courses[unitIndex]}
+        fileName={coursesFiles[unitIndex]}
+        setUnitIndex={setUnitIndex}
       />
     </div>
   );
 }
+
+const CourseMediaComponent = React.memo(CourseMedia);
 
 function CourseContent({
   setCurrentPage,
@@ -179,10 +184,8 @@ function CourseContent({
                                       key={index + "90u"}
                                       onClick={() => {
                                         if (item.page && unitIndex === i) {
-                                          console.log("hiiii");
                                           setCurrentPage(item.page);
                                         } else if (item.page) {
-                                          console.log("hello world");
                                           setCurrentPage(item.page);
                                           selectUnit(i);
                                         }

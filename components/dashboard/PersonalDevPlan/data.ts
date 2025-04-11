@@ -298,18 +298,21 @@ export const course = {
               readingMaterial:
                 "Essential components of an effective lesson plan for primary education",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Learning Objectives and Success Criteria",
               readingMaterial:
                 "Writing clear, measurable objectives and communicating them to students",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Engaging Lesson Hooks",
               readingMaterial:
                 "Creative ways to begin lessons and capture student attention",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -322,18 +325,21 @@ export const course = {
               readingMaterial:
                 "Understanding differentiation by content, process, and product",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Scaffolding Learning for All Students",
               readingMaterial:
                 "Techniques to support struggling learners while challenging advanced students",
               lessonType: "caseStudy",
+              page: 2,
             },
             {
               title: "Flexible Grouping Strategies",
               readingMaterial:
                 "Using various grouping methods to maximize learning opportunities",
               lessonType: "video",
+              page: 2,
             },
           ],
         },
@@ -346,18 +352,21 @@ export const course = {
               readingMaterial:
                 "Quick, effective ways to check for understanding during lessons",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Student Self-Assessment",
               readingMaterial:
                 "Teaching students to evaluate their own learning progress",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Reflective Teaching Practice",
               readingMaterial:
                 "Using lesson outcomes to improve future planning and delivery",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -385,18 +394,21 @@ export const course = {
               readingMaterial:
                 "Understanding self-awareness, self-regulation, motivation, empathy, and social skills",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Emotional Intelligence and Academic Success",
               readingMaterial:
                 "Research on the links between EQ and learning outcomes",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Assessing Emotional Intelligence",
               readingMaterial:
                 "Age-appropriate ways to recognize emotional intelligence levels in students",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -409,18 +421,21 @@ export const course = {
               readingMaterial:
                 "Helping students identify and express their feelings accurately",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Emotion Regulation Activities",
               readingMaterial:
                 "Classroom strategies for helping students manage strong emotions",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Developing Empathy",
               readingMaterial:
                 "Exercises to help students understand others' perspectives and feelings",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -433,18 +448,21 @@ export const course = {
               readingMaterial:
                 "Creating an environment where students feel safe to express emotions",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Modeling Emotional Intelligence",
               readingMaterial:
                 "How teachers can demonstrate healthy emotional responses",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Addressing Emotional Challenges",
               readingMaterial:
                 "Supporting students through difficult emotional experiences and conflicts",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -472,18 +490,21 @@ export const course = {
               readingMaterial:
                 "Historical context and current best practices in inclusive education",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Universal Design for Learning",
               readingMaterial:
                 "Designing learning experiences that work for all students",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Inclusion Success Stories",
               readingMaterial:
                 "Examples of successful inclusive classroom practices",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -496,18 +517,21 @@ export const course = {
               readingMaterial:
                 "Identifying physical, cognitive, emotional, and cultural barriers to learning",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Student-Centered Problem Solving",
               readingMaterial:
                 "Approaches to identifying and addressing individual learning challenges",
               lessonType: "caseStudy",
+              page: 2,
             },
             {
               title: "Creating Accessible Learning Materials",
               readingMaterial:
                 "Adapting classroom resources to meet diverse learning needs",
               lessonType: "video",
+              page: 2,
             },
           ],
         },
@@ -520,18 +544,21 @@ export const course = {
               readingMaterial:
                 "Practical approaches to teaching diverse groups effectively",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Supporting Students with Special Educational Needs",
               readingMaterial:
                 "Strategies for common learning differences including dyslexia, ADHD, and autism",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Collaborative Teaching Models",
               readingMaterial:
                 "Working with teaching assistants and specialists to support inclusive classrooms",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -559,17 +586,20 @@ export const course = {
               readingMaterial:
                 "Current trends and research in educational technology",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Digital Citizenship for Primary Students",
               readingMaterial: "Teaching responsible and safe technology use",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Technology Access and Equity",
               readingMaterial:
                 "Addressing the digital divide in primary education",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -582,18 +612,21 @@ export const course = {
               readingMaterial:
                 "Designing engaging digital learning experiences for primary students",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Digital Tools for Core Subjects",
               readingMaterial:
                 "Effective applications and resources for literacy, numeracy, and science",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Blended Learning Models",
               readingMaterial:
                 "Combining traditional and digital approaches in the primary classroom",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -606,18 +639,21 @@ export const course = {
               readingMaterial:
                 "Frameworks for evaluating digital tools and resources",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Measuring Impact on Learning",
               readingMaterial:
                 "Research-based approaches to determining technology effectiveness",
               lessonType: "caseStudy",
+              page: 2,
             },
             {
               title: "Future Trends in Educational Technology",
               readingMaterial:
                 "Emerging technologies and their potential impact on primary education",
               lessonType: "video",
+              page: 2,
             },
           ],
         },
@@ -645,18 +681,21 @@ export const course = {
               readingMaterial:
                 "Understanding diagnostic, formative, and summative assessment approaches",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Authentic Assessment",
               readingMaterial:
                 "Creating real-world assessment tasks that measure genuine understanding",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Balancing Assessment Types",
               readingMaterial:
                 "Creating a comprehensive assessment strategy for primary classrooms",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -669,18 +708,21 @@ export const course = {
               readingMaterial:
                 "Using assessment results to adjust teaching practices",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Student Progress Tracking",
               readingMaterial:
                 "Systems for monitoring and recording student achievement",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Assessment-Based Intervention",
               readingMaterial:
                 "Identifying and supporting students who need additional help",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -693,18 +735,21 @@ export const course = {
               readingMaterial:
                 "Efficient methods to gauge understanding during lessons",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Effective Questioning",
               readingMaterial:
                 "Using questions to assess and deepen student understanding",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Feedback that Moves Learning Forward",
               readingMaterial:
                 "Providing constructive, actionable feedback to primary students",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -732,18 +777,21 @@ export const course = {
               readingMaterial:
                 "Developing teacher awareness of cultural influences on learning",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Cultural Responsiveness",
               readingMaterial:
                 "Creating teaching practices that respect and incorporate diverse perspectives",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Cultural Bias Awareness",
               readingMaterial:
                 "Recognizing and addressing unconscious bias in teaching",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -756,17 +804,20 @@ export const course = {
               readingMaterial:
                 "Strategies for creating a classroom that celebrates diversity",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Multicultural Literature and Resources",
               readingMaterial: "Selecting and using diverse learning materials",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Addressing Stereotypes and Prejudice",
               readingMaterial:
                 "Age-appropriate approaches to discussing bias with primary students",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -779,18 +830,21 @@ export const course = {
               readingMaterial:
                 "Core concepts and competencies for global citizenship",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Global Issues for Primary Students",
               readingMaterial:
                 "Making global challenges accessible to young learners",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "International Connections",
               readingMaterial:
                 "Creating global classroom partnerships and collaborative projects",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -818,18 +872,21 @@ export const course = {
               readingMaterial:
                 "Integrating reading, writing, speaking, and listening skills",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Phonics and Word Recognition",
               readingMaterial:
                 "Evidence-based approaches to teaching early reading skills",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Comprehension Strategies",
               readingMaterial:
                 "Teaching students to understand and analyze texts at deeper levels",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -842,18 +899,21 @@ export const course = {
               readingMaterial:
                 "Fostering number sense and mathematical reasoning",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Concrete-Pictorial-Abstract Approach",
               readingMaterial:
                 "Using manipulatives and visual representations to build understanding",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Real-World Mathematics",
               readingMaterial:
                 "Connecting numeracy skills to everyday applications",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -866,18 +926,21 @@ export const course = {
               readingMaterial:
                 "Recognizing signs of dyslexia, dyscalculia, and other learning challenges",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Intervention Strategies",
               readingMaterial:
                 "Evidence-based approaches for literacy and numeracy support",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Building Confidence in Struggling Learners",
               readingMaterial:
                 "Psychological approaches to overcome anxiety and build self-efficacy",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -905,18 +968,21 @@ export const course = {
               readingMaterial:
                 "Research on how collaboration enhances learning outcomes",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Social Skills Foundation",
               readingMaterial:
                 "Core social competencies needed for effective teamwork",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Types of Collaborative Learning",
               readingMaterial:
                 "Various models and approaches to group work in primary classrooms",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -929,18 +995,21 @@ export const course = {
               readingMaterial:
                 "Creating activities that require genuine cooperation",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Group Formation Strategies",
               readingMaterial:
                 "Methods for creating effective and balanced student teams",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Managing Group Dynamics",
               readingMaterial:
                 "Addressing common challenges in collaborative work",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -953,18 +1022,21 @@ export const course = {
               readingMaterial:
                 "Methods for evaluating teamwork and cooperation",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Individual Accountability in Groups",
               readingMaterial:
                 "Ensuring all students participate and learn during group work",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Reflection on Collaborative Processes",
               readingMaterial:
                 "Teaching students to evaluate and improve their teamwork",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -992,18 +1064,21 @@ export const course = {
               readingMaterial:
                 "Research on factors that contribute to resilience in children",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Mental Health Continuum",
               readingMaterial:
                 "Understanding the spectrum from mental wellness to mental illness",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Risk and Protective Factors",
               readingMaterial:
                 "Identifying influences that affect child mental health and resilience",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -1016,18 +1091,21 @@ export const course = {
               readingMaterial:
                 "Strategies for reducing stress and promoting wellbeing",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Recognizing Warning Signs",
               readingMaterial:
                 "Identifying students who may need additional support",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "School-Based Interventions",
               readingMaterial:
                 "Programs and approaches for supporting student mental health",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -1040,18 +1118,21 @@ export const course = {
               readingMaterial:
                 "Teaching students to embrace challenges and persist through difficulties",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Coping Strategies for Children",
               readingMaterial:
                 "Age-appropriate techniques for managing stress and adversity",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Strengths-Based Approaches",
               readingMaterial:
                 "Helping students identify and leverage their personal strengths",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -1079,17 +1160,20 @@ export const course = {
               readingMaterial:
                 "Key frameworks for structured reflection on teaching practice",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Benefits of Reflective Teaching",
               readingMaterial:
                 "Research on how reflection improves teaching quality and student outcomes",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Barriers to Reflection",
               readingMaterial: "Common challenges and how to overcome them",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -1102,18 +1186,21 @@ export const course = {
               readingMaterial:
                 "Frameworks and methods for evaluating your teaching practice",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Effective Goal Setting",
               readingMaterial:
                 "Creating SMART goals for professional development",
               lessonType: "video",
+              page: 2,
             },
             {
               title: "Using Feedback for Growth",
               readingMaterial:
                 "Gathering and analyzing feedback from students, colleagues, and supervisors",
               lessonType: "caseStudy",
+              page: 2,
             },
           ],
         },
@@ -1126,18 +1213,21 @@ export const course = {
               readingMaterial:
                 "Connecting with other educators for ongoing support and growth",
               lessonType: "reading",
+              page: 2,
             },
             {
               title: "Action Research in the Classroom",
               readingMaterial:
                 "Using systematic inquiry to improve teaching practices",
               lessonType: "caseStudy",
+              page: 2,
             },
             {
               title: "Career-Long Learning Strategies",
               readingMaterial:
                 "Maintaining motivation and engagement throughout your teaching career",
               lessonType: "video",
+              page: 2,
             },
           ],
         },
@@ -1145,3 +1235,5 @@ export const course = {
     },
   ],
 };
+
+export const coursesFiles = ["unit_1.pdf", "test.pdf"];

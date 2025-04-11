@@ -7,7 +7,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import React, {
   Dispatch,
   memo,
-  ReactNode,
   SetStateAction,
   useCallback,
   useEffect,
@@ -17,10 +16,10 @@ import React, {
 } from "react";
 import { BiCollapseAlt } from "react-icons/bi";
 import { IoIosExpand } from "react-icons/io";
-import { MdOutlineLock } from "react-icons/md";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
+import { coursesFiles } from "../PersonalDevPlan/data";
 
 // types/course.ts
 interface Module {
@@ -38,7 +37,6 @@ interface Course {
 interface ThumbnailProps {
   page: number;
   pdfDoc: any;
-  enabled: boolean;
   currentPage: number;
   onClick: (page: number) => void;
 }
@@ -47,81 +45,17 @@ type ModuleContentProps = {
   currentPage: number;
   fileName: string;
   setCurrentPage: Dispatch<SetStateAction<number>>;
+  setUnitIndex: Dispatch<SetStateAction<number>>;
 };
 
 // Setup pdfjs worker for react-pdf
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-// Memoized Thumbnail component for caching.
-const Thumbnail: React.FC<ThumbnailProps> = memo(function ThumbnailComponent({
-  page,
-  pdfDoc,
-  enabled,
-  currentPage,
-  onClick,
-}) {
-  return (
-    <button
-      onClick={() => onClick(page)}
-      disabled={!enabled}
-      className={`inline-block border rounded p-1 relative transition-transform transform hover:scale-105 ${
-        !enabled ? "opacity-50 cursor-not-allowed" : ""
-      } ${page === currentPage ? "ring-2 ring-blue-500" : ""}`}
-    >
-      {!enabled ? (
-        <div className="absolute z-50 inset-0 m-auto w-fit h-fit">
-          <MdOutlineLock size={20} />
-        </div>
-      ) : null}
-
-      {pdfDoc ? (
-        <Page
-          pdf={pdfDoc}
-          pageNumber={page}
-          scale={0.2}
-          height={520}
-          renderTextLayer={false}
-          renderAnnotationLayer={false}
-        />
-      ) : (
-        <div className="w-20 h-28 bg-gray-200 animate-pulse" />
-      )}
-      {/* <div className="text-xs text-center mt-1">Page {page}</div> */}
-    </button>
-  );
-});
-
-type PdfDocumentProps = {
-  file: string;
-  onLoadSuccess: (pdf: any) => void;
-  children: ReactNode;
-  className: string;
-};
-
-const PdfDocument = ({
-  file,
-  onLoadSuccess,
-  children,
-  className,
-}: PdfDocumentProps) => {
-  return (
-    <Document file={file} onLoadSuccess={onLoadSuccess} className={className}>
-      {children}
-    </Document>
-  );
-};
-
-const areEqual = (prevProps: PdfDocumentProps, nextProps: PdfDocumentProps) => {
-  // Only re-render if the file has changed.
-  return prevProps.file === nextProps.file;
-};
-
-const MemoizedPdfDocument = React.memo(PdfDocument, areEqual);
-
 const ModuleContent: React.FC<ModuleContentProps> = ({
   currentPage,
   setCurrentPage,
   fileName,
+  setUnitIndex,
 }) => {
   // Sample course data; in production this would come from your API.
   const [courseData, setCourseData] = useState<Course>({
@@ -151,6 +85,7 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
     if (window !== undefined) {
       const courseFile = window.localStorage.getItem("lastFile");
       if (courseFile && !courseData.file.includes(courseFile)) {
+        setUnitIndex(coursesFiles.indexOf(courseFile));
         setCourseData((prev) => ({ ...prev, file: `/assets/${courseFile}` }));
       }
     }
@@ -158,6 +93,7 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
 
   useEffect(() => {
     if (!courseData.file.includes(fileName)) {
+      setUnitIndex(coursesFiles.indexOf(fileName));
       setCourseData((prev) => ({ ...prev, file: `/assets/${fileName}` }));
       window.localStorage.setItem("lastFile", fileName);
     }
@@ -179,27 +115,20 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
     [courseData.modules]
   );
 
-  // Determine if a page is enabled based on module completion.
-  const isPageEnabled = useCallback(
-    (page: number): boolean => {
-      const mod = getModuleForPage(page);
-      if (!mod) return false;
-      if (mod.isCompleted) return true;
-      const currentModule = getModuleForPage(currentPage);
-      return !!currentModule && currentModule.title === mod.title;
-    },
-    [currentPage, getModuleForPage]
-  );
+  // // Determine if a page is enabled based on module completion.
+  // const isPageEnabled = useCallback(
+  //   (page: number): boolean => {
+  //     const mod = getModuleForPage(page);
+  //     if (!mod) return false;
+  //     if (mod.isCompleted) return true;
+  //     const currentModule = getModuleForPage(currentPage);
+  //     return !!currentModule && currentModule.title === mod.title;
+  //   },
+  //   [currentPage, getModuleForPage]
+  // );
 
   // Handle thumbnail clicks.
-  const handleThumbnailClick = useCallback(
-    (page: number) => {
-      if (isPageEnabled(page)) {
-        setCurrentPage(page);
-      }
-    },
-    [isPageEnabled]
-  );
+  const handleThumbnailClick = (page: number) => setCurrentPage(page);
 
   // Handle Next button logic.
   const handleNext = useCallback(() => {
@@ -219,6 +148,12 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
     }
   }, [currentPage, getModuleForPage, numPages]);
 
+  const handlePrev = useCallback(() => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  }, [currentPage]);
+
   // Assumes you have a ref (viewerRef) attached to the viewer container.
   const toggleFullScreen = useCallback(() => {
     if (document.fullscreenElement) {
@@ -230,12 +165,6 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
     }
   }, [viewerRef]);
 
-  const handlePrev = useCallback(() => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  }, [currentPage]);
-
   const progressPercent = numPages
     ? Math.min((currentPage / numPages) * 100, 100)
     : 0;
@@ -245,21 +174,24 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
     if (!pdfDoc || numPages === 0) return null;
     return Array.from({ length: numPages }, (_, idx) => {
       const page = idx + 1;
-      const enabled = isPageEnabled(page);
       return (
         <Thumbnail
           key={page}
           page={page}
           pdfDoc={pdfDoc}
-          enabled={enabled}
           currentPage={currentPage}
           onClick={handleThumbnailClick}
         />
       );
     });
-  }, [pdfDoc, numPages, isPageEnabled, currentPage, handleThumbnailClick]);
+  }, [pdfDoc, numPages, currentPage, handleThumbnailClick]);
 
-  console.log({ file: courseData.file });
+  useEffect(() => {
+    // Reset the PDF state when file changes.
+    setPdfDoc(null);
+    setPdfLoading(true);
+  }, [courseData.file]);
+
   return (
     <div
       ref={viewerRef}
@@ -288,46 +220,45 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
           isFullscreen ? "max-xs:h-screen" : ""
         )}
       >
-        <div style={{ visibility: pdfLoading ? "hidden" : "visible" }}>
-          <MemoizedPdfDocument
-            file={courseData.file}
-            onLoadSuccess={onDocumentLoadSuccess}
-            className={cn(
-              isFullscreen ? "max-xs:rotate-90 py-2" : "",
-              pdfLoading ? "hidden" : "block"
-            )}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentPage}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="w-full flex justify-center"
-              >
-                {pdfLoading || !pdfDoc ? (
-                  <div className="w-full h-96 bg-gray-200 animate-pulse" />
-                ) : (
-                  <Page
-                    pdf={pdfDoc}
-                    pageNumber={currentPage}
-                    height={
-                      isMobile && isFullscreen
-                        ? window?.innerWidth - 200
-                        : undefined
-                    }
-                    width={
-                      isMobile && isFullscreen
-                        ? window?.innerHeight - 200
-                        : containerWidth
-                    }
-                  />
-                )}
-              </motion.div>
-            </AnimatePresence>
-          </MemoizedPdfDocument>
-        </div>
+        <Document
+          file={courseData.file}
+          key={courseData.file}
+          onLoadSuccess={onDocumentLoadSuccess}
+          className={cn(
+            isFullscreen ? "max-xs:rotate-90 py-2" : "",
+            pdfLoading ? "hidden" : "block"
+          )}
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentPage}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="w-full flex justify-center"
+            >
+              {pdfLoading || !pdfDoc ? (
+                <div className="w-full h-96 bg-gray-200 animate-pulse" />
+              ) : (
+                <Page
+                  pdf={pdfDoc}
+                  pageNumber={currentPage}
+                  height={
+                    isMobile && isFullscreen
+                      ? window?.innerWidth - 200
+                      : undefined
+                  }
+                  width={
+                    isMobile && isFullscreen
+                      ? window?.innerHeight - 200
+                      : containerWidth
+                  }
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </Document>
         <div
           role="button"
           onClick={toggleFullScreen}
@@ -338,12 +269,7 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
       </div>
 
       {/* Navigation */}
-      <div
-        className={cn(
-          "flex justify-between"
-          // isFullscreen ? "max-xs:hidden" : ""
-        )}
-      >
+      <div className={cn("flex justify-between")}>
         <Button
           onClick={handlePrev}
           disabled={currentPage === 1}
@@ -395,4 +321,36 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
     </div>
   );
 };
-export default React.memo(ModuleContent);
+
+export default ModuleContent;
+
+// Memoized Thumbnail component for caching.
+const Thumbnail: React.FC<ThumbnailProps> = memo(function ThumbnailComponent({
+  page,
+  pdfDoc,
+  currentPage,
+  onClick,
+}) {
+  return (
+    <button
+      onClick={() => onClick(page)}
+      className={`inline-block border rounded p-1 relative transition-transform transform hover:scale-105 ${
+        page === currentPage ? "ring-2 ring-blue-500" : ""
+      }`}
+    >
+      {pdfDoc ? (
+        <Page
+          pdf={pdfDoc}
+          pageNumber={page}
+          scale={0.2}
+          height={520}
+          renderTextLayer={false}
+          renderAnnotationLayer={false}
+        />
+      ) : (
+        <div className="w-20 h-28 bg-gray-200 animate-pulse" />
+      )}
+      {/* <div className="text-xs text-center mt-1">Page {page}</div> */}
+    </button>
+  );
+});

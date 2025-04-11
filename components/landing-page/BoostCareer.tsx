@@ -17,7 +17,13 @@ export default function BoostCareer() {
               <ReactPlayer
                 ref={playerRef}
                 playing
-                url="https://share.synthesia.io/embeds/videos/fb108eb7-1f04-4f9b-afed-ecac4ded464c"
+                controls
+                width="100%"
+                height="100%"
+                url="https://res.cloudinary.com/dccxqee2z/video/upload/v1744391203/intro_qe9vih.mp4"
+                fallback={
+                  <div className="w-full h-full rounded-lg animate-pulse bg-gray-200/60"></div>
+                }
               />
             </div>
           </div>
