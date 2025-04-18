@@ -45,6 +45,12 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       path: "/profile",
       icon: <ProfileCircle size={18} />,
     },
+    {
+      name: "Quiz",
+      id: "quiz",
+      path: "/quiz",
+      icon: <ProfileCircle size={18} />,
+    },
     // {
     //   name: "Notifications",
     //   path: "/notifications",
