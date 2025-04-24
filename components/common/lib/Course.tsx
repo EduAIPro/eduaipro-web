@@ -1,10 +1,9 @@
 import { StarIcon } from "@/components/svgs";
 import { Course as CourseType } from "@/types/app";
-import Image from "next/image";
-import React from "react";
-import Typography from "../ui/Typography";
 import { generateKey } from "@/utils/key";
-import { MedalStar, Profile2User, Video } from "iconsax-react";
+import { Profile2User, Video } from "iconsax-react";
+import Image from "next/image";
+import Typography from "../ui/Typography";
 
 export default function Course({
   courseItem,
@@ -25,7 +24,7 @@ export default function Course({
         <div className="flex flex-col gap-y-4">
           <div>
             <Image
-              src={"/assets/images/course.png"}
+              src={courseItem.img}
               alt="course image"
               width={780}
               height={250}
@@ -35,18 +34,23 @@ export default function Course({
           <div className="flex flex-col gap-y-2">
             <div className="flex flex-col gap-y-4">
               <div>
-                <div className="flex gap-x-1 mb-2 items-center">
-                  <MedalStar
-                    className="w-5 h-5"
-                    width={10}
-                    height={10}
-                    color="#000080"
+                <div className="flex mb-2 items-center -ml-3">
+                  <Image
+                    className="w-12 h-6"
+                    width={40}
+                    height={40}
+                    src="/assets/images/cpd_certified.png"
+                    alt="Certification"
                   />
-                  <Typography.P fontColor="brand" size="small">
+                  <Typography.P
+                    fontColor="brand"
+                    size="small"
+                    className="-ml-1"
+                  >
                     Certified
                   </Typography.P>
                 </div>
-                <Typography.H2 size="large" fontColor="large" weight="semibold">
+                <Typography.H2 size="large" fontColor="large" weight="bold">
                   {courseItem.name}
                 </Typography.H2>
                 <Typography.P
@@ -61,7 +65,7 @@ export default function Course({
                   <div className="mt-4">
                     <Typography.P fontColor="grey" weight="medium" size="small">
                       <strong className="text-grey-11">Topics taught:</strong>{" "}
-                      {courseItem.topics
+                      {courseItem.overview.objectives
                         .map(
                           (value) =>
                             value.charAt(0).toUpperCase() + value.slice(1)
@@ -82,10 +86,10 @@ export default function Course({
                 Units:{" "}
               </Typography.H3>
               <ul className="px-4">
-                {courseItem.topics.slice(0, 8).map((item) => (
+                {courseItem.units.slice(0, 8).map((item) => (
                   <li key={generateKey()} className="list-disc">
                     <Typography.P fontColor="medium" size="small">
-                      {item}
+                      {item.title}
                     </Typography.P>
                   </li>
                 ))}
@@ -99,7 +103,7 @@ export default function Course({
               <Video className="w-5 h-5 text-grey-9" width={10} height={10} />
             </div>
             <Typography.P fontColor="medium" size="small">
-              {courseItem.courseLength}
+              {/* {courseItem.courseLength} */}90
             </Typography.P>
           </div>
           <div className="flex items-center gap-x-1">

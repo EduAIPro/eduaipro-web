@@ -1,381 +1,2048 @@
 [
   {
     "id": "1",
+    "name": "Primary Teachers CPD Curriculum",
+    "img": "/assets/images/cpd_primary.png",
     "bgImage": "bg-primary-sch-course",
-    "name": "Professional Development Course for Primary School Teachers",
-    "description": "This course focuses on equipping primary school teachers with essential skills in values education, citizenship, and fundamental human rights, while also addressing important topics such as traffic regulations and inter-communal relationships to foster a well-rounded educational experience.",
-    "topics": [
-      "Understanding the Role of a Teaching Assistant",
-      "Effective Classroom Support Techniques",
-      "Promoting Inclusive Education",
-      "Supporting Literacy Development",
-      "Enhancing Numeracy Skills",
-      "Behavior Management Strategies for Teaching Assistants",
-      "Safeguarding and Child Protection",
-      "Working with Students with Special Educational Needs (SEN)",
-      "Effective Communication with Students and Staff",
-      " Fostering Positive Relationships with Parents and Guardians",
-      " Using Technology to Support Learning",
-      "Developing Professionalism as a Teaching Assistant"
+    "students": "19,200",
+    "description": "This Continuing Professional Development (CPD) curriculum equips primary teachers with strategies to support child development, classroom management, inclusive education, and technology integration. The course consists of 12 units with progressive modules, offering practical tools for creating engaging and supportive learning environments. Resources include downloadable templates, videos, and reflection exercises to reinforce classroom application.",
+    "overview": {
+      "introduction": "Enhance your teaching practice with this comprehensive CPD curriculum designed for primary educators. Focus areas include child development, emotional intelligence, technology integration, and reflective practice to foster holistic student growth.",
+      "objectives": [
+        "Understand developmental milestones and adapt teaching strategies",
+        "Implement effective classroom management techniques",
+        "Design differentiated and inclusive lessons",
+        "Promote emotional intelligence and mental wellbeing",
+        "Integrate technology for interactive learning",
+        "Develop literacy and numeracy skills through evidence-based methods",
+        "Foster cultural awareness and global citizenship"
+      ],
+      "duration": {
+        "totalHours": 30,
+        "numberOfUnits": 12,
+        "hoursPerUnit": "2.5-3"
+      }
+    },
+    "structure": {
+      "format": "12 units with 2-3 modules each, including case studies, templates, and reflection activities",
+      "resources": [
+        "Developmental milestone checklists",
+        "Classroom management plan templates",
+        "SEL activity guides",
+        "Interactive quizzes"
+      ]
+    },
+    "certification": {
+      "type": "CPD Accredited Certificate",
+      "benefits": [
+        "Enhance professional portfolio",
+        "Support career progression",
+        "Share on LinkedIn",
+        "Use for school accreditation"
+      ]
+    },
+    "skillsAndCompetencies": [
+      {
+        "title": "Child Development Knowledge",
+        "description": "Identifying cognitive, social, and physical developmental stages in children aged 3-11."
+      },
+      {
+        "title": "Classroom Management",
+        "description": "Establishing routines, positive reinforcement, and conflict resolution strategies."
+      },
+      {
+        "title": "Differentiated Instruction",
+        "description": "Adapting lessons for diverse learning needs using tiered assignments and flexible grouping."
+      },
+      {
+        "title": "Emotional Intelligence",
+        "description": "Teaching self-regulation, empathy, and mindfulness practices."
+      },
+      {
+        "title": "Technology Integration",
+        "description": "Using educational apps, simulations, and collaborative digital tools."
+      },
+      {
+        "title": "Assessment for Learning",
+        "description": "Designing formative/summative assessments and using data to inform instruction."
+      },
+      {
+        "title": "Cultural Responsiveness",
+        "description": "Creating inclusive classrooms through culturally relevant materials and anti-bias education."
+      }
     ],
-    "overview": "This comprehensive course is designed to enhance the teaching capabilities of primary school educators. Participants will engage in a variety of modules that cover essential topics, including but not limited to: an in-depth exploration of values education, which emphasizes the importance of instilling core values in students to promote ethical behavior and social responsibility. The course will delve into the principles of citizenship education, where teachers will learn how to effectively guide students in understanding their rights and responsibilities as citizens, fostering a sense of belonging and community involvement. Additionally, the course will address fundamental human rights, equipping educators with the knowledge to teach students about their rights and the importance of respecting the rights of others. Traffic regulations will be covered extensively, providing teachers with strategies to educate young learners about road safety, pedestrian awareness, and the significance of following traffic rules to ensure their safety and that of others. Furthermore, the course will promote inter-communal relationships, encouraging teachers to create inclusive classrooms that celebrate diversity and teach students the value of understanding and respecting different cultures and perspectives. By the end of this course, participants will be well-prepared to implement these essential teachings in their classrooms, ultimately contributing to the development of well-rounded, responsible, and informed young citizens.",
-    "students": "22,200",
-    "courseLength": "18 units",
-    "totalTime": "18hrs 20mins",
-    "courseContents": [
+    "accessibility": {
+      "platforms": ["Desktop", "Tablet", "Mobile"],
+      "features": [
+        "Offline PDF downloads",
+        "Progress tracking dashboard",
+        "Mobile-friendly design"
+      ]
+    },
+    "support": {
+      "features": [
+        "Peer discussion forums",
+        "Live Q&A sessions with educators",
+        "Mentorship programs",
+        "Printable resources"
+      ]
+    },
+    "units": [
       {
-        "name": "Course Introduction",
-        "length": "2:03",
-        "isResource": false
+        "number": 1,
+        "title": "Understanding Child Development",
+        "introduction": "This unit explores cognitive, emotional, social, and physical developmental stages in primary-aged children. Teachers will learn to design age-appropriate activities and support holistic growth.",
+        "objectives": [
+          "Identify key developmental milestones",
+          "Adapt teaching strategies to developmental needs",
+          "Support cognitive and social growth through play"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Child Development",
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Stages of Development",
+                "readingMaterial": "Piaget's cognitive stages and Vygotsky's sociocultural theory",
+                "lessonType": "reading",
+                "page": 5
+              },
+              {
+                "title": "Influences on Development",
+                "readingMaterial": "Case study: Environmental vs. genetic factors",
+                "lessonType": "caseStudy",
+                "page": 7
+              }
+            ]
+          },
+          {
+            "title": "Milestones in Primary Age Children",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Cognitive and Language Milestones",
+                "readingMaterial": "Checklist for early/middle childhood milestones",
+                "lessonType": "video",
+                "page": 10
+              },
+              {
+                "title": "Supporting Motor Skills",
+                "readingMaterial": "Activity ideas for fine/gross motor development",
+                "lessonType": "reading",
+                "page": 12
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 1",
-        "length": "9:23",
-        "isResource": false
+        "number": 2,
+        "title": "Effective Classroom Management",
+        "introduction": "This unit focuses on creating structured, respectful classrooms through clear expectations, positive reinforcement, and proactive behavior management strategies.",
+        "objectives": [
+          "Establish classroom rules collaboratively",
+          "Use positive reinforcement techniques",
+          "Design engaging routines"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Classroom Management",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Creating a Positive Environment",
+                "readingMaterial": "Role-playing scenarios for rule-setting",
+                "lessonType": "caseStudy",
+                "page": 18
+              }
+            ]
+          },
+          {
+            "title": "Positive Reinforcement Techniques",
+            "duration": 1.5,
+            "content": [
+              {
+                "title": "Reward Systems",
+                "readingMaterial": "Examples: Token economies, praise strategies",
+                "lessonType": "video",
+                "page": 22
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 2",
-        "length": "4:05",
-        "isResource": false
+        "number": 3,
+        "title": "Effective Lesson Planning and Delivery",
+        "introduction": "This unit covers strategies for designing structured lesson plans, differentiating instruction, and using assessments to guide student progress.",
+        "objectives": [
+          "Create clear learning objectives",
+          "Differentiate instruction for diverse learners",
+          "Use formative and summative assessments effectively"
+        ],
+        "modules": []
       },
       {
-        "name": "Course Teaching 3",
-        "length": "7:03",
-        "isResource": false
+        "number": 4,
+        "title": "Building Emotional Intelligence in Students",
+        "introduction": "This unit explores strategies to develop emotional awareness, self-regulation, empathy, and social skills in students.",
+        "objectives": [
+          "Integrate social-emotional learning (SEL) into the curriculum",
+          "Teach emotional regulation techniques",
+          "Foster empathy and positive peer interactions"
+        ],
+        "modules": []
       },
       {
-        "name": "Course Teaching 4",
-        "length": "2:03",
-        "isResource": false
+        "number": 5,
+        "title": "Inclusive Education and Differentiation",
+        "introduction": "This unit emphasizes creating accessible learning environments and adapting instruction to meet diverse student needs.",
+        "objectives": [
+          "Identify barriers to learning",
+          "Implement differentiated teaching methods",
+          "Promote equity and cultural responsiveness"
+        ],
+        "modules": []
       },
       {
-        "name": "Course Teaching 5",
-        "length": "1:00",
-        "isResource": true
+        "number": 6,
+        "title": "The Role of Technology in Education",
+        "introduction": "This unit examines the integration of digital tools, apps, and online platforms to enhance engagement and personalized learning.",
+        "objectives": [
+          "Use technology for interactive learning experiences",
+          "Promote digital citizenship and safety",
+          "Differentiate instruction with adaptive tools"
+        ],
+        "modules": []
       },
       {
-        "name": "Course Teaching 6",
-        "length": "2:09",
-        "isResource": false
+        "number": 7,
+        "title": "Assessment for Learning",
+        "introduction": "This unit explores formative and summative assessment strategies to monitor progress and inform teaching practices.",
+        "objectives": [
+          "Design meaningful assessments",
+          "Provide actionable feedback",
+          "Use data to improve instructional strategies"
+        ],
+        "modules": []
       },
       {
-        "name": "Course Teaching 7",
-        "length": "12:03",
-        "isResource": false
+        "number": 8,
+        "title": "Cultural Awareness and Global Citizenship",
+        "introduction": "This unit focuses on fostering respect for diversity, challenging stereotypes, and promoting global responsibility.",
+        "objectives": [
+          "Create culturally responsive classrooms",
+          "Integrate global perspectives into lessons",
+          "Encourage empathy and social justice advocacy"
+        ],
+        "modules": []
       },
       {
-        "name": "Course Teaching 8",
-        "length": "4:50",
-        "isResource": false
+        "number": 9,
+        "title": "Developing Literacy and Numeracy Skills",
+        "introduction": "This unit provides strategies to enhance foundational literacy and numeracy skills through engaging activities and real-world applications.",
+        "objectives": [
+          "Improve reading comprehension and writing fluency",
+          "Strengthen mathematical reasoning and problem-solving",
+          "Support struggling learners with scaffolding"
+        ],
+        "modules": []
       },
       {
-        "name": "Assessment",
-        "length": "4:50",
-        "isResource": false
+        "number": 10,
+        "title": "Encouraging Collaboration and Teamwork",
+        "introduction": "This unit emphasizes building communication, conflict resolution, and leadership skills through collaborative learning.",
+        "objectives": [
+          "Design effective group tasks",
+          "Promote peer learning and accountability",
+          "Evaluate teamwork outcomes"
+        ],
+        "modules": []
+      },
+      {
+        "number": 11,
+        "title": "Mental Health and Wellbeing in the Classroom",
+        "introduction": "This unit addresses strategies to support students' emotional resilience, reduce stigma, and create safe learning environments.",
+        "objectives": [
+          "Recognize signs of mental health challenges",
+          "Implement mindfulness and stress management techniques",
+          "Collaborate with support staff for interventions"
+        ],
+        "modules": []
+      },
+      {
+        "number": 12,
+        "title": "Reflective Practice for Continuous Professional Development",
+        "introduction": "This unit guides teachers in self-evaluation, goal setting, and action planning to enhance teaching effectiveness.",
+        "objectives": [
+          "Apply reflective practice models",
+          "Set SMART professional goals",
+          "Use feedback for continuous improvement"
+        ],
+        "modules": []
       }
     ]
   },
   {
     "id": "2",
+    "name": "Secondary Teachers CPD Curriculum",
     "bgImage": "bg-high-sch-course",
-    "name": "Professional Development Course for Secondary School Teachers",
-    "description": "This course equips secondary school teachers with essential skills in database modeling, data integrity, and transaction management, while also exploring the biological taxonomy of life, including flowers and fruits, to foster a comprehensive understanding of both technical and natural sciences.",
-    "topics": [
-      "Understanding the Role of a Teaching Assistant",
-      "Effective Classroom Support Techniques",
-      "Promoting Inclusive Education",
-      "Supporting Literacy Development",
-      "Enhancing Numeracy Skills",
-      "Behavior Management Strategies for Teaching Assistants",
-      "Safeguarding and Child Protection",
-      "Working with Students with Special Educational Needs (SEN)",
-      "Effective Communication with Students and Staff",
-      " Fostering Positive Relationships with Parents and Guardians",
-      " Using Technology to Support Learning",
-      "Developing Professionalism as a Teaching Assistant"
+    "img": "/assets/images/cpd_secondary.png",
+    "students": "4,220",
+    "description": "This Continuing Professional Development (CPD) curriculum equips secondary teachers with strategies to support adolescent development, classroom management, inclusive education, and technology integration. The course includes 12 units with progressive modules, offering tools for fostering engagement, emotional intelligence, and academic success. Resources include case studies, templates, and reflection exercises.",
+    "overview": {
+      "introduction": "Empower your teaching practice with strategies tailored for adolescent learners. This curriculum focuses on developmental milestones, inclusive pedagogy, mental health support, and global citizenship to create dynamic and supportive classrooms.",
+      "objectives": [
+        "Understand adolescent cognitive, emotional, and social development",
+        "Implement effective classroom management techniques",
+        "Design differentiated and inclusive lessons",
+        "Promote mental health awareness and resilience",
+        "Integrate technology for interactive learning",
+        "Foster cultural awareness and global citizenship"
+      ],
+      "duration": {
+        "totalHours": 35,
+        "numberOfUnits": 12,
+        "hoursPerUnit": "3-4"
+      }
+    },
+    "structure": {
+      "format": "12 units with 2-3 modules each, including case studies, templates, and reflection activities",
+      "resources": [
+        "Developmental milestone guides",
+        "Classroom management plan templates",
+        "SEL activity kits",
+        "Interactive quizzes"
+      ]
+    },
+    "certification": {
+      "type": "CPD Accredited Certificate",
+      "benefits": [
+        "Enhance professional portfolio",
+        "Support career progression",
+        "Share on LinkedIn",
+        "Use for school accreditation"
+      ]
+    },
+    "skillsAndCompetencies": [
+      {
+        "title": "Adolescent Development",
+        "description": "Understanding cognitive, emotional, and social milestones in students aged 10-19."
+      },
+      {
+        "title": "Classroom Management",
+        "description": "Establishing clear expectations, positive reinforcement, and conflict resolution."
+      },
+      {
+        "title": "Differentiated Instruction",
+        "description": "Tailoring lessons for diverse learners using tiered assignments and flexible grouping."
+      },
+      {
+        "title": "Mental Health Support",
+        "description": "Recognizing signs of anxiety, stress, and trauma while promoting resilience."
+      },
+      {
+        "title": "Technology Integration",
+        "description": "Using digital tools for blended learning, gamification, and collaborative projects."
+      }
     ],
-    "overview": "This extensive course is designed to empower secondary school teachers with advanced pedagogical techniques and subject-specific knowledge. Participants will delve into a variety of modules that cover critical areas essential for effective teaching in secondary education. The course will begin with an in-depth examination of database modeling, where educators will learn the foundational concepts of designing and implementing databases, understanding relationships between data entities, and applying normalization techniques to ensure data integrity. Following this, the course will explore data integrity and transaction management, equipping teachers with the skills to teach students about the importance of maintaining accurate and reliable data, as well as the principles of transactions in database systems. Additionally, the course will cover the biological taxonomy of life, providing educators with insights into the classification of living organisms, including detailed studies of flowers and fruits, which will enhance their ability to teach natural sciences effectively. Participants will engage in hands-on activities and collaborative projects that encourage the application of theoretical knowledge in practical scenarios. By the end of this course, teachers will be well-prepared to implement these advanced concepts in their classrooms, fostering a deeper understanding of both technical and natural sciences among their students.",
-    "students": "19,200",
-    "totalTime": "10hrs 5mins",
-    "courseLength": "10 units",
-    "courseContents": [
+    "accessibility": {
+      "platforms": ["Desktop", "Mobile"],
+      "features": [
+        "Mobile-friendly design",
+        "Downloadable PDF resources",
+        "Progress tracking dashboard"
+      ]
+    },
+    "support": {
+      "features": [
+        "Peer discussion forums",
+        "Live Q&A sessions with experts",
+        "Mentorship programs",
+        "Printable activity guides"
+      ]
+    },
+    "units": [
       {
-        "name": "Course Introduction",
-        "length": "2:03",
-        "isResource": false
+        "number": 1,
+        "title": "Understanding Adolescent Development",
+        "introduction": "Adolescence is a critical stage of cognitive, emotional, and social development. Understanding these changes helps teachers effectively engage students and support their academic and personal growth. This unit explores the stages of adolescent development, including physical, cognitive, emotional, and social changes. It examines how these developmental milestones influence learning, behavior, and peer interactions. Teachers will learn strategies to create a supportive and inclusive classroom environment, foster positive student-teacher relationships, and adapt teaching methods to meet the needs of adolescents. Understanding adolescent development equips teachers with the knowledge to inspire, guide, and support students during this transformative stage.",
+        "objectives": [
+          "Understand the stages of adolescent physical, cognitive, emotional, and social development",
+          "Identify how developmental milestones influence learning, behavior, and peer relationships",
+          "Create a supportive and inclusive classroom environment for adolescents",
+          "Foster positive student–teacher relationships during adolescence",
+          "Adapt teaching methods to meet the unique needs of adolescent learners"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Adolescent Development",
+            "content": [
+              {
+                "title": "Stages of Early, Middle, and Late Adolescence",
+                "page": 2
+              }
+            ]
+          },
+          {
+            "title": "Cognitive, Emotional, and Social Milestones",
+            "content": [
+              {
+                "title": "Key Developmental Milestones and Their Impact",
+                "page": 3
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 1",
-        "length": "9:23",
-        "isResource": false
+        "number": 2,
+        "title": "Classroom Management for Secondary Schools",
+        "introduction": "Effective classroom management is essential for creating a positive, productive, and respectful learning environment. This unit equips secondary school teachers with strategies to manage behavior, foster student engagement, and maintain a safe and inclusive classroom. It explores proactive classroom management techniques, positive reinforcement, conflict resolution, and de-escalation strategies. Teachers will learn how to establish clear expectations, build positive relationships, and respond to challenging behaviors with consistency and fairness. Understanding effective classroom management enhances student motivation, minimizes disruptions, and creates an environment where all students can learn and thrive.",
+        "objectives": [
+          "Establish clear behavioral expectations and consistent routines",
+          "Use positive reinforcement to encourage desirable behaviors",
+          "Apply conflict resolution and de-escalation techniques effectively",
+          "Build and maintain respectful teacher–student relationships",
+          "Respond to challenging behaviors fairly and consistently"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Classroom Management",
+            "content": [
+              {
+                "title": "Consistency, Fairness, and Respect",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Positive Reinforcement Techniques",
+            "content": [
+              {
+                "title": "Praise, Rewards, and Recognition",
+                "page": 5
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 2",
-        "length": "4:05",
-        "isResource": false
+        "number": 3,
+        "title": "Effective Lesson Planning and Differentiation",
+        "introduction": "Effective lesson planning and differentiation are essential for meeting the diverse learning needs of secondary school students. This unit explores how to design well-structured lesson plans that engage all learners, promote active participation, and ensure academic achievement. Teachers will learn how to create clear learning objectives, incorporate differentiated instruction, and implement formative assessments to guide instruction. The unit also emphasizes reflective practice for continuous improvement. Understanding effective lesson planning and differentiation empowers teachers to create inclusive classrooms that support every student’s learning journey.",
+        "objectives": [
+          "Design lesson plans with clear, measurable learning objectives",
+          "Structure lessons to promote active learning and student engagement",
+          "Differentiate content, process, and products to meet diverse learner needs",
+          "Use formative assessments to monitor progress and inform instruction",
+          "Reflect on and refine lesson plans for continuous improvement"
+        ],
+        "modules": [
+          {
+            "title": "Planning Effective Lessons",
+            "content": [
+              {
+                "title": "Setting Objectives and Structuring Activities",
+                "page": 6
+              }
+            ]
+          },
+          {
+            "title": "Differentiating Instruction",
+            "content": [
+              {
+                "title": "Content, Process & Product Strategies",
+                "page": 7
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 3",
-        "length": "7:03",
-        "isResource": false
+        "number": 4,
+        "title": "Fostering Emotional Intelligence in Students",
+        "introduction": "Emotional intelligence (EI) is the ability to recognize, understand, and manage emotions effectively. It plays a crucial role in students’ academic success, social interactions, and overall well-being. This unit explores strategies for fostering emotional intelligence in secondary school students, including self-awareness, self-regulation, empathy, motivation, and social skills. Teachers will learn how to create a supportive and emotionally safe classroom environment, model emotional intelligence, and integrate social-emotional learning (SEL) into the curriculum. Understanding emotional intelligence equips teachers to help students develop resilience, positive relationships, and responsible decision-making.",
+        "objectives": [
+          "Teach students to identify and label their own emotions",
+          "Implement self-regulation techniques such as mindfulness and stress management",
+          "Build students’ empathy and social skills through perspective-taking activities",
+          "Model emotional intelligence in day-to-day interactions",
+          "Integrate social-emotional learning (SEL) throughout academic content"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Emotional Intelligence",
+            "content": [
+              {
+                "title": "Self-Awareness, Self-Regulation, Empathy",
+                "page": 8
+              }
+            ]
+          },
+          {
+            "title": "Strategies for Developing Emotional Intelligence",
+            "content": [
+              {
+                "title": "Mindfulness and Coping Techniques",
+                "page": 9
+              }
+            ]
+          },
+          {
+            "title": "Creating an Emotionally Supportive Classroom",
+            "content": [
+              {
+                "title": "Building Trust and Emotional Safety",
+                "page": 10
+              }
+            ]
+          },
+          {
+            "title": "Implementing Emotional Intelligence Programs and Activities",
+            "content": [
+              {
+                "title": "SEL Curricula and Interactive Exercises",
+                "page": 11
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 4",
-        "length": "2:03",
-        "isResource": false
+        "number": 5,
+        "title": "Promoting Inclusivity and Diversity in the Classroom",
+        "introduction": "An inclusive and diverse classroom environment values and respects the unique backgrounds, experiences, and perspectives of all students. This unit explores how to promote inclusivity and diversity in secondary schools, including strategies for supporting students from diverse cultural, linguistic, and socio-economic backgrounds. Teachers will learn how to create a safe and welcoming environment, adapt teaching methods to meet diverse needs, and promote social justice, equity, and respect. Understanding how to promote inclusivity and diversity helps teachers create a supportive and empowering learning environment where all students feel valued, respected, and motivated to succeed.",
+        "objectives": [
+          "Understand the principles of inclusive education and social justice",
+          "Identify and remove barriers to learning for diverse student populations",
+          "Use differentiated instructional strategies to meet varied needs",
+          "Foster a classroom culture of equity, respect, and cultural responsiveness",
+          "Challenge bias and promote anti-discrimination practices"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Inclusive Education",
+            "content": [
+              {
+                "title": "Equity, Respect, and Access",
+                "page": 12
+              }
+            ]
+          },
+          {
+            "title": "Identifying and Overcoming Barriers to Learning",
+            "content": [
+              {
+                "title": "Language, Cultural, and Socio-Economic Barriers",
+                "page": 13
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 5",
-        "length": "1:00",
-        "isResource": true
+        "number": 6,
+        "title": "The Role of Technology in Teaching and Learning",
+        "introduction": "Technology plays an essential role in modern education, enhancing student engagement, interaction, and personalized learning experiences. This unit explores how to effectively integrate technology into teaching and learning, including digital tools, educational apps, virtual learning platforms, and strategies for promoting digital literacy and safety. Teachers will learn how to use technology to support diverse learners, foster collaboration, and create an inclusive and engaging learning environment. Understanding the role of technology empowers teachers to enhance educational experiences, promote digital citizenship, and prepare students for a technology-driven world.",
+        "objectives": [
+          "Select and integrate appropriate digital tools and platforms into lessons",
+          "Design interactive, blended, and flipped-classroom activities",
+          "Promote digital literacy, online safety, and responsible technology use",
+          "Differentiate instruction using adaptive learning technologies",
+          "Facilitate collaborative learning through digital collaboration tools"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Educational Technology",
+            "content": [
+              {
+                "title": "Benefits, Challenges, and Tools",
+                "page": 14
+              }
+            ]
+          },
+          {
+            "title": "Integrating Technology into Lessons",
+            "content": [
+              {
+                "title": "Blended Learning and Gamification",
+                "page": 15
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 6",
-        "length": "2:09",
-        "isResource": false
+        "number": 7,
+        "title": "Assessment for Learning and Feedback",
+        "introduction": "Assessment is a powerful tool for guiding student progress, informing instruction, and enhancing learning outcomes. This unit explores different types of assessments, including formative and summative assessments, and how to use them effectively in secondary education. Teachers will learn how to design meaningful assessments, provide actionable feedback, and use assessment data to improve teaching strategies. The unit also emphasizes self-assessment and peer feedback to promote student autonomy and reflective learning. Understanding assessment for learning and feedback empowers teachers to create a supportive and growth-oriented classroom environment.",
+        "objectives": [
+          "Differentiate formative, summative, diagnostic, and performance-based assessments",
+          "Design assessments aligned to learning objectives and standards",
+          "Provide timely, specific, and constructive feedback to students",
+          "Use self- and peer-assessment to foster student ownership",
+          "Analyze assessment data to inform instructional adjustments"
+        ],
+        "modules": [
+          {
+            "title": "Types of Assessment",
+            "content": [
+              {
+                "title": "Formative vs. Summative Assessments",
+                "page": 16
+              }
+            ]
+          },
+          {
+            "title": "Effective Feedback Strategies",
+            "content": [
+              {
+                "title": "Constructive, Timely, and Actionable Feedback",
+                "page": 17
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 7",
-        "length": "12:03",
-        "isResource": false
+        "number": 8,
+        "title": "Cultural Awareness and Global Citizenship",
+        "introduction": "Cultural awareness and global citizenship are essential for preparing students to thrive in an interconnected and diverse world. This unit explores how to promote cultural awareness, inclusivity, and global citizenship in secondary education. Teachers will learn how to create a culturally responsive classroom, incorporate global perspectives into the curriculum, and encourage respect, empathy, and social responsibility. The unit also emphasizes the importance of challenging stereotypes, addressing bias, and fostering cultural sensitivity. Understanding cultural awareness and global citizenship empowers teachers to create an inclusive and respectful learning environment that celebrates diversity and promotes global understanding.",
+        "objectives": [
+          "Develop students’ understanding of diverse cultures, identities, and global issues",
+          "Integrate multicultural and international perspectives into lessons",
+          "Encourage empathy, social responsibility, and ethical decision-making",
+          "Challenge stereotypes and address unconscious bias",
+          "Promote community service and global action projects"
+        ],
+        "modules": [
+          {
+            "title": "Understanding Cultural Awareness",
+            "content": [
+              {
+                "title": "Respecting Cultural Norms and Values",
+                "page": 18
+              }
+            ]
+          },
+          {
+            "title": "Promoting Respect for Diversity",
+            "content": [
+              {
+                "title": "Equity, Inclusion, and Anti-Bias Education",
+                "page": 19
+              }
+            ]
+          },
+          {
+            "title": "Teaching Global Citizenship",
+            "content": [
+              {
+                "title": "Global Issues, Advocacy, and Service Learning",
+                "page": 20
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 8",
-        "length": "4:50",
-        "isResource": false
+        "number": 9,
+        "title": "Improving Literacy and Numeracy in Secondary Education",
+        "introduction": "Literacy and numeracy skills are foundational for academic success and lifelong learning. This unit explores effective strategies for improving literacy and numeracy in secondary education, including reading comprehension, writing skills, mathematical reasoning, and problem-solving. Teachers will learn how to design engaging literacy and numeracy activities, differentiate instruction, and provide targeted support for struggling learners. The unit also emphasizes integrating literacy and numeracy across the curriculum to enhance critical thinking, communication, and real-world application. Understanding how to improve literacy and numeracy empowers teachers to support student achievement and prepare them for future academic and career success.",
+        "objectives": [
+          "Implement active reading strategies and vocabulary development techniques",
+          "Design writing tasks that build clarity, coherence, and critical analysis",
+          "Apply problem-solving models (e.g., CRA, Polya) for numeracy instruction",
+          "Use real-world contexts to teach mathematical reasoning and data analysis",
+          "Differentiate literacy and numeracy support for diverse learners"
+        ],
+        "modules": [
+          {
+            "title": "Strategies for Developing Literacy",
+            "content": [
+              {
+                "title": "Reading Comprehension & Writing Skills",
+                "page": 21
+              }
+            ]
+          },
+          {
+            "title": "Teaching Numeracy Skills",
+            "content": [
+              {
+                "title": "Mathematical Reasoning & Problem‐Solving",
+                "page": 22
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Assessment",
-        "length": "4:50",
-        "isResource": false
+        "number": 10,
+        "title": "Encouraging Collaboration and Teamwork",
+        "introduction": "Collaboration and teamwork are essential skills for success in the modern world. This unit explores strategies for fostering collaboration and teamwork in secondary education, including group work, peer learning, and cooperative learning activities. Teachers will learn how to create a positive and inclusive classroom environment that encourages effective communication, problem-solving, and leadership skills. The unit also emphasizes conflict resolution, active listening, and social responsibility. Understanding how to encourage collaboration and teamwork empowers teachers to build a supportive and interactive learning community where students learn to work effectively with others.",
+        "objectives": [
+          "Design collaborative tasks and cooperative learning structures",
+          "Assign and rotate team roles to build leadership and accountability",
+          "Teach active listening and constructive feedback skills",
+          "Facilitate conflict resolution and positive group dynamics",
+          "Evaluate teamwork through self-, peer-, and teacher-assessments"
+        ],
+        "modules": [
+          {
+            "title": "Understanding Collaboration in Education",
+            "content": [
+              {
+                "title": "Benefits of Peer Learning & Cooperative Tasks",
+                "page": 23
+              }
+            ]
+          },
+          {
+            "title": "Encouraging Teamwork in the Classroom",
+            "content": [
+              {
+                "title": "Role Assignment & Shared Accountability",
+                "page": 24
+              }
+            ]
+          },
+          {
+            "title": "Evaluating Collaborative Learning",
+            "content": [
+              {
+                "title": "Self, Peer & Group Assessment Methods",
+                "page": 25
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 11,
+        "title": "Mental Health and Wellbeing in the Classroom",
+        "introduction": "Mental health and wellbeing are essential for students’ academic success, social interactions, and overall development. This unit explores strategies for promoting mental health and emotional wellbeing in secondary education, including recognizing signs of mental health challenges, providing emotional support, and fostering resilience. Teachers will learn how to create a safe and supportive classroom environment, promote emotional intelligence, and implement mindfulness and stress management techniques. The unit also emphasizes the importance of reducing stigma, promoting self-care, and building positive student–teacher relationships. Understanding mental health and wellbeing equips teachers to support students’ emotional needs and create a positive and nurturing learning environment.",
+        "objectives": [
+          "Recognize early signs of anxiety, depression, and stress in students",
+          "Provide empathetic emotional support and active listening",
+          "Teach coping strategies, mindfulness, and relaxation techniques",
+          "Collaborate with counselors, parents, and community resources",
+          "Promote self-care, resilience, and reduce mental health stigma"
+        ],
+        "modules": [
+          {
+            "title": "Understanding Mental Health Issues",
+            "content": [
+              {
+                "title": "Common Adolescent Mental Health Challenges",
+                "page": 26
+              }
+            ]
+          },
+          {
+            "title": "Supporting Mental Health in Students",
+            "content": [
+              {
+                "title": "Emotional Support & School-Home Collaboration",
+                "page": 27
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 12,
+        "title": "Reflective Practice for Continuous Professional Development",
+        "introduction": "Reflective practice is a powerful tool for continuous professional growth and development. This unit explores how teachers can use reflective practice to enhance their teaching methods, improve student outcomes, and achieve personal and professional growth. Teachers will learn how to engage in self-evaluation, set professional goals, and develop action plans for continuous improvement. The unit also emphasizes peer feedback, collaborative learning, and maintaining a growth mindset. Understanding reflective practice equips teachers to become lifelong learners who adapt to changing educational needs, innovate in their teaching practices, and contribute positively to their professional communities.",
+        "objectives": [
+          "Apply models of reflection (Kolb, Gibbs, Schön) to teaching practice",
+          "Use self-assessment tools, student feedback, and peer observation",
+          "Set SMART professional goals and develop actionable improvement plans",
+          "Engage in collaborative reflection with colleagues",
+          "Maintain a growth mindset and document progress over time"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Reflective Practice",
+            "content": [
+              {
+                "title": "Models of Reflection & Self-Evaluation",
+                "page": 28
+              }
+            ]
+          },
+          {
+            "title": "Self-Evaluation and Goal Setting",
+            "content": [
+              {
+                "title": "SMART Goals & Action Plans",
+                "page": 29
+              }
+            ]
+          }
+        ]
       }
     ]
   },
   {
     "id": "3",
+    "name": "Higher Education CPD Curriculum",
     "bgImage": "bg-uni-course",
-    "name": "Professional Development Course for Higher Institutions Teachers",
-    "description": "This course is specifically designed for higher institutions, focusing on advanced pedagogical techniques, subject-specific knowledge, and critical areas essential for effective teaching in higher education.",
-    "overview": "This comprehensive course aims to equip higher institutions educators with the skills and knowledge necessary to excel in their teaching roles. The course covers a range of modules that delve into advanced pedagogical techniques, subject-specific knowledge, and critical areas essential for effective teaching in higher education. Participants will engage in in-depth explorations of topics such as curriculum design, instructional strategies, and assessment methods, as well as subject-specific content in areas like data science, biological taxonomy, and more. Through a combination of theoretical and practical learning, educators will gain the skills and confidence to implement these advanced concepts in their classrooms, ultimately enhancing the learning experience for their students.",
-    "topics": [
-      "Understanding the Role of a Teaching Assistant",
-      "Effective Classroom Support Techniques",
-      "Promoting Inclusive Education",
-      "Supporting Literacy Development",
-      "Enhancing Numeracy Skills",
-      "Behavior Management Strategies for Teaching Assistants",
-      "Safeguarding and Child Protection",
-      "Working with Students with Special Educational Needs (SEN)",
-      "Effective Communication with Students and Staff",
-      " Fostering Positive Relationships with Parents and Guardians",
-      " Using Technology to Support Learning",
-      "Developing Professionalism as a Teaching Assistant"
-    ],
+    "img": "/assets/images/cpd_hi.png",
     "students": "4,220",
-    "totalTime": "17hrs 35mins",
-    "courseLength": "10 units",
-    "courseContents": [
+    "description": "This Continuing Professional Development (CPD) curriculum is designed for higher education educators, focusing on evidence-based teaching strategies, technology integration, inclusive practices, and leadership. The course consists of 12 units, each containing modules with progressive lessons. Participants can track their progress through interactive tools and assessments. Resources include downloadable guides, case studies, and multimedia content to enhance learning and application in academic settings.",
+    "overview": {
+      "introduction": "Enhance your teaching expertise and leadership skills with this comprehensive CPD curriculum for higher education professionals. The program integrates pedagogical innovation, assessment strategies, technology use, and global perspectives to foster academic excellence and student success.",
+      "objectives": [
+        "Improve Pedagogical Practices: Apply evidence-based teaching methods to create engaging learning environments.",
+        "Enhance Assessment Techniques: Design effective assessments and provide constructive feedback.",
+        "Integrate Technology: Utilize digital tools to enhance interactive and personalized learning experiences.",
+        "Promote Inclusivity: Implement Universal Design for Learning (UDL) and culturally responsive teaching.",
+        "Strengthen Research Integration: Link teaching with academic research to foster critical thinking.",
+        "Develop Leadership Skills: Cultivate ethical leadership and mentoring strategies in academia.",
+        "Expand Global Perspectives: Prepare students for global citizenship through internationalized curricula."
+      ],
+      "duration": {
+        "totalHours": 40,
+        "numberOfUnits": 12,
+        "hoursPerUnit": "3-4"
+      }
+    },
+    "structure": {
+      "format": "12 units with 2-3 modules each, including readings, case studies, and interactive activities",
+      "resources": [
+        "Downloadable lesson templates",
+        "Case study videos",
+        "Research articles",
+        "Interactive quizzes"
+      ]
+    },
+    "certification": {
+      "type": "CPD Accredited Certificate",
+      "benefits": [
+        "Enhance academic portfolio",
+        "Support career advancement",
+        "Share on professional networks",
+        "Use for institutional accreditation"
+      ]
+    },
+    "skillsAndCompetencies": [
       {
-        "name": "Course Introduction",
-        "length": "2:03",
-        "isResource": false
+        "title": "Effective Pedagogy",
+        "description": "Implementing student-centered and active learning strategies."
       },
       {
-        "name": "Course Teaching 1",
-        "length": "9:23",
-        "isResource": false
+        "title": "Assessment Design",
+        "description": "Creating formative and summative assessments aligned with learning outcomes."
       },
       {
-        "name": "Course Teaching 2",
-        "length": "4:05",
-        "isResource": false
+        "title": "Technology Integration",
+        "description": "Using digital tools for interactive and collaborative learning."
       },
       {
-        "name": "Course Teaching 3",
-        "length": "7:03",
-        "isResource": false
+        "title": "Inclusive Teaching",
+        "description": "Designing accessible curricula through UDL and culturally responsive practices."
       },
       {
-        "name": "Course Teaching 4",
-        "length": "2:03",
-        "isResource": false
+        "title": "Research-Based Teaching",
+        "description": "Integrating academic research into teaching to promote inquiry and critical analysis."
       },
       {
-        "name": "Course Teaching 5",
-        "length": "1:00",
-        "isResource": true
+        "title": "Curriculum Development",
+        "description": "Aligning learning outcomes, assessments, and instructional strategies."
       },
       {
-        "name": "Course Teaching 6",
-        "length": "2:09",
-        "isResource": false
+        "title": "Leadership and Mentoring",
+        "description": "Fostering collaborative environments through ethical leadership and mentorship."
       },
       {
-        "name": "Course Teaching 7",
-        "length": "12:03",
-        "isResource": false
+        "title": "Global Citizenship",
+        "description": "Promoting cross-cultural communication and global problem-solving skills."
+      }
+    ],
+    "accessibility": {
+      "platforms": ["Desktop", "Mobile"],
+      "features": [
+        "Responsive design",
+        "Offline access to materials",
+        "Progress tracking dashboard"
+      ]
+    },
+    "support": {
+      "features": [
+        "Peer discussion forums",
+        "Expert Q&A sessions",
+        "Live webinars",
+        "Mentorship programs"
+      ]
+    },
+    "units": [
+      {
+        "number": 1,
+        "title": "Effective Pedagogy in Higher Education",
+        "introduction": "Effective pedagogy is essential for creating meaningful and impactful learning experiences in higher education. This unit explores evidence-based teaching strategies, active learning techniques, and inclusive teaching practices. Educators will learn how to engage students, promote critical thinking, and create a positive learning environment that supports diverse learners. The unit also emphasizes reflective practice, continuous improvement, and innovative teaching methods.",
+        "objectives": [
+          "Explore evidence-based teaching strategies",
+          "Implement active and inclusive learning practices",
+          "Foster reflective practice and continuous improvement"
+        ],
+        "modules": [
+          {
+            "title": "Foundations of Effective Pedagogy",
+            "content": [
+              {
+                "title": "Definition of Effective Pedagogy",
+                "page": 4
+              },
+              {
+                "title": "Principles of Effective Pedagogy",
+                "page": 4
+              },
+              {
+                "title": "Evidence-Based Teaching Strategies",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Active Learning Strategies",
+            "content": [
+              {
+                "title": "Definition of Active Learning",
+                "page": 4
+              },
+              {
+                "title": "Active Learning Techniques and Strategies",
+                "page": 4
+              },
+              {
+                "title": "Assessing Active Learning and Engagement",
+                "page": 4
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 8",
-        "length": "4:50",
-        "isResource": false
+        "number": 2,
+        "title": "Assessment and Feedback in Higher Education",
+        "introduction": "Assessment and feedback are essential for guiding student progress, evaluating learning outcomes, and enhancing teaching effectiveness. This unit explores effective assessment methods, including formative, summative, and peer assessments. Educators will learn how to design meaningful assessments, provide actionable feedback, and use assessment data to improve teaching and learning.",
+        "objectives": [
+          "Differentiate formative, summative, diagnostic, and peer assessments",
+          "Design assessments aligned with learning objectives",
+          "Provide constructive, timely, and actionable feedback"
+        ],
+        "modules": [
+          {
+            "title": "Types of Assessment",
+            "content": [
+              {
+                "title": "Formative vs. Summative Assessments",
+                "page": 4
+              },
+              {
+                "title": "Diagnostic and Peer Assessments",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Effective Feedback Strategies",
+            "content": [
+              {
+                "title": "Characteristics of Effective Feedback",
+                "page": 4
+              },
+              {
+                "title": "Feedback Sandwich and Feedforward Methods",
+                "page": 4
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Assessment",
-        "length": "4:50",
-        "isResource": false
+        "number": 3,
+        "title": "Technology Integration in Higher Education",
+        "introduction": "Technology integration enhances teaching and learning by providing interactive, personalized, and innovative educational experiences. This unit explores effective strategies for integrating technology in higher education, including digital tools, online platforms, and multimedia resources. Educators will learn how to create engaging digital learning experiences, support student-centered learning, and enhance digital literacy.",
+        "objectives": [
+          "Identify key benefits and challenges of technology integration",
+          "Select and apply appropriate digital tools for active learning",
+          "Promote digital citizenship and online safety"
+        ],
+        "modules": [
+          {
+            "title": "The Role of Technology in Education",
+            "content": [
+              {
+                "title": "Definition of Technology Integration",
+                "page": 4
+              },
+              {
+                "title": "Benefits and Challenges",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Digital Tools for Active Learning",
+            "content": [
+              {
+                "title": "Multimedia, VR/AR, and Gamification",
+                "page": 4
+              },
+              {
+                "title": "Collaboration and Assessment Tools",
+                "page": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Inclusive Teaching and Learning",
+        "introduction": "Inclusive teaching ensures that all students, regardless of background, ability, or learning style, have equal opportunities to succeed. This unit explores strategies for creating an inclusive classroom environment, supporting diverse learners, and promoting equity and respect. Educators will learn how to implement differentiated instruction, provide accommodations, and design accessible learning materials.",
+        "objectives": [
+          "Understand principles of equity, diversity, and inclusion",
+          "Implement Universal Design for Learning (UDL) strategies",
+          "Foster a classroom culture of belonging and respect"
+        ],
+        "modules": [
+          {
+            "title": "Understanding Inclusivity in Higher Education",
+            "content": [
+              {
+                "title": "Principles of Inclusive Teaching",
+                "page": 4
+              },
+              {
+                "title": "Culturally Responsive Teaching",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Universal Design for Learning (UDL)",
+            "content": [
+              {
+                "title": "Multiple Means of Engagement, Representation, Expression",
+                "page": 4
+              },
+              {
+                "title": "Assistive Technologies and Accessibility",
+                "page": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 5,
+        "title": "Research-Based Teaching Practices",
+        "introduction": "Research-based teaching practices are grounded in educational research and evidence, ensuring effective and impactful learning experiences. This unit explores strategies for integrating research into teaching, encouraging students to engage with academic research, and promoting critical thinking. Educators will learn to design research-oriented curricula and assess the impact of these practices on learning outcomes.",
+        "objectives": [
+          "Link teaching strategies to educational research",
+          "Design inquiry-based and evidence-informed learning activities",
+          "Promote critical thinking and research skills in students"
+        ],
+        "modules": [
+          {
+            "title": "Linking Teaching and Research",
+            "content": [
+              {
+                "title": "Constructivist and Inquiry-Based Learning",
+                "page": 4
+              },
+              {
+                "title": "Collaborative Research Projects",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Developing Research-Oriented Curriculum",
+            "content": [
+              {
+                "title": "Scaffolding Research Skills",
+                "page": 4
+              },
+              {
+                "title": "Ethical Research Practice",
+                "page": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 6,
+        "title": "Curriculum Design and Development",
+        "introduction": "Curriculum design and development are essential for creating meaningful, engaging, and impactful learning experiences. This unit explores effective strategies for designing curricula that align learning outcomes with assessment methods and instructional strategies. Educators will learn to create student-centered, interdisciplinary curricula and implement continuous evaluation and improvement.",
+        "objectives": [
+          "Apply backward-design and other curriculum models",
+          "Align learning outcomes, assessments, and instruction",
+          "Implement continuous curriculum evaluation and feedback"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Curriculum Design",
+            "content": [
+              {
+                "title": "Backward Design and Tyler’s Principles",
+                "page": 4
+              },
+              {
+                "title": "Interdisciplinary and Constructivist Approaches",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Writing Learning Outcomes",
+            "content": [
+              {
+                "title": "Bloom’s Taxonomy and Action Verbs",
+                "page": 4
+              },
+              {
+                "title": "Aligning Outcomes with Assessments",
+                "page": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 7,
+        "title": "Developing Student-Centered Learning Environments",
+        "introduction": "Student-centered learning environments prioritize students’ needs, interests, and learning styles, empowering them to take an active role in their education. This unit explores strategies for creating dynamic, personalized, and collaborative classrooms that promote autonomy, critical thinking, and positive teacher-student relationships.",
+        "objectives": [
+          "Foster active participation and autonomy",
+          "Design personalized and flexible learning experiences",
+          "Cultivate collaborative and reflective classroom cultures"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Student-Centered Learning",
+            "content": [
+              {
+                "title": "Principles and Importance",
+                "page": 4
+              },
+              {
+                "title": "Teacher as Facilitator and Coach",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Active Learning Strategies",
+            "content": [
+              {
+                "title": "Problem-Based and Experiential Learning",
+                "page": 4
+              },
+              {
+                "title": "Flipped Classroom and Collaborative Projects",
+                "page": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 8,
+        "title": "Developing Graduate Attributes and Employability",
+        "introduction": "Graduate attributes and employability skills are essential for preparing students for successful careers and lifelong learning. This unit explores strategies for integrating critical thinking, communication, teamwork, adaptability, and digital literacy into the curriculum, as well as building industry partnerships and real-world experiences.",
+        "objectives": [
+          "Identify and cultivate key graduate attributes",
+          "Embed employability skills through experiential learning",
+          "Foster industry partnerships and professional development"
+        ],
+        "modules": [
+          {
+            "title": "Graduate Attributes and Employability",
+            "content": [
+              {
+                "title": "Key Competencies and Transferable Skills",
+                "page": 4
+              },
+              {
+                "title": "Integrating Attributes into Curriculum",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Embedding Employability in the Curriculum",
+            "content": [
+              {
+                "title": "Work-Integrated Learning and Capstone Projects",
+                "page": 4
+              },
+              {
+                "title": "Career Guidance and Professional Skills",
+                "page": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 9,
+        "title": "Professional Development and Reflective Practice",
+        "introduction": "Continuous professional development (CPD) and reflective practice are essential for maintaining high teaching standards and personal growth. This unit explores models of reflection, SMART goal-setting, professional learning communities, and strategies for self-evaluation and action planning.",
+        "objectives": [
+          "Engage in structured reflective cycles (e.g., Gibbs, Kolb)",
+          "Set SMART professional goals and create action plans",
+          "Participate in learning communities and peer feedback"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Reflective Practice",
+            "content": [
+              {
+                "title": "Models of Reflection (Kolb, Gibbs, Schön)",
+                "page": 4
+              },
+              {
+                "title": "Techniques for Self-Evaluation",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Professional Development Planning",
+            "content": [
+              {
+                "title": "SMART Goals and Personal Development Plans",
+                "page": 4
+              },
+              {
+                "title": "CPD Tools: Workshops, Webinars, Conferences",
+                "page": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 10,
+        "title": "Effective Communication and Presentation Skills",
+        "introduction": "Effective communication and presentation skills are essential for teaching, student engagement, and professional growth. This unit explores principles of clear messaging, active listening, emotional intelligence, and best practices for planning and delivering impactful lectures and presentations.",
+        "objectives": [
+          "Apply active listening and empathy in communication",
+          "Use storytelling, visuals, and technology in presentations",
+          "Manage Q&A and feedback to foster dialogue"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Effective Communication",
+            "content": [
+              {
+                "title": "Verbal, Non-Verbal, and Digital Communication",
+                "page": 4
+              },
+              {
+                "title": "Active Listening and Emotional Intelligence",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Presentation Techniques",
+            "content": [
+              {
+                "title": "Planning, Structuring, and Storytelling",
+                "page": 4
+              },
+              {
+                "title": "Multimedia Tools and Virtual Delivery",
+                "page": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 11,
+        "title": "Leadership and Mentoring in Higher Education",
+        "introduction": "Leadership and mentoring play a crucial role in fostering collaborative learning environments and supporting professional growth. This unit explores leadership styles (transformational, servant, situational), emotional intelligence, ethical decision-making, and effective mentoring strategies for colleagues and students.",
+        "objectives": [
+          "Demonstrate key leadership styles and ethical decision-making",
+          "Build trust, empathy, and collaboration through emotional intelligence",
+          "Implement one-on-one, peer, and group mentoring techniques"
+        ],
+        "modules": [
+          {
+            "title": "Leadership in Higher Education",
+            "content": [
+              {
+                "title": "Key Leadership Styles and Emotional Intelligence",
+                "page": 4
+              },
+              {
+                "title": "Building Positive Organizational Culture",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Mentoring Strategies and Techniques",
+            "content": [
+              {
+                "title": "One-on-One, Peer, Group, and E-Mentoring",
+                "page": 4
+              },
+              {
+                "title": "Goal-Setting, Feedback, and Reflective Growth",
+                "page": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 12,
+        "title": "Internationalization and Global Perspectives in Higher Education",
+        "introduction": "Internationalization and global perspectives prepare students for an interconnected world. This unit explores strategies for integrating global issues into curricula, promoting cultural awareness and sensitivity, supporting international students, and fostering virtual and exchange-based cross-cultural collaboration.",
+        "objectives": [
+          "Design globally relevant and culturally responsive curricula",
+          "Facilitate cross-cultural communication and exchange",
+          "Promote global citizenship, ethics, and social responsibility"
+        ],
+        "modules": [
+          {
+            "title": "Introduction to Internationalization",
+            "content": [
+              {
+                "title": "Objectives and Benefits of Globalizing Education",
+                "page": 4
+              },
+              {
+                "title": "Strategies for Cultural Awareness and Inclusion",
+                "page": 4
+              }
+            ]
+          },
+          {
+            "title": "Integrating Global Perspectives in Teaching",
+            "content": [
+              {
+                "title": "International Case Studies and Virtual Exchanges",
+                "page": 4
+              },
+              {
+                "title": "Digital Tools for Global Collaboration",
+                "page": 4
+              }
+            ]
+          }
+        ]
       }
     ]
   },
   {
     "id": "4",
-    "bgImage": "bg-uni-course",
-    "name": "Professional Development Course for Mentors",
-    "description": "This course is specifically designed for higher institutions, focusing on advanced pedagogical techniques, subject-specific knowledge, and critical areas essential for effective teaching in higher education.",
-    "overview": "This comprehensive course aims to equip higher institutions educators with the skills and knowledge necessary to excel in their teaching roles. The course covers a range of modules that delve into advanced pedagogical techniques, subject-specific knowledge, and critical areas essential for effective teaching in higher education. Participants will engage in in-depth explorations of topics such as curriculum design, instructional strategies, and assessment methods, as well as subject-specific content in areas like data science, biological taxonomy, and more. Through a combination of theoretical and practical learning, educators will gain the skills and confidence to implement these advanced concepts in their classrooms, ultimately enhancing the learning experience for their students.",
-    "topics": [
-      "Understanding the Role of a Teaching Assistant",
-      "Effective Classroom Support Techniques",
-      "Promoting Inclusive Education",
-      "Supporting Literacy Development",
-      "Enhancing Numeracy Skills",
-      "Behavior Management Strategies for Teaching Assistants",
-      "Safeguarding and Child Protection",
-      "Working with Students with Special Educational Needs (SEN)",
-      "Effective Communication with Students and Staff",
-      " Fostering Positive Relationships with Parents and Guardians",
-      " Using Technology to Support Learning",
-      "Developing Professionalism as a Teaching Assistant"
-    ],
+    "name": "CPD Curriculum for Teaching Assistants",
+    "bgImage": "bg-assistant-course",
+    "img": "/assets/images/ta.png",
     "students": "4,220",
-    "totalTime": "17hrs 35mins",
-    "courseLength": "10 units",
-    "courseContents": [
+    "description": "The course consists of 12 comprehensive units, each broken down into multiple modules. These modules cover essential topics such as the role of teaching assistants, classroom support techniques, inclusive education, literacy and numeracy support, behavior management, safeguarding, SEN support, and professional development. Progress tracking tools help participants monitor their advancement. Each module includes in-module quizzes, downloadable resources, videos, and interactive tests to reinforce learning.",
+    "overview": {
+      "introduction": "This CPD curriculum equips teaching assistants with the knowledge and skills to effectively support teachers and students in diverse educational settings. Covering roles and responsibilities, classroom management, inclusive practices, literacy and numeracy support, and safeguarding, the course enhances TAs' ability to contribute to a positive and productive learning environment.",
+      "objectives": [
+        "Understand the roles and responsibilities of teaching assistants",
+        "Develop effective classroom support techniques",
+        "Promote inclusive education and overcome learning barriers",
+        "Support literacy and numeracy development",
+        "Implement behavior management strategies",
+        "Recognize and address safeguarding concerns",
+        "Collaborate with teachers, SEN specialists, and parents",
+        "Utilize technology to enhance learning",
+        "Maintain professionalism and continuous development"
+      ],
+      "duration": {
+        "totalHours": 42,
+        "numberOfUnits": 12,
+        "hoursPerUnit": "3.5-4"
+      }
+    },
+    "structure": {
+      "format": "12 comprehensive units with multiple modules",
+      "resources": [
+        "Downloadable PDFs",
+        "Videos of classroom scenarios",
+        "Reading links",
+        "Interactive tests"
+      ]
+    },
+    "certification": {
+      "type": "CPD accredited certificate",
+      "benefits": [
+        "Add to portfolio",
+        "Add to resume",
+        "Add to LinkedIn profile",
+        "Share on social media",
+        "Use in performance review"
+      ]
+    },
+    "skillsAndCompetencies": [
       {
-        "name": "Course Introduction",
-        "length": "2:03",
-        "isResource": false
+        "title": "Understanding the Role of a Teaching Assistant",
+        "description": "Grasping core responsibilities, collaboration with teachers, and fostering student development."
       },
       {
-        "name": "Course Teaching 1",
-        "length": "9:23",
-        "isResource": false
+        "title": "Effective Classroom Support Techniques",
+        "description": "Observing lessons, preparing materials, and facilitating group activities."
       },
       {
-        "name": "Course Teaching 2",
-        "length": "4:05",
-        "isResource": false
+        "title": "Promoting Inclusive Education",
+        "description": "Identifying barriers to learning and supporting diverse learners."
       },
       {
-        "name": "Course Teaching 3",
-        "length": "7:03",
-        "isResource": false
+        "title": "Literacy and Numeracy Development",
+        "description": "Enhancing reading, writing, and math skills through differentiated instruction."
       },
       {
-        "name": "Course Teaching 4",
-        "length": "2:03",
-        "isResource": false
+        "title": "Behavior Management",
+        "description": "Implementing de-escalation techniques and reinforcing positive behavior."
       },
       {
-        "name": "Course Teaching 5",
-        "length": "1:00",
-        "isResource": true
+        "title": "Safeguarding and Child Protection",
+        "description": "Recognizing signs of abuse and following safeguarding protocols."
       },
       {
-        "name": "Course Teaching 6",
-        "length": "2:09",
-        "isResource": false
+        "title": "Supporting Students with SEN",
+        "description": "Differentiating instruction and collaborating with specialists."
       },
       {
-        "name": "Course Teaching 7",
-        "length": "12:03",
-        "isResource": false
+        "title": "Effective Communication",
+        "description": "Building relationships with students, staff, and parents through active listening."
       },
       {
-        "name": "Course Teaching 8",
-        "length": "4:50",
-        "isResource": false
+        "title": "Technology Integration",
+        "description": "Using digital tools to enhance virtual and hybrid learning."
       },
       {
-        "name": "Assessment",
-        "length": "4:50",
-        "isResource": false
+        "title": "Professionalism and Reflective Practice",
+        "description": "Maintaining ethical standards, time management, and continuous improvement."
+      }
+    ],
+    "accessibility": {
+      "platforms": ["Desktop", "Tablet", "Smartphone"],
+      "features": [
+        "Mobile app version",
+        "Progress tracking",
+        "Learn at own convenience"
+      ]
+    },
+    "support": {
+      "features": [
+        "Discussion forums",
+        "Chatbot support",
+        "Community engagement",
+        "Collaborative learning opportunities"
+      ]
+    },
+    "units": [
+      {
+        "number": 1,
+        "title": "Understanding the Role of a Teaching Assistant",
+        "introduction": "This unit explores the multifaceted role of a Teaching Assistant (TA) in the classroom, highlighting how TAs contribute to student success. It covers key responsibilities such as supporting learning, assisting teachers with lesson delivery, and promoting a positive classroom environment.",
+        "objectives": [
+          "Understand core roles and responsibilities of TAs",
+          "Develop strategies for effective collaboration with teachers",
+          "Support students' academic, social, and emotional development",
+          "Maintain professional boundaries and ethics"
+        ],
+        "modules": [
+          {
+            "title": "Roles and Responsibilities of Teaching Assistants",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Supporting Student Learning",
+                "readingMaterial": "Providing one-on-one support, differentiated instruction, and fostering independence.",
+                "lessonType": "reading",
+                "page": 2
+              },
+              {
+                "title": "Case Study: Reinforcing Key Concepts",
+                "readingMaterial": "Example of supporting a student with learning difficulties.",
+                "lessonType": "caseStudy",
+                "page": 3
+              }
+            ]
+          },
+          {
+            "title": "Collaboration with Teachers",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Building Partnerships",
+                "readingMaterial": "Strategies for clear communication, mutual respect, and shared goals.",
+                "lessonType": "reading",
+                "page": 4
+              },
+              {
+                "title": "Role-Play: Conflict Resolution",
+                "readingMaterial": "Scenario for resolving disagreements professionally.",
+                "lessonType": "activity",
+                "page": 5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Effective Classroom Support Techniques",
+        "introduction": "This unit equips TAs with practical strategies for supporting teachers and students during lessons, including lesson preparation, observation, and facilitating group activities.",
+        "objectives": [
+          "Apply active observation techniques",
+          "Prepare materials for differentiated instruction",
+          "Facilitate collaborative group work"
+        ],
+        "modules": [
+          {
+            "title": "Observing and Supporting Lessons",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Targeted Support Strategies",
+                "readingMaterial": "Proactive intervention, responsive support, and balancing independence.",
+                "lessonType": "reading",
+                "page": 6
+              },
+              {
+                "title": "Video: Quiet Assistance in Action",
+                "readingMaterial": "Demonstration of discreet student support.",
+                "lessonType": "video",
+                "page": 7
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Promoting Inclusive Education",
+        "introduction": "This unit equips TAs to foster inclusive classrooms by addressing barriers to learning and supporting diverse learners.",
+        "objectives": [
+          "Identify physical, cognitive, and social barriers to learning",
+          "Implement differentiated instruction strategies",
+          "Promote equity and accessibility"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Inclusive Education",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Key Principles of Inclusion",
+                "readingMaterial": "Equity, respect for diversity, collaboration.",
+                "lessonType": "reading",
+                "page": 10
+              },
+              {
+                "title": "Case Study: Accessibility Adjustments",
+                "readingMaterial": "Adapting activities for a student with mobility challenges.",
+                "lessonType": "caseStudy",
+                "page": 11
+              }
+            ]
+          },
+          {
+            "title": "Identifying Barriers to Learning",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Observation Techniques",
+                "readingMaterial": "Checklists for identifying cognitive and emotional barriers.",
+                "lessonType": "reading",
+                "page": 12
+              },
+              {
+                "title": "Role-Play: Supporting ESL Learners",
+                "readingMaterial": "Scenario for adapting communication strategies.",
+                "lessonType": "activity",
+                "page": 13
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Supporting Literacy Development",
+        "introduction": "This unit focuses on strategies to enhance students' reading, writing, and communication skills.",
+        "objectives": [
+          "Reinforce phonics and comprehension skills",
+          "Scaffold writing tasks for struggling learners",
+          "Use differentiated literacy resources"
+        ],
+        "modules": [
+          {
+            "title": "Supporting Reading Skills",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Phonics and Fluency Activities",
+                "readingMaterial": "Guided reading techniques and multi-sensory approaches.",
+                "lessonType": "reading",
+                "page": 14
+              },
+              {
+                "title": "Video: Interactive Read-Alouds",
+                "readingMaterial": "Demonstration of engaging storytelling methods.",
+                "lessonType": "video",
+                "page": 15
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "number": 5,
+        "title": "Enhancing Numeracy Skills",
+        "introduction": "This unit provides techniques to build foundational math skills and reduce math anxiety.",
+        "objectives": [
+          "Develop number sense and problem-solving strategies",
+          "Use multi-sensory math activities",
+          "Address math anxiety through positive reinforcement"
+        ],
+        "modules": []
+      },
+      {
+        "number": 6,
+        "title": "Behavior Management Strategies",
+        "introduction": "This unit covers proactive techniques for maintaining a positive classroom environment.",
+        "objectives": [
+          "Implement de-escalation strategies",
+          "Reinforce positive behavior",
+          "Collaborate with teachers on discipline plans"
+        ],
+        "modules": []
+      },
+      {
+        "number": 7,
+        "title": "Safeguarding and Child Protection",
+        "introduction": "This unit trains TAs to recognize and report safeguarding concerns.",
+        "objectives": [
+          "Identify signs of abuse and neglect",
+          "Follow safeguarding protocols",
+          "Maintain confidentiality and ethical reporting"
+        ],
+        "modules": []
+      },
+      {
+        "number": 8,
+        "title": "Supporting Students with SEN",
+        "introduction": "This unit focuses on strategies for assisting students with special educational needs.",
+        "objectives": [
+          "Implement IEP recommendations",
+          "Use assistive technologies",
+          "Adapt resources for diverse learning styles"
+        ],
+        "modules": []
+      },
+      {
+        "number": 9,
+        "title": "Effective Communication with Staff and Parents",
+        "introduction": "This unit enhances collaboration through clear communication techniques.",
+        "objectives": [
+          "Practice active listening with colleagues",
+          "Deliver constructive feedback to parents",
+          "Resolve conflicts professionally"
+        ],
+        "modules": []
+      },
+      {
+        "number": 10,
+        "title": "Parental Engagement Strategies",
+        "introduction": "This unit explores methods to build partnerships with parents and guardians.",
+        "objectives": [
+          "Organize parent-teacher conferences",
+          "Create inclusive communication channels",
+          "Address cultural differences sensitively"
+        ],
+        "modules": []
+      },
+      {
+        "number": 11,
+        "title": "Technology Integration in Learning",
+        "introduction": "This unit trains TAs to use digital tools to enhance classroom engagement.",
+        "objectives": [
+          "Navigate virtual learning platforms",
+          "Support students with assistive technology",
+          "Promote digital literacy"
+        ],
+        "modules": []
+      },
+      {
+        "number": 12,
+        "title": "Professionalism and Reflective Practice",
+        "introduction": "This unit emphasizes ethical conduct and continuous self-improvement.",
+        "objectives": [
+          "Maintain professional boundaries",
+          "Engage in reflective journaling",
+          "Set personal development goals"
+        ],
+        "modules": []
       }
     ]
   },
   {
     "id": "5",
-    "bgImage": "bg-assistant-course",
-    "name": "Professional Development Course for Teaching Assistants",
-    "description": "This course is specifically designed for higher institutions, focusing on advanced pedagogical techniques, subject-specific knowledge, and critical areas essential for effective teaching in higher education.",
-    "overview": "This comprehensive course aims to equip higher institutions educators with the skills and knowledge necessary to excel in their teaching roles. The course covers a range of modules that delve into advanced pedagogical techniques, subject-specific knowledge, and critical areas essential for effective teaching in higher education. Participants will engage in in-depth explorations of topics such as curriculum design, instructional strategies, and assessment methods, as well as subject-specific content in areas like data science, biological taxonomy, and more. Through a combination of theoretical and practical learning, educators will gain the skills and confidence to implement these advanced concepts in their classrooms, ultimately enhancing the learning experience for their students.",
-    "topics": [
-      "Understanding the Role of a Teaching Assistant",
-      "Effective Classroom Support Techniques",
-      "Promoting Inclusive Education",
-      "Supporting Literacy Development",
-      "Enhancing Numeracy Skills",
-      "Behavior Management Strategies for Teaching Assistants",
-      "Safeguarding and Child Protection",
-      "Working with Students with Special Educational Needs (SEN)",
-      "Effective Communication with Students and Staff",
-      " Fostering Positive Relationships with Parents and Guardians",
-      " Using Technology to Support Learning",
-      "Developing Professionalism as a Teaching Assistant"
+    "name": "CPD Curriculum for Mentors",
+    "bgImage": "bg-uni-course",
+    "img": "/assets/images/cpd_mentors.png",
+    "students": "19,200",
+    "description": "This course consists of 12 comprehensive units designed to equip mentors with the skills and knowledge to support mentees effectively. Topics include role understanding, communication, goal setting, conflict resolution, diversity support, and ethical leadership. Progress tracking, downloadable resources, videos, and interactive tests enhance learning and application.",
+    "overview": {
+      "introduction": "This CPD curriculum empowers mentors to foster personal and professional growth in mentees through ethical guidance, effective communication, and inclusive practices. The program emphasizes reflective practice, leadership, and continuous improvement to create impactful mentoring relationships.",
+      "objectives": [
+        "Understand mentoring roles and ethical responsibilities",
+        "Develop effective communication and active listening skills",
+        "Implement goal-setting and action-planning strategies",
+        "Navigate conflict resolution and problem-solving",
+        "Support diverse learners and promote inclusivity",
+        "Enhance personal development and wellbeing strategies",
+        "Apply reflective practice for continuous improvement",
+        "Uphold ethical standards and professional boundaries",
+        "Demonstrate leadership and positive role modeling",
+        "Build collaborative networks and measure mentoring impact"
+      ],
+      "duration": {
+        "totalHours": 45,
+        "numberOfUnits": 12,
+        "hoursPerUnit": "3.5-4"
+      }
+    },
+    "structure": {
+      "format": "12 comprehensive units with multiple modules",
+      "resources": [
+        "Downloadable PDFs",
+        "Case study videos",
+        "Interactive reflection worksheets",
+        "Role-play scenario guides"
+      ]
+    },
+    "certification": {
+      "type": "CPD accredited certificate",
+      "benefits": [
+        "Add to portfolio",
+        "Enhance professional credentials",
+        "Share on LinkedIn",
+        "Use in performance evaluations"
+      ]
+    },
+    "skillsAndCompetencies": [
+      {
+        "title": "Mentoring Roles and Ethics",
+        "description": "Understanding responsibilities, ethical boundaries, and professional conduct in mentoring."
+      },
+      {
+        "title": "Effective Communication",
+        "description": "Practicing active listening, empathy, and culturally sensitive dialogue."
+      },
+      {
+        "title": "Goal Setting and Action Planning",
+        "description": "Guiding mentees in creating SMART goals and actionable plans."
+      },
+      {
+        "title": "Conflict Resolution",
+        "description": "De-escalating conflicts and fostering collaborative problem-solving."
+      },
+      {
+        "title": "Inclusive Mentoring",
+        "description": "Adapting strategies to support diverse learners and cultural backgrounds."
+      },
+      {
+        "title": "Wellbeing Promotion",
+        "description": "Supporting mentees' mental health, resilience, and work-life balance."
+      },
+      {
+        "title": "Reflective Practice",
+        "description": "Using self-assessment and feedback for continuous growth."
+      },
+      {
+        "title": "Ethical Leadership",
+        "description": "Leading with integrity, transparency, and social responsibility."
+      },
+      {
+        "title": "Impact Evaluation",
+        "description": "Measuring mentoring outcomes and demonstrating program effectiveness."
+      }
     ],
-    "students": "4,220",
-    "totalTime": "17hrs 35mins",
-    "courseLength": "10 units",
-    "courseContents": [
+    "accessibility": {
+      "platforms": ["Desktop", "Tablet", "Mobile"],
+      "features": [
+        "Mobile-friendly design",
+        "Offline resource access",
+        "Progress tracking dashboard"
+      ]
+    },
+    "support": {
+      "features": [
+        "Peer discussion forums",
+        "Mentor community groups",
+        "Live Q&A sessions",
+        "Email support"
+      ]
+    },
+    "units": [
       {
-        "name": "Course Introduction",
-        "length": "2:03",
-        "isResource": false
+        "number": 1,
+        "title": "Understanding the Role of a Mentor",
+        "introduction": "This unit explores the core responsibilities of mentors, ethical considerations, and strategies for building positive mentor-mentee relationships.",
+        "objectives": [
+          "Define mentoring roles and boundaries",
+          "Apply ethical decision-making frameworks",
+          "Foster trust and emotional safety"
+        ],
+        "modules": [
+          {
+            "title": "Roles and Responsibilities of a Mentor",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Core Mentoring Principles",
+                "readingMaterial": "Ethical guidelines, confidentiality, and professional boundaries.",
+                "lessonType": "reading",
+                "page": 2
+              },
+              {
+                "title": "Case Study: Ethical Dilemmas",
+                "readingMaterial": "Scenario on maintaining confidentiality vs. safeguarding concerns.",
+                "lessonType": "caseStudy",
+                "page": 3
+              }
+            ]
+          },
+          {
+            "title": "Building Positive Relationships",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Active Listening Techniques",
+                "readingMaterial": "Strategies for empathetic listening and feedback.",
+                "lessonType": "video",
+                "page": 4
+              },
+              {
+                "title": "Role-Play: Trust Building",
+                "readingMaterial": "Scenario for resolving communication barriers.",
+                "lessonType": "activity",
+                "page": 5
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 1",
-        "length": "9:23",
-        "isResource": false
+        "number": 2,
+        "title": "Effective Communication and Active Listening",
+        "introduction": "This unit focuses on enhancing communication skills, including verbal/non-verbal cues, cultural sensitivity, and feedback delivery.",
+        "objectives": [
+          "Apply active listening strategies",
+          "Adapt communication for diverse audiences",
+          "Deliver constructive feedback"
+        ],
+        "modules": [
+          {
+            "title": "Principles of Effective Communication",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Cultural Sensitivity in Dialogue",
+                "readingMaterial": "Guidelines for inclusive language and cross-cultural communication.",
+                "lessonType": "reading",
+                "page": 6
+              },
+              {
+                "title": "Video: Non-Verbal Cues",
+                "readingMaterial": "Demonstration of body language and tone.",
+                "lessonType": "video",
+                "page": 7
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 2",
-        "length": "4:05",
-        "isResource": false
+        "number": 3,
+        "title": "Goal Setting and Action Planning",
+        "introduction": "This unit guides mentors in helping mentees set SMART goals and create actionable plans for growth.",
+        "objectives": [
+          "Define SMART goals",
+          "Develop structured action plans",
+          "Track progress using digital tools"
+        ],
+        "modules": [
+          {
+            "title": "Importance of Goal Setting",
+            "duration": 2,
+            "content": [
+              {
+                "title": "SMART Goal Framework",
+                "readingMaterial": "Specific, Measurable, Achievable, Relevant, Time-bound criteria.",
+                "lessonType": "reading",
+                "page": 8
+              },
+              {
+                "title": "Case Study: Academic Goal Achievement",
+                "readingMaterial": "Example of a mentee overcoming procrastination.",
+                "lessonType": "caseStudy",
+                "page": 9
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 3",
-        "length": "7:03",
-        "isResource": false
+        "number": 4,
+        "title": "Providing Constructive Feedback",
+        "introduction": "This unit explores feedback techniques to motivate mentees and foster a growth mindset.",
+        "objectives": [
+          "Apply the Feedback Sandwich Method",
+          "Use emotional intelligence in dialogues",
+          "Balance praise and constructive criticism"
+        ],
+        "modules": [
+          {
+            "title": "Importance of Feedback",
+            "duration": 2,
+            "content": [
+              {
+                "title": "Feedback Models (SBI/AID)",
+                "readingMaterial": "Situation-Behavior-Impact and Action-Impact-Desired Outcome frameworks.",
+                "lessonType": "reading",
+                "page": 10
+              },
+              {
+                "title": "Role-Play: Delivering Tough Feedback",
+                "readingMaterial": "Scenario for practicing empathetic communication.",
+                "lessonType": "activity",
+                "page": 11
+              }
+            ]
+          }
+        ]
       },
       {
-        "name": "Course Teaching 4",
-        "length": "2:03",
-        "isResource": false
+        "number": 3,
+        "title": "Goal Setting and Action Planning",
+        "introduction": "This unit guides mentors in helping mentees set SMART goals and create actionable plans for growth.",
+        "objectives": [
+          "Define SMART goals",
+          "Develop structured action plans",
+          "Track progress using digital tools"
+        ],
+        "modules": []
       },
       {
-        "name": "Course Teaching 5",
-        "length": "1:00",
-        "isResource": true
+        "number": 4,
+        "title": "Providing Constructive Feedback",
+        "introduction": "This unit explores feedback techniques to motivate mentees and foster a growth mindset.",
+        "objectives": [
+          "Apply the Feedback Sandwich Method",
+          "Use emotional intelligence in dialogues",
+          "Balance praise and constructive criticism"
+        ],
+        "modules": []
       },
       {
-        "name": "Course Teaching 6",
-        "length": "2:09",
-        "isResource": false
+        "number": 5,
+        "title": "Conflict Resolution and Problem-Solving",
+        "introduction": "This unit equips mentors to resolve conflicts and facilitate collaborative solutions.",
+        "objectives": [
+          "De-escalate emotional tensions",
+          "Apply mediation techniques",
+          "Promote win-win outcomes"
+        ],
+        "modules": []
       },
       {
-        "name": "Course Teaching 7",
-        "length": "12:03",
-        "isResource": false
+        "number": 6,
+        "title": "Supporting Diverse Learners",
+        "introduction": "This unit focuses on adapting mentoring strategies for cultural, cognitive, and neurodiverse needs.",
+        "objectives": [
+          "Recognize cultural and learning differences",
+          "Implement inclusive communication",
+          "Address biases and stereotypes"
+        ],
+        "modules": []
       },
       {
-        "name": "Course Teaching 8",
-        "length": "4:50",
-        "isResource": false
+        "number": 7,
+        "title": "Promoting Personal Development and Wellbeing",
+        "introduction": "This unit trains mentors to support mentees' emotional resilience and mental health.",
+        "objectives": [
+          "Teach stress management techniques",
+          "Encourage self-care practices",
+          "Foster a growth mindset"
+        ],
+        "modules": []
       },
       {
-        "name": "Assessment",
-        "length": "4:50",
-        "isResource": false
+        "number": 8,
+        "title": "Reflective Practice and Continuous Improvement",
+        "introduction": "This unit emphasizes self-assessment and lifelong learning for mentors.",
+        "objectives": [
+          "Apply reflective models (e.g., Gibbs' Cycle)",
+          "Set professional development goals",
+          "Engage in peer feedback"
+        ],
+        "modules": []
+      },
+      {
+        "number": 9,
+        "title": "Ethical Considerations and Boundaries",
+        "introduction": "This unit covers ethical decision-making and maintaining professional boundaries.",
+        "objectives": [
+          "Navigate confidentiality dilemmas",
+          "Avoid conflicts of interest",
+          "Uphold integrity in mentoring"
+        ],
+        "modules": []
+      },
+      {
+        "number": 10,
+        "title": "Leadership and Role Modeling",
+        "introduction": "This unit explores leadership styles to inspire mentees and build trust.",
+        "objectives": [
+          "Demonstrate transformational leadership",
+          "Lead by example with integrity",
+          "Promote ethical decision-making"
+        ],
+        "modules": []
+      },
+      {
+        "number": 11,
+        "title": "Building Collaborative Networks",
+        "introduction": "This unit focuses on creating supportive mentoring communities and peer networks.",
+        "objectives": [
+          "Facilitate peer mentoring groups",
+          "Leverage digital collaboration tools",
+          "Promote knowledge sharing"
+        ],
+        "modules": []
+      },
+      {
+        "number": 12,
+        "title": "Evaluation and Impact Measurement",
+        "introduction": "This unit trains mentors to assess program effectiveness and measure outcomes.",
+        "objectives": [
+          "Design evaluation frameworks",
+          "Collect qualitative/quantitative data",
+          "Report mentoring impact"
+        ],
+        "modules": []
       }
     ]
   }

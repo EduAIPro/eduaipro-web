@@ -1,16 +1,55 @@
 export type Course = {
   id: string;
-  bgImage: string;
   name: string;
-  description: string;
-  topics: string[];
-  overview: string;
+  bgImage: string;
+  img: string;
   students: string;
-  courseLength: string;
-  totalTime: string;
-  courseContents: {
-    name: string;
-    length: string;
-    isResource: boolean;
+  description: string;
+  overview: {
+    introduction: string;
+    objectives: string[];
+    duration: {
+      totalHours: number;
+      numberOfUnits: number;
+      hoursPerUnit: string;
+    };
+  };
+  structure: {
+    format: string;
+    resources: string[];
+  };
+  certification: {
+    type: string;
+    benefits: string[];
+  };
+
+  skillsAndCompetencies: { title: string; description: string }[];
+  accessibility: {
+    platforms: string[];
+    features: string[];
+  };
+  support: {
+    features: string[];
+  };
+  units: CourseUnit[];
+};
+
+type CourseUnit = {
+  number: number;
+  title: string;
+  introduction: string;
+  objectives: string[];
+  modules: CourseModule[];
+  // totalDuration: number;
+};
+
+type CourseModule = {
+  title: string;
+  // duration: number;
+  content: {
+    title: string;
+    // readingMaterial: string;
+    lessonType?: string;
+    page: number;
   }[];
 };

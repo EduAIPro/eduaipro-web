@@ -22,6 +22,7 @@ import { course, coursesFiles } from "./data";
 const PersonalDevPlan = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [unitIndex, setUnitIndex] = useState<number>(0);
+  const [introHasPlayed, setIntroHasPlayed] = useState(false);
 
   const isMobile = useIsMobile();
   return (
@@ -33,11 +34,13 @@ const PersonalDevPlan = () => {
             currentPage={currentPage}
             unitIndex={unitIndex}
             setUnitIndex={setUnitIndex}
+            introHasPlayed={introHasPlayed}
           />
           <CourseContent
             selectUnit={(unit) => setUnitIndex(unit)}
             setCurrentPage={setCurrentPage}
             unitIndex={unitIndex}
+            setIntroHasPlayed={setIntroHasPlayed}
           />
         </div>
       ) : (
@@ -48,6 +51,7 @@ const PersonalDevPlan = () => {
               currentPage={currentPage}
               unitIndex={unitIndex}
               setUnitIndex={setUnitIndex}
+              introHasPlayed={introHasPlayed}
             />
           </ResizablePanel>
           <ResizableHandle withHandle />
@@ -56,6 +60,7 @@ const PersonalDevPlan = () => {
               selectUnit={(unit) => setUnitIndex(unit)}
               setCurrentPage={setCurrentPage}
               unitIndex={unitIndex}
+              setIntroHasPlayed={setIntroHasPlayed}
             />
           </ResizablePanel>
         </ResizablePanelGroup>
@@ -69,6 +74,7 @@ type CoursePageProps = {
   setUnitIndex: Dispatch<SetStateAction<number>>;
   currentPage: number;
   unitIndex: number;
+  introHasPlayed: boolean;
 };
 
 function CourseMedia({
@@ -76,6 +82,7 @@ function CourseMedia({
   setCurrentPage,
   unitIndex,
   setUnitIndex,
+  introHasPlayed,
 }: CoursePageProps) {
   return (
     <div className="col-span-3 h-fit space-y-3">
@@ -84,6 +91,7 @@ function CourseMedia({
         currentPage={currentPage}
         fileName={coursesFiles[unitIndex]}
         setUnitIndex={setUnitIndex}
+        introHasPlayed={introHasPlayed}
       />
     </div>
   );
@@ -95,8 +103,10 @@ function CourseContent({
   setCurrentPage,
   selectUnit,
   unitIndex,
+  setIntroHasPlayed,
 }: {
   setCurrentPage: Dispatch<SetStateAction<number>>;
+  setIntroHasPlayed: Dispatch<SetStateAction<boolean>>;
   selectUnit: (unit: number) => void;
   unitIndex: number;
 }) {
@@ -113,7 +123,13 @@ function CourseContent({
               value={unit.number.toString()}
               key={unit.number}
             >
-              <AccordionTrigger>
+              <AccordionTrigger
+                onClick={() => {
+                  selectUnit(i);
+                  setIntroHasPlayed(true);
+                  window.localStorage.setItem("hasIntroPlayed", "true");
+                }}
+              >
                 <div className="flex items-center gap-3">
                   {i > 1 ? (
                     <div className="w-fit">
@@ -125,8 +141,7 @@ function CourseContent({
                       Unit {unit.number} - {unit.title}
                     </h5>
                     <span className="text-xs lg:text-sm line-clamp-1 text-grey-10 w-full text-left">
-                      {unit.modules.length} lectures | {unit.totalDuration}{" "}
-                      hours
+                      {unit.modules.length} lectures
                     </span>
                   </div>
                 </div>
@@ -134,9 +149,9 @@ function CourseContent({
               <AccordionContent>
                 <div className="overflow-hidden transition-all duration-500 ease-in-out overflow-y-auto">
                   <div>
-                    <p className="text-sm font-medium text-grey-11 whitespace-pre-line">
+                    {/* <p className="text-sm font-medium text-grey-11 whitespace-pre-line">
                       {unit.introduction}
-                    </p>
+                    </p> */}
                     <h2 className="mt-2 font-semibold text-accent-900">
                       Modules
                     </h2>
@@ -177,7 +192,7 @@ function CourseContent({
                               {course?.content ? (
                                 <>
                                   <h2 className="font-semibold text-sm">
-                                    Titles
+                                    Contents
                                   </h2>
                                   {course.content.map((item, index) => (
                                     <div
@@ -187,7 +202,7 @@ function CourseContent({
                                           setCurrentPage(item.page);
                                         } else if (item.page) {
                                           setCurrentPage(item.page);
-                                          selectUnit(i);
+                                          // selectUnit(i);
                                         }
                                       }}
                                       role="button"
@@ -199,7 +214,7 @@ function CourseContent({
                                     </div>
                                   ))}
                                   <div className="space-y-2 font-semibold text-sm">
-                                    <h2>Case study</h2>
+                                    <h2>Case studies</h2>
                                     <h2>Practical Applications</h2>
                                   </div>
                                 </>

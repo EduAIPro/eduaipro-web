@@ -141,17 +141,17 @@ const config: Config = {
         "courses-hero": "url('/assets/images/wo.jpg')",
         "institution-benefits": "url('/assets/images/school.jpg')",
         "high-sch-course":
-          "url('/assets/images/high-school.jpg'), linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.5))",
+          "url('/assets/images/cpd_course_secondary.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "primary-sch-course":
-          "url('/assets/images/elementary.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
+          "url('/assets/images/cpd_course_primary.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "uni-course":
-          "url('/assets/images/university.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
+          "url('/assets/images/cpd_course_hi.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "assistant-course":
-          "url('/assets/images/mentor1.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
+          "url('/assets/images/cpd_course_ta.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "auth-bg":
           "url('/assets/images/img14.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "auth-mentor":
-          "url('/assets/images/img17.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
+          "url('/assets/images/cpd_course_mentors.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "gradient-45": "linear-gradient(205deg, var(--tw-gradient-stops))",
       },
       animation: {

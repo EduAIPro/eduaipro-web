@@ -1,12 +1,11 @@
-import React from "react";
-import Typography from "../common/ui/Typography";
 import { generateKey } from "@/utils/key";
-import { ArrowRight, SearchNormal1 } from "iconsax-react";
-import Pill from "../common/ui/Pill";
 import { Button } from "@radix-ui/themes";
-import Course from "../common/lib/Course";
-import courses from "../courses/data.json";
+import { ArrowRight } from "iconsax-react";
 import Link from "next/link";
+import Course from "../common/lib/Course";
+import Pill from "../common/ui/Pill";
+import Typography from "../common/ui/Typography";
+import courses from "../courses/data.json";
 
 export default function CoursesList() {
   return (
