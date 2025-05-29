@@ -7,7 +7,6 @@ import Footer from "@/components/navigation/Footer";
 import { generateKey } from "@/utils/key";
 import { Button } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { BsPatchCheckFill } from "react-icons/bs";
 
 export default function PricingPage() {
@@ -17,7 +16,6 @@ export default function PricingPage() {
       <section className="max-w-full lg:max-w-[80%] mx-auto flex flex-col gap-7 md:gap-14 mt-12 md:mt-24">
         <div className="text-center md:max-w-[70%] mx-auto flex flex-col gap-3">
           <Pill text="PRICING" />
-          {/* <Typography.H3>EduAi {"Pro's"}</Typography.H3> */}
           <Typography.H2 weight="bold">More Value, Less Cost</Typography.H2>
           <Typography.P weight="medium" fontColor="medium">
             With EduAi Pro, you get access to a wide range of features and tools

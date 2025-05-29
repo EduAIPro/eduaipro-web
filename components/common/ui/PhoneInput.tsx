@@ -129,6 +129,7 @@ export default function PhoneInput({
           }}
         />
       </div>
+      {error ? <p className="text-sm text-error mt-2">{error}</p> : null}
     </div>
   );
 }

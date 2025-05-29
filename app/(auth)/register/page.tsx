@@ -1,24 +1,22 @@
 "use client";
+import AdminSignup from "@/components/auth/AdminSignup";
+import { LoginComp } from "@/components/auth/LoginComp";
+import TeacherSignup from "@/components/auth/TeacherSignup";
 import Typography from "@/components/common/ui/Typography";
-import { LuGraduationCap } from "react-icons/lu";
-import { SlBookOpen } from "react-icons/sl";
+import { SchoolSignup } from "@/components/school/auth/signup";
+import { userRoles } from "@/utils/data";
 import { Button } from "@radix-ui/themes";
-import { ArrowLeft } from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
-import { LoginComp } from "@/components/auth/LoginComp";
-import TeacherSignup from "@/components/auth/TeacherSignup";
-import InstitutionSignup from "@/components/auth/InstitutionSignup";
-import AdminSignup from "@/components/auth/AdminSignup";
-import { userRoles } from "@/utils/data";
 
 export default function RegisterPage() {
   const router = useRouter();
   const currentPath = usePathname();
   const userType = useSearchParams().get("type");
   const userTypes = ["institution", "teacher", "admin"];
+
+  console.log({ userType });
   return (
     <main className="lg:flex flex-row justify-between">
       <section className="w-full p-4 xs:p-6 min-h-screen">
@@ -56,7 +54,7 @@ export default function RegisterPage() {
                     key={idx + "hardman"}
                     onClick={() =>
                       router.replace(
-                        idx !== 4
+                        idx !== 5
                           ? `${currentPath}?type=teacher`
                           : `${currentPath}?type=institution`
                       )
@@ -80,21 +78,11 @@ export default function RegisterPage() {
               </div>
             </div>
           ) : userTypes.includes(userType) ? (
-            <div
-              className={`w-full sm:w-4/5 md:w-2/3 mx-auto gap-6 flex-col flex ${
-                userType === userTypes[0] ? "mt-20" : ""
-              }`}
-            >
-              <Link href="/register">
-                <div className="flex items-center gap-2">
-                  <ArrowLeft />
-                  <Typography.H3 size="base">Back</Typography.H3>
-                </div>
-              </Link>
+            <div className="w-full sm:w-4/5 md:w-2/3 mx-auto gap-6 flex-col flex">
               {userType === userTypes[1] ? (
                 <TeacherSignup />
               ) : userType === userTypes[0] ? (
-                <InstitutionSignup />
+                <SchoolSignup />
               ) : userType === "admin" ? (
                 <AdminSignup />
               ) : null}
