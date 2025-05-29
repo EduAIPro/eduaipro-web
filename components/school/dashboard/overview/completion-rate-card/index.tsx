@@ -4,7 +4,7 @@ type CompletionRateCardProps = {};
 
 export const CompletionRateCard = ({}: CompletionRateCardProps) => {
   return (
-    <div className="bg-white rounded-xl p-5 relative border hover:scale-[1.02] duration-300 border-grey-400 flex flex-col justify-between space-y-14">
+    <div className="school_card relative flex flex-col justify-between space-y-14">
       <div className="space-y-1">
         <p className="text-grey-500 text-base font-medium">
           Course Completion Rate

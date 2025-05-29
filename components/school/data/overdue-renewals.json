@@ -1,0 +1,37 @@
+[
+  {
+    "teacher": "Maria Gonzalez",
+    "course": "Professional Development course for secondary school teachers",
+    "dateDue": "07-04-2025"
+  },
+  {
+    "teacher": "Jubril Abubakar",
+    "course": "Professional Development course for primary school teachers",
+    "dateDue": "13-04-2025"
+  },
+  {
+    "teacher": "Mary Osamudiamen",
+    "course": "Professional Development course for secondary school teachers",
+    "dateDue": "09-04-2025"
+  },
+  {
+    "teacher": "John Okeke",
+    "course": "Professional Development course for secondary school teachers",
+    "dateDue": "07-04-2025"
+  },
+  {
+    "teacher": "John Doe",
+    "course": "Professional Development course for secondary school teachers",
+    "dateDue": "07-04-2025"
+  },
+  {
+    "teacher": "Chukwudi Emeka",
+    "course": "Professional Development course for secondary school teachers",
+    "dateDue": "07-04-2025"
+  },
+  {
+    "teacher": "Michaek Ojukwu",
+    "course": "Professional Development course for primary school teachers",
+    "dateDue": "07-04-2025"
+  }
+]

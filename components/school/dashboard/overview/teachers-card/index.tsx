@@ -2,7 +2,7 @@ type TeachersCardProps = {};
 
 export const TeachersCard = ({}: TeachersCardProps) => {
   return (
-    <div className="bg-white rounded-xl p-5 border hover:scale-[1.02] duration-300 border-grey-400 flex flex-col justify-between space-y-14">
+    <div className="school_card flex flex-col justify-between space-y-14">
       <div className="space-y-1">
         <p className="text-grey-500 text-base font-medium">Teachers</p>
         <h2 className="text-2xl font-semibold">80</h2>

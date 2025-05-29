@@ -97,6 +97,10 @@ const config: Config = {
         },
         primary: {
           DEFAULT: "#0043BE",
+          "50": "#F4F8FF",
+          "100": "#AFCAFC",
+          "300": "#2E6BCE",
+          "400": "#0043BE",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
