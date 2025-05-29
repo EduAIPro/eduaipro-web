@@ -44,7 +44,7 @@ export default function RootLayout({
     DefaultLayout.displayName = "LoginLayout";
     AppLayout = DefaultLayout;
   }
-  if (pathname.includes("/dashboard")) {
+  if (pathname.includes("/dashboard") || pathname.includes("/school")) {
     DefaultLayout.displayName = "DashboardLayout";
     AppLayout = DefaultLayout;
   }
