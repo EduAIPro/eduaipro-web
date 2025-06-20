@@ -1,22 +1,23 @@
-import { Slot } from "@radix-ui/react-slot";
+import { Slot, Slottable } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { Loader2Icon } from "lucide-react";
 
 const buttonVariants = cva(
-  "inline-flex items-center transition-all cursor-pointer hover:scale-105 justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-800/80 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300",
+  "inline-flex items-center transition-all shadow-[inset_-1px_-2px_3px_rgba(0,_0,_0,_0.15)] cursor-pointer hover:scale-105 justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-800/80 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300",
   {
     variants: {
       variant: {
         default:
-          "bg-primary-300 border border-primary-400 shadow-[inset_-1px_-2px_3px_rgba(0,_0,_0,_0.15)] text-zinc-50 hover:bg-primary-400/90",
+          "bg-primary-300 border border-primary-400 text-zinc-50 hover:bg-primary-400/90",
         destructive:
           "bg-red-500 text-zinc-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-zinc-50 dark:hover:bg-red-900/90",
         outline:
           "border-2 text-accent-900 border-brand-800 bg-white hover:bg-brand-900/90 hover:border-brand-900/90 font-medium hover:text-zinc-100",
         secondary:
-          "bg-zinc-100 text-zinc-900 hover:bg-zinc-100/80 dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-800/80",
+          "bg-white border border-grey-400 text-zinc-900 hover:bg-white/80 dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-800/80",
         ghost:
           "hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
         link: "text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-50",
@@ -39,17 +40,33 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  loading?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, loading, children, ...props },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
-      />
+      >
+        {loading && (
+          <Loader2Icon
+            className={cn(
+              "h-4 w-4 animate-spin text-white",
+              variant === "outline" || variant === "ghost"
+                ? "text-primary-400"
+                : "text-white"
+            )}
+          />
+        )}
+        <Slottable>{children}</Slottable>
+      </Comp>
     );
   }
 );

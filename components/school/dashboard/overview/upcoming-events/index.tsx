@@ -15,7 +15,9 @@ export const UpcomingEvents = ({}: UpcomingEventsProps) => {
           </Link>
         </div>
         {upcomingEvents.length ? (
-          upcomingEvents.map((i) => <EventInfoItem event={i} key={i.title} />)
+          upcomingEvents
+            .slice(0, 5)
+            .map((i) => <EventInfoItem event={i} key={i.title} />)
         ) : (
           <div>
             <p className="text-sm text-center text-grey-500">

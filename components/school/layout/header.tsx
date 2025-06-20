@@ -14,7 +14,7 @@ export const SchoolLayoutHeader = ({}: SchoolLayoutHeaderProps) => {
   const path = usePathname();
   const router = useRouter();
   return (
-    <header className="bg-white flex items-center justify-between p-5 fixed top-0 w-full inset-x-0">
+    <header className="bg-white flex items-center justify-between p-5 fixed top-0 w-full inset-x-0 z-50">
       <div className="flex-shrink-0">
         <Link href="/">
           <Image

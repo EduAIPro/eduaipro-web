@@ -14,7 +14,9 @@ export const OverdueRenewals = ({}: OverdueRenewalsProps) => {
           </Link>
         </div>
         {overdueRenewals.length ? (
-          overdueRenewals.map((i) => <OverdueItem item={i} key={i.teacher} />)
+          overdueRenewals
+            .slice(0, 6)
+            .map((i) => <OverdueItem item={i} key={i.teacher} />)
         ) : (
           <div>
             <p className="text-sm text-center text-grey-500">
