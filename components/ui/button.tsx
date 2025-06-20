@@ -13,9 +13,9 @@ const buttonVariants = cva(
         default:
           "bg-primary-300 border border-primary-400 text-zinc-50 hover:bg-primary-400/90",
         destructive:
-          "bg-red-500 text-zinc-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-zinc-50 dark:hover:bg-red-900/90",
+          "bg-[#FA6666] text-zinc-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-zinc-50 dark:hover:bg-red-900/90",
         outline:
-          "border-2 text-accent-900 border-brand-800 bg-white hover:bg-brand-900/90 hover:border-brand-900/90 font-medium hover:text-zinc-100",
+          "border text-grey-500 border-[#DBDBDB] bg-white hover:bg-grey-400/50 font-medium hover:text-grey-800/80",
         secondary:
           "bg-white border border-grey-400 text-zinc-900 hover:bg-white/80 dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-800/80",
         ghost:

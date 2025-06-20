@@ -74,7 +74,7 @@ export const TeachersListColumnsDef: ColumnDef<Teacher>[] = [
         <p className="text-grey-500 truncate text-sm font-semibold">
           {format(
             parse(row.original.createdAt, "dd-mm-yyyy", new Date()),
-            "dd/MMM/yyyy"
+            "dd/MM/yyyy"
           )}
         </p>
       );

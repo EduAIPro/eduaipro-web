@@ -55,6 +55,7 @@ const config: Config = {
           "400": "#DBDBDB",
           "500": "#656565",
           "600": "#96a6b7",
+          "800": "#141414",
           surface: " #ffffffcc",
         },
         warning: {
