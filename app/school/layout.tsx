@@ -7,7 +7,7 @@ export default function SchoolLayout({ children }: { children: ReactNode }) {
     <section className="w-full p-5 bg-[#F9FAFC] pt-24 sm:pt-32 min-h-screen">
       <SchoolLayoutHeader />
 
-      <>{children}</>
+      <div className="pb-20">{children}</div>
     </section>
   );
 }

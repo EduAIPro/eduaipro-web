@@ -22,16 +22,6 @@ export default function LoginForm() {
 
   const loginMutation = useMutationApi(LOGIN_MUTATION_KEY, login, {
     onSuccess: (data) => {
-      const _res = data.data;
-      window.localStorage.setItem(
-        "access_token",
-        JSON.stringify(_res.tokens.token)
-      );
-      window.localStorage.setItem(
-        "refresh_token",
-        JSON.stringify(_res.tokens.refreshToken)
-      );
-
       toast({
         title: "Login successful 🎉",
       });

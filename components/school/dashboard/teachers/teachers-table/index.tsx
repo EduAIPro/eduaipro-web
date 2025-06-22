@@ -1,10 +1,14 @@
 "use client";
 import { TeachersListColumnsDef } from "./columns";
 
+import { useQueryApi } from "@/api/hooks/useQueryApi";
+import { GET_ALL_SCHOOL_TEACHERS_QUERY_KEY } from "@/api/keys";
+import { getAllTeachersBySchool } from "@/api/queries";
 import { DataTable } from "@/components/ui/data-table";
-import { Teacher } from "@/types/school/teachers";
+import { Pagination } from "@/types/api";
+import { Teacher } from "@/types/school";
 import { Fragment, useMemo, useState } from "react";
-import teachers from "../../../data/teachers.json";
+import { UseQueryResult } from "react-query";
 import { InviteTeacherModal } from "../modals/invite-teacher.modal";
 import { SendMessageModal } from "../modals/send-message.modal";
 import { TeacherProfile } from "../profile";
@@ -13,8 +17,12 @@ import { Empty } from "./empty";
 export const TeachersTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isOpen, setOpen] = useState(true);
-  const [teacher, setTeacher] = useState<null | Teacher>(teachers[0]);
+  const [isOpen, setOpen] = useState(false);
+  const [teacher, setTeacher] = useState<null | Teacher>(null);
+
+  const getSchoolTeachersQuery: UseQueryResult<
+    Pagination & { data: Teacher[] }
+  > = useQueryApi([GET_ALL_SCHOOL_TEACHERS_QUERY_KEY], getAllTeachersBySchool);
 
   const filterOptions = useMemo(
     () => [
@@ -32,18 +40,23 @@ export const TeachersTable = () => {
   return (
     <Fragment>
       <DataTable<Teacher, unknown>
-        hasError={false}
-        isLoading={false}
-        data={teachers}
+        canSearch
+        hasError={getSchoolTeachersQuery.isError}
+        isLoading={getSchoolTeachersQuery.isLoading}
+        data={getSchoolTeachersQuery.data?.data ?? []}
         columns={TeachersListColumnsDef}
         filterOptions={filterOptions}
         onPageChange={(page) => setCurrentPage(page)}
-        canSearch
+        onRefresh={() => getSchoolTeachersQuery.refetch()}
         emptyComponent={<Empty />}
         searchInput={{
           placeholder: "Search teacher",
           value: searchValue,
           setValue: (val: string) => setSearchValue(val),
+        }}
+        onRowClick={(row) => {
+          setTeacher(row);
+          setOpen(true);
         }}
         otherFilters={
           <>
@@ -51,21 +64,18 @@ export const TeachersTable = () => {
             <InviteTeacherModal />
           </>
         }
-        onRowClick={(row) => {
-          setTeacher(row);
-          setOpen(true);
+        meta={{
+          total: getSchoolTeachersQuery?.data?.total || 0,
+          page: getSchoolTeachersQuery?.data?.page || 1,
+          totalPages:
+            getSchoolTeachersQuery?.data?.total! /
+              getSchoolTeachersQuery?.data?.limit! || 1,
+          limit: getSchoolTeachersQuery?.data?.limit || 10,
         }}
-        // onRefresh={() => treatmentQuery.refetch()}
-        // meta={{
-        // 	total: treatmentQuery?.data?.totalItems || 0,
-        // 	page: treatmentQuery?.data?.currentPage || 1,
-        // 	totalPages: treatmentQuery?.data?.totalPages || 1,
-        // 	limit: treatmentQuery?.data?.limit || 10,
-        // }}
       />
 
       <TeacherProfile
-        open={isOpen}
+        open={isOpen && !!teacher}
         toggleOpen={(v) => setOpen(v)}
         teacher={teacher!}
       />

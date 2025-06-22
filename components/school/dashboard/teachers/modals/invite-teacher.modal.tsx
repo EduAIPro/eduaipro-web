@@ -32,7 +32,7 @@ export const InviteTeacherModal = ({}: InviteTeacherModalProps) => {
           : "Import csv Summary"
       }
       trigger={
-        <Button>
+        <Button className="max-sm:w-full">
           <PlusIcon strokeWidth={2} />
           <p className="font-medium">Invite teacher</p>
         </Button>

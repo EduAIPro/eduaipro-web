@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Teacher } from "@/types/school/teachers";
+import { Teacher } from "@/types/school";
 import { ColumnDef } from "@tanstack/react-table";
 import { format, parse } from "date-fns";
 
@@ -32,7 +32,7 @@ export const TeachersListColumnsDef: ColumnDef<Teacher>[] = [
     cell: ({ row }) => {
       return (
         <p className="text-grey-500 truncate text-sm font-semibold">
-          {row.original.phone}
+          {row.original.phoneNumber}
         </p>
       );
     },
@@ -43,7 +43,7 @@ export const TeachersListColumnsDef: ColumnDef<Teacher>[] = [
     cell: ({ row }) => {
       return (
         <p className="text-grey-500 truncate text-sm font-semibold">
-          {row.original.level}
+          {row.original.teachingLevel}
         </p>
       );
     },
@@ -52,7 +52,7 @@ export const TeachersListColumnsDef: ColumnDef<Teacher>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const value = row.original.status;
+      const value = row.original.isActive ? "active" : "inactive";
       return (
         <div className="flex items-center gap-2">
           <div

@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 type CreateSchoolAccountProps = {
-  onSave: VoidFunction;
+  onSave: (v: CreateAccountFormValue) => void;
 };
 
 export const CreateSchoolAccount = ({ onSave }: CreateSchoolAccountProps) => {
@@ -27,7 +27,9 @@ export const CreateSchoolAccount = ({ onSave }: CreateSchoolAccountProps) => {
   };
 
   function handleSubmit(values: CreateAccountFormValue) {
-    onSave();
+    if (values) {
+      onSave(values);
+    }
   }
 
   function togglePassword() {
@@ -46,7 +48,7 @@ export const CreateSchoolAccount = ({ onSave }: CreateSchoolAccountProps) => {
         initialValues={initialValues}
         validationSchema={createAccountValidation}
       >
-        {({ touched, errors, setFieldValue, isValid }) => {
+        {({ touched, errors, setFieldValue, isValid, values }) => {
           const fieldError = (fieldName: keyof CreateAccountFormValue) =>
             touched[fieldName] && errors[fieldName] ? errors[fieldName] : null;
 
@@ -122,7 +124,7 @@ export const CreateSchoolAccount = ({ onSave }: CreateSchoolAccountProps) => {
 
               <div className="flex items-center justify-between">
                 <p>Already have an account?</p>
-                <Link href="/login">
+                <Link href="/login/school">
                   <h3 className="text-base underline font-medium">Login</h3>
                 </Link>
               </div>

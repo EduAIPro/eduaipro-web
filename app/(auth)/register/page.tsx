@@ -16,7 +16,6 @@ export default function RegisterPage() {
   const userType = useSearchParams().get("type");
   const userTypes = ["institution", "teacher", "admin"];
 
-  console.log({ userType });
   return (
     <main className="lg:flex flex-row justify-between">
       <section className="w-full p-4 xs:p-6 min-h-screen">

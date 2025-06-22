@@ -3,7 +3,7 @@ import { InviteTeacherModal } from "../modals/invite-teacher.modal";
 
 export const Empty = () => {
   return (
-    <div className="max-w-lg w-full flex items-center justify-center mx-auto min-h-[60vh]">
+    <div className="max-w-sm md:max-w-lg w-full flex items-center justify-center mx-auto min-h-[60vh]">
       <div className="">
         <div>
           <EmptyIcon className="w-full h-32 sm:h-40" />

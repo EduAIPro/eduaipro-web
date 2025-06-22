@@ -25,7 +25,7 @@ export const SchoolLayoutHeader = ({}: SchoolLayoutHeaderProps) => {
           />
         </Link>
       </div>
-      <ul className="flex-shrink-0 gap-3 flex items-center justify-center">
+      <ul className="flex-shrink-0 gap-3 flex items-center justify-center max-md:fixed max-md:bottom-0 max-md:w-full max-md:h-20 bg-white max-md:border-t max-md:inset-x-0 max-md:px-5 max-sm:overflow-x-scroll">
         {NavItems.map((i) => {
           const Icon = path === i.url ? i.activeIcon : i.icon;
           return (
@@ -34,10 +34,13 @@ export const SchoolLayoutHeader = ({}: SchoolLayoutHeaderProps) => {
               key={i.name}
               onClick={() => router.push(i.url)}
               className={cn(
+                "shadow-none max-md:flex-shrink-0 max-md:w-1/4 max-sm:flex-col max-sm:h-12 max-sm:gap-1",
                 path === i.url ? "border border-[#AFCAFC] !bg-[#EEF5FF]" : ""
               )}
             >
-              <Icon />
+              <div className="flex-shrink-0">
+                <Icon width={20} height={20} />
+              </div>
               <h2
                 className={cn(
                   path === i.url ? "text-[#0043BE]" : "text-grey-500"
@@ -50,7 +53,10 @@ export const SchoolLayoutHeader = ({}: SchoolLayoutHeaderProps) => {
         })}
       </ul>
       <div className="flex-shrink-0">
-        <Button variant="outline">
+        <Button
+          variant="outline"
+          className="shadow-none max-md:border-none min-w-fit"
+        >
           <BellIcon />
         </Button>
       </div>

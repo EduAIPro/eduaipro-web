@@ -32,8 +32,9 @@ h6,
   font-family: "Montserrat", sans-serif;
 }
 a:hover {
-  scale: 1.05;
+  scale: 1.02;
   animation-duration: 600ms;
+  transition: all;
 }
 .radix-themes {
   --default-font-family: var(--font-montserrat) !important;

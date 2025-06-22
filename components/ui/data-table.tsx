@@ -228,8 +228,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4 p-2">
+      <div className="flex md:items-center justify-between max-md:flex-col">
+        <div className="flex items-center gap-4 max-md:pb-2">
           {canSearch && searchInput ? (
             <Input
               placeholder={searchInput?.placeholder ?? "Search"}
@@ -241,7 +241,7 @@ export function DataTable<TData, TValue>({
           ) : null}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex sm:items-center gap-3 max-sm:flex-wrap max-sm:flex-col">
           {activeFilters?.length > 0 && (
             <Button
               variant="ghost"

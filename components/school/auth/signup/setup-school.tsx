@@ -1,26 +1,89 @@
-import FormInput from "@/components/common/ui/FormInput";
+import { useMutationApi } from "@/api/hooks/useMutationApi";
+import { schoolSignup } from "@/api/mutations";
+import FormInput, { SelectInput } from "@/components/common/ui/FormInput";
 import PhoneInput from "@/components/common/ui/PhoneInput";
 import { Button } from "@/components/ui/button";
+import useSchoolStore from "@/store/school";
+import { SchoolSignupPayload } from "@/types/auth";
 import {
+  CreateAccountFormValue,
   SetupAccountFormValue,
   setupAccountValidation,
 } from "@/utils/validation/auth/signup";
 import { Form, Formik } from "formik";
 import { Location, ProfileCircle, Sms } from "iconsax-react";
+import { useRouter } from "next/navigation";
 
-type SetupSchoolProfileProps = {};
+type SetupSchoolProfileProps = {
+  accountValues: CreateAccountFormValue;
+};
 
-export const SetupSchoolProfile = ({}: SetupSchoolProfileProps) => {
+export const SetupSchoolProfile = ({
+  accountValues,
+}: SetupSchoolProfileProps) => {
+  const { setSchool } = useSchoolStore();
+  const router = useRouter();
+
+  // mutation
+  const createAccount = useMutationApi(
+    "CREATE_ACCOUNT_MUTATION_KEY",
+    schoolSignup,
+    {
+      onSuccess(values) {
+        if (values.data?.school) {
+          setSchool(values.data?.school);
+          router.push("/register/success");
+        }
+      },
+    }
+  );
+
   const initialValues = {
     institutionName: "",
     state: "",
     city: "",
     address: "",
+    type: "",
     contactEmail: "",
     contactPhone: "",
   };
 
-  function handleSubmit(values: SetupAccountFormValue) {}
+  async function handleSubmit(values: SetupAccountFormValue) {
+    const payload: SchoolSignupPayload = {
+      name: values.institutionName,
+      city: values.city,
+      state: values.state,
+      adminName: accountValues.name,
+      type: values.type,
+      password: accountValues.password,
+      location: values.address,
+      contactNumber: values.contactPhone,
+      contactEmail: values.contactEmail,
+      officialEmail: accountValues.email,
+      phoneNumber: accountValues.phone,
+      position: accountValues.position,
+    };
+    createAccount.mutate(payload);
+  }
+
+  const schoolOptions = [
+    {
+      label: "Primary School",
+      value: "Primary School",
+    },
+    {
+      label: "Secondary School",
+      value: "Secondary School",
+    },
+    {
+      label: "Primary and Secondary School",
+      value: "Primary and Secondary School",
+    },
+    {
+      label: "University",
+      value: "University",
+    },
+  ];
 
   return (
     <div className="space-y-8">
@@ -44,8 +107,8 @@ export const SetupSchoolProfile = ({}: SetupSchoolProfileProps) => {
           return (
             <Form className="space-y-5">
               <FormInput
-                label="Full name"
-                placeholder="Enter your name"
+                label="Institution name"
+                placeholder="Enter institution name"
                 name="institutionName"
                 error={fieldError("institutionName")}
                 leftIcon={<ProfileCircle />}
@@ -76,6 +139,13 @@ export const SetupSchoolProfile = ({}: SetupSchoolProfileProps) => {
                 error={fieldError("address")}
                 leftIcon={<Location />}
               />
+              <SelectInput
+                name="type"
+                label="Administrator Role"
+                options={schoolOptions}
+                error={fieldError("type")}
+                leftIcon={<ProfileCircle size={18} />}
+              />
               <FormInput
                 label="Contact email"
                 placeholder="Enter an email address we can reach the institution with"
@@ -91,7 +161,12 @@ export const SetupSchoolProfile = ({}: SetupSchoolProfileProps) => {
                 error={fieldError("contactPhone")}
               />
 
-              <Button disabled={!isValid} className="w-full" type="submit">
+              <Button
+                disabled={!isValid}
+                loading={createAccount.isLoading}
+                className="w-full"
+                type="submit"
+              >
                 <h3>Continue</h3>
               </Button>
             </Form>

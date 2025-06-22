@@ -7,7 +7,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { Certificate, Teacher } from "@/types/school/teachers";
+import { Teacher } from "@/types/school";
+import { Certificate } from "@/types/school/teachers";
 import { format } from "date-fns";
 import { ChevronRightIcon } from "lucide-react";
 import { Fragment, useState } from "react";
@@ -22,7 +23,7 @@ type ProfileSheetProps = {
 };
 
 export const ProfileSheet = ({
-  open = true,
+  open,
   toggleOpen,
   teacher,
 }: ProfileSheetProps) => {
@@ -83,11 +84,11 @@ const TeacherContent = ({ teacher, onSelectCert }: TeacherContentProps) => {
     },
     {
       label: "Phone number",
-      value: teacher.phone,
+      value: teacher.phoneNumber,
     },
     {
       label: "Teaching level",
-      value: teacher.level,
+      value: teacher.teachingLevel,
     },
     {
       label: "Status",

@@ -4,36 +4,52 @@ import {
   EducatorSignup,
   EducatorSignupResponse,
   Login,
+  SchoolLogin,
+  SchoolLoginResponse,
+  SchoolSignupPayload,
+  SchoolSignupResponse,
 } from "@/types/auth";
 import { apiPostRequest } from "./request";
 
 export async function signup(
-  data: EducatorSignup
+  payload: EducatorSignup
 ): Promise<EducatorSignupResponse> {
   try {
     const url = "/auth/user/signup";
-    const response = await apiPostRequest<EducatorSignupResponse>(url, data);
+    const { data } = await apiPostRequest<EducatorSignupResponse>(url, payload);
 
-    if (response.data.error) {
-      throw response.data.error;
+    if (data.error) {
+      throw data.error;
     }
 
-    return response.data;
+    localStorage.setItem("accessToken", JSON.stringify(data.data.tokens.token));
+    localStorage.setItem(
+      "refreshToken",
+      JSON.stringify(data.data.tokens.refreshToken)
+    );
+
+    return data;
   } catch (error) {
     throw error;
   }
 }
 
-export async function login(data: Login): Promise<EducatorLoginResponse> {
+export async function login(payload: Login): Promise<EducatorLoginResponse> {
   try {
     const url = "/auth/user/signin";
-    const response = await apiPostRequest<EducatorLoginResponse>(url, data);
+    const { data } = await apiPostRequest<EducatorLoginResponse>(url, payload);
 
-    if (response.data.error) {
-      throw response.data.error;
+    if (data.error) {
+      throw data.error;
     }
 
-    return response.data;
+    localStorage.setItem("accessToken", JSON.stringify(data.data.tokens.token));
+    localStorage.setItem(
+      "refreshToken",
+      JSON.stringify(data.data.tokens.refreshToken)
+    );
+
+    return data;
   } catch (error) {
     throw error;
   }
@@ -47,6 +63,51 @@ export async function updateProfile(data: CreateEducatorAccountPayload) {
     if (response.data.error) {
       throw response.data.error;
     }
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// SCHOOL
+export async function schoolSignup(
+  data: SchoolSignupPayload
+): Promise<SchoolSignupResponse> {
+  try {
+    const url = "/auth/school/register";
+    const response = await apiPostRequest<SchoolSignupResponse>(url, data);
+
+    if (response.data.error) {
+      throw response.data.error;
+    }
+
+    const { tokens } = response.data.data;
+
+    localStorage.setItem("accessToken", tokens.token);
+    localStorage.setItem("refreshToken", tokens.refreshToken);
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function schoolLogin(
+  data: SchoolLogin
+): Promise<SchoolLoginResponse> {
+  try {
+    const url = "/auth/school/signin";
+    const response = await apiPostRequest<SchoolLoginResponse>(url, data);
+
+    if (response.data.error) {
+      throw response.data.error;
+    }
+
+    const { tokens } = response.data.data;
+
+    localStorage.setItem("accessToken", tokens.token);
+    localStorage.setItem("refreshToken", tokens.refreshToken);
 
     return response.data;
   } catch (error) {

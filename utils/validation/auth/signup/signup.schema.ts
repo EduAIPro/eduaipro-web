@@ -1,7 +1,8 @@
 import * as Yup from "yup";
+import { passwordValidation } from "../..";
 
-const phoneValidation = Yup.string().matches(
-  /^(\+1\s?)?(\([0-9]{3}\)|[0-9]{3})[\s\-]?[0-9]{3}[\s\-]?[0-9]{4}$/,
+export const phoneValidation = Yup.string().matches(
+  /^(\+\d{1,4}\s?)?[\d\s-]+$/,
   "Please enter a valid phone number"
 );
 
@@ -12,10 +13,10 @@ export const createAccountValidation = Yup.object().shape({
   position: Yup.string().required("Your official position is a required value"),
   email: Yup.string().email().required("Email address is required"),
   phone: phoneValidation.required("Your phone number is required"),
-  password: Yup.string().password().required("Your password is required"),
-  confirmPassword: Yup.string()
-    .password()
-    .required("You must confirm your passowrd before you can proceed"),
+  password: passwordValidation.required("Password is a required value"),
+  confirmPassword: passwordValidation.required(
+    "Password confirmation is a required value"
+  ),
 });
 
 export type CreateAccountFormValue = Yup.InferType<
@@ -26,6 +27,7 @@ export const setupAccountValidation = Yup.object().shape({
   institutionName: Yup.string()
     .required("Name is a required value")
     .min(2, "Your name must be at least two characters long"),
+  type: Yup.string().required("Select an institution type"),
   state: Yup.string()
     .required("State is a required value")
     .min(2, "State must be at least two characters long"),

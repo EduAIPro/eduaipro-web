@@ -24,14 +24,6 @@ export default function TeacherSignup() {
     onSuccess: (data) => {
       const _res = data.data;
       window.localStorage.setItem("user", JSON.stringify(_res.user));
-      window.localStorage.setItem(
-        "access_token",
-        JSON.stringify(_res.tokens.token)
-      );
-      window.localStorage.setItem(
-        "refresh_token",
-        JSON.stringify(_res.tokens.refreshToken)
-      );
 
       toast({
         title: "Registration successful 🎉",

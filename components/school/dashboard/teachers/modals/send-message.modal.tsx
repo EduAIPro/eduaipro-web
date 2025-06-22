@@ -17,7 +17,7 @@ export const SendMessageModal = ({}: SendMessageModalProps) => {
     <Modal
       title="Send message"
       trigger={
-        <Button>
+        <Button className="max-sm:w-full">
           <MicrophoneIcon />
           <p className="font-medium">Send message</p>
         </Button>

@@ -1,4 +1,4 @@
-import { Teacher } from "@/types/school/teachers";
+import { Teacher } from "@/types/school";
 import { ProfileSheet } from "./sheet";
 
 // TODO: fetch teacher data and add skeleton loaders
