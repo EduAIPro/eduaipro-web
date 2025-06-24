@@ -1,6 +1,6 @@
 "use client";
 import Container from "@/components/common/ui/Container";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { Montserrat } from "next/font/google";
@@ -56,7 +56,7 @@ export default function RootLayout({
             <AppLayout>{children}</AppLayout>
           </Theme>
         </QueryClientProvider>
-        <Toaster />
+        <Toaster position="top-center" />
       </body>
     </html>
   );

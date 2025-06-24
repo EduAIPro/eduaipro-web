@@ -12,20 +12,24 @@ import { Certificate } from "@/types/school/teachers";
 import { format } from "date-fns";
 import { ChevronRightIcon } from "lucide-react";
 import { Fragment, useState } from "react";
+import { ConfirmActivateTeacherModal } from "../modals/confirm-activate-teacher.modal";
 import { ConfirmDeactivateTeacherModal } from "../modals/confirm-deactivate-teacher.modal";
 import { ConfirmDeleteTeacherModal } from "../modals/confirm-delete-teacher.modal";
 import { CertificateSheet } from "./certificate-sheet";
+import { TeacherLoading } from "./loading";
 
 type ProfileSheetProps = {
   open: boolean;
   toggleOpen: (v: boolean) => void;
-  teacher: Teacher;
+  teacher: Teacher | null;
+  loading: boolean;
 };
 
 export const ProfileSheet = ({
   open,
   toggleOpen,
   teacher,
+  loading = true,
 }: ProfileSheetProps) => {
   const [selectedCert, setSelectedCert] = useState<null | Certificate>(null);
 
@@ -37,7 +41,7 @@ export const ProfileSheet = ({
         toggleOpen(v);
       }}
     >
-      <SheetContent className="w-full md:min-w-[60vw] xl:min-w-[40vw] p-0 overflow-y-scroll h-screen pb-6">
+      <SheetContent className="animate-fade-in-up w-full md:min-w-[60vw] xl:min-w-[40vw] p-0 overflow-y-scroll h-screen pb-6">
         <SheetHeader
           style={{
             background: "linear-gradient(180deg, #FFFFFF 0%, #EBEBEB 100%)",
@@ -49,17 +53,29 @@ export const ProfileSheet = ({
           </SheetTitle>
         </SheetHeader>
 
-        <div className="grid flex-1 auto-rows-min gap-6 px-6">
-          {selectedCert ? (
+        <div className="grid flex-1 auto-rows-min gap-6 px-6 h-full">
+          {loading ? (
+            <TeacherLoading />
+          ) : selectedCert ? (
             <CertificateSheet
               certificate={selectedCert}
               onBack={() => setSelectedCert(null)}
             />
-          ) : (
+          ) : teacher ? (
             <TeacherContent
               teacher={teacher}
               onSelectCert={(c) => setSelectedCert(c)}
             />
+          ) : (
+            <div className="text-center h-full flex items-center justify-center flex-col md:max-w-lg mx-auto min-h-[50vh]">
+              <h2 className="font-semibold text-lg md:text-2xl text-grey-800/80">
+                Ooops, an error occured
+              </h2>
+              <p className="font-medium text-grey-500 text-base">
+                We searched far and wide but couldn't find that teachers
+                details. Please try again later
+              </p>
+            </div>
           )}
         </div>
       </SheetContent>
@@ -92,7 +108,7 @@ const TeacherContent = ({ teacher, onSelectCert }: TeacherContentProps) => {
     },
     {
       label: "Status",
-      value: "Active",
+      value: teacher.approvalStatus,
     },
     {
       label: "Last login",
@@ -187,7 +203,11 @@ const TeacherContent = ({ teacher, onSelectCert }: TeacherContentProps) => {
             <p className="text-sm font-medium text-grey-500">{teacher.email}</p>
           </div>
           <div className="flex items-center gap-3 max-md:w-full">
-            <ConfirmDeactivateTeacherModal />
+            {teacher.isActive ? (
+              <ConfirmDeactivateTeacherModal />
+            ) : (
+              <ConfirmActivateTeacherModal teacherId={teacher._id} />
+            )}
             <ConfirmDeleteTeacherModal />
           </div>
         </div>

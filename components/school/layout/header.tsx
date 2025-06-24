@@ -2,11 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { BellIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { ConfirmLogoutModal } from "./logout-confirmation";
 import { NavItems } from "./nav";
+import { HeaderNotifications } from "./notifications";
 
 type SchoolLayoutHeaderProps = {};
 
@@ -52,13 +53,9 @@ export const SchoolLayoutHeader = ({}: SchoolLayoutHeaderProps) => {
           );
         })}
       </ul>
-      <div className="flex-shrink-0">
-        <Button
-          variant="outline"
-          className="shadow-none max-md:border-none min-w-fit"
-        >
-          <BellIcon />
-        </Button>
+      <div className="flex-shrink-0 flex items-center gap-4">
+        <HeaderNotifications />
+        <ConfirmLogoutModal />
       </div>
     </header>
   );

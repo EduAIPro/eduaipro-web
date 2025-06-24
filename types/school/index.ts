@@ -14,7 +14,7 @@ export type School = {
   contactEmail?: string;
   focusAreas?: any[];
   staffCount?: number;
-  role: UserRoles;
+  role: UserRoles.school;
   isActive: boolean;
   website?: string;
   position: string;
@@ -32,10 +32,25 @@ export type Teacher = {
   name: string;
   email: string;
   phoneNumber: string;
-  dateOfBirth: string;
+  passwordHash: string;
+  role: UserRoles.teacher;
+  dateOfBirth: string; // ISO date string
   isActive: boolean;
   qualifications: string;
-  teachingLevel: string;
+  schoolId: string;
+  teachingLevel: "Secondary" | string;
   specialSkills: string[];
-  createdAt: string;
+  expertiseAreas: string[];
+  interestInNetworkingOrCommunityEvents: boolean;
+  courses: string[];
+  securityQuestions: string[];
+  isBlocked: boolean;
+  isDeleted: boolean;
+  otp: string | null;
+  approvalStatus: "APPROVED" | "PENDING" | "REJECTED" | string;
+  progress: any[]; // Replace 'any' with a more specific type if known
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  __v: number;
+  approvedAt: string; // ISO date string
 };

@@ -5,6 +5,7 @@ import { useQueryApi } from "@/api/hooks/useQueryApi";
 import { GET_ALL_SCHOOL_TEACHERS_QUERY_KEY } from "@/api/keys";
 import { getAllTeachersBySchool } from "@/api/queries";
 import { DataTable } from "@/components/ui/data-table";
+import useSchoolStore from "@/store/school";
 import { Pagination } from "@/types/api";
 import { Teacher } from "@/types/school";
 import { Fragment, useMemo, useState } from "react";
@@ -19,7 +20,8 @@ export const TeachersTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setOpen] = useState(false);
   const [teacher, setTeacher] = useState<null | Teacher>(null);
-
+  const { school } = useSchoolStore();
+  console.log({ school });
   const getSchoolTeachersQuery: UseQueryResult<
     Pagination & { data: Teacher[] }
   > = useQueryApi([GET_ALL_SCHOOL_TEACHERS_QUERY_KEY], getAllTeachersBySchool);
@@ -74,11 +76,13 @@ export const TeachersTable = () => {
         }}
       />
 
-      <TeacherProfile
-        open={isOpen && !!teacher}
-        toggleOpen={(v) => setOpen(v)}
-        teacher={teacher!}
-      />
+      {teacher ? (
+        <TeacherProfile
+          open={isOpen && !!teacher}
+          toggleOpen={(v) => setOpen(v)}
+          teacherId={teacher?._id}
+        />
+      ) : null}
     </Fragment>
   );
 };

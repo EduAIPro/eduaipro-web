@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Teacher } from "@/types/school";
 import { ColumnDef } from "@tanstack/react-table";
-import { format, parse } from "date-fns";
+import { format } from "date-fns";
 
 export const TeachersListColumnsDef: ColumnDef<Teacher>[] = [
   {
@@ -72,10 +72,7 @@ export const TeachersListColumnsDef: ColumnDef<Teacher>[] = [
     cell: ({ row }) => {
       return (
         <p className="text-grey-500 truncate text-sm font-semibold">
-          {format(
-            parse(row.original.createdAt, "dd-mm-yyyy", new Date()),
-            "dd/MM/yyyy"
-          )}
+          {format(new Date(row.original.createdAt.split("T")[0]), "dd/MM/yyyy")}
         </p>
       );
     },

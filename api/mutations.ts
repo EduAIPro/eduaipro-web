@@ -1,3 +1,4 @@
+import { ApiResponse } from "@/types/api";
 import {
   CreateEducatorAccountPayload,
   EducatorLoginResponse,
@@ -108,6 +109,23 @@ export async function schoolLogin(
 
     localStorage.setItem("accessToken", tokens.token);
     localStorage.setItem("refreshToken", tokens.refreshToken);
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function approveTeacherAccount(
+  teacherId: string
+): Promise<SchoolLoginResponse> {
+  try {
+    const url = `/auth/approve-teacher/${teacherId}`;
+    const response = await apiPostRequest<ApiResponse>(url, undefined, "put");
+
+    if (response.data.error) {
+      throw response.data.error;
+    }
 
     return response.data;
   } catch (error) {

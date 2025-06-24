@@ -8,10 +8,30 @@ interface ApiResponse<T> {
 
 export async function apiPostRequest<T>(
   url: string,
-  data: any
+  data?: any,
+  method: "post" | "put" | "patch" | "delete" = "post"
 ): Promise<ApiResponse<T>> {
   try {
-    const response: AxiosResponse<T> = await api.post(url, data);
+    // const response: AxiosResponse<T> = await api.post(url, data);
+
+    let response: AxiosResponse<T>;
+
+    switch (method.toLowerCase()) {
+      case "post":
+        response = await api.post(url, data);
+        break;
+      case "put":
+        response = await api.put(url, data);
+        break;
+      case "patch":
+        response = await api.patch(url, data);
+        break;
+      case "delete":
+        response = await api.delete(url, data);
+        break;
+      default:
+        throw new Error(`Unsupported HTTP method: ${method}`);
+    }
 
     // Validate the response data if needed
     if (!response.data) {
