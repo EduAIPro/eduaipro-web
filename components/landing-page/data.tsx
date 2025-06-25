@@ -53,13 +53,13 @@ export const appIcons = [
     icon: Apple,
     link: "",
     title: "Download on the",
-    platformName: "App Store",
+    platformName: "App store",
   },
   {
     icon: GooglePlay,
     link: "",
     title: "Get it on",
-    platformName: "Google Play",
+    platformName: "Play Store",
   },
 ];
 
