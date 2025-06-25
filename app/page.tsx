@@ -3,7 +3,7 @@
 // import CallToAction from "@/components/landing-page/CallToAction";
 // import CoursesList from "@/components/landing-page/CoursesList";
 import HeroSection from "@/components/landing-page/HeroSection";
-// import ReasonsToChooseUs from "@/components/landing-page/ReasonsToChooseUs";
+import ReasonsToChooseUs from "@/components/landing-page/ReasonsToChooseUs";
 // import Testimonials from "@/components/landing-page/Testimonials";
 // import UserTypes from "@/components/landing-page/UserTypes";
 import Footer from "@/components/navigation/Footer";
@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      {/* <ReasonsToChooseUs />
-      <UserTypes />
+      <ReasonsToChooseUs />
+      {/*<UserTypes />
       <BoostCareer />
       <CoursesList />
       <Testimonials />

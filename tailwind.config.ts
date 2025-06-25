@@ -101,6 +101,7 @@ const config: Config = {
           DEFAULT: "#0043BE",
           "50": "#F4F8FF",
           "100": "#AFCAFC",
+          "200": "#F5F8FF",
           "300": "#2E6BCE",
           "400": "#0043BE",
           foreground: "hsl(var(--primary-foreground))",
@@ -151,7 +152,7 @@ const config: Config = {
       },
       animation: {
         "gradient-bg": "gradient 5s ease infinite",
-        "fade-in-up": "fadeInUp 0.5s ease-out",
+        "fade-in-up": "fadeInUp 1s ease-out",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },

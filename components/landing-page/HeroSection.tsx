@@ -1,3 +1,4 @@
+import Pill from "../common/ui/Pill";
 import { Button } from "../ui/button";
 import CompaniesMarquee from "./CompaniesMarquee";
 import { appIcons } from "./data";
@@ -5,16 +6,11 @@ import { appIcons } from "./data";
 export default function HeroSection() {
   return (
     <section className="w-full min-h-screen bg-[linear-gradient(180deg,_#E1EAFF_0%,_#FFFFFF_100%)] flex flex-col items-center justify-center">
-      <div className="max-w-3xl mx-auto text-center space-y-16 md:space-y-[100px]">
+      <div className="max-w-3xl mx-auto text-center space-y-16 md:space-y-[100px] animate-fade-in-up">
         <div className="space-y-5">
           <div className="space-y-3">
-            <div className="rounded-full bg-gradient-to-r from-[#2E6BCE] via-[#D0DFF8] to-[#0043BE] p-0.5 w-fit mx-auto">
-              <div className="bg-[#dfe7fa] rounded-full px-3 py-2">
-                <h3 className="text-primary-400 font-medium text-sm">
-                  🚀 Enhance Teaching Excellence.
-                </h3>
-              </div>
-            </div>
+            <Pill text="🚀 Enhance Teaching Excellence." pillBg="#dfe7fa" />
+
             <h1 className="text-grey-800 font-semibold text-5xl">
               Access the world's best AI-Powered Accredited CPD Program
             </h1>

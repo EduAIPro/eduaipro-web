@@ -10,7 +10,6 @@ import {
   DeviceMessage,
   Diagram,
   Element4,
-  GlobalSearch,
   GooglePlay,
   MedalStar,
   Messages1,
@@ -73,36 +72,35 @@ export const schoolLogos = [
   "/assets/images/ccu.png",
 ];
 
+import CloudKey from "@/components/svgs/cloud-key.svg";
+import Community from "@/components/svgs/community.svg";
+import TickStar from "@/components/svgs/tick-star.svg";
+import Twinkle from "@/components/svgs/twinkle.svg";
+
 export const features = [
   {
-    icon: MedalStar,
+    icon: TickStar,
     title: "Accredited and Recognised Certifications",
     description:
       "Earn accredited certifications recognized locally and internationally, enhancing your professional standing and supporting lifelong learning.",
-    color: "#84D2F6",
   },
   {
-    icon: GlobalSearch,
+    icon: CloudKey,
     title: "Accessibility and Convenience",
     description:
       "Enhance your teaching skills anytime, anywhere. Access flexible professional development courses that fit your busy schedule.",
-
-    color: "#ffb703",
   },
   {
-    icon: Element4,
+    icon: Twinkle,
     title: "AI-Driven Professional Development Course",
     description:
       "Continued professional development course with tailored units, equipping educators with modern teaching skills and accredited certification.",
-    color: "#7c9885",
   },
   {
-    icon: DeviceMessage,
+    icon: Community,
     title: "Collaborative Community Engagement",
     description:
       "Connect globally with educators, exchange insights, collaborate on best practices, and expand your professional network through meaningful knowledge-sharing opportunities.",
-
-    color: "#1F2041",
   },
 ];
 
