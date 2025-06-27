@@ -22,6 +22,10 @@ span,
 textarea {
   font-family: "Karla", sans-serif;
 }
+p {
+  letter-spacing: -0.025em;
+}
+
 h1,
 h2,
 h3,

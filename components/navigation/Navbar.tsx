@@ -93,7 +93,7 @@ export default function Navbar() {
             <div className="max-lg:w-full">
               <Button
                 variant="ghost"
-                className="hover:bg-primary-100/20 transition-all hover:border border-primary-100"
+                className="hover:bg-primary-200/20 transition-all hover:border border-primary-200"
                 onClick={() => router.push("/login")}
               >
                 <Typography.P weight="semibold">Login</Typography.P>

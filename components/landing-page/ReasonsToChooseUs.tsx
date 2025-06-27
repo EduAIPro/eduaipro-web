@@ -7,7 +7,7 @@ import { features } from "./data";
 
 export default function ReasonsToChooseUs() {
   return (
-    <section className="bg-primary-200 py-20">
+    <section className="bg-primary-100 py-20">
       <div className="max-w-[80%] mx-auto space-y-20">
         <div className="space-y-3 text-center max-w-[60%] mx-auto">
           <Pill text="Why choose us" pillBg="#F5F8FF" />

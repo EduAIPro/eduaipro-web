@@ -55,9 +55,10 @@ const config: Config = {
           "400": "#DBDBDB",
           "500": "#656565",
           "600": "#96a6b7",
+          "650": "#333333",
           "700": "#F6F6F6",
           "800": "#141414",
-          surface: " #ffffffcc",
+          surface: "#ffffffcc",
         },
         warning: {
           "100": "#FFE29A",
@@ -100,8 +101,9 @@ const config: Config = {
         primary: {
           DEFAULT: "#0043BE",
           "50": "#F4F8FF",
-          "100": "#AFCAFC",
-          "200": "#F5F8FF",
+          "100": "#F5F8FF",
+          "150": "#D9E3F8",
+          "200": "#AFCAFC",
           "300": "#2E6BCE",
           "400": "#0043BE",
           foreground: "hsl(var(--primary-foreground))",
