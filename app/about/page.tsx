@@ -1,11 +1,17 @@
+import { FAQSection } from "@/components/about-us/FAQ";
+import { HeroSection } from "@/components/about-us/HeroSection";
+import { OurApproach } from "@/components/about-us/OurApproach";
+import { OurTeam } from "@/components/about-us/OurTeam";
 import CallToAction from "@/components/landing-page/CallToAction";
 import Footer from "@/components/navigation/Footer";
-import React from "react";
 
 export default function AboutPage() {
   return (
     <div>
-      <section></section>
+      <HeroSection />
+      <OurTeam />
+      <OurApproach />
+      <FAQSection />
       <CallToAction />
       <Footer />
     </div>

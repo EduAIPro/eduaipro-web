@@ -36,7 +36,7 @@ export default function HeroSection() {
         <div>
           <div className="space-y-3 overflow-x-clip max-w-[calc(100vw-40px)]">
             <p className="font-medium text-grey-800">
-              Trusted by 50+ innovative institutions worldwide
+              Trusted by 20+ innovative institutions worldwide
             </p>
             <CompaniesMarquee />
           </div>
