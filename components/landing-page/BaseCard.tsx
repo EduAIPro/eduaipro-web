@@ -6,7 +6,7 @@ type BaseCardProps = {
 
 export const BaseCard = ({ children }: BaseCardProps) => {
   return (
-    <div className="rounded-[20px] bg-primary-100 px-10 py-20 relative overflow-hidden">
+    <div className="rounded-[20px] bg-primary-100 py-10 px-5 md:px-10 md:py-20 relative overflow-hidden">
       <div
         style={{ filter: "blur(250px)" }}
         className="filter-[250px] absolute -left-40 -top-40 size-[508px] rounded-full bg-primary-400/20 "

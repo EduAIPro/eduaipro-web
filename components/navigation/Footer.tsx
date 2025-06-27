@@ -9,8 +9,8 @@ import { footerLinks } from "./data";
 export default function Footer() {
   const icons = [Facebook, Instagram];
   return (
-    <footer className="py-24">
-      <div className="max-w-[80%] mx-auto space-y-20">
+    <footer className="py-12 md:py-24">
+      <div className="max-md:px-5 md:max-w-[90%] lg:max-w-[80%] mx-auto space-y-20">
         <div className="flex max-md:flex-col gap-x-5  lg:gap-x-10">
           <div className="md:w-1/3 max-md:mb-5 flex flex-col gap-y-4">
             <div>

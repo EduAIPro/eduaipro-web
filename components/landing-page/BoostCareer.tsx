@@ -8,10 +8,10 @@ import { categories } from "./data";
 export default function BoostCareer() {
   const playerRef = useRef<ReactPlayer>(null);
   return (
-    <section className="py-20">
-      <div className="max-w-[70%] mx-auto">
+    <section className="py-10 md:py-20 max-md:px-5">
+      <div className="md:max-w-[90%] lg:max-w-[80%] xl:max-w-[70%] mx-auto">
         <BaseCard>
-          <div className="grid grid-cols-2 gap-7 z-20 relative">
+          <div className="grid lg:grid-cols-2 gap-7 z-20 relative">
             <div className="space-y-5 h-full flex flex-col justify-center">
               <h2 className="text-primary-400 font-semibold text-3xl">
                 Boost Your Teaching Skills with AI-powered Tools and Courses on

@@ -8,7 +8,7 @@ export default function CompaniesMarquee() {
     <div className="space-y-1">
       <div className="w-full h-0.5 bg-gradient-to-r from-[#fff] via-[#141414] to-[#fff]"></div>
       <div className="h-20 w-full">
-        <Marquee className="flex gap-x-4">
+        <Marquee className="flex gap-x-4 overflow-hidden">
           {schoolLogos.map((link) => (
             <Image
               key={generateKey()}

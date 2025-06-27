@@ -5,21 +5,18 @@ import {
   Book,
   Briefcase,
   Chart,
-  ChartCircle,
   Data,
   DeviceMessage,
   Diagram,
   Element4,
   GooglePlay,
-  MedalStar,
   Messages1,
   People,
   Profile2User,
-  ShieldTick,
   Star1,
   WalletMoney,
 } from "iconsax-react";
-import { BsGlobe, BsGraphUpArrow, BsRobot } from "react-icons/bs";
+import { BsGlobe, BsGraphUpArrow } from "react-icons/bs";
 import { FaChalkboardTeacher, FaRegChartBar } from "react-icons/fa";
 import { FaComputer } from "react-icons/fa6";
 import { HiOutlineDesktopComputer } from "react-icons/hi";
@@ -28,22 +25,9 @@ import {
   LiaChalkboardTeacherSolid,
   LiaHandHoldingHeartSolid,
 } from "react-icons/lia";
-import {
-  LuChartNoAxesCombined,
-  LuClipboardList,
-  LuClock2,
-} from "react-icons/lu";
-import {
-  MdOutlineForum,
-  MdOutlineUpdate,
-  MdSupportAgent,
-} from "react-icons/md";
-import {
-  PiCertificate,
-  PiClipboardText,
-  PiGlobeLight,
-  PiStudent,
-} from "react-icons/pi";
+import { LuChartNoAxesCombined, LuClipboardList } from "react-icons/lu";
+import { MdOutlineForum, MdSupportAgent } from "react-icons/md";
+import { PiCertificate, PiClipboardText, PiStudent } from "react-icons/pi";
 import { SlBookOpen } from "react-icons/sl";
 import { TbMessageChatbot, TbStars } from "react-icons/tb";
 
@@ -382,77 +366,90 @@ export const educatorBenefits = [
   },
 ];
 
+import CertificateIcon from "@/components/svgs/cert.svg";
+import ChatIcon from "@/components/svgs/chat.svg";
+import ClockRewindIcon from "@/components/svgs/clock-rewind.svg";
+import ForumIcon from "@/components/svgs/forum.svg";
+import GlobeIcon from "@/components/svgs/globe.svg";
+import LibraryIcon from "@/components/svgs/library.svg";
+import PrivacyCheckIcon from "@/components/svgs/privacy-check.svg";
+import ProgressIcon from "@/components/svgs/progress.svg";
+import SupportIcon from "@/components/svgs/support.svg";
+import TwinkleIcon from "@/components/svgs/twinkle.svg";
+import UIIcon from "@/components/svgs/ui.svg";
+import { ClockIcon } from "lucide-react";
+
 export const teacherBenefits = [
   {
     title: "User-Friendly Interface",
     description: "Simple navigation with clear progress tracking and updates.",
-    icon: Element4,
+    icon: UIIcon,
   },
   {
     title: "24/7 Accessibility",
     description:
       "Access anytime, anywhere, with compatibility across multiple devices.",
-    icon: LuClock2,
+    icon: ClockIcon,
   },
   {
     title: "AI-Powered Insights",
     description:
       "Personalised development plan and progress analysis to target improvement areas.",
-    icon: BsRobot,
+    icon: TwinkleIcon,
   },
   {
     title: "Secure and Private",
     description:
       "Data protection and encrypted access for safe and confidential use.",
-    icon: ShieldTick,
+    icon: PrivacyCheckIcon,
   },
   {
     title: "Progress Dashboards",
     description:
       "Visual tools to monitor milestones and receive notifications for tasks and certification deadlines.",
-    icon: ChartCircle,
+    icon: ProgressIcon,
   },
   {
     title: "Certification Management",
     description:
       "Automated reminders for renewals and instant access to digital certificates upon completion.",
-    icon: MedalStar,
+    icon: CertificateIcon,
   },
   {
     title: "Comprehensive Resource Library",
     description:
       "Downloadable eBooks, templates, and videos for offline access and classroom use.",
-    icon: Book,
+    icon: LibraryIcon,
   },
   {
     title: "Regular Content Updates",
     description:
       "Stay updated with the latest educational tools and AI-refreshed learning material.",
-    icon: MdOutlineUpdate,
+    icon: ClockRewindIcon,
   },
   {
     title: "Globally Recognized Certification",
     description:
       "Accredited programs that elevate professional standing locally and internationally.",
-    icon: PiGlobeLight,
+    icon: GlobeIcon,
   },
   {
     title: "Online Forum",
     description:
       "Forum connects educators, fostering collaboration, sharing best practices, and advancing innovative teaching strategies for impactful professional growth.",
-    icon: MdOutlineForum,
+    icon: ForumIcon,
   },
   {
     title: "Chatbot",
     description:
       "Provides instant teaching support, lesson ideas, and AI-driven insights to enhance classroom engagement and professional development.",
-    icon: TbMessageChatbot,
+    icon: ChatIcon,
   },
   {
     title: "Support",
     description:
       "Dedicated technical support, ensuring seamless integration, troubleshooting, and guidance to help educators maximize AI-powered teaching tools.",
-    icon: MdSupportAgent,
+    icon: SupportIcon,
   },
 ];
 

@@ -5,13 +5,13 @@ import { appIcons } from "./data";
 
 export default function HeroSection() {
   return (
-    <section className="w-full min-h-screen bg-[linear-gradient(180deg,_#E1EAFF_0%,_#FFFFFF_100%)] flex flex-col items-center justify-center">
-      <div className="max-w-3xl mx-auto text-center space-y-16 md:space-y-[100px] animate-fade-in-up">
+    <section className="w-full max-md:px-5 min-h-[90vh] sm:min-h-screen bg-[linear-gradient(180deg,_#E1EAFF_0%,_#FFFFFF_100%)] flex flex-col items-center justify-center">
+      <div className="md:max-w-3xl overflow-hidden mx-auto text-center space-y-16 md:space-y-[100px] animate-fade-in-up">
         <div className="space-y-5">
           <div className="space-y-3">
             <Pill text="🚀 Enhance Teaching Excellence." pillBg="#dfe7fa" />
 
-            <h1 className="text-grey-800 font-semibold text-5xl">
+            <h1 className="text-grey-800 font-semibold text-3xl md:text-5xl">
               Access the world's best AI-Powered Accredited CPD Program
             </h1>
           </div>
@@ -24,9 +24,9 @@ export default function HeroSection() {
               thrive and make a lasting impact.
             </p>
           </div>
-          <div className="flex items-center gap-3 w-fit mx-auto">
+          <div className="flex max-sm:flex-col items-center gap-3 sm:w-fit mx-auto">
             {appIcons.map((p) => (
-              <Button key={p.platformName}>
+              <Button key={p.platformName} className="max-sm:w-full">
                 <p.icon variant="Bold" color="white" />
                 Coming soon on {p.platformName}
               </Button>
@@ -34,7 +34,7 @@ export default function HeroSection() {
           </div>
         </div>
         <div>
-          <div className="space-y-3">
+          <div className="space-y-3 overflow-x-clip max-w-[calc(100vw-40px)]">
             <p className="font-medium text-grey-800">
               Trusted by 50+ innovative institutions worldwide
             </p>

@@ -1,3 +1,4 @@
+"use client";
 import { generateKey } from "@/utils/key";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
@@ -5,22 +6,27 @@ import Pill from "../common/ui/Pill";
 import { testimonials } from "./data";
 
 export default function Testimonials() {
+  const isMobile = useIsMobile();
   return (
-    <section className="responsive__section">
+    <section className="py-10 md:py-20">
       <div className="space-y-16">
-        <div className="sm:max-w-[40%] mx-auto text-center gap-y-4 flex flex-col mb-12">
+        <div className="max-md:px-5 md:max-w-[40%] mx-auto text-center gap-y-4 flex flex-col mb-12">
           <Pill text="Testimonials" pillBg="#F1F5FF" />
-          <h2 className="font-medium text-4xl">
+          <h2 className="font-medium text-2xl sm:text-3xl md:text-4xl">
             What Educators and Institutions Are Saying About EduAiPro
           </h2>
         </div>
         <div className="space-y-7">
-          <Marquee className="flex gap-x-4">
+          <Marquee speed={isMobile ? 15 : 30} className="flex gap-x-4">
             {testimonials.map((testimonial) => (
               <TestimonialCard key={generateKey()} item={testimonial} />
             ))}
           </Marquee>
-          <Marquee className="flex gap-x-4" direction="right">
+          <Marquee
+            speed={isMobile ? 15 : 30}
+            className="flex gap-x-4"
+            direction="right"
+          >
             {testimonials.map((testimonial) => (
               <TestimonialCard key={generateKey()} item={testimonial} />
             ))}
@@ -40,10 +46,11 @@ type TestimonialCardProps = {
 };
 
 import Quote from "@/components/svgs/quote.svg";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const TestimonialCard = ({ item }: TestimonialCardProps) => {
   return (
-    <div className="border border-primary-150 mr-7 h-[290px] rounded-xl p-5 space-y-5 sm:max-w-[450px]">
+    <div className="border border-primary-150 mr-7 min-h-[290px] rounded-xl p-5 space-y-5 max-w-[400px] sm:max-w-[450px]">
       <div>
         <Quote width={32} height={32} className="w-fit" />
       </div>
