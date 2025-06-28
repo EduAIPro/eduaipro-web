@@ -38,7 +38,7 @@ export default function Footer() {
                 <ul className="flex flex-col gap-y-1 xs:gap-y-2">
                   {footerItem.links.map((linkItem) => (
                     <li key={generateKey()}>
-                      <Link href={"/hre"}>
+                      <Link href={linkItem.href}>
                         <Typography.P size="small">
                           {linkItem.title}
                         </Typography.P>
