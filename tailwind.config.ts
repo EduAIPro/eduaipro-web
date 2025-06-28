@@ -136,20 +136,8 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "boost-career-pattern": "url('/assets/images/shape-bg.png')",
-        "courses-hero": "url('/assets/images/wo.jpg')",
-        "institution-benefits": "url('/assets/images/school.jpg')",
-        "high-sch-course":
-          "url('/assets/images/cpd_course_secondary.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
-        "primary-sch-course":
-          "url('/assets/images/cpd_course_primary.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
-        "uni-course":
-          "url('/assets/images/cpd_course_hi.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
-        "assistant-course":
-          "url('/assets/images/cpd_course_ta.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "auth-bg":
           "url('/assets/images/img14.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
-        "auth-mentor":
-          "url('/assets/images/cpd_course_mentors.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "gradient-45": "linear-gradient(205deg, var(--tw-gradient-stops))",
       },
       animation: {

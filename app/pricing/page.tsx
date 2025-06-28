@@ -7,25 +7,25 @@ import Footer from "@/components/navigation/Footer";
 import { generateKey } from "@/utils/key";
 import { Button } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { BsPatchCheckFill } from "react-icons/bs";
 
 export default function PricingPage() {
   const router = useRouter();
   return (
-    <div>
-      <section className="max-w-full lg:max-w-[80%] mx-auto flex flex-col gap-7 md:gap-14 mt-12 md:mt-24">
+    <>
+      <section className="max-w-full max-lg:px-5 pt-28 sm:pt-32 lg:max-w-[80%] mx-auto flex flex-col gap-7 md:gap-14 animate-fade-in-up">
         <div className="text-center md:max-w-[70%] mx-auto flex flex-col gap-3">
-          <Pill text="PRICING" />
-          {/* <Typography.H3>EduAi {"Pro's"}</Typography.H3> */}
-          <Typography.H2 weight="bold">More Value, Less Cost</Typography.H2>
+          <Pill text="PRICING" pillBg="#F1F5FF" />
+          <h2 className="font-medium text-2xl md:text-3xl lg:text-4xl">
+            More Value, Less Cost
+          </h2>
           <Typography.P weight="medium" fontColor="medium">
             With EduAi Pro, you get access to a wide range of features and tools
             that will help you achieve your goals, all at a price {"that's"}{" "}
             affordable and transparent.
           </Typography.P>
         </div>
-        <div className="md:grid md:grid-cols-2 gap-4 justify-between w-full">
+        <div className="grid md:grid-cols-2 gap-4 justify-between w-full">
           {pricingData.map((item, index) => (
             <div
               key={item.title}
@@ -33,7 +33,7 @@ export default function PricingPage() {
                 index === 0
                   ? "rounded-l-[32px] rounded-r-lg"
                   : "rounded-l-lg rounded-r-[32px]"
-              } p-2 w-full border border-grey-2 max-md:!rounded-[32px] flex-1`}
+              } p-2 w-full border border-primary-150 max-md:!rounded-[32px] flex-1`}
             >
               <div
                 className={`${
@@ -55,15 +55,6 @@ export default function PricingPage() {
                     <Typography.H1 weight="semibold" fontColor="dark">
                       {item.price}
                     </Typography.H1>
-                    {item.interval ? (
-                      <Typography.P
-                        weight="semibold"
-                        fontColor="medium"
-                        className="inline"
-                      >
-                        /{item.interval}
-                      </Typography.P>
-                    ) : null}
                   </div>
                   <div>
                     <Typography.P weight="semibold" fontColor="medium">
@@ -131,6 +122,6 @@ export default function PricingPage() {
       </section>
       <CallToAction />
       <Footer />
-    </div>
+    </>
   );
 }

@@ -1,44 +1,30 @@
-import React from "react";
-import Typography from "../common/ui/Typography";
+import CoursesWoman from "@/public/assets/images/wo.webp";
 import Image from "next/image";
 
 export default function CoursesHeroSection() {
   return (
-    <section>
-      <div className="bg-courses-hero max-sm:pt-52 sm:pt-32 rounded-2xl pb-48 md:pb-60 bg-black/50 bg-blend-overlay px-8 md:px-14 lg:px-20 w-full bg-cover max-md:bg-right bg-top max-xs:mb-5 xs:my-10 relative">
-        <div className="bg-white p-6 max-xs:hidden flex flex-col gap-y-2 max-w-3xl shadow-2xl rounded-md">
-          <Typography.H2 weight="semibold" fontColor="brand">
+    <section className="animate-fade-in-up pt-40 max-md:pt-32 max-md:px-5 md:max-w-[90%] lg:max-w-[80%] mx-auto">
+      <div className="space-y-10">
+        <div className="md:max-w-[80%] space-y-3">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold">
             Explore our Professional Development Courses
-          </Typography.H2>
-          <Typography.P
-            className="md:max-w-[80%]"
-            fontColor="medium"
-            weight="medium"
-          >
-            Choose from our expertly crafted courses that cater to upgrade your
-            different skill levels, providing you with the tools you need to
-            succeed in your professional journey.
-          </Typography.P>
+          </h2>
+          <p className="font-medium">
+            Discover expertly crafted courses designed to help you advance at
+            every stage of your career. Each program offers practical knowledge
+            and hands-on experience, ensuring you gain the skills and confidence
+            needed to succeed. With flexible learning options and supportive
+            resources, you’ll be empowered to reach your professional goals.
+          </p>
         </div>
-        <div className="absolute top-3 left-3 xs:hidden">
+        <div>
           <Image
-            src="/assets/images/logo-outline.png"
-            alt="logo"
-            width={64}
-            height={56}
+            src={CoursesWoman}
+            alt=""
+            height={600}
+            className="rounded-2xl w-full"
           />
         </div>
-      </div>
-
-      <div className="bg-white p-4 xs:hidden flex flex-col gap-y-2 mb-12">
-        <Typography.H2 weight="semibold" fontColor="large">
-          Explore our Professional Development Courses
-        </Typography.H2>
-        <Typography.P className="md:max-w-[80%]" weight="medium">
-          Choose from our expertly crafted courses that cater to upgrade your
-          different skill levels, providing you with the tools you need to
-          succeed in your professional journey.
-        </Typography.P>
       </div>
     </section>
   );

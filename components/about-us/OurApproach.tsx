@@ -1,4 +1,4 @@
-import OurApproachImg from "@/public/assets/images/our-approach.png";
+import OurApproachImg from "@/public/assets/images/our-approach.webp";
 import { generateKey } from "@/utils/key";
 import Image from "next/image";
 

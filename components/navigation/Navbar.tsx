@@ -120,7 +120,10 @@ export default function Navbar() {
               <div key={generateKey()} className="w-full">
                 {item.href ? (
                   <Link href={item.href}>
-                    <div className="border-b border-b-grey-7/60 p-4 w-full">
+                    <div
+                      onClick={() => toggleMenu()}
+                      className="border-b border-b-grey-7/60 p-4 w-full"
+                    >
                       <Typography.H3 className="hover:scale-95 font-medium !text-lg lg:!text-base duration-300 !text-grey-12">
                         {item.title}
                       </Typography.H3>

@@ -2,7 +2,7 @@
   {
     "id": "1",
     "name": "Primary Teachers CPD Curriculum",
-    "img": "/assets/images/cpd_primary.png",
+    "img": "/assets/images/cpd_primary.webp",
     "bgImage": "bg-primary-sch-course",
     "students": "19,200",
     "description": "This Continuing Professional Development (CPD) curriculum equips primary teachers with strategies to support child development, classroom management, inclusive education, and technology integration. The course consists of 12 units with progressive modules, offering practical tools for creating engaging and supportive learning environments. Resources include downloadable templates, videos, and reflection exercises to reinforce classroom application.",
@@ -288,7 +288,7 @@
     "id": "2",
     "name": "Secondary Teachers CPD Curriculum",
     "bgImage": "bg-high-sch-course",
-    "img": "/assets/images/cpd_secondary.png",
+    "img": "/assets/images/cpd_secondary.webp",
     "students": "4,220",
     "description": "This Continuing Professional Development (CPD) curriculum equips secondary teachers with strategies to support adolescent development, classroom management, inclusive education, and technology integration. The course includes 12 units with progressive modules, offering tools for fostering engagement, emotional intelligence, and academic success. Resources include case studies, templates, and reflection exercises.",
     "overview": {
@@ -790,7 +790,7 @@
     "id": "3",
     "name": "Higher Education CPD Curriculum",
     "bgImage": "bg-uni-course",
-    "img": "/assets/images/cpd_hi.png",
+    "img": "/assets/images/cpd_hi.webp",
     "students": "4,220",
     "description": "This Continuing Professional Development (CPD) curriculum is designed for higher education educators, focusing on evidence-based teaching strategies, technology integration, inclusive practices, and leadership. The course consists of 12 units, each containing modules with progressive lessons. Participants can track their progress through interactive tools and assessments. Resources include downloadable guides, case studies, and multimedia content to enhance learning and application in academic settings.",
     "overview": {
@@ -1349,7 +1349,7 @@
     "id": "4",
     "name": "CPD Curriculum for Teaching Assistants",
     "bgImage": "bg-assistant-course",
-    "img": "/assets/images/ta.png",
+    "img": "/assets/images/cpd_ta.webp",
     "students": "4,220",
     "description": "The course consists of 12 comprehensive units, each broken down into multiple modules. These modules cover essential topics such as the role of teaching assistants, classroom support techniques, inclusive education, literacy and numeracy support, behavior management, safeguarding, SEN support, and professional development. Progress tracking tools help participants monitor their advancement. Each module includes in-module quizzes, downloadable resources, videos, and interactive tests to reinforce learning.",
     "overview": {
@@ -1700,7 +1700,7 @@
     "id": "5",
     "name": "CPD Curriculum for Mentors",
     "bgImage": "bg-uni-course",
-    "img": "/assets/images/cpd_mentors.png",
+    "img": "/assets/images/cpd_mentors.webp",
     "students": "19,200",
     "description": "This course consists of 12 comprehensive units designed to equip mentors with the skills and knowledge to support mentees effectively. Topics include role understanding, communication, goal setting, conflict resolution, diversity support, and ethical leadership. Progress tracking, downloadable resources, videos, and interactive tests enhance learning and application.",
     "overview": {

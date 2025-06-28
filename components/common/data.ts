@@ -56,8 +56,7 @@ export const pricingData = [
   {
     title: "Professional Growth Package",
     description: "For teachers, mentors and teaching assistants",
-    price: "£15",
-    interval: "per year",
+    price: "Free",
     features: [
       { title: "Access to All Professional Development Courses" },
       { title: "Personalized Learning Path" },
@@ -84,7 +83,6 @@ export const pricingData = [
     title: "Institutional Excellence Package",
     description: "For institutions, school owners",
     price: "Custom",
-    // interval: "per year",
     features: [
       { title: "Up to 30+ Users" },
       { title: "Access to Individual User Account Features" },

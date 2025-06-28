@@ -1,8 +1,7 @@
-import AboutUs from "@/public/assets/images/about-us.png";
+import AboutUs from "@/public/assets/images/about-us.webp";
 import Image from "next/image";
-type HeroSectionProps = {};
 
-export const HeroSection = ({}: HeroSectionProps) => {
+export const HeroSection = () => {
   return (
     <section className="pt-32 sm:pt-40 pb-20 max-md:px-5 md:max-w-[90%] lg:max-w-[80%] mx-auto animate-fade-in-up">
       <div className="space-y-10 md:space-y-20">

@@ -16,7 +16,7 @@ export const navLinks = [
       },
       {
         title: "Bespoke course development ",
-        href: "/",
+        href: "/bespoke-course-development",
       },
       // {
       //   title: "Accreditation",
