@@ -6,6 +6,10 @@ import OurFeatures from "@/components/landing-page/OurFeatures";
 import ReasonsToChooseUs from "@/components/landing-page/ReasonsToChooseUs";
 import Testimonials from "@/components/landing-page/Testimonials";
 import Footer from "@/components/navigation/Footer";
+import { getPageMetadata } from "@/utils/config";
+
+export const metadata = getPageMetadata("Home");
+
 export default function Home() {
   return (
     <>

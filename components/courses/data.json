@@ -1,7 +1,7 @@
 [
   {
     "id": "1",
-    "name": "Primary Teachers CPD Curriculum",
+    "name": "CPD Curriculum for Primary Teachers",
     "img": "/assets/images/cpd_primary.webp",
     "bgImage": "bg-primary-sch-course",
     "students": "19,200",
@@ -286,7 +286,7 @@
   },
   {
     "id": "2",
-    "name": "Secondary Teachers CPD Curriculum",
+    "name": "CPD Curriculum for Secondary Teachers",
     "bgImage": "bg-high-sch-course",
     "img": "/assets/images/cpd_secondary.webp",
     "students": "4,220",

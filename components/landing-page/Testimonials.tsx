@@ -55,7 +55,7 @@ const TestimonialCard = ({ item }: TestimonialCardProps) => {
         <Quote width={32} height={32} className="w-fit" />
       </div>
       <div>
-        <p>"{item.talk}"</p>
+        <p>&quot;{item.talk}&quot;</p>
       </div>
       <div className="flex items-center gap-2">
         <div className="w-fit flex-shrink-0">

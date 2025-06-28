@@ -9,13 +9,15 @@ export default function CallToAction() {
         <BaseCard>
           <div className="text-center space-y-5 md:max-w-[80%] mx-auto">
             <h2 className="font-semibold text-2xl sm:text-3xl md:text-4xl text-primary">
-              Take Your Teaching to the Next Level with EduAiPro's Mobile App
+              Take Your Teaching to the Next Level with {"EduAiPro's"} Mobile
+              App
             </h2>
             <p className="font-medium">
               Stay connected and enhance your learning anytime, anywhere with
-              EduAiPro's mobile app. Access courses, track your progress, and
-              get support from our AI chatbot—all at your fingertips. Download
-              now and start maximizing your teaching potential on the go!
+              {"EduAiPro's"} mobile app. Access courses, track your progress,
+              and get support from our AI chatbot—all at your fingertips.
+              Download now and start maximizing your teaching potential on the
+              go!
             </p>
 
             <div className="flex max-md:flex-col items-center gap-3 w-fit mx-auto">

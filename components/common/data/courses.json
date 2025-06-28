@@ -1454,7 +1454,7 @@
   },
   {
     "id": "3",
-    "name": "Higher Education CPD Program",
+    "name": "Higher Education CPD Curriculum",
     "img": "/assets/images/cpd_hi.webp",
     "description": "The course consists of 12 units, each focusing on a crucial aspect of teaching in higher education. Every unit is broken down into three modules, totaling 36 modules throughout the program. These modules include lessons, interactive activities, and practical applications. To ensure ongoing progress, teachers will have the opportunity to track their learning through built-in assessments and reflective practices. Progress tracking tools are available to help educators monitor their completion and understanding of key concepts. \n\nTeachers will have access to a variety of resources to support their learning. These include downloadable reading materials, video lectures, and additional reading links that offer further insights into each unit's topic. Each unit also includes tests and quizzes to assess understanding and retention. These resources are designed to deepen knowledge and foster practical application of the concepts taught.",
     "overview": {
@@ -1647,7 +1647,7 @@
   },
   {
     "id": "4",
-    "name": "Mentoring Professional Development CPD Program",
+    "name": "CPD Curriculum for Mentors",
     "img": "/assets/images/cpd_mentors.webp",
     "description": "The course is organized into 10 units, each divided into four modules. This results in a total of 40 modules across the entire course. Each module is designed to provide both theoretical and practical insights, with clearly defined objectives and outcomes. Progress tracking tools within the course will allow mentors to monitor their advancement through the units and ensure they are gaining the necessary competencies to apply in their practice. This self-paced structure ensures that mentors can track their learning journey and reinforce their understanding of key concepts. \n\nTo facilitate an interactive and comprehensive learning experience, the course offers downloadable resources such as reading materials, templates, and worksheets. Videos and reading links are provided to supplement the learning process and offer real-world examples and case studies. Each unit also includes in-module tests to assess knowledge and understanding. These resources help ensure that mentors have access to diverse materials to deepen their expertise in the field of mentoring.",
     "overview": {
@@ -1817,7 +1817,7 @@
   },
   {
     "id": "5",
-    "name": "Teaching Assistant CPD Program",
+    "name": "CPD Curriculum for Teaching Assistants",
     "img": "/assets/images/cpd_ta.webp",
     "description": "The program comprises 12 units, each divided into modules that tackle specific learning objectives. Lessons are delivered sequentially, with progress tracking tools that enable participants to monitor their advancement. This structure ensures a step-by-step learning process, reinforcing understanding and building competencies incrementally.\nParticipants benefit from a variety of high-quality resources, including downloadable handouts, instructional videos, case studies, and curated reading lists. These materials are tailored to provide actionable insights, ensuring that participants can immediately apply their learning to real-world scenarios.",
     "overview": {

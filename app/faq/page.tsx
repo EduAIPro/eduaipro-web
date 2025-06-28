@@ -1,4 +1,3 @@
-"use client";
 import faq from "@/components/common/data/faq.json";
 import Pill from "@/components/common/ui/Pill";
 import Typography from "@/components/common/ui/Typography";
@@ -10,16 +9,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { getPageMetadata } from "@/utils/config";
 import { generateKey } from "@/utils/key";
 import { ArrowRight } from "iconsax-react";
-import { useState } from "react";
+
+export const metadata = getPageMetadata("FAQs");
 
 export default function FaqPage() {
-  const [openIndex, setOpenIndex] = useState<null | number>(null);
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
   return (
     <>
       <section className="pt-32 md:pt-40 bg-[linear-gradient(180deg,_#E1EAFF_0%,_#FFFFFF_100%)] animate-fade-in-up">
@@ -40,7 +36,10 @@ export default function FaqPage() {
         <div className="">
           <ul className="space-y-8">
             {faq.map((f) => (
-              <li className="flex justify-between w-full gap-5 max-md:flex-col">
+              <li
+                key={f.title}
+                className="flex justify-between w-full gap-5 max-md:flex-col"
+              >
                 <div className="w-fit md:w-1/3 xl:w-1/2">
                   <h3 className="text-base md:text-lg lg:text-xl font-medium">
                     {f.title}

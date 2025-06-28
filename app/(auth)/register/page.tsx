@@ -1,18 +1,15 @@
 "use client";
+import AdminSignup from "@/components/auth/AdminSignup";
+import InstitutionSignup from "@/components/auth/InstitutionSignup";
+import { LoginComp } from "@/components/auth/LoginComp";
+import TeacherSignup from "@/components/auth/TeacherSignup";
 import Typography from "@/components/common/ui/Typography";
-import { LuGraduationCap } from "react-icons/lu";
-import { SlBookOpen } from "react-icons/sl";
+import { userRoles } from "@/utils/data";
 import { Button } from "@radix-ui/themes";
 import { ArrowLeft } from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
-import { LoginComp } from "@/components/auth/LoginComp";
-import TeacherSignup from "@/components/auth/TeacherSignup";
-import InstitutionSignup from "@/components/auth/InstitutionSignup";
-import AdminSignup from "@/components/auth/AdminSignup";
-import { userRoles } from "@/utils/data";
 
 export default function RegisterPage() {
   const router = useRouter();

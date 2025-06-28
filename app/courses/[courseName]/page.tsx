@@ -1,4 +1,3 @@
-"use client";
 import data from "@/components/common/data/courses.json";
 import Typography from "@/components/common/ui/Typography";
 import CourseContentAccordion from "@/components/courses/Accordion";
@@ -10,11 +9,11 @@ import { CourseIcon } from "@/components/svgs";
 import { predictCourseDuration } from "@/utils/helpers";
 import { generateKey } from "@/utils/key";
 import { Button, TabNav } from "@radix-ui/themes";
+import fs from "fs";
 import { MedalStar, TickCircle, VideoSquare } from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useState } from "react";
+import path from "path";
 import { CgFileDocument } from "react-icons/cg";
 import { GoDotFill } from "react-icons/go";
 import { HiOutlineDownload } from "react-icons/hi";
@@ -52,23 +51,42 @@ const detailsIcons = {
   certificate: <MedalStar size={30} className="text-accent-800" />,
 };
 
-export default function CoursePage() {
-  const [showMore, setShowMore] = useState(false);
-  const { courseName } = useParams();
-  // const courseName = params.courseName;
-  const courseInfo = data.find(
-    (course) => course.name === decodeURI(courseName as string)
+export async function generateStaticParams() {
+  const filePath = path.join(
+    process.cwd(),
+    "components/common/data/courses.json"
   );
+  // Read and parse the file
+  const fileContents = fs.readFileSync(filePath, "utf-8");
+  const courses = JSON.parse(fileContents);
 
+  const params = courses.map((course: any) => ({
+    courseName: encodeURI(course.name),
+  }));
+
+  return params;
+}
+
+export default function CoursePage({
+  params,
+}: {
+  params: { courseName: string };
+}) {
+  // const [showMore, setShowMore] = useState(false);
+
+  const courseInfo = data.find(
+    (course) => course.name === decodeURI(params.courseName as string)
+  );
   return (
     <>
       <StickyHeader courseName={courseInfo?.name!} />
-      <section className="max-sm:!pt-0 max-sm:-mx-4 max-md:-mx-6 max-lg:-mx-[56px]">
+      <section className="">
         <div className="flex flex-col">
-          <div>
-            <div className="p-4 py-8 md:p-8 md:py-16 bg-accent-200/50 flex items-center justify-center">
-              <div className="w-full pb-5 md:pb-16 flex flex-col gap-6">
-                {/* <div className="max-md:hidden">
+          <div className="pt-32 md:pt-40 bg-[linear-gradient(180deg,_#E1EAFF_0%,_#FFFFFF_100%)] animate-fade-in-up">
+            <div className="max-md:px-5 md:max-w-[90%] lg:max-w-[80%] mx-auto">
+              <div className="flex items-center justify-center">
+                <div className="w-full pb-5 md:pb-16 flex flex-col gap-6">
+                  {/* <div className="max-md:hidden">
                   <Image
                     src={"/assets/images/logo-outline.png"}
                     width={220}
@@ -78,65 +96,65 @@ export default function CoursePage() {
                   />
                 </div> */}
 
-                <div className="flex flex-col gap-3">
-                  <Typography.H2 fontColor="dark" weight="semibold">
-                    {courseInfo?.name}
-                  </Typography.H2>
-                  <Typography.P
-                    fontColor="dark"
-                    weight="medium"
-                    className="line-clamp-3"
-                  >
-                    {courseInfo?.overview.introduction}
-                  </Typography.P>
+                  <div className="flex flex-col gap-3">
+                    <Typography.H2 fontColor="dark" weight="semibold">
+                      {courseInfo?.name}
+                    </Typography.H2>
+                    <Typography.P
+                      fontColor="dark"
+                      weight="medium"
+                      className="line-clamp-3"
+                    >
+                      {courseInfo?.overview.introduction}
+                    </Typography.P>
 
-                  <div className="flex items-center gap-3">
-                    <Typography.H3 size="small" weight="medium">
-                      Available on:
-                    </Typography.H3>
-                    {courseInfo?.accessibility.platforms.map((item) => (
-                      <div
-                        className="flex items-center gap-1"
-                        key={generateKey()}
-                      >
-                        {
-                          courseDevices[
-                            item.toLowerCase() as keyof typeof courseDevices
-                          ]
-                        }
-                        <Typography.P>{item}</Typography.P>
-                      </div>
-                    ))}
+                    <div className="flex items-center gap-3">
+                      <Typography.H3 size="small" weight="medium">
+                        Available on:
+                      </Typography.H3>
+                      {courseInfo?.accessibility.platforms.map((item) => (
+                        <div
+                          className="flex items-center gap-1"
+                          key={generateKey()}
+                        >
+                          {
+                            courseDevices[
+                              item.toLowerCase() as keyof typeof courseDevices
+                            ]
+                          }
+                          <Typography.P>{item}</Typography.P>
+                        </div>
+                      ))}
+                    </div>
+                    <Typography.H4 size="base" fontColor="dark" weight="medium">
+                      Instructor: <strong>AI</strong>
+                    </Typography.H4>
                   </div>
-                  <Typography.H4 size="base" fontColor="dark" weight="medium">
-                    Instructor: <strong>AI</strong>
-                  </Typography.H4>
+                  <Link href="/register">
+                    <Button className="primary__btn btn !w-fit" variant="solid">
+                      <Typography.P fontColor="white">Enroll now</Typography.P>
+                    </Button>
+                  </Link>
                 </div>
-                <Link href="/register">
-                  <Button className="primary__btn btn !w-fit" variant="solid">
-                    <Typography.P fontColor="white">Enroll now</Typography.P>
-                  </Button>
-                </Link>
+                <div className="max-lg:hidden w-full flex flex-col items-center">
+                  <CourseIcon width={350} height={350} />
+                </div>
               </div>
-              <div className="max-lg:hidden w-full flex flex-col items-center">
-                <CourseIcon width={350} height={350} />
-              </div>
-            </div>
-            <div className="flex px-4 py-6 border-b-2 border-grey-3 flex-col gap-5 justify-evenly">
-              <div>
-                <Link scroll href="#courses">
-                  <Typography.H4
-                    className="!text-base md:!text-lg hover:!underline"
-                    weight="medium"
-                  >
-                    {courseInfo?.overview.duration.numberOfUnits} unit series
-                  </Typography.H4>
-                </Link>
-                <Typography.P size="small" fontColor="grey">
-                  Get in-depth specialization in your career
-                </Typography.P>
-              </div>
-              {/* <div>
+              <div className="flex pb-6 border-b-2 border-grey-3 flex-col gap-5 justify-evenly">
+                <div>
+                  <Link scroll href="#courses">
+                    <Typography.H4
+                      className="!text-base md:!text-lg hover:!underline"
+                      weight="medium"
+                    >
+                      {courseInfo?.overview.duration.numberOfUnits} unit series
+                    </Typography.H4>
+                  </Link>
+                  <Typography.P size="small" fontColor="grey">
+                    Get in-depth specialization in your career
+                  </Typography.P>
+                </div>
+                {/* <div>
                 <Typography.H4
                   className="!text-base md:!text-lg"
                   weight="medium"
@@ -147,34 +165,35 @@ export default function CoursePage() {
                   No prior experience required
                 </Typography.P>
               </div> */}
-              <div>
-                <Typography.H4
-                  className="!text-base md:!text-lg"
-                  weight="medium"
-                >
-                  {predictCourseDuration(
-                    courseInfo?.overview.duration.totalHours!
-                  )}{" "}
-                  months
-                </Typography.H4>
-                <Typography.P size="small" fontColor="grey">
-                  At 3 hours per week
-                </Typography.P>
-              </div>
-              <div>
-                <Typography.H4
-                  className="!text-base md:!text-lg"
-                  weight="medium"
-                >
-                  Flexible schedule
-                </Typography.H4>
-                <Typography.P size="small" fontColor="grey">
-                  Learn at your own pace
-                </Typography.P>
+                <div>
+                  <Typography.H4
+                    className="!text-base md:!text-lg"
+                    weight="medium"
+                  >
+                    {predictCourseDuration(
+                      courseInfo?.overview.duration.totalHours!
+                    )}{" "}
+                    months
+                  </Typography.H4>
+                  <Typography.P size="small" fontColor="grey">
+                    At 3 hours per week
+                  </Typography.P>
+                </div>
+                <div>
+                  <Typography.H4
+                    className="!text-base md:!text-lg"
+                    weight="medium"
+                  >
+                    Flexible schedule
+                  </Typography.H4>
+                  <Typography.P size="small" fontColor="grey">
+                    Learn at your own pace
+                  </Typography.P>
+                </div>
               </div>
             </div>
           </div>
-          <div>
+          <div className="max-md:px-5 md:max-w-[90%] lg:max-w-[80%] mx-auto">
             <div className="lg:w-3/4">
               <TabNav.Root size="2">
                 <TabNav.Link href="#objectives" active>
@@ -211,11 +230,11 @@ export default function CoursePage() {
                   Skills {"you'll learn"}
                 </Typography.H3>
                 <ul
-                  className={`flex mb-4 flex-col gap-4 sm:gap-2 h-full ease-in-out overflow-hidden transition-all duration-700 mt-4 ${
-                    showMore
-                      ? "max-h-[1000px]"
-                      : "max-h-[270px] sm:max-h-[220px]"
-                  }`}
+                  className={`flex mb-4 flex-col gap-4 sm:gap-2 h-full ease-in-out overflow-hidden transition-all duration-700 mt-4
+                    // showMore
+                    //   ? "max-h-[1000px]"
+                    //   : "max-h-[270px] sm:max-h-[220px]"
+                  `}
                 >
                   {courseInfo?.skillsAndCompetencies.map((item, i) => (
                     <li key={i} className="gap-4 flex xl:items-center">
@@ -228,15 +247,15 @@ export default function CoursePage() {
                     </li>
                   ))}
                 </ul>
-                <Button
+                {/* <Button
                   className="mt-4 !duration-500 !cursor-pointer"
-                  onClick={() => setShowMore(!showMore)}
+                  // onClick={() => setShowMore(!showMore)}
                   variant="ghost"
                 >
                   <span className="sm:p-2 text-base font-medium">
-                    Show {showMore ? "less" : "more"}
+                    {/* Show {showMore ? "less" : "more"} 
                   </span>
-                </Button>
+                </Button> */}
               </div>
               <div>
                 <Typography.H3 weight="semibold">Extra details</Typography.H3>

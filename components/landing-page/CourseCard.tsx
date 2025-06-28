@@ -1,9 +1,11 @@
+"use client";
 import Community from "@/components/svgs/community.svg";
 import CpdIcon from "@/components/svgs/cpd.svg";
 import { generateKey } from "@/utils/key";
 
 import { ArrowRightIcon, ClockIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 
 type CourseProps = {
@@ -16,6 +18,8 @@ type CourseProps = {
   };
 };
 export const Course = ({ course }: CourseProps) => {
+  const router = useRouter();
+
   const list = [
     {
       title: `${course.duration} hours`,
@@ -60,7 +64,10 @@ export const Course = ({ course }: CourseProps) => {
           ))}
         </ul>
       </div>
-      <Button className="w-full">
+      <Button
+        onClick={() => router.push(`/courses/${encodeURI(course.name)}`)}
+        className="w-full"
+      >
         <p className="text-base font-semibold">Enroll now</p>
         <ArrowRightIcon />
       </Button>

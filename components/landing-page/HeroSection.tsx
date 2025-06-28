@@ -12,12 +12,12 @@ export default function HeroSection() {
             <Pill text="🚀 Enhance Teaching Excellence." pillBg="#dfe7fa" />
 
             <h1 className="text-grey-800 font-semibold text-3xl md:text-5xl">
-              Access the world's best AI-Powered Accredited CPD Program
+              Access the {"world's"} best AI-Powered Accredited CPD Program
             </h1>
           </div>
           <div>
             <p className="text-base text-grey-800 font-medium">
-              Transform your teaching with EduAI Pro's accredited Continued
+              Transform your teaching with {"EduAIPro's"} Accredited Continued
               Professional Development (CPD) courses. Designed for mentors,
               teaching assistants, primary, secondary, and higher institution
               educators, our AI-powered platform equips you with the tools to
