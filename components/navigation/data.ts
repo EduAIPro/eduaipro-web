@@ -29,8 +29,8 @@ export const navLinks = [
     ],
   },
   {
-    title: "Pricing",
-    href: "/pricing",
+    title: "Packages",
+    href: "/packages",
   },
   {
     title: "FAQs",

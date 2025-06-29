@@ -52,7 +52,7 @@ export function getPageMetadata(pageName: string): Metadata {
     ...baseMetadata,
     title: {
       ...(baseMetadata.title as TemplateString),
-      template: `${pageName} | EduAIPro`,
+      template: `EduAIPro | ${pageName}`,
     },
     openGraph: {
       ...baseMetadata.openGraph,

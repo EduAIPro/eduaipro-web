@@ -15,7 +15,7 @@ export default function PricingPage() {
     <>
       <section className="max-w-full max-lg:px-5 pt-28 sm:pt-32 lg:max-w-[80%] mx-auto flex flex-col gap-7 md:gap-14 animate-fade-in-up">
         <div className="text-center md:max-w-[70%] mx-auto flex flex-col gap-3">
-          <Pill text="PRICING" pillBg="#F1F5FF" />
+          <Pill text="Packages" pillBg="#F1F5FF" />
           <h2 className="font-medium text-2xl md:text-3xl lg:text-4xl">
             More Value, Less Cost
           </h2>

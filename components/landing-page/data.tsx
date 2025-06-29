@@ -214,15 +214,11 @@ export const courses = [
 ];
 
 export const categories = [
-  "History",
-  "Science",
-  "Literature",
-  "Languages",
-  "Mathematics",
-  "Physics",
-  "Biology",
-  "Government",
-  "Economics",
+  "CPD Curriculum for Primary Teachers",
+  "CPD Curriculum for Secondary Teachers",
+  "CPD Curriculum for Higher Institution Teachers",
+  "CPD Curriculum for Mentors",
+  "CPD Curriculum for Teaching Assistants",
 ];
 
 // export const educatorBenefits = [

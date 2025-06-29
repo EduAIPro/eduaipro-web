@@ -5,7 +5,7 @@ import { appIcons } from "./data";
 
 export default function HeroSection() {
   return (
-    <section className="w-full max-md:px-5 min-h-[90vh] sm:min-h-screen bg-[linear-gradient(180deg,_#E1EAFF_0%,_#FFFFFF_100%)] flex flex-col items-center justify-center">
+    <section className="w-full pt-32 sm:pt-40 max-md:px-5 min-h-[90vh] sm:min-h-screen bg-[linear-gradient(180deg,_#E1EAFF_0%,_#FFFFFF_100%)] flex flex-col items-center justify-center">
       <div className="md:max-w-3xl overflow-hidden mx-auto text-center space-y-16 md:space-y-[100px] animate-fade-in-up">
         <div className="space-y-5">
           <div className="space-y-3">
