@@ -87,7 +87,7 @@ export const UnitBody = ({ unitInfo }: UnitBodyProps) => {
           <TabNav.Link href="#modules">Modules</TabNav.Link>
         </TabNav.Root>
       </div>
-      <div id="objectives" className="max-lg:px-4 py-8 flex flex-col gap-8">
+      <div id="objectives" className="py-8 flex flex-col gap-8">
         <div>
           <Typography.H3 weight="semibold">Learning objectives</Typography.H3>
           <ul className="flex flex-col gap-2 mt-4">

@@ -48,13 +48,3 @@ export default function LoginPage() {
     </main>
   );
 }
-{
-  /* <Image
-  src="/assets/images/img17.jpg"
-  alt=""
-  width="700"
-  height="700"
-  className="w-full h-screen"
-/> */
-}
-// 6, 7, 10, 12, 13, 14, 16, 17

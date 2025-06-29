@@ -67,15 +67,17 @@ export async function generateStaticParams() {
   return params;
 }
 
-export default function CoursePage({
+export default async function CoursePage({
   params,
 }: {
   params: { courseName: string };
 }) {
   // const [showMore, setShowMore] = useState(false);
 
+  const { courseName } = await params;
+
   const courseInfo = data.find(
-    (course) => course.name === decodeURI(params.courseName as string)
+    (course) => course.name === decodeURI(courseName as string)
   );
   return (
     <>

@@ -95,14 +95,15 @@ export async function generateStaticParams() {
   return params;
 }
 
-export default function CourseUnitPage({
+export default async function CourseUnitPage({
   params,
 }: {
   params: { courseName: string; unitId: string };
 }) {
+  const parameters = await params;
   return (
     <>
-      <UnitHeader params={params} />
+      <UnitHeader params={parameters} />
     </>
   );
 }

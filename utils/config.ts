@@ -20,7 +20,6 @@ const baseMetadata: Metadata = {
     "Mentors professional development",
   ],
   referrer: "origin-when-cross-origin",
-  colorScheme: "light",
   creator: "EduAIPro",
   publisher: "EduAIPro",
   openGraph: {

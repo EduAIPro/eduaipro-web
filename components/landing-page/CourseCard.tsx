@@ -1,9 +1,8 @@
 "use client";
-import Community from "@/components/svgs/community.svg";
 import CpdIcon from "@/components/svgs/cpd.svg";
 import { generateKey } from "@/utils/key";
 
-import { ArrowRightIcon, ClockIcon } from "lucide-react";
+import { ArrowRightIcon, ClockIcon, UsersRoundIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
@@ -27,11 +26,18 @@ export const Course = ({ course }: CourseProps) => {
     },
     {
       title: "Professional certificate",
-      icon: <CpdIcon width={16} height={16} />,
+      icon: <CpdIcon />,
     },
     {
       title: `${course.students} enrolled`,
-      icon: <Community width={16} height={16} />,
+      icon: (
+        <UsersRoundIcon
+          strokeWidth={2}
+          className="text-primary"
+          width={16}
+          height={16}
+        />
+      ),
     },
   ];
   return (

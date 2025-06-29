@@ -3,7 +3,7 @@
 import AppLayoutBase from "@/components/layout/app";
 import { Toaster } from "@/components/ui/toaster";
 import "@radix-ui/themes/styles.css";
-import { Montserrat } from "next/font/google";
+import { Montserrat, Work_Sans } from "next/font/google";
 import { QueryClient } from "react-query";
 import "./globals.css";
 
@@ -12,6 +12,11 @@ const queryClient = new QueryClient();
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
+});
+
+const workSans = Work_Sans({
+  subsets: ["latin"],
+  variable: "--font-work-sans",
 });
 
 // export const metadata: Metadata = {
@@ -59,7 +64,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${montserrat.variable} ${workSans.variable} antialiased`}
+    >
       <body className={montserrat.className}>
         <AppLayoutBase>{children}</AppLayoutBase>
         <Toaster />
