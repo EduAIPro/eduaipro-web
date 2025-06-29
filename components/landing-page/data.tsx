@@ -50,6 +50,7 @@ export const schoolLogos = [
   "/assets/images/moji_uni.jpeg",
   "/assets/images/noun.png",
   "/assets/images/unizik.png",
+  "/assets/images/cpd_logo.jpeg",
   "/assets/images/coastal_uni.jpeg",
   "/assets/images/iict_uni.jpeg",
   "/assets/images/mu.png",
