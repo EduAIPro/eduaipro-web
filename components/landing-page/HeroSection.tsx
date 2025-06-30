@@ -1,63 +1,47 @@
-import { generateKey } from "@/utils/key";
-import { Box } from "@radix-ui/themes";
-import Typography from "../common/ui/Typography";
+import Pill from "../common/ui/Pill";
+import { Button } from "../ui/button";
 import CompaniesMarquee from "./CompaniesMarquee";
 import { appIcons } from "./data";
 
 export default function HeroSection() {
   return (
-    <section className="">
-      <Box
-        style={{ borderRadius: "24px" }}
-        className="px-4 sm:px-6 lg:px-8 py-6 max-md:pb-12 md:py-12 bg-accent-100 border-white overflow-x-clip relative"
-      >
-        {/* L-shaped border radius overlay */}
-        <div className="absolute trusted__companies bottom-0 left-0 w-full xl:w-3/5 bg-white xs:rounded-tr-[50px] flex items-center justify-between space-x-4">
-          <CompaniesMarquee />
-        </div>
+    <section className="w-full pt-32 sm:pt-40 max-md:px-5 min-h-[90vh] sm:min-h-screen bg-[linear-gradient(180deg,_#E1EAFF_0%,_#FFFFFF_100%)] flex flex-col items-center justify-center">
+      <div className="md:max-w-3xl overflow-hidden mx-auto text-center space-y-16 md:space-y-[100px] animate-fade-in-up">
+        <div className="space-y-5">
+          <div className="space-y-3">
+            <Pill text="🚀 Enhance Teaching Excellence." pillBg="#dfe7fa" />
 
-        <div className="flex flex-col md:flex-row items-centermd:p-6 lg:p-12 relative z-10">
-          <div className="flex-1 text-brand max-sm:pb-24 pb-14 md:pb-28">
-            <div className="inline-block bg-accent-400 bg-opacity-35 rounded-full px-4 py-1 mb-3">
-              <Typography.H2
-                size="small"
-                fontColor="brand"
-                weight="semibold"
-                className="uppercase"
-              >
-                📈 Enhance Teaching Excellence
-              </Typography.H2>
-            </div>
-            <div className="flex flex-col gap-y-4">
-              <Typography.H1 fontColor="brand" size="xlarge" weight="bold">
-                {"Access the world's best AI-Powered Accredited CPD Program"}
-              </Typography.H1>
-              <Typography.P weight="medium" fontColor="brand">
-                {
-                  "Transform your teaching with EduAI Pro's accredited Continued Professional Development (CPD) courses. Designed for mentors, teaching assistants, primary, secondary, and higher institution educators, our AI-powered platform equips you with the tools to thrive and make a lasting impact."
-                }
-              </Typography.P>
-            </div>
-            <div className="flex gap-x-4 my-6 items-center">
-              {appIcons.map((item) => (
-                <div key={generateKey()} className="app__download">
-                  <item.icon variant="Bold" color="white" />
-                </div>
-              ))}
-              <Typography.P weight="semibold" fontColor="brand">
-                Download now
-              </Typography.P>
-            </div>
+            <h1 className="text-grey-800 font-semibold text-3xl md:text-5xl">
+              Access the {"world's"} best AI-Powered Accredited CPD Program
+            </h1>
           </div>
-          <div className="flex-1 mt-8 md:mt-0">
-            {/* <img
-                src="/api/placeholder/500/500"
-                alt="Maxlearn App"
-                className="w-full h-auto object-contain"
-              /> */}
+          <div>
+            <p className="text-base text-grey-800 font-medium">
+              Transform your teaching with {"EduAIPro's"} Accredited Continued
+              Professional Development (CPD) courses. Designed for mentors,
+              teaching assistants, primary, secondary, and higher institution
+              educators, our AI-powered platform equips you with the tools to
+              thrive and make a lasting impact.
+            </p>
+          </div>
+          <div className="flex max-sm:flex-col items-center gap-3 sm:w-fit mx-auto">
+            {appIcons.map((p) => (
+              <Button key={p.platformName} className="max-sm:w-full">
+                <p.icon variant="Bold" color="white" />
+                Coming soon on {p.platformName}
+              </Button>
+            ))}
           </div>
         </div>
-      </Box>
+        <div>
+          <div className="space-y-3 overflow-x-clip max-w-[calc(100vw-40px)]">
+            <p className="font-medium text-grey-800">
+              Trusted by 20+ innovative institutions worldwide
+            </p>
+            <CompaniesMarquee />
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

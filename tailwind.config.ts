@@ -41,7 +41,6 @@ const config: Config = {
           a12: "#001347e2",
         },
         grey: {
-          "1": "#fcfcfd",
           "2": "#f9f9fb",
           "3": "#eff0f3",
           "4": "#e7e8ec",
@@ -53,20 +52,13 @@ const config: Config = {
           "10": "#80828d",
           "11": "#62636c",
           "12": "#1e1f24",
+          "400": "#DBDBDB",
+          "500": "#656565",
           "600": "#96a6b7",
-          a1: "#00005503",
-          a2: "#00005506",
-          a3: "#00104010",
-          a4: "#000b3618",
-          a5: "#0009321f",
-          a6: "#00073527",
-          a7: "#00063332",
-          a8: "#00083046",
-          a9: "#00051d74",
-          a10: " #00051b7f",
-          a11: " #0002119d",
-          a12: " #000107e1",
-          surface: " #ffffffcc",
+          "650": "#333333",
+          "700": "#F6F6F6",
+          "800": "#141414",
+          surface: "#ffffffcc",
         },
         warning: {
           "100": "#FFE29A",
@@ -107,7 +99,13 @@ const config: Config = {
           foreground: "hsl(var(--popover-foreground))",
         },
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "#0043BE",
+          "50": "#F4F8FF",
+          "100": "#F5F8FF",
+          "150": "#D9E3F8",
+          "200": "#AFCAFC",
+          "300": "#2E6BCE",
+          "400": "#0043BE",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -138,25 +136,13 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "boost-career-pattern": "url('/assets/images/shape-bg.png')",
-        "courses-hero": "url('/assets/images/wo.jpg')",
-        "institution-benefits": "url('/assets/images/school.jpg')",
-        "high-sch-course":
-          "url('/assets/images/cpd_course_secondary.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
-        "primary-sch-course":
-          "url('/assets/images/cpd_course_primary.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
-        "uni-course":
-          "url('/assets/images/cpd_course_hi.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
-        "assistant-course":
-          "url('/assets/images/cpd_course_ta.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "auth-bg":
           "url('/assets/images/img14.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
-        "auth-mentor":
-          "url('/assets/images/cpd_course_mentors.png'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "gradient-45": "linear-gradient(205deg, var(--tw-gradient-stops))",
       },
       animation: {
         "gradient-bg": "gradient 5s ease infinite",
-        "fade-in-up": "fadeInUp 0.5s ease-out",
+        "fade-in-up": "fadeInUp 1s ease-out",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },

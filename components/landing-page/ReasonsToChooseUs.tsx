@@ -1,44 +1,33 @@
 "use client";
-import { generateKey } from "@/utils/key";
+
 import Pill from "../common/ui/Pill";
-import Typography from "../common/ui/Typography";
+
+import { generateKey } from "@/utils/key";
 import { features } from "./data";
 
 export default function ReasonsToChooseUs() {
   return (
-    <section className="responsive__section">
-      <div className="flex flex-col gap-y-6 md:gap-y-12">
-        <div className="text-center flex flex-col gap-y-4">
-          <Pill text="WHY CHOOSE US" />
-          <div>
-            <Typography.H2 weight="semibold" size="xlarge">
-              A Platform Designed for Educators <br /> Supercharged by{" "}
-              <span className="gradient__text inline-flex montserrat">AI</span>
-            </Typography.H2>
-          </div>
+    <section className="bg-primary-100 py-20 max-md:px-5">
+      <div className="md:max-w-[80%] mx-auto space-y-20">
+        <div className="space-y-3 text-center lg:max-w-[60%] mx-auto">
+          <Pill text="Why choose us" pillBg="#F5F8FF" />
+          <h1 className="text-grey-800 font-medium text-2xl sm:text-3xl md:text-4xl">
+            A Platform Designed for Educators Supercharged by AI
+          </h1>
         </div>
-        <div className="grid md:grid-cols-2 gap-5 md:gap-10 xl:w-4/5 mx-auto">
-          {features.map((item) => (
-            <div
-              key={generateKey()}
-              className="rounded-xl bg-white p-4 displace__animation box__shadow"
-            >
-              <div className="xs:flex gap-x-5">
-                <div
-                  style={{
-                    backgroundColor: item.color,
-                    boxShadow: `-5px 5px 15px 4px ${item.color}2B`,
-                  }}
-                  className={`w-fit h-fit p-4 rounded-[6px] max-xs:mb-4`}
-                >
-                  <item.icon color="white" width={20} height={20} />
+        <div className="grid md:grid-cols-2 gap-5">
+          {features.map((f) => (
+            <div key={generateKey()} className="md:p-5 space-y-6">
+              <div className="rounded-full bg-[#D9E3F8] size-12 flex items-center justify-center">
+                <div className="size-6 flex-shrink-0">
+                  <f.icon width={24} height={24} className="w-full" />
                 </div>
-                <div className="flex flex-col gap-y-1">
-                  <Typography.H2 weight="medium" size="large">
-                    {item.title}
-                  </Typography.H2>
-                  <Typography.P size="small">{item.description}</Typography.P>
-                </div>
+              </div>
+              <div className="space-y-3">
+                <h3 className="text-base md:text-xl font-medium text-primary">
+                  {f.title}
+                </h3>
+                <p className="text-base text-[#333333]">{f.description}</p>
               </div>
             </div>
           ))}

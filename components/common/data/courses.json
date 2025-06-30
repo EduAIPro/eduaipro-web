@@ -2,7 +2,7 @@
   {
     "id": "1",
     "name": "CPD Curriculum for Primary Teachers",
-    "img": "/assets/images/cpd_primary.png",
+    "img": "/assets/images/cpd_primary.webp",
     "description": "The course consists of 12 comprehensive modules, each of which is broken down into multiple lessons. These lessons are designed to build progressively, with each one focusing on a specific theme or skill. Progress tracking tools are available to help participants monitor their advancement through the course. \n As teachers work through each module, they will have the opportunity to assess their understanding through in-module quizzes, reinforcing their learning and ensuring they are ready to move to the next lesson. \n\n To support teachers in their learning, the course provides a variety of resources. These include downloadable PDFs that summarize key concepts, along with videos that illustrate strategies and practices in real classroom scenarios. In addition to written resources, teachers will have access to a range of reading links for further exploration, allowing them to deepen their understanding of specific topics. Interactive tests are embedded throughout the modules to assess knowledge and reinforce key learning points.",
     "overview": {
       "introduction": "Elevate your classroom expertise and support the developmental needs of young learners with our CPD curriculum for primary teachers. This course focuses on a holistic approach to teaching that integrates child development, classroom management, and modern educational tools to create positive learning environments.",
@@ -1035,7 +1035,7 @@
   {
     "id": "2",
     "name": "CPD Curriculum for Secondary Teachers",
-    "img": "/assets/images/cpd_secondary.png",
+    "img": "/assets/images/cpd_secondary.webp",
     "description": "The CPD course is organized into 12 units, each addressing a key area of teaching practice. These units cover topics such as emotional intelligence, classroom management, technology integration, assessment for learning, and more. Each unit is divided into 3 to 4 modules, with each module focusing on specific skills and strategies related to the unit's theme. The course structure allows for sequential learning, ensuring that teachers can build on their knowledge progressively. Progress tracking is integrated into the course, allowing educators to monitor their learning and track achievements as they move through the units.\n\n Throughout the course, teachers will have access to a variety of downloadable resources, including lesson plans, case studies, and templates that can be applied directly in their classrooms. Additionally, each unit includes tests to assess understanding and reinforce learning. Videos and reading links are provided to supplement learning, offering real-world examples and deeper insights into each topic.",
     "overview": {
       "introduction": "Enhance your teaching practices and foster a dynamic classroom environment with our CPD curriculum for secondary teachers. This course is designed to boost student engagement and academic outcomes while providing practical strategies for addressing the unique challenges of adolescent education.",
@@ -1454,8 +1454,8 @@
   },
   {
     "id": "3",
-    "name": "Higher Education CPD Program",
-    "img": "/assets/images/cpd_hi.png",
+    "name": "Higher Education CPD Curriculum",
+    "img": "/assets/images/cpd_hi.webp",
     "description": "The course consists of 12 units, each focusing on a crucial aspect of teaching in higher education. Every unit is broken down into three modules, totaling 36 modules throughout the program. These modules include lessons, interactive activities, and practical applications. To ensure ongoing progress, teachers will have the opportunity to track their learning through built-in assessments and reflective practices. Progress tracking tools are available to help educators monitor their completion and understanding of key concepts. \n\nTeachers will have access to a variety of resources to support their learning. These include downloadable reading materials, video lectures, and additional reading links that offer further insights into each unit's topic. Each unit also includes tests and quizzes to assess understanding and retention. These resources are designed to deepen knowledge and foster practical application of the concepts taught.",
     "overview": {
       "introduction": "Enhance your teaching practices and foster professional growth through a comprehensive CPD program tailored for higher education educators. This curriculum equips teachers with innovative strategies and modern tools to transform classroom dynamics and improve student engagement and outcomes.",
@@ -1647,8 +1647,8 @@
   },
   {
     "id": "4",
-    "name": "Mentoring Professional Development CPD Program",
-    "img": "/assets/images/cpd_mentors.png",
+    "name": "CPD Curriculum for Mentors",
+    "img": "/assets/images/cpd_mentors.webp",
     "description": "The course is organized into 10 units, each divided into four modules. This results in a total of 40 modules across the entire course. Each module is designed to provide both theoretical and practical insights, with clearly defined objectives and outcomes. Progress tracking tools within the course will allow mentors to monitor their advancement through the units and ensure they are gaining the necessary competencies to apply in their practice. This self-paced structure ensures that mentors can track their learning journey and reinforce their understanding of key concepts. \n\nTo facilitate an interactive and comprehensive learning experience, the course offers downloadable resources such as reading materials, templates, and worksheets. Videos and reading links are provided to supplement the learning process and offer real-world examples and case studies. Each unit also includes in-module tests to assess knowledge and understanding. These resources help ensure that mentors have access to diverse materials to deepen their expertise in the field of mentoring.",
     "overview": {
       "introduction": "Empower your mentoring role and elevate the professional development of your mentees with our specialized CPD curriculum for mentors. This course provides a comprehensive exploration of essential mentoring skills and practical strategies to create a supportive and inclusive mentoring environment.",
@@ -1817,8 +1817,8 @@
   },
   {
     "id": "5",
-    "name": "Teaching Assistant CPD Program",
-    "img": "/assets/images/cpd_ta.png",
+    "name": "CPD Curriculum for Teaching Assistants",
+    "img": "/assets/images/cpd_ta.webp",
     "description": "The program comprises 12 units, each divided into modules that tackle specific learning objectives. Lessons are delivered sequentially, with progress tracking tools that enable participants to monitor their advancement. This structure ensures a step-by-step learning process, reinforcing understanding and building competencies incrementally.\nParticipants benefit from a variety of high-quality resources, including downloadable handouts, instructional videos, case studies, and curated reading lists. These materials are tailored to provide actionable insights, ensuring that participants can immediately apply their learning to real-world scenarios.",
     "overview": {
       "introduction": "Advance your role as a Teaching Assistant with our CPD curriculum, designed to equip you with the essential knowledge and skills for success in modern educational settings. This program combines practical and theoretical learning to prepare you for the diverse challenges of classroom support.",

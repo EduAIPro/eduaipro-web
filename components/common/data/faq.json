@@ -1,0 +1,128 @@
+[
+  {
+    "title": "General Information",
+    "contents": [
+      {
+        "question": "What is EduAI Pro?",
+        "answer": "EduAI Pro is an accredited, AI-powered Continuing Professional Development (CPD) platform designed specifically for educators, mentors, and teaching assistants in primary, secondary, and higher education. The platform provides personalized learning experiences, collaborative community forums, and recognized certifications."
+      },
+      {
+        "question": "Who can benefit from EduAI Pro?",
+        "answer": "EduAI Pro caters primarily to educational professionals such as teachers, mentors, teaching assistants, and school administrators seeking to enhance their skills, maintain professional certification, or advance their careers."
+      }
+    ]
+  },
+  {
+    "title": "Account Management",
+    "contents": [
+      {
+        "question": "How do I create an EduAI Pro account?",
+        "answer": "You can create an account directly from the login page by providing your email address, choosing a secure password, and filling in your professional details to customize your learning experience."
+      },
+      {
+        "question": "What if I forget my password?",
+        "answer": "Use the \"Forgot Password\" link on the login page. Follow the instructions sent to your registered email address to reset your password."
+      }
+    ]
+  },
+  {
+    "title": "Courses and Certifications",
+    "contents": [
+      {
+        "question": "What types of CPD courses does EduAI Pro offer?",
+        "answer": "EduAI Pro offers tailored CPD courses for primary, secondary, and higher education educators, covering areas like pedagogy, inclusive education, lesson differentiation, curriculum design, and technology integration."
+      },
+      {
+        "question": "Are EduAI Pro certifications accredited?",
+        "answer": "Yes, EduAI Pro certifications are fully accredited and internationally recognized by educational accreditation bodies, ensuring they contribute to your professional credentials and career progression."
+      },
+      {
+        "question": "How long does it take to complete a course?",
+        "answer": "Each course is structured into twelve units, typically requiring approximately 20-30 hours, allowing learners to proceed at their own pace."
+      },
+      {
+        "question": "Do I need to retake courses to keep my certification active?",
+        "answer": "Yes. To maintain your CPD credentials, you must complete a designated refresher module every two years after your initial certification. These refresher courses ensure you stay up to date with the latest educational standards, policy updates, and pedagogical best practices."
+      }
+    ]
+  },
+  {
+    "title": "Platform Features",
+    "contents": [
+      {
+        "question": "What personalized features does EduAI Pro offer?",
+        "answer": "EduAI Pro provides personalized learning paths through adaptive AI technology, real-time skill assessments, interactive chatbots for instant support, and bespoke course development for institutions."
+      },
+      {
+        "question": "Can I access courses and resources offline?",
+        "answer": "Yes, EduAI Pro allows users to download key resources such as eBooks and templates for offline use, automatically synchronizing progress when back online."
+      },
+      {
+        "question": "What is the collaborative community feature?",
+        "answer": "The platform includes community forums enabling educators worldwide to share best practices, collaborate on teaching strategies, and engage in professional discussions."
+      }
+    ]
+  },
+  {
+    "title": "Technical Support",
+    "contents": [
+      {
+        "question": "How can I contact support if I encounter a problem?",
+        "answer": "Technical support is accessible via the built-in chatbot, email, or through direct messaging within the user dashboard. Support is available around the clock with prompt response times."
+      }
+    ]
+  },
+  {
+    "title": "Institutional Dashboards",
+    "contents": [
+      {
+        "question": "What features are available for educational institutions?",
+        "answer": "Institutions have access to dedicated dashboards to monitor staff progress, verify certifications, manage course enrollments, track professional development activities, and generate comprehensive performance reports."
+      },
+      {
+        "question": "How can institutions integrate EduAI Pro with existing Learning Management Systems (LMS)?",
+        "answer": "EduAI Pro supports LMS integration through APIs and standards such as SCORM and LTI, making it seamless for institutions to integrate EduAI Pro into their existing infrastructure."
+      }
+    ]
+  },
+  {
+    "title": "Data Privacy and Security",
+    "contents": [
+      {
+        "question": "How is user data protected on EduAI Pro?",
+        "answer": "User data is secured with advanced encryption technologies, compliance with GDPR, and stringent data privacy policies. Data used for AI personalization remains confidential and anonymized to protect user identity."
+      }
+    ]
+  },
+  {
+    "title": "Pricing and Enrollment",
+    "contents": [
+      {
+        "question": "How much does EduAI Pro cost?",
+        "answer": "EduAI Pro offers flexible pricing plans for individuals and institutions, including subscription options, institutional bulk discounts, and tailored packages. Free trial periods and demos are available upon request."
+      },
+      {
+        "question": "How do I enroll in EduAI Pro courses?",
+        "answer": "Enrollment can be done directly through your dashboard, with options for individual self-enrollment, institutional enrollment via invitation, or administrative provisioning."
+      }
+    ]
+  },
+  {
+    "title": "User Feedback and Continuous Improvement",
+    "contents": [
+      {
+        "question": "Can I provide feedback on courses and platform experience?",
+        "answer": "Absolutely. User feedback is highly encouraged and can be submitted directly via the platform’s feedback forms or during periodic user experience surveys."
+      }
+    ]
+  },
+  {
+    "title": "Availability",
+    "contents": [
+      {
+        "question": "Is EduAI Pro accessible on mobile devices?",
+        "answer": "Yes, EduAI Pro provides dedicated native apps for both iOS and Android devices, ensuring a seamless mobile learning experience anytime, anywhere."
+      }
+    ]
+  }
+]

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Dialog, DialogContent } from "@/components/common/ui/Dialog";
+import Typography from "@/components/common/ui/Typography";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight } from "iconsax-react";
+import { useEffect, useState } from "react";
 import { BsRobot } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
-import { ArrowRight } from "iconsax-react";
-import { DialogContent, Dialog } from "@/components/common/ui/Dialog";
-import Typography from "@/components/common/ui/Typography";
 
 interface TourStep {
   title: string;

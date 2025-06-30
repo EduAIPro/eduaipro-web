@@ -1,10 +1,10 @@
 [
   {
     "id": "1",
-    "name": "Primary Teachers CPD Curriculum",
-    "img": "/assets/images/cpd_primary.png",
+    "name": "CPD Curriculum for Primary Teachers",
+    "img": "/assets/images/cpd_primary.webp",
     "bgImage": "bg-primary-sch-course",
-    "students": "19,200",
+    "students": "1,150",
     "description": "This Continuing Professional Development (CPD) curriculum equips primary teachers with strategies to support child development, classroom management, inclusive education, and technology integration. The course consists of 12 units with progressive modules, offering practical tools for creating engaging and supportive learning environments. Resources include downloadable templates, videos, and reflection exercises to reinforce classroom application.",
     "overview": {
       "introduction": "Enhance your teaching practice with this comprehensive CPD curriculum designed for primary educators. Focus areas include child development, emotional intelligence, technology integration, and reflective practice to foster holistic student growth.",
@@ -286,10 +286,10 @@
   },
   {
     "id": "2",
-    "name": "Secondary Teachers CPD Curriculum",
+    "name": "CPD Curriculum for Secondary Teachers",
     "bgImage": "bg-high-sch-course",
-    "img": "/assets/images/cpd_secondary.png",
-    "students": "4,220",
+    "img": "/assets/images/cpd_secondary.webp",
+    "students": "950",
     "description": "This Continuing Professional Development (CPD) curriculum equips secondary teachers with strategies to support adolescent development, classroom management, inclusive education, and technology integration. The course includes 12 units with progressive modules, offering tools for fostering engagement, emotional intelligence, and academic success. Resources include case studies, templates, and reflection exercises.",
     "overview": {
       "introduction": "Empower your teaching practice with strategies tailored for adolescent learners. This curriculum focuses on developmental milestones, inclusive pedagogy, mental health support, and global citizenship to create dynamic and supportive classrooms.",
@@ -302,7 +302,7 @@
         "Foster cultural awareness and global citizenship"
       ],
       "duration": {
-        "totalHours": 35,
+        "totalHours": 30,
         "numberOfUnits": 12,
         "hoursPerUnit": "3-4"
       }
@@ -790,8 +790,8 @@
     "id": "3",
     "name": "Higher Education CPD Curriculum",
     "bgImage": "bg-uni-course",
-    "img": "/assets/images/cpd_hi.png",
-    "students": "4,220",
+    "img": "/assets/images/cpd_hi.webp",
+    "students": "100",
     "description": "This Continuing Professional Development (CPD) curriculum is designed for higher education educators, focusing on evidence-based teaching strategies, technology integration, inclusive practices, and leadership. The course consists of 12 units, each containing modules with progressive lessons. Participants can track their progress through interactive tools and assessments. Resources include downloadable guides, case studies, and multimedia content to enhance learning and application in academic settings.",
     "overview": {
       "introduction": "Enhance your teaching expertise and leadership skills with this comprehensive CPD curriculum for higher education professionals. The program integrates pedagogical innovation, assessment strategies, technology use, and global perspectives to foster academic excellence and student success.",
@@ -805,7 +805,7 @@
         "Expand Global Perspectives: Prepare students for global citizenship through internationalized curricula."
       ],
       "duration": {
-        "totalHours": 40,
+        "totalHours": 30,
         "numberOfUnits": 12,
         "hoursPerUnit": "3-4"
       }
@@ -1349,8 +1349,8 @@
     "id": "4",
     "name": "CPD Curriculum for Teaching Assistants",
     "bgImage": "bg-assistant-course",
-    "img": "/assets/images/ta.png",
-    "students": "4,220",
+    "img": "/assets/images/cpd_ta.webp",
+    "students": "875",
     "description": "The course consists of 12 comprehensive units, each broken down into multiple modules. These modules cover essential topics such as the role of teaching assistants, classroom support techniques, inclusive education, literacy and numeracy support, behavior management, safeguarding, SEN support, and professional development. Progress tracking tools help participants monitor their advancement. Each module includes in-module quizzes, downloadable resources, videos, and interactive tests to reinforce learning.",
     "overview": {
       "introduction": "This CPD curriculum equips teaching assistants with the knowledge and skills to effectively support teachers and students in diverse educational settings. Covering roles and responsibilities, classroom management, inclusive practices, literacy and numeracy support, and safeguarding, the course enhances TAs' ability to contribute to a positive and productive learning environment.",
@@ -1366,7 +1366,7 @@
         "Maintain professionalism and continuous development"
       ],
       "duration": {
-        "totalHours": 42,
+        "totalHours": 30,
         "numberOfUnits": 12,
         "hoursPerUnit": "3.5-4"
       }
@@ -1700,8 +1700,8 @@
     "id": "5",
     "name": "CPD Curriculum for Mentors",
     "bgImage": "bg-uni-course",
-    "img": "/assets/images/cpd_mentors.png",
-    "students": "19,200",
+    "img": "/assets/images/cpd_mentors.webp",
+    "students": "1,500",
     "description": "This course consists of 12 comprehensive units designed to equip mentors with the skills and knowledge to support mentees effectively. Topics include role understanding, communication, goal setting, conflict resolution, diversity support, and ethical leadership. Progress tracking, downloadable resources, videos, and interactive tests enhance learning and application.",
     "overview": {
       "introduction": "This CPD curriculum empowers mentors to foster personal and professional growth in mentees through ethical guidance, effective communication, and inclusive practices. The program emphasizes reflective practice, leadership, and continuous improvement to create impactful mentoring relationships.",
@@ -1718,7 +1718,7 @@
         "Build collaborative networks and measure mentoring impact"
       ],
       "duration": {
-        "totalHours": 45,
+        "totalHours": 30,
         "numberOfUnits": 12,
         "hoursPerUnit": "3.5-4"
       }

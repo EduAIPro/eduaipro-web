@@ -1,28 +1,20 @@
-import React from "react";
-import Typography from "./Typography";
-
 export default function Pill({
   text,
   variant,
+  pillBg,
 }: {
   text: string;
   variant?: "dark";
+  pillBg?: string;
 }) {
   return (
-    <div
-      className={`w-fit mx-auto rounded-full bg-brand-200 border ${
-        variant
-          ? "border-brand-900 border-2 py-1 px-4"
-          : "border-brand-600 py-2 px-5"
-      } `}
-    >
-      <Typography.H3
-        weight={variant === "dark" ? "semibold" : "medium"}
-        size="base"
-        className="text-center text-brand-900 tracking-[3px] sm:tracking-[5px] !text-sm sm:!text-base"
+    <div className="rounded-full bg-gradient-to-r from-[#2E6BCE] via-[#D0DFF8] to-[#0043BE] p-0.5 w-fit mx-auto">
+      <div
+        style={{ backgroundColor: pillBg }}
+        className="rounded-full px-3 py-2"
       >
-        {text}
-      </Typography.H3>
+        <h3 className="text-primary-400 font-medium text-sm">{text}</h3>
+      </div>
     </div>
   );
 }

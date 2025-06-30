@@ -4,7 +4,7 @@ export const navLinks = [
     href: "/",
   },
   {
-    title: "About us",
+    title: "About Us",
     href: "/about",
   },
   {
@@ -15,8 +15,8 @@ export const navLinks = [
         href: "/courses",
       },
       {
-        title: "Bespoke course development ",
-        href: "/",
+        title: "Bespoke Course Development ",
+        href: "/bespoke-course-development",
       },
       // {
       //   title: "Accreditation",
@@ -29,21 +29,12 @@ export const navLinks = [
     ],
   },
   {
-    title: "Pricing",
-    href: "/pricing",
+    title: "Packages",
+    href: "/packages",
   },
   {
-    title: "Support",
-    subItems: [
-      {
-        title: "Contact us",
-        href: "/contact",
-      },
-      {
-        title: "FAQs",
-        href: "/faq",
-      },
-    ],
+    title: "FAQs",
+    href: "/faq",
   },
 ];
 
@@ -53,19 +44,19 @@ export const footerLinks = [
     links: [
       {
         title: "My dashboard",
-        href: "",
+        href: "/dashboard",
       },
       {
         title: "View Courses",
-        href: "",
+        href: "/dashboard",
       },
       {
         title: "Go to Resources",
-        href: "",
+        href: "/dashboard",
       },
       {
         title: "Accreditation and Verification",
-        href: "",
+        href: "/dashboard",
       },
     ],
   },
@@ -74,19 +65,19 @@ export const footerLinks = [
     links: [
       {
         title: "View Metrics",
-        href: "",
+        href: "/register",
       },
       {
         title: "Track your staff",
-        href: "",
+        href: "/register",
       },
       {
         title: "Go to Resources",
-        href: "",
+        href: "/register",
       },
       {
         title: "Accreditation and Verification",
-        href: "",
+        href: "/register",
       },
     ],
   },
@@ -95,12 +86,12 @@ export const footerLinks = [
     links: [
       {
         title: "FAQs",
-        href: "",
+        href: "/faq",
       },
 
       {
         title: "Send us an email",
-        href: "mailto:support@eduaipro.co.uk",
+        href: "mailto:support@eduaipro.ng",
       },
     ],
   },

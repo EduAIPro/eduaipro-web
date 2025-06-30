@@ -5,10 +5,23 @@ import ProgressTracker from "@/components/dashboard/common/ProgressTracker";
 import { Notifications } from "@/components/dashboard/notifications";
 import PersonalDevPlan from "@/components/dashboard/PersonalDevPlan/PersonalDevPlan";
 import { greetUser } from "@/utils/dashboard";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
+
+if (typeof Promise.withResolvers === "undefined") {
+  if (window)
+    // @ts-expect-error This does not exist outside of polyfill which this is doing
+    window.Promise.withResolvers = function () {
+      let resolve, reject;
+      const promise = new Promise((res, rej) => {
+        resolve = res;
+        reject = rej;
+      });
+      return { promise, resolve, reject };
+    };
+}
 
 const PersonalDevelopmentPalnPage = () => {
-  const userType = useSearchParams().get("type");
+  // const userType = useSearchParams().get("type");
   return (
     <>
       <div className="flex flex-col gap-5">

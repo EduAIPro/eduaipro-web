@@ -5,22 +5,18 @@ import {
   Book,
   Briefcase,
   Chart,
-  ChartCircle,
   Data,
   DeviceMessage,
   Diagram,
   Element4,
-  GlobalSearch,
   GooglePlay,
-  MedalStar,
   Messages1,
   People,
   Profile2User,
-  ShieldTick,
   Star1,
   WalletMoney,
 } from "iconsax-react";
-import { BsGlobe, BsGraphUpArrow, BsRobot } from "react-icons/bs";
+import { BsGlobe, BsGraphUpArrow } from "react-icons/bs";
 import { FaChalkboardTeacher, FaRegChartBar } from "react-icons/fa";
 import { FaComputer } from "react-icons/fa6";
 import { HiOutlineDesktopComputer } from "react-icons/hi";
@@ -29,22 +25,9 @@ import {
   LiaChalkboardTeacherSolid,
   LiaHandHoldingHeartSolid,
 } from "react-icons/lia";
-import {
-  LuChartNoAxesCombined,
-  LuClipboardList,
-  LuClock2,
-} from "react-icons/lu";
-import {
-  MdOutlineForum,
-  MdOutlineUpdate,
-  MdSupportAgent,
-} from "react-icons/md";
-import {
-  PiCertificate,
-  PiClipboardText,
-  PiGlobeLight,
-  PiStudent,
-} from "react-icons/pi";
+import { LuChartNoAxesCombined, LuClipboardList } from "react-icons/lu";
+import { MdOutlineForum, MdSupportAgent } from "react-icons/md";
+import { PiCertificate, PiClipboardText, PiStudent } from "react-icons/pi";
 import { SlBookOpen } from "react-icons/sl";
 import { TbMessageChatbot, TbStars } from "react-icons/tb";
 
@@ -53,56 +36,57 @@ export const appIcons = [
     icon: Apple,
     link: "",
     title: "Download on the",
-    platformName: "App Store",
+    platformName: "App store",
   },
   {
     icon: GooglePlay,
     link: "",
     title: "Get it on",
-    platformName: "Google Play",
+    platformName: "Play Store",
   },
 ];
 
 export const schoolLogos = [
-  "/assets/images/nile.png",
+  "/assets/images/moji_uni.jpeg",
   "/assets/images/noun.png",
   "/assets/images/unizik.png",
-  "/assets/images/unn.png",
-  "/assets/images/waec.png",
+  "/assets/images/cpd_logo.jpeg",
+  "/assets/images/coastal_uni.jpeg",
+  "/assets/images/iict_uni.jpeg",
   "/assets/images/mu.png",
   "/assets/images/ccu.png",
+  "/assets/images/lumina_uni.jpeg",
 ];
+
+import CloudKey from "@/components/svgs/cloud-key.svg";
+import Community from "@/components/svgs/community.svg";
+import TickStar from "@/components/svgs/tick-star.svg";
+import Twinkle from "@/components/svgs/twinkle.svg";
 
 export const features = [
   {
-    icon: MedalStar,
+    icon: TickStar,
     title: "Accredited and Recognised Certifications",
     description:
       "Earn accredited certifications recognized locally and internationally, enhancing your professional standing and supporting lifelong learning.",
-    color: "#84D2F6",
   },
   {
-    icon: GlobalSearch,
+    icon: CloudKey,
     title: "Accessibility and Convenience",
     description:
       "Enhance your teaching skills anytime, anywhere. Access flexible professional development courses that fit your busy schedule.",
-
-    color: "#ffb703",
   },
   {
-    icon: Element4,
+    icon: Twinkle,
     title: "AI-Driven Professional Development Course",
     description:
       "Continued professional development course with tailored units, equipping educators with modern teaching skills and accredited certification.",
-    color: "#7c9885",
   },
   {
-    icon: DeviceMessage,
+    icon: Community,
     title: "Collaborative Community Engagement",
     description:
       "Connect globally with educators, exchange insights, collaborate on best practices, and expand your professional network through meaningful knowledge-sharing opportunities.",
-
-    color: "#1F2041",
   },
 ];
 
@@ -232,15 +216,11 @@ export const courses = [
 ];
 
 export const categories = [
-  "History",
-  "Science",
-  "Literature",
-  "Languages",
-  "Mathematics",
-  "Physics",
-  "Biology",
-  "Government",
-  "Economics",
+  "CPD Curriculum for Primary Teachers",
+  "CPD Curriculum for Secondary Teachers",
+  "CPD Curriculum for Higher Institution Teachers",
+  "CPD Curriculum for Mentors",
+  "CPD Curriculum for Teaching Assistants",
 ];
 
 // export const educatorBenefits = [
@@ -384,77 +364,90 @@ export const educatorBenefits = [
   },
 ];
 
+import CertificateIcon from "@/components/svgs/cert.svg";
+import ChatIcon from "@/components/svgs/chat.svg";
+import ClockRewindIcon from "@/components/svgs/clock-rewind.svg";
+import ForumIcon from "@/components/svgs/forum.svg";
+import GlobeIcon from "@/components/svgs/globe.svg";
+import LibraryIcon from "@/components/svgs/library.svg";
+import PrivacyCheckIcon from "@/components/svgs/privacy-check.svg";
+import ProgressIcon from "@/components/svgs/progress.svg";
+import SupportIcon from "@/components/svgs/support.svg";
+import TwinkleIcon from "@/components/svgs/twinkle.svg";
+import UIIcon from "@/components/svgs/ui.svg";
+import { ClockIcon } from "lucide-react";
+
 export const teacherBenefits = [
   {
     title: "User-Friendly Interface",
     description: "Simple navigation with clear progress tracking and updates.",
-    icon: Element4,
+    icon: UIIcon,
   },
   {
     title: "24/7 Accessibility",
     description:
       "Access anytime, anywhere, with compatibility across multiple devices.",
-    icon: LuClock2,
+    icon: ClockIcon,
   },
   {
     title: "AI-Powered Insights",
     description:
       "Personalised development plan and progress analysis to target improvement areas.",
-    icon: BsRobot,
+    icon: TwinkleIcon,
   },
   {
     title: "Secure and Private",
     description:
       "Data protection and encrypted access for safe and confidential use.",
-    icon: ShieldTick,
+    icon: PrivacyCheckIcon,
   },
   {
     title: "Progress Dashboards",
     description:
       "Visual tools to monitor milestones and receive notifications for tasks and certification deadlines.",
-    icon: ChartCircle,
+    icon: ProgressIcon,
   },
   {
     title: "Certification Management",
     description:
       "Automated reminders for renewals and instant access to digital certificates upon completion.",
-    icon: MedalStar,
+    icon: CertificateIcon,
   },
   {
     title: "Comprehensive Resource Library",
     description:
       "Downloadable eBooks, templates, and videos for offline access and classroom use.",
-    icon: Book,
+    icon: LibraryIcon,
   },
   {
     title: "Regular Content Updates",
     description:
       "Stay updated with the latest educational tools and AI-refreshed learning material.",
-    icon: MdOutlineUpdate,
+    icon: ClockRewindIcon,
   },
   {
     title: "Globally Recognized Certification",
     description:
       "Accredited programs that elevate professional standing locally and internationally.",
-    icon: PiGlobeLight,
+    icon: GlobeIcon,
   },
   {
     title: "Online Forum",
     description:
       "Forum connects educators, fostering collaboration, sharing best practices, and advancing innovative teaching strategies for impactful professional growth.",
-    icon: MdOutlineForum,
+    icon: ForumIcon,
   },
   {
     title: "Chatbot",
     description:
       "Provides instant teaching support, lesson ideas, and AI-driven insights to enhance classroom engagement and professional development.",
-    icon: TbMessageChatbot,
+    icon: ChatIcon,
   },
   {
     title: "Support",
     description:
       "Dedicated technical support, ensuring seamless integration, troubleshooting, and guidance to help educators maximize AI-powered teaching tools.",
-    icon: MdSupportAgent,
+    icon: SupportIcon,
   },
 ];
 

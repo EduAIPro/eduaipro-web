@@ -1,7 +1,10 @@
 import React, { useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import PDFViewer from "../common/PDFViewer";
+// import PDFViewer from "../common/PDFViewer";
+import dynamic from "next/dynamic";
 import QuizPage from "../pdp/quiz/QuizPage";
+
+const PDFViewer = dynamic(() => import("../common/PDFViewer"), { ssr: false });
 
 const CourseMedia: React.FC<{ mediaType: "video" | "reading" | "quiz" }> = ({
   mediaType,

@@ -1,21 +1,22 @@
-import Container from "@/components/common/ui/Container";
 import BoostCareer from "@/components/landing-page/BoostCareer";
 import CallToAction from "@/components/landing-page/CallToAction";
 import CoursesList from "@/components/landing-page/CoursesList";
 import HeroSection from "@/components/landing-page/HeroSection";
+import OurFeatures from "@/components/landing-page/OurFeatures";
 import ReasonsToChooseUs from "@/components/landing-page/ReasonsToChooseUs";
 import Testimonials from "@/components/landing-page/Testimonials";
-import UserTypes from "@/components/landing-page/UserTypes";
 import Footer from "@/components/navigation/Footer";
-import Navbar from "@/components/navigation/Navbar";
-import Image from "next/image";
+import { getPageMetadata } from "@/utils/config";
+
+export const metadata = getPageMetadata("Home");
 
 export default function Home() {
   return (
     <>
       <HeroSection />
       <ReasonsToChooseUs />
-      <UserTypes />
+      <OurFeatures />
+      {/* <UserTypes /> */}
       <BoostCareer />
       <CoursesList />
       <Testimonials />

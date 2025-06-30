@@ -40,23 +40,21 @@ export default function CourseContentAccordion({
         className="w-full flex justify-between items-center py-2 px-5 text-left text-lg font-semibold text-gray-800 hover:bg-gray-50 transition-colors"
       >
         <div>
-          <Link legacyBehavior href={`/courses/${courseName}/${unitId}`}>
-            <a
-              onClick={(e) => {
-                if (isModule) {
-                  e.preventDefault();
-                }
-              }}
-              style={isModule ? { pointerEvents: "none" } : {}}
-              href=""
+          <Link
+            onClick={(e) => {
+              if (isModule) {
+                e.preventDefault();
+              }
+            }}
+            style={isModule ? { pointerEvents: "none" } : {}}
+            href={`/courses/${courseName}/${unitId}`}
+          >
+            <Typography.H2
+              weight="semibold"
+              className="!text-base lg:!text-[20px] hover:underline hover:!text-black"
             >
-              <Typography.H2
-                weight="semibold"
-                className="!text-base lg:!text-[20px] hover:underline hover:!text-black"
-              >
-                {isModule ? "Module" : "Unit"} {unitId} - {title}
-              </Typography.H2>
-            </a>
+              {isModule ? "Module" : "Unit"} {unitId} - {title}
+            </Typography.H2>
           </Link>
           <div>
             <Typography.P fontColor="grey" weight="medium">
