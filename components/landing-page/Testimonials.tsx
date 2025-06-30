@@ -40,6 +40,7 @@ export default function Testimonials() {
 type TestimonialCardProps = {
   item: {
     name: string;
+    img: string;
     position: string;
     talk: string;
   };
@@ -62,7 +63,7 @@ const TestimonialCard = ({ item }: TestimonialCardProps) => {
           <Image
             width={45}
             height={45}
-            src="/assets/images/testimonial.jpg"
+            src={`/assets/images/${item.img}`}
             className="size-10 rounded-full"
             alt=""
           />

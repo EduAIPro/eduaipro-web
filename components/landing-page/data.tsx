@@ -48,13 +48,13 @@ export const appIcons = [
 
 export const schoolLogos = [
   "/assets/images/moji_uni.jpeg",
-  "/assets/images/noun.png",
-  "/assets/images/unizik.png",
-  "/assets/images/cpd_logo.jpeg",
-  "/assets/images/coastal_uni.jpeg",
+  "/assets/images/bespoke_council.webp",
+  "/assets/images/waltman.webp",
+  "/assets/images/cpd.webp",
+  "/assets/images/panoba.webp",
   "/assets/images/iict_uni.jpeg",
-  "/assets/images/mu.png",
-  "/assets/images/ccu.png",
+  "/assets/images/ebn_academy.webp",
+  "/assets/images/ccu.webp",
   "/assets/images/lumina_uni.jpeg",
 ];
 
@@ -216,11 +216,11 @@ export const courses = [
 ];
 
 export const categories = [
-  "CPD Curriculum for Primary Teachers",
-  "CPD Curriculum for Secondary Teachers",
-  "CPD Curriculum for Higher Institution Teachers",
-  "CPD Curriculum for Mentors",
-  "CPD Curriculum for Teaching Assistants",
+  "Primary Teachers",
+  "Secondary Teachers",
+  "Higher Institution Teachers",
+  "Mentors",
+  "Teaching Assistants",
 ];
 
 // export const educatorBenefits = [
@@ -606,29 +606,51 @@ export const institutionBenefits = [
 
 export const testimonials = [
   {
-    name: "Sarah Mitchell",
-    position: "Social Studies Teacher at Westbrook High School",
-    talk: "The AI-powered tools and expert-led courses have helped me elevate my skills and stay updated with the latest teaching techniques. The progress tracking and certification process are seamless, making it easier to achieve my goals as a teacher.",
+    img: "andrew_okoro.webp",
+    name: "Andrew Okoro",
+    position: "Primary School Teacher",
+    talk: "EduAI Pro has completely transformed how I approach professional development. The platform is easy to navigate, and the CPD content is tailored to my classroom needs. The strategies I’ve learned have made my phonics sessions more interactive and effective. It’s a game-changer for teachers like me.",
   },
   {
-    name: "David Chen",
-    position: "Science Teacher at Riverview Academy",
-    talk: "I love how EduAiPro tailors course recommendations to my interests. The personalized AI chatbot is incredibly helpful, answering my questions instantly and guiding me through tough topics when I need it.",
+    img: "benjamin_hassan.webp",
+    name: "Benjamin Hassan",
+    position: "Secondary Science Teacher",
+    talk: "I was impressed by the depth and relevance of the CPD modules on EduAI Pro. The practical tips on classroom management and differentiation have improved how I manage lab sessions and engage mixed-ability learners. The platform keeps getting better with every update.",
   },
   {
-    name: "James Patel",
-    position: "Superintendent at Redwood Academy",
-    talk: "We can easily monitor our teachers progress and track how they’re performing in their courses. The detailed reports give us a complete view of their professional growth, helping us ensure high teaching standards at our institution.",
+    img: "teresa_uche.webp",
+    name: "Teresa Uche",
+    position: "Early Years Educator",
+    talk: "The courses on child development and play-based learning were just what I needed. EduAI Pro doesn’t just talk theory—it gives you real ideas you can apply the next day. The site is user-friendly, and I can learn at my own pace, even from my phone.",
   },
   {
-    name: "Emily Davis",
-    position: "English Teacher at Lakeside Middle School",
-    talk: "From earning certificates to accessing valuable learning resources, EduAiPro provides everything I need in one place. The variety of courses and the accreditation process have really boosted my professional credibility.",
+    img: "lamide_adeyemi.webp",
+    name: "Lamide Adeyemi",
+    position: "Head of Department (Mathematics)",
+    talk: "As an HOD, I encourage all my team members to use EduAI Pro. The leadership and mentoring modules have been particularly valuable to me. It's refreshing to see a CPD platform designed specifically for the Nigerian teaching context.",
   },
   {
-    name: "Lisa Rodriguez",
-    position:
-      "Director of Professional Development at Grandview School District",
-    talk: "Having access to personalized AI chatbots has made a huge difference in the training experience. EduAiPro offers the support our staff needs while also giving us the tools to oversee their overall development and progress.",
+    img: "ruth_obi.webp",
+    name: "Ruth Obi",
+    position: "Special Needs Support Teacher",
+    talk: "I appreciate how inclusive EduAI Pro is. The CPD modules on supporting learners with additional needs are thoughtful and practical. I’ve adapted several strategies in my SEN sessions, and the difference is visible. Thank you for this excellent resource.",
+  },
+  {
+    img: "evans_bello.webp",
+    name: "Evans Bello",
+    position: "ICT Teacher (Secondary)",
+    talk: "Using EduAI Pro has helped me stay current with both teaching methods and digital tools. The courses on integrating EdTech in the classroom are hands-on and insightful. I now feel more confident guiding my students through tech-based projects.",
+  },
+  {
+    img: "nancy_esiri.webp",
+    name: "Nancy Esiri",
+    position: "Teaching Assistant",
+    talk: "As a TA, I often felt overlooked in training sessions, but EduAI Pro has changed that. The dedicated modules for teaching assistants have empowered me to play a more active and informed role in the classroom. I’m so glad I signed up.",
+  },
+  {
+    img: "felicia_ogundipe.webp",
+    name: "Felicia Ogundipe",
+    position: "Newly Qualified Teacher",
+    talk: "Starting out in teaching can be overwhelming, but EduAI Pro gave me structure. From behavior management to lesson planning, the CPDs have given me the skills and confidence I needed. The community forums are also a great place to share and learn",
   },
 ];
