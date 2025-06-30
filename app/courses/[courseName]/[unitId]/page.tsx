@@ -1,3 +1,4 @@
+"use client";
 import { UnitHeader } from "@/components/course-page/units/unit-header";
 import { useParams } from "next/navigation";
 import { CgFileDocument } from "react-icons/cg";
