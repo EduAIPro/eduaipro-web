@@ -7,6 +7,19 @@ import PersonalDevPlan from "@/components/dashboard/PersonalDevPlan/PersonalDevP
 import { greetUser } from "@/utils/dashboard";
 // import { useSearchParams } from "next/navigation";
 
+if (typeof Promise.withResolvers === "undefined") {
+  if (window)
+    // @ts-expect-error This does not exist outside of polyfill which this is doing
+    window.Promise.withResolvers = function () {
+      let resolve, reject;
+      const promise = new Promise((res, rej) => {
+        resolve = res;
+        reject = rej;
+      });
+      return { promise, resolve, reject };
+    };
+}
+
 const PersonalDevelopmentPalnPage = () => {
   // const userType = useSearchParams().get("type");
   return (
