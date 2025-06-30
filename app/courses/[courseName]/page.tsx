@@ -1,3 +1,4 @@
+"use client";
 import data from "@/components/common/data/courses.json";
 import Typography from "@/components/common/ui/Typography";
 import CourseContentAccordion from "@/components/courses/Accordion";
@@ -9,11 +10,10 @@ import { CourseIcon } from "@/components/svgs";
 import { predictCourseDuration } from "@/utils/helpers";
 import { generateKey } from "@/utils/key";
 import { Button, TabNav } from "@radix-ui/themes";
-import fs from "fs";
 import { MedalStar, TickCircle, VideoSquare } from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
-import path from "path";
+import { useParams } from "next/navigation";
 import { CgFileDocument } from "react-icons/cg";
 import { GoDotFill } from "react-icons/go";
 import { HiOutlineDownload } from "react-icons/hi";
@@ -51,30 +51,27 @@ const detailsIcons = {
   certificate: <MedalStar size={30} className="text-accent-800" />,
 };
 
-export async function generateStaticParams() {
-  const filePath = path.join(
-    process.cwd(),
-    "components/common/data/courses.json"
-  );
-  // Read and parse the file
-  const fileContents = fs.readFileSync(filePath, "utf-8");
-  const courses = JSON.parse(fileContents);
+// export async function generateStaticParams() {
+//   const filePath = path.join(
+//     process.cwd(),
+//     "components/common/data/courses.json"
+//   );
+//   // Read and parse the file
+//   const fileContents = fs.readFileSync(filePath, "utf-8");
+//   const courses = JSON.parse(fileContents);
 
-  const params = courses.map((course: any) => ({
-    courseName: encodeURI(course.name),
-  }));
+//   const params = courses.map((course: any) => ({
+//     courseName: encodeURI(course.name),
+//   }));
 
-  return params;
-}
+//   return params;
+// }
 
-export default async function CoursePage({
-  params,
-}: {
-  params: { courseName: string };
-}) {
+export default async function CoursePage() {
   // const [showMore, setShowMore] = useState(false);
 
-  const { courseName } = await params;
+  const { courseName } = useParams();
+  // const { courseName } = await params;
 
   const courseInfo = data.find(
     (course) => course.name === decodeURI(courseName as string)

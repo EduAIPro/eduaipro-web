@@ -1,18 +1,14 @@
 {
-  "name": "eduaipro-web",
-  "version": "0.1.0",
-  "private": true,
-  "main": "firebaseFunctions.js",
+  "name": "functions",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "build-next": "cd \"src/app\" && npm i && npm run build",
-    "build-firebase": "cd \"functions\" && npm i",
-    "build-all": "npm run build && npm run build-firebase",
-    "deploy": "firebase deploy"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
     "@radix-ui/colors": "^3.0.0",
     "@radix-ui/react-accordion": "^1.2.11",

@@ -1,6 +1,5 @@
 import { UnitHeader } from "@/components/course-page/units/unit-header";
-import fs from "fs";
-import path from "path";
+import { useParams } from "next/navigation";
 import { CgFileDocument } from "react-icons/cg";
 
 type Unit = {
@@ -76,34 +75,32 @@ const assignments = [
   },
 ];
 
-export async function generateStaticParams() {
-  const filePath = path.join(
-    process.cwd(),
-    "components/common/data/courses.json"
-  );
-  // Read and parse the file
-  const fileContents = fs.readFileSync(filePath, "utf-8");
-  const courses = JSON.parse(fileContents);
+// export async function generateStaticParams() {
+//   const filePath = path.join(
+//     process.cwd(),
+//     "components/common/data/courses.json"
+//   );
+//   // Read and parse the file
+//   const fileContents = fs.readFileSync(filePath, "utf-8");
+//   const courses = JSON.parse(fileContents);
 
-  const params = courses.flatMap((course: any) =>
-    course.units.map((u: any) => ({
-      courseName: encodeURIComponent(course.name),
-      unitId: String(u.number),
-    }))
-  );
+//   const params = courses.flatMap((course: any) =>
+//     course.units.map((u: any) => ({
+//       courseName: encodeURIComponent(course.name),
+//       unitId: String(u.number),
+//     }))
+//   );
 
-  return params;
-}
+//   return params;
+// }
 
-export default async function CourseUnitPage({
-  params,
-}: {
-  params: { courseName: string; unitId: string };
-}) {
-  const parameters = await params;
+export default async function CourseUnitPage() {
+  // const parameters = await params;
+  const { courseName, unitId }: { courseName: string; unitId: string } =
+    useParams();
   return (
     <>
-      <UnitHeader params={parameters} />
+      <UnitHeader params={{ courseName, unitId }} />
     </>
   );
 }

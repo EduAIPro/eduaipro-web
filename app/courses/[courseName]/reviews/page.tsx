@@ -20,7 +20,7 @@ export async function generateStaticParams() {
 export default function ReviewsPage({
   params,
 }: {
-  params: { courseName: string };
+  params: Promise<{ courseName: string }>;
 }) {
   return <div></div>;
 }

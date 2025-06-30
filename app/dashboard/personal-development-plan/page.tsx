@@ -5,10 +5,10 @@ import ProgressTracker from "@/components/dashboard/common/ProgressTracker";
 import { Notifications } from "@/components/dashboard/notifications";
 import PersonalDevPlan from "@/components/dashboard/PersonalDevPlan/PersonalDevPlan";
 import { greetUser } from "@/utils/dashboard";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 
 const PersonalDevelopmentPalnPage = () => {
-  const userType = useSearchParams().get("type");
+  // const userType = useSearchParams().get("type");
   return (
     <>
       <div className="flex flex-col gap-5">

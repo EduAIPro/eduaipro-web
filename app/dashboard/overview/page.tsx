@@ -5,10 +5,10 @@ import { Notifications } from "@/components/dashboard/notifications";
 import DashboardOverview from "@/components/dashboard/overview/DashboardOverview";
 import DashboardProfile from "@/components/dashboard/overview/DashboardProfile";
 import TourGuide from "@/components/dashboard/overview/TourGuide";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 
 export default function DashboardPage() {
-  const userType = useSearchParams().get("type");
+  // const userType = useSearchParams().get("type");
   return (
     <div className="flex flex-col gap-5 md:gap-10">
       <div className="flex items-start xs:items-center justify-between">
