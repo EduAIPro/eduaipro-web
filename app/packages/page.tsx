@@ -95,7 +95,16 @@ export default function PricingPage() {
                     </ul>
                   </div>
                 </div>
-                <div>
+                <div className="space-y-3">
+                  {index === 0 ? (
+                    <div>
+                      <p className="text-sm font-medium text-primary-300">
+                        *Note: This only applies to teachers who work at Federal
+                        and State owned Educational Institutions
+                      </p>
+                    </div>
+                  ) : null}
+
                   <Button
                     onClick={() => {
                       if (index === 0) {

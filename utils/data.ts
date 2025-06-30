@@ -1,5 +1,7 @@
-import { Building4, People, Profile2User, UserEdit } from "iconsax-react";
+import { GiTeacher } from "react-icons/gi";
+import { MdPeopleOutline, MdSchool } from "react-icons/md";
 import { PiChalkboardTeacher } from "react-icons/pi";
+import { RiSchoolLine } from "react-icons/ri";
 import { SlBookOpen } from "react-icons/sl";
 
 export const educationalLevels = [
@@ -169,10 +171,10 @@ export const adminRoles = [
 ];
 
 export const userRoles = [
-  { title: "Mentor", icon: UserEdit },
-  { title: "Teaching Assistant (TA)", icon: Profile2User },
-  { title: "Primary Teacher", icon: SlBookOpen },
-  { title: "Secondary Teacher", icon: People },
+  { title: "Mentor", icon: MdSchool },
+  { title: "Teaching Assistant (TA)", icon: MdPeopleOutline },
+  { title: "Primary Teacher", icon: GiTeacher },
+  { title: "Secondary Teacher", icon: SlBookOpen },
   { title: "Higher Institution Teacher", icon: PiChalkboardTeacher },
-  { title: "Institution", icon: Building4 },
+  { title: "Institution", icon: RiSchoolLine },
 ];

@@ -7,7 +7,7 @@ import { trimObj } from "@/utils/key";
 import { signupValidation } from "@/utils/validation/auth";
 import { Button } from "@radix-ui/themes";
 import { Form, Formik } from "formik";
-import { Eye, EyeSlash, KeySquare, ProfileCircle, Sms } from "iconsax-react";
+import { Eye, EyeSlash } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import FormInput from "../common/ui/FormInput";
@@ -92,7 +92,7 @@ export default function TeacherSignup() {
                     ? errors.firstName
                     : null
                 }
-                leftIcon={<ProfileCircle />}
+                // leftIcon={<ProfileCircle />}
               />
               <FormInput
                 label="Last name"
@@ -102,7 +102,7 @@ export default function TeacherSignup() {
                 error={
                   touched.lastName && errors.lastName ? errors.lastName : null
                 }
-                leftIcon={<ProfileCircle />}
+                // leftIcon={<ProfileCircle />}
               />
             </div>
             <FormInput
@@ -113,7 +113,7 @@ export default function TeacherSignup() {
               error={
                 touched.username && errors.username ? errors.username : null
               }
-              leftIcon={<ProfileCircle />}
+              // leftIcon={<ProfileCircle />}
             />
             <FormInput
               label="Email address"
@@ -121,7 +121,7 @@ export default function TeacherSignup() {
               placeholder="name@example.com"
               type="email"
               error={touched.email && errors.email ? errors.email : null}
-              leftIcon={<Sms />}
+              // leftIcon={<Sms />}
             />
             <PhoneInput
               label="Phone number"
@@ -141,7 +141,7 @@ export default function TeacherSignup() {
                 touched.password && errors.password ? errors.password : null
               }
               type={showPassword ? "text" : "password"}
-              leftIcon={<KeySquare />}
+              // leftIcon={<KeySquare />}
               rightIcon={
                 <div
                   className="cursor-pointer"
@@ -161,7 +161,7 @@ export default function TeacherSignup() {
                   : null
               }
               type={showPassword ? "text" : "password"}
-              leftIcon={<KeySquare />}
+              // leftIcon={<KeySquare />}
               rightIcon={
                 <div
                   className="cursor-pointer"

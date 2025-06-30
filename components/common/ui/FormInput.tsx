@@ -52,14 +52,16 @@ export default function FormInput({
             : ""
         )}
       >
-        <div
-          className={cn(
-            "py-1 px-[6px] rounded-lg",
-            error ? "bg-red-100/50" : "bg-blue-500/10"
-          )}
-        >
-          {leftIcon}
-        </div>
+        {leftIcon ? (
+          <div
+            className={cn(
+              "py-1 px-[6px] rounded-lg",
+              error ? "bg-red-100/50" : "bg-blue-500/10"
+            )}
+          >
+            {leftIcon ?? null}
+          </div>
+        ) : null}
         <Field
           name={name}
           type={type}
