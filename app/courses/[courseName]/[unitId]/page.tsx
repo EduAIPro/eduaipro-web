@@ -95,7 +95,7 @@ const assignments = [
 //   return params;
 // }
 
-export default async function CourseUnitPage() {
+export default function CourseUnitPage() {
   // const parameters = await params;
   const { courseName, unitId }: { courseName: string; unitId: string } =
     useParams();

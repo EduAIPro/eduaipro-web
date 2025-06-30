@@ -67,7 +67,7 @@ const detailsIcons = {
 //   return params;
 // }
 
-export default async function CoursePage() {
+export default function CoursePage() {
   // const [showMore, setShowMore] = useState(false);
 
   const { courseName } = useParams();
