@@ -1,0 +1,234 @@
+[debug] [2025-06-30T07:08:51.103Z] ----------------------------------------------------------------------
+[debug] [2025-06-30T07:08:51.108Z] Command:       /opt/homebrew/Cellar/node/23.11.0/bin/node /opt/homebrew/bin/firebase deploy
+[debug] [2025-06-30T07:08:51.108Z] CLI Version:   13.29.3
+[debug] [2025-06-30T07:08:51.108Z] Platform:      darwin
+[debug] [2025-06-30T07:08:51.109Z] Node Version:  v23.11.0
+[debug] [2025-06-30T07:08:51.109Z] Time:          Mon Jun 30 2025 08:08:51 GMT+0100 (West Africa Standard Time)
+[debug] [2025-06-30T07:08:51.109Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-06-30T07:08:51.244Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-06-30T07:08:51.244Z] > authorizing via signed-in user (glavidsdesigns@gmail.com)
+[debug] [2025-06-30T07:08:51.245Z] [iam] checking project eduaipro-e4f1c for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-06-30T07:08:51.245Z] Checked if tokens are valid: false, expires at: 1751266452765
+[debug] [2025-06-30T07:08:51.245Z] Checked if tokens are valid: false, expires at: 1751266452765
+[debug] [2025-06-30T07:08:51.245Z] > refreshing access token with scopes: []
+[debug] [2025-06-30T07:08:51.247Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-06-30T07:08:51.247Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-06-30T07:08:51.862Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-06-30T07:08:51.862Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-06-30T07:08:51.872Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c:testIamPermissions [none]
+[debug] [2025-06-30T07:08:51.872Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c:testIamPermissions x-goog-quota-user=projects/eduaipro-e4f1c
+[debug] [2025-06-30T07:08:51.872Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-06-30T07:08:53.300Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c:testIamPermissions 200
+[debug] [2025-06-30T07:08:53.300Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2025-06-30T07:08:53.300Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:53.300Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:53.300Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/eduaipro-e4f1c/serviceAccounts/eduaipro-e4f1c@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-06-30T07:08:53.300Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/eduaipro-e4f1c/serviceAccounts/eduaipro-e4f1c@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-06-30T07:08:54.830Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/eduaipro-e4f1c/serviceAccounts/eduaipro-e4f1c@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-06-30T07:08:54.831Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/eduaipro-e4f1c/serviceAccounts/eduaipro-e4f1c@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-06-30T07:08:54.831Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:54.831Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:54.831Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/eduaipro-e4f1c [none]
+[debug] [2025-06-30T07:08:55.533Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/eduaipro-e4f1c 200
+[debug] [2025-06-30T07:08:55.533Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/eduaipro-e4f1c {"projectId":"eduaipro-e4f1c","projectNumber":"865411105638","displayName":"eduaipro","name":"projects/eduaipro-e4f1c","resources":{"hostingSite":"eduaipro-e4f1c"},"state":"ACTIVE","etag":"1_c0ac3c68-c2e4-470c-b42c-e3e41d6fd645"}
+[info] 
+[info] === Deploying to 'eduaipro-e4f1c'...
+[info] 
+[info] i  deploying functions, hosting 
+[debug] [2025-06-30T07:08:55.535Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:55.535Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:55.536Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c [none]
+[debug] [2025-06-30T07:08:55.866Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c 200
+[debug] [2025-06-30T07:08:55.866Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c {"projectNumber":"865411105638","projectId":"eduaipro-e4f1c","lifecycleState":"ACTIVE","name":"eduaipro","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-06-28T03:00:17.657238Z"}
+[info] i  functions: preparing codebase default for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2025-06-30T07:08:55.866Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:55.867Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:55.867Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:55.867Z] Checked if tokens are valid: true, expires at: 1751270930863
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2025-06-30T07:08:55.867Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:55.867Z] Checked if tokens are valid: true, expires at: 1751270930863
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2025-06-30T07:08:55.867Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:55.867Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:55.867Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-06-30T07:08:55.867Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/eduaipro-e4f1c
+[debug] [2025-06-30T07:08:55.868Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-06-30T07:08:55.868Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/eduaipro-e4f1c
+[debug] [2025-06-30T07:08:55.869Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/cloudbuild.googleapis.com [none]
+[debug] [2025-06-30T07:08:55.869Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/cloudbuild.googleapis.com x-goog-quota-user=projects/eduaipro-e4f1c
+[debug] [2025-06-30T07:08:55.870Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/artifactregistry.googleapis.com [none]
+[debug] [2025-06-30T07:08:55.870Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/artifactregistry.googleapis.com x-goog-quota-user=projects/eduaipro-e4f1c
+[debug] [2025-06-30T07:08:57.153Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/runtimeconfig.googleapis.com 200
+[debug] [2025-06-30T07:08:57.153Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2025-06-30T07:08:57.161Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/cloudfunctions.googleapis.com 200
+[debug] [2025-06-30T07:08:57.161Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/cloudfunctions.googleapis.com [omitted]
+[info] ✔  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2025-06-30T07:08:57.178Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/cloudbuild.googleapis.com 200
+[debug] [2025-06-30T07:08:57.179Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/cloudbuild.googleapis.com [omitted]
+[info] ✔  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2025-06-30T07:08:57.183Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/artifactregistry.googleapis.com 200
+[debug] [2025-06-30T07:08:57.184Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/artifactregistry.googleapis.com [omitted]
+[info] ✔  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2025-06-30T07:08:57.184Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:57.184Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:57.185Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/eduaipro-e4f1c/adminSdkConfig [none]
+[debug] [2025-06-30T07:08:57.902Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/eduaipro-e4f1c/adminSdkConfig 200
+[debug] [2025-06-30T07:08:57.902Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/eduaipro-e4f1c/adminSdkConfig {"projectId":"eduaipro-e4f1c","storageBucket":"eduaipro-e4f1c.firebasestorage.app"}
+[debug] [2025-06-30T07:08:57.902Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:57.902Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:08:57.903Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/eduaipro-e4f1c/configs [none]
+[debug] [2025-06-30T07:08:59.437Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/eduaipro-e4f1c/configs 200
+[debug] [2025-06-30T07:08:59.437Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/eduaipro-e4f1c/configs {}
+[debug] [2025-06-30T07:08:59.438Z] Validating nodejs source
+[debug] [2025-06-30T07:09:02.618Z] > [functions] package.json contents: {
+  "name": "functions",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@radix-ui/colors": "^3.0.0",
+    "@radix-ui/react-accordion": "^1.2.11",
+    "@radix-ui/react-checkbox": "^1.1.4",
+    "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-dropdown-menu": "^2.1.15",
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-popover": "^1.1.6",
+    "@radix-ui/react-progress": "^1.1.2",
+    "@radix-ui/react-radio-group": "^1.2.3",
+    "@radix-ui/react-scroll-area": "^1.2.3",
+    "@radix-ui/react-select": "^2.1.6",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@radix-ui/react-tabs": "^1.1.3",
+    "@radix-ui/react-toast": "^1.2.6",
+    "@radix-ui/themes": "^3.1.4",
+    "@svgr/webpack": "^8.1.0",
+    "axios": "^1.7.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "firebase-admin": "^13.4.0",
+    "firebase-functions": "^6.3.2",
+    "formik": "^2.4.6",
+    "framer-motion": "^11.11.17",
+    "fs": "^0.0.1-security",
+    "iconsax-react": "^0.0.8",
+    "lucide-react": "^0.475.0",
+    "next": "^15.3.4",
+    "next-cloudinary": "^6.16.0",
+    "path": "^0.12.7",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-fast-marquee": "^1.6.5",
+    "react-icons": "^5.4.0",
+    "react-pdf": "^9.2.1",
+    "react-player": "^2.16.0",
+    "react-query": "^3.39.3",
+    "react-resizable-panels": "^2.1.7",
+    "sharp": "^0.34.2",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7",
+    "yup": "^1.4.0",
+    "yup-password": "^0.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10",
+    "eslint": "^8",
+    "eslint-config-next": "13.5.7",
+    "postcss": "^8",
+    "tailwindcss": "^3",
+    "typescript": "^5"
+  }
+}
+[debug] [2025-06-30T07:09:02.618Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase default to determine what to deploy 
+[debug] [2025-06-30T07:09:02.619Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-06-30T07:09:02.625Z] Found firebase-functions binary at '/Users/divine/Desktop/work/eduaipro/eduaipro-web/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8538
+
+[debug] [2025-06-30T07:09:03.096Z] Got response from /__/functions.yaml {"endpoints":{"next":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"next"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] i  extensions: ensuring required API firebaseextensions.googleapis.com is enabled... 
+[debug] [2025-06-30T07:09:07.115Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:07.115Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:07.115Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/firebaseextensions.googleapis.com [none]
+[debug] [2025-06-30T07:09:07.115Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/firebaseextensions.googleapis.com x-goog-quota-user=projects/eduaipro-e4f1c
+[debug] [2025-06-30T07:09:08.325Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/firebaseextensions.googleapis.com 200
+[debug] [2025-06-30T07:09:08.326Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/firebaseextensions.googleapis.com [omitted]
+[info] ✔  extensions: required API firebaseextensions.googleapis.com is enabled 
+[debug] [2025-06-30T07:09:08.326Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-06-30T07:09:08.327Z] > authorizing via signed-in user (glavidsdesigns@gmail.com)
+[debug] [2025-06-30T07:09:08.327Z] [iam] checking project eduaipro-e4f1c for permissions ["firebase.projects.get","firebaseextensions.instances.list"]
+[debug] [2025-06-30T07:09:08.327Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:08.327Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:08.328Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c:testIamPermissions [none]
+[debug] [2025-06-30T07:09:08.328Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c:testIamPermissions x-goog-quota-user=projects/eduaipro-e4f1c
+[debug] [2025-06-30T07:09:08.328Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2025-06-30T07:09:09.883Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c:testIamPermissions 200
+[debug] [2025-06-30T07:09:09.883Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/eduaipro-e4f1c:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2025-06-30T07:09:09.883Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:09.883Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:09.884Z] >>> [apiv2][query] GET https://firebaseextensions.googleapis.com/v1beta/projects/eduaipro-e4f1c/instances pageSize=100&pageToken=
+[debug] [2025-06-30T07:09:11.222Z] <<< [apiv2][status] GET https://firebaseextensions.googleapis.com/v1beta/projects/eduaipro-e4f1c/instances 200
+[debug] [2025-06-30T07:09:11.222Z] <<< [apiv2][body] GET https://firebaseextensions.googleapis.com/v1beta/projects/eduaipro-e4f1c/instances {}
+[info] i  functions: preparing functions directory for uploading... 
+[info] i  functions: packaged /Users/divine/Desktop/work/eduaipro/eduaipro-web/functions (129.16 KB) for uploading 
+[debug] [2025-06-30T07:09:11.250Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:11.250Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:11.250Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/eduaipro-e4f1c/locations/-/functions [none]
+[debug] [2025-06-30T07:09:12.352Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/eduaipro-e4f1c/locations/-/functions 200
+[debug] [2025-06-30T07:09:12.352Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/eduaipro-e4f1c/locations/-/functions {}
+[debug] [2025-06-30T07:09:12.352Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:12.352Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:12.352Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/eduaipro-e4f1c/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2025-06-30T07:09:13.436Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/eduaipro-e4f1c/locations/-/functions 200
+[debug] [2025-06-30T07:09:13.436Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/eduaipro-e4f1c/locations/-/functions {"functions":[{"name":"projects/eduaipro-e4f1c/locations/us-central1/functions/next","buildConfig":{"build":"projects/865411105638/locations/us-central1/builds/6a3aee02-cac2-494b-916e-05ebf09a5634","runtime":"nodejs22","entryPoint":"next","source":{"storageSource":{"bucket":"gcf-v2-sources-865411105638-us-central1","object":"next/function-source.zip","generation":"1751264947756721"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/eduaipro-e4f1c/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-865411105638-us-central1","object":"next/function-source.zip","generation":"1751264947756721"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/eduaipro-e4f1c/serviceAccounts/865411105638-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/eduaipro-e4f1c/locations/us-central1/services/next","timeoutSeconds":60,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"eduaipro-e4f1c\",\"storageBucket\":\"eduaipro-e4f1c.firebasestorage.app\"}","GCLOUD_PROJECT":"eduaipro-e4f1c","EVENTARC_CLOUD_EVENT_SOURCE":"projects/eduaipro-e4f1c/locations/us-central1/services/next","FUNCTION_TARGET":"next","LOG_EXECUTION_ID":"true"},"maxInstanceCount":3,"ingressSettings":"ALLOW_ALL","uri":"https://next-4ry7gaoyea-uc.a.run.app","serviceAccountEmail":"865411105638-compute@developer.gserviceaccount.com","availableMemory":"256Mi","allTrafficOnLatestRevision":true,"revision":"next-00001-jik","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2025-06-30T06:32:08.714381556Z","labels":{"firebase-functions-hash":"496a9f5070bdbff6ef8f7aa380de1ba8903a43ee","deployment-tool":"cli-firebase"},"environment":"GEN_2","url":"https://us-central1-eduaipro-e4f1c.cloudfunctions.net/next","createTime":"2025-06-30T06:29:08.087077893Z","satisfiesPzi":true}]}
+[info] i  functions: ensuring required API run.googleapis.com is enabled... 
+[debug] [2025-06-30T07:09:13.438Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:13.438Z] Checked if tokens are valid: true, expires at: 1751270930863
+[info] i  functions: ensuring required API eventarc.googleapis.com is enabled... 
+[debug] [2025-06-30T07:09:13.438Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:13.438Z] Checked if tokens are valid: true, expires at: 1751270930863
+[info] i  functions: ensuring required API pubsub.googleapis.com is enabled... 
+[debug] [2025-06-30T07:09:13.438Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:13.438Z] Checked if tokens are valid: true, expires at: 1751270930863
+[info] i  functions: ensuring required API storage.googleapis.com is enabled... 
+[debug] [2025-06-30T07:09:13.438Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:13.438Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:13.439Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/run.googleapis.com [none]
+[debug] [2025-06-30T07:09:13.439Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/run.googleapis.com x-goog-quota-user=projects/eduaipro-e4f1c
+[debug] [2025-06-30T07:09:13.440Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/eventarc.googleapis.com [none]
+[debug] [2025-06-30T07:09:13.440Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/eventarc.googleapis.com x-goog-quota-user=projects/eduaipro-e4f1c
+[debug] [2025-06-30T07:09:13.440Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/pubsub.googleapis.com [none]
+[debug] [2025-06-30T07:09:13.440Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/pubsub.googleapis.com x-goog-quota-user=projects/eduaipro-e4f1c
+[debug] [2025-06-30T07:09:13.441Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/storage.googleapis.com [none]
+[debug] [2025-06-30T07:09:13.441Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/storage.googleapis.com x-goog-quota-user=projects/eduaipro-e4f1c
+[debug] [2025-06-30T07:09:14.799Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/eventarc.googleapis.com 200
+[debug] [2025-06-30T07:09:14.799Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/eventarc.googleapis.com [omitted]
+[info] ✔  functions: required API eventarc.googleapis.com is enabled 
+[debug] [2025-06-30T07:09:14.803Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/pubsub.googleapis.com 200
+[debug] [2025-06-30T07:09:14.804Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/pubsub.googleapis.com [omitted]
+[info] ✔  functions: required API pubsub.googleapis.com is enabled 
+[debug] [2025-06-30T07:09:14.804Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/run.googleapis.com 200
+[debug] [2025-06-30T07:09:14.804Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/run.googleapis.com [omitted]
+[info] ✔  functions: required API run.googleapis.com is enabled 
+[debug] [2025-06-30T07:09:14.804Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/storage.googleapis.com 200
+[debug] [2025-06-30T07:09:14.804Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/eduaipro-e4f1c/services/storage.googleapis.com [omitted]
+[info] ✔  functions: required API storage.googleapis.com is enabled 
+[info] i  functions: generating the service identity for pubsub.googleapis.com... 
+[debug] [2025-06-30T07:09:14.805Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:14.805Z] Checked if tokens are valid: true, expires at: 1751270930863
+[info] i  functions: generating the service identity for eventarc.googleapis.com... 
+[debug] [2025-06-30T07:09:14.805Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:14.805Z] Checked if tokens are valid: true, expires at: 1751270930863
+[debug] [2025-06-30T07:09:14.805Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/865411105638/services/pubsub.googleapis.com:generateServiceIdentity [none]
+[debug] [2025-06-30T07:09:14.805Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/865411105638/services/eventarc.googleapis.com:generateServiceIdentity [none]

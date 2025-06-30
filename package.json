@@ -2,7 +2,6 @@
   "name": "eduaipro-web",
   "version": "0.1.0",
   "private": true,
-  "main": "firebaseFunctions.js",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
