@@ -1,6 +1,6 @@
 "use client";
 import CertificateIcon from "@/components/svgs/cert.svg";
-// import CpdIcon from "@/components/svgs/cpd.svg";
+import CpdIcon from "@/components/svgs/cpd.svg";
 import { generateKey } from "@/utils/key";
 
 import { ArrowRightIcon, ClockIcon, UsersRoundIcon } from "lucide-react";
@@ -69,7 +69,7 @@ export const Course = ({ course }: CourseProps) => {
               <p className="text-base text-primary font-medium">{l.title}</p>
             </li>
           ))}
-          {/* <CpdIcon /> */}
+          <CpdIcon />
         </ul>
       </div>
       <Button
