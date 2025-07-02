@@ -47,15 +47,12 @@ export const appIcons = [
 ];
 
 export const schoolLogos = [
-  "/assets/images/moji_uni.jpeg",
   "/assets/images/bespoke_council.webp",
   "/assets/images/waltman.webp",
   "/assets/images/cpd.webp",
   "/assets/images/panoba.webp",
-  "/assets/images/iict_uni.jpeg",
   "/assets/images/ebn_academy.webp",
   "/assets/images/ccu.webp",
-  "/assets/images/lumina_uni.jpeg",
 ];
 
 import CloudKey from "@/components/svgs/cloud-key.svg";
