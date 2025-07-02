@@ -13,7 +13,7 @@ export default function PricingPage() {
   const router = useRouter();
   return (
     <>
-      <section className="max-w-full max-lg:px-5 pt-28 sm:pt-32 lg:max-w-[80%] mx-auto flex flex-col gap-7 md:gap-14 animate-fade-in-up">
+      <section className="max-w-full max-lg:px-5 pt-28 sm:pt-32 lg:max-w-[70%] xl:max-w-[60%] mx-auto flex flex-col gap-7 md:gap-14 animate-fade-in-up">
         <div className="text-center md:max-w-[70%] mx-auto flex flex-col gap-3">
           <Pill text="Packages" pillBg="#F1F5FF" />
           <h2 className="font-medium text-2xl md:text-3xl lg:text-4xl">
@@ -51,10 +51,18 @@ export default function PricingPage() {
                       {item.description}
                     </Typography.P>
                   </div>
-                  <div className="flex items-end">
+                  <div className="">
                     <Typography.H1 weight="semibold" fontColor="dark">
                       {item.price}
                     </Typography.H1>
+                    {index === 0 ? (
+                      <div className="max-w-[80%]">
+                        <p className="text-sm font-medium text-primary-300">
+                          *Note: This only applies to teachers who work in
+                          Federal and State maintained schools.
+                        </p>
+                      </div>
+                    ) : null}
                   </div>
                   <div>
                     <Typography.P weight="semibold" fontColor="medium">
@@ -95,16 +103,7 @@ export default function PricingPage() {
                     </ul>
                   </div>
                 </div>
-                <div className="space-y-3">
-                  {index === 0 ? (
-                    <div>
-                      <p className="text-sm font-medium text-primary-300">
-                        *Note: This only applies to teachers who work at Federal
-                        and State owned Educational Institutions
-                      </p>
-                    </div>
-                  ) : null}
-
+                <div>
                   <Button
                     onClick={() => {
                       if (index === 0) {
