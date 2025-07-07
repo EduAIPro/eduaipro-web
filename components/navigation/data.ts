@@ -44,19 +44,20 @@ export const footerLinks = [
     links: [
       {
         title: "My dashboard",
-        href: "/dashboard",
+        href: "/login",
+        // href: "/dashboard",
       },
       {
         title: "View Courses",
-        href: "/dashboard",
+        href: "/login",
       },
       {
         title: "Go to Resources",
-        href: "/dashboard",
+        href: "/login",
       },
       {
         title: "Accreditation and Verification",
-        href: "/dashboard",
+        href: "/login",
       },
     ],
   },

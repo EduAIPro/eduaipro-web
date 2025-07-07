@@ -1,6 +1,6 @@
 "use client";
 
-import LoginForm from "@/components/auth/LoginForm";
+import { ComingSoon } from "@/components/auth/ComingSoon";
 import Typography from "@/components/common/ui/Typography";
 import { Button } from "@radix-ui/themes";
 import Image from "next/image";
@@ -30,7 +30,9 @@ export default function LoginPage() {
             </Link>
           </div>
         </div>
-        <div className="lg:h-[70vh] max-xs:mt-10  max-lg:mt-20 sm:justify-center flex flex-col">
+        <ComingSoon />
+
+        {/* <div className="lg:h-[70vh] max-xs:mt-10  max-lg:mt-20 sm:justify-center flex flex-col">
           <div className="w-full sm:w-2/3 mx-auto flex-col flex gap-y-6">
             <div className="text-left">
               <Typography.H2 size="basePro" weight="semibold">
@@ -40,9 +42,10 @@ export default function LoginPage() {
                 Fill in your details
               </Typography.P>
             </div>
-            <LoginForm />
+
+            {/* <LoginForm /> 
           </div>
-        </div>
+        </div> */}
       </section>
       <section className="w-full h-screen bg-auth-bg bg-cover max-lg:hidden"></section>
     </main>
