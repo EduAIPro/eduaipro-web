@@ -166,7 +166,7 @@ export default function Navbar() {
             </Button>
             <Button className="w-full" onClick={() => router.push("/register")}>
               <Typography.P weight="semibold" fontColor="white">
-                Get startedd
+                Get started
               </Typography.P>
             </Button>
           </div>

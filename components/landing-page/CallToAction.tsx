@@ -14,7 +14,7 @@ export default function CallToAction() {
             </h2>
             <p className="font-medium">
               Stay connected and enhance your learning anytime, anywhere with
-              {"EduAiPro's"} mobile app. Access courses, track your progress,
+              {" EduAiPro's"} mobile app. Access courses, track your progress,
               and get support from our AI chatbot—all at your fingertips.
               Download now and start maximizing your teaching potential on the
               go!
