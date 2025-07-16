@@ -50,11 +50,11 @@ export const FAQSection = () => {
           <Accordion type="single" collapsible className="w-full space-y-4">
             {faq.map((item) => (
               <AccordionItem
-                value={item.answer.split(" ")[3]}
+                value={item.question}
                 key={generateKey()}
                 className="!border border-primary-150 rounded-lg px-4"
               >
-                <AccordionTrigger className="text-primary font-medium">
+                <AccordionTrigger className="text-primary font-medium text-left">
                   {item.question}
                 </AccordionTrigger>
                 <AccordionContent className="flex flex-col gap-4 text-base">

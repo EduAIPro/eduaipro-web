@@ -4,16 +4,13 @@ import Pill from "@/components/common/ui/Pill";
 import Typography from "@/components/common/ui/Typography";
 import CallToAction from "@/components/landing-page/CallToAction";
 import Footer from "@/components/navigation/Footer";
+import { Button } from "@/components/ui/button";
 import { generateKey } from "@/utils/key";
-import { Button } from "@radix-ui/themes";
-import { useRouter } from "next/navigation";
-import { BsPatchCheckFill } from "react-icons/bs";
 
 export default function PricingPage() {
-  const router = useRouter();
   return (
     <>
-      <section className="max-w-full max-lg:px-5 pt-28 sm:pt-32 lg:max-w-[70%] xl:max-w-[60%] mx-auto flex flex-col gap-7 md:gap-14 animate-fade-in-up">
+      <section className="max-w-full max-lg:px-5 pt-28 sm:pt-32 lg:max-w-[85%] mx-auto flex flex-col gap-7 md:gap-14 animate-fade-in-up">
         <div className="text-center md:max-w-[70%] mx-auto flex flex-col gap-3">
           <Pill text="Packages" pillBg="#F1F5FF" />
           <h2 className="font-medium text-2xl md:text-3xl lg:text-4xl">
@@ -25,69 +22,39 @@ export default function PricingPage() {
             affordable and transparent.
           </Typography.P>
         </div>
-        <div className="grid md:grid-cols-2 gap-4 justify-between w-full">
+        <div className="w-full">
           {pricingData.map((item, index) => (
-            <div
-              key={item.title}
-              className={`${
-                index === 0
-                  ? "rounded-l-[32px] rounded-r-lg"
-                  : "rounded-l-lg rounded-r-[32px]"
-              } p-2 w-full border border-primary-150 max-md:!rounded-[32px] flex-1`}
-            >
+            <div key={item.title} className={`p-2 w-full flex-1`}>
               <div
-                className={`${
-                  index === 0
-                    ? "from-accent-100 to-accent-100/20 rounded-l-[32px] rounded-r-lg"
-                    : "from-[#FFF8E6]/50 to-warning-100/10 rounded-l-lg rounded-r-[32px]"
-                } rounded-lg px-6 p-6 md:py-8 bg-gradient-45 h-full mx-auto max-md:!rounded-[32px] flex flex-col justify-between gap-8`}
+                className={`rounded-lg h-full mx-auto flex flex-col justify-between gap-8`}
               >
-                <div className="flex flex-col gap-7">
+                <div className="flex flex-col gap-4">
                   <div>
-                    <Typography.H4 weight="semibold">
+                    <h2 className="font-semibold text-2xl md:text-3xl">
                       {item.title}
-                    </Typography.H4>
+                    </h2>
                     <Typography.P weight="medium" fontColor="medium">
                       {item.description}
                     </Typography.P>
-                  </div>
-                  <div className="">
-                    <Typography.H1 weight="semibold" fontColor="dark">
-                      {item.price}
-                    </Typography.H1>
-                    {index === 0 ? (
-                      <div className="max-w-[80%]">
-                        <p className="text-sm font-medium text-primary-300">
-                          *Note: This only applies to teachers who work in
-                          Federal and State maintained schools.
-                        </p>
-                      </div>
-                    ) : null}
                   </div>
                   <div>
                     <Typography.P weight="semibold" fontColor="medium">
                       {"What's included?"}
                     </Typography.P>
-                    <ul className="flex flex-col gap-2 mt-3">
+                    <ul className="grid sm:grid-cols-2 lg:grid-cols-4 max-sm:gap-8 gap-5 mt-8">
                       {item.features.map((item) => (
                         <li
-                          className="flex items-start sm:items-center gap-2"
+                          className="flex flex-col items-start gap-2"
                           key={generateKey()}
                         >
-                          <div className="w-fit">
-                            <BsPatchCheckFill
-                              size={20}
-                              className="text-gray-800"
-                            />
+                          <div className="w-fit mb-2">
+                            <item.icon className="text-primary-400" />
                           </div>
                           <div>
-                            <Typography.H3
-                              size="base"
-                              weight="medium"
-                              fontColor="brand"
-                            >
+                            <h3 className="font-semibold text-base">
                               {item.title}
-                            </Typography.H3>
+                            </h3>
+
                             {item.description ? (
                               <Typography.P
                                 size="small"
@@ -105,22 +72,12 @@ export default function PricingPage() {
                 </div>
                 <div>
                   <Button
+                    className="font-semibold max-sm:w-full"
                     onClick={() => {
-                      if (index === 0) {
-                        router.push("/register");
-                      }
+                      window.open("mailto:support@eduaipro.ng", "_blank");
                     }}
-                    className={`${
-                      index === 0 ? "primary__btn" : ""
-                    } btn !w-full`}
                   >
-                    {index === 0 ? (
-                      <Typography.P fontColor="white">Get started</Typography.P>
-                    ) : (
-                      <Typography.P fontColor="white">
-                        Contact support
-                      </Typography.P>
-                    )}
+                    <p> Contact support</p>
                   </Button>
                 </div>
               </div>

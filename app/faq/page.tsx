@@ -52,7 +52,7 @@ export default function FaqPage() {
                 >
                   {f.contents.map((fc, i) => (
                     <AccordionItem
-                      value={fc.question.split(" ")[0]}
+                      value={fc.question}
                       key={generateKey()}
                       className="!border border-primary-150 rounded-lg px-4"
                     >
@@ -71,7 +71,7 @@ export default function FaqPage() {
         </div>
         <div className="flex flex-col gap-y-4 sm:max-w-[80%] md:mt-12">
           <Typography.P
-            weight="black"
+            weight="bold"
             size="large"
             className="uppercase !text-grey-12/80"
           >
