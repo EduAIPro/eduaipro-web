@@ -64,32 +64,32 @@ export const faqs = [
 ];
 
 export const pricingData = [
-  // {
-  //   title: "Professional Growth Package",
-  //   description: "For teachers, mentors and teaching assistants",
-  //   price: "Free",
-  //   features: [
-  //     { title: "Access to All Professional Development Courses" },
-  //     { title: "Personalized Learning Path" },
-  //     {
-  //       title: "Certification Tracking and Reminders",
-  //       description:
-  //         "Stay updated with certification deadlines and requirements.",
-  //     },
-  //     {
-  //       title: "Priority Support",
-  //       description: "Access to dedicated support for any inquiries or issues.",
-  //     },
-  //     // {
-  //     //   title: "National Register Verification",
-  //     //   description: "Ability to verify credentials and accreditation status.",
-  //     // },
-  //     {
-  //       title: "Progress Analytics and Personalized Reports",
-  //       description: "Insights into learning progress and performance metrics.",
-  //     },
-  //   ],
-  // },
+  {
+    title: "Professional Growth Package",
+    description: "For teachers, mentors and teaching assistants",
+    price: "Free",
+    features: [
+      { title: "Access to All Professional Development Courses" },
+      { title: "Personalized Learning Path" },
+      {
+        title: "Certification Tracking and Reminders",
+        description:
+          "Stay updated with certification deadlines and requirements.",
+      },
+      {
+        title: "Priority Support",
+        description: "Access to dedicated support for any inquiries or issues.",
+      },
+      // {
+      //   title: "National Register Verification",
+      //   description: "Ability to verify credentials and accreditation status.",
+      // },
+      {
+        title: "Progress Analytics and Personalized Reports",
+        description: "Insights into learning progress and performance metrics.",
+      },
+    ],
+  },
   {
     title: "Institutional Excellence Package",
     description: "For institutions, school owners",
