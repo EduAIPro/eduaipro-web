@@ -1,13 +1,11 @@
 "use client";
 
 import AppLayoutBase from "@/components/layout/app";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import "@radix-ui/themes/styles.css";
 import { Montserrat, Work_Sans } from "next/font/google";
-import { QueryClient } from "react-query";
+import { SWRConfig } from "swr";
 import "./globals.css";
-
-const queryClient = new QueryClient();
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -70,7 +68,9 @@ export default function RootLayout({
       className={`${montserrat.variable} ${workSans.variable} antialiased`}
     >
       <body className={montserrat.className}>
-        <AppLayoutBase>{children}</AppLayoutBase>
+        <SWRConfig>
+          <AppLayoutBase>{children}</AppLayoutBase>
+        </SWRConfig>
         <Toaster />
       </body>
     </html>

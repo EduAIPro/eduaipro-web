@@ -1,6 +1,5 @@
 "use client";
 import AdminSignup from "@/components/auth/AdminSignup";
-import { ComingSoon } from "@/components/auth/ComingSoon";
 import InstitutionSignup from "@/components/auth/InstitutionSignup";
 import { LoginComp } from "@/components/auth/LoginComp";
 import TeacherSignup from "@/components/auth/TeacherSignup";
@@ -31,8 +30,8 @@ export default function RegisterPage() {
           </div>
         </div>
         <Suspense>
-          <ComingSoon />
-          {/* <RegisterForm /> */}
+          {/* <ComingSoon /> */}
+          <RegisterForm />
         </Suspense>
       </section>
       <section className="w-full min-h-screen bg-auth-bg bg-cover max-lg:hidden" />

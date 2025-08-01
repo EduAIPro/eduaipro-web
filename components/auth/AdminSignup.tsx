@@ -1,17 +1,14 @@
 "use client";
+import { adminRoles } from "@/utils/data";
+import { adminSignupValidation } from "@/utils/validation/auth";
+import { Button } from "@radix-ui/themes";
+import { Form, Formik } from "formik";
 import { Eye, EyeSlash, KeySquare, ProfileCircle, Sms } from "iconsax-react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import Typography from "../common/ui/Typography";
-import { Form, Formik } from "formik";
+import { useState } from "react";
 import FormInput, { SelectInput } from "../common/ui/FormInput";
-import {
-  adminSignupValidation,
-  signupValidation,
-} from "@/utils/validation/auth";
-import { Button } from "@radix-ui/themes";
+import Typography from "../common/ui/Typography";
 import { LoginComp } from "./LoginComp";
-import { adminRoles } from "@/utils/data";
 
 export default function AdminSignup() {
   const [showPassword, setShowPassword] = useState(false);

@@ -1,11 +1,6 @@
 "use client";
-import { useMutationApi } from "@/api/hooks/useMutationApi";
-import { LOGIN_MUTATION_KEY } from "@/api/keys";
-import { login } from "@/api/mutations";
 import FormInput from "@/components/common/ui/FormInput";
 import Typography from "@/components/common/ui/Typography";
-import { useToast } from "@/hooks/use-toast";
-import { trimObj } from "@/utils/key";
 import { loginValidation } from "@/utils/validation/auth";
 import { Button } from "@radix-ui/themes";
 import { Form, Formik } from "formik";
@@ -17,34 +12,34 @@ import { useState } from "react";
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const router = useRouter();
 
-  const loginMutation = useMutationApi(LOGIN_MUTATION_KEY, login, {
-    onSuccess: (data) => {
-      const _res = data.data;
-      window.localStorage.setItem(
-        "access_token",
-        JSON.stringify(_res.tokens.token)
-      );
-      window.localStorage.setItem(
-        "refresh_token",
-        JSON.stringify(_res.tokens.refreshToken)
-      );
+  // const loginMutation = useMutationApi(LOGIN_MUTATION_KEY, login, {
+  //   onSuccess: (data) => {
+  //     const _res = data.data;
+  //     window.localStorage.setItem(
+  //       "access_token",
+  //       JSON.stringify(_res.tokens.token)
+  //     );
+  //     window.localStorage.setItem(
+  //       "refresh_token",
+  //       JSON.stringify(_res.tokens.refreshToken)
+  //     );
 
-      toast({
-        title: "Login successful 🎉",
-      });
+  //     toast({
+  //       title: "Login successful 🎉",
+  //     });
 
-      router.push("/dashboard/personal-development-plan");
-    },
-    onError(err) {
-      toast({
-        title: err as string,
-        variant: "destructive",
-      });
-    },
-  });
+  //     router.push("/dashboard/personal-development-plan");
+  //   },
+  //   onError(err) {
+  //     toast({
+  //       title: err as string,
+  //       variant: "destructive",
+  //     });
+  //   },
+  // });
 
   return (
     <Formik
@@ -54,7 +49,7 @@ export default function LoginForm() {
       }}
       validationSchema={loginValidation}
       onSubmit={(values) => {
-        loginMutation.mutate(trimObj(values));
+        // loginMutation.mutate(trimObj(values));
       }}
       autoComplete="off"
     >
@@ -90,8 +85,8 @@ export default function LoginForm() {
             </Typography.H3>
           </div>
           <Button
-            disabled={loginMutation.isLoading}
-            loading={loginMutation.isLoading}
+            // disabled={loginMutation.isLoading}
+            // loading={loginMutation.isLoading}
             className="primary__btn btn"
           >
             <Typography.P fontColor="white">Login</Typography.P>

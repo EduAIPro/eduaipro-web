@@ -4,9 +4,6 @@ import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
-
-const queryClient = new QueryClient();
 
 export default function AppLayoutBase({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -32,10 +29,8 @@ export default function AppLayoutBase({ children }: { children: ReactNode }) {
     AppLayout = DefaultLayout;
   }
   return (
-    <QueryClientProvider client={queryClient}>
-      <Theme>
-        <AppLayout>{children}</AppLayout>
-      </Theme>
-    </QueryClientProvider>
+    <Theme>
+      <AppLayout>{children}</AppLayout>
+    </Theme>
   );
 }

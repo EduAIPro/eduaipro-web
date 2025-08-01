@@ -1,51 +1,64 @@
 "use client";
-import { useMutationApi } from "@/api/hooks/useMutationApi";
-import { SIGNUP_EDUCATOR_MUTATION_KEY } from "@/api/keys";
+import { signupTeacherKey } from "@/api/keys";
 import { signup } from "@/api/mutations";
-import { useToast } from "@/hooks/use-toast";
+import { TeacherSignup as TeacherSignupType } from "@/types/auth";
 import { trimObj } from "@/utils/key";
-import { signupValidation } from "@/utils/validation/auth";
-import { Button } from "@radix-ui/themes";
+import {
+  SignupFormValue,
+  signupValidation,
+} from "@/utils/validation/auth/index";
 import { Form, Formik } from "formik";
 import { Eye, EyeSlash } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
+import useSWRMutation from "swr/mutation";
 import FormInput from "../common/ui/FormInput";
 import PhoneInput from "../common/ui/PhoneInput";
 import Typography from "../common/ui/Typography";
+import { Button } from "../ui/button";
 import { LoginComp } from "./LoginComp";
 
 export default function TeacherSignup() {
   const [showPassword, setShowPassword] = useState(false);
-  const { toast } = useToast();
   const router = useRouter();
 
-  const signupMutation = useMutationApi(SIGNUP_EDUCATOR_MUTATION_KEY, signup, {
-    onSuccess: (data) => {
-      const _res = data.data;
-      window.localStorage.setItem("user", JSON.stringify(_res.user));
-      window.localStorage.setItem(
-        "access_token",
-        JSON.stringify(_res.tokens.token)
-      );
-      window.localStorage.setItem(
-        "refresh_token",
-        JSON.stringify(_res.tokens.refreshToken)
-      );
+  const { trigger, isMutating, error } = useSWRMutation(
+    signupTeacherKey,
+    signup
+  );
 
-      toast({
-        title: "Registration successful 🎉",
-      });
+  async function onSubmit(data: SignupFormValue) {
+    try {
+      const payload: TeacherSignupType = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        username: data.username,
+        email: data.email,
+        phoneNumber: data.phoneNumber.digits,
+        phoneCountryCode: data.phoneNumber.dialCode.slice(1),
+        password: data.password,
+      };
 
-      router.push("/dashboard/personal-development-plan?type=teacher");
+      const result = await trigger(trimObj(payload));
+
+      console.log({ result });
+    } catch (error) {
+      console.log({ error });
+    }
+  }
+  const defaultValues: SignupFormValue = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    phoneNumber: {
+      dialCode: "",
+      digits: "",
     },
-    onError(err) {
-      toast({
-        title: err as string,
-        variant: "destructive",
-      });
-    },
-  });
+  };
 
   return (
     <div className="flex-col flex gap-y-6">
@@ -58,28 +71,25 @@ export default function TeacherSignup() {
         </Typography.P>
       </div>
       <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          username: "",
-          phoneNumber: "",
-          password: "",
-          confirmPassword: "",
-        }}
-        onSubmit={(values) => {
+        initialValues={defaultValues}
+        onSubmit={async (values) => {
           if (values.password !== values.confirmPassword) {
-            toast({
-              title: "Your password must match",
-              variant: "destructive",
-            });
+            toast.error("Your password must match");
           } else {
-            signupMutation.mutate(trimObj(values));
+            onSubmit(values)
+              .then(() => {
+                toast.success("Registration successful 🎉");
+
+                router.push("/dashboard");
+              })
+              .catch((err) => {
+                console.log({ err });
+              });
           }
         }}
         validationSchema={signupValidation}
       >
-        {({ touched, errors, setFieldValue }) => (
+        {({ touched, errors, setFieldValue, isValid }) => (
           <Form className="flex-col flex gap-y-4">
             <div className="flex items-center justify-between gap-x-3">
               <FormInput
@@ -125,11 +135,12 @@ export default function TeacherSignup() {
             />
             <PhoneInput
               label="Phone number"
-              name="phoneNumber"
+              name="phoneNumber.digits"
               setFieldValue={setFieldValue}
+              dialCodeName="phoneNumber.dialCode"
               error={
-                touched.phoneNumber && errors.phoneNumber
-                  ? errors.phoneNumber
+                touched.phoneNumber?.digits && errors.phoneNumber?.digits
+                  ? errors.phoneNumber.digits
                   : null
               }
             />
@@ -172,13 +183,8 @@ export default function TeacherSignup() {
               }
             />
             <div className="mt-4 w-full">
-              <Button
-                loading={signupMutation.isLoading}
-                disabled={signupMutation.isLoading}
-                type="submit"
-                className="primary__btn btn !w-full"
-              >
-                <Typography.P fontColor="white">Register</Typography.P>
+              <Button type="submit" loading={isMutating} disabled={!isValid}>
+                <p className="white">Register</p>
               </Button>
             </div>
             <div className="sm:hidden flex items-center justify-center">

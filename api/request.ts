@@ -8,7 +8,7 @@ interface ApiResponse<T> {
 
 export async function apiPostRequest<T>(
   url: string,
-  data: any
+  data?: any
 ): Promise<ApiResponse<T>> {
   try {
     const response: AxiosResponse<T> = await api.post(url, data);

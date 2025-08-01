@@ -1,4 +1,4 @@
-export type CreateEducatorAccountPayload = {
+export type CreateTeacherAccountPayload = {
   teachingLevel: string;
   subjectsTaught: string[];
   specialSkills: string[];
@@ -20,14 +20,14 @@ export type CreateEducatorAccountPayload = {
   role: "Teacher" | "Mentor" | "Teaching Assistant";
 };
 
-export type EducatorSignup = {
+export type TeacherSignup = {
   firstName: string;
   lastName: string;
-  email: string;
   username: string;
-  phoneNumber?: string;
+  email: string;
+  phoneCountryCode: string;
+  phoneNumber: string;
   password: string;
-  confirmPassword: string;
 };
 
 export type Login = {
@@ -35,35 +35,118 @@ export type Login = {
   password: string;
 };
 
-export type EducatorLoginResponse = {
+export type UserRoles = "USER" | "OWNER" | "ADMIN";
+
+export type APIBaseResponse = {
   statusCode: number;
   message: string;
-  data: {
-    userId: string;
-    role: null | string;
-    tokens: {
-      token: string;
-      refreshToken: string;
-    };
-  };
-  error: null | string;
 };
 
-export type EducatorSignupResponse = {
-  statusCode: number;
-  message: string;
+export type TeacherLoginResponse = APIBaseResponse & {
   data: {
+    tokens: {
+      access: string;
+      refresh: string;
+    };
     user: {
       id: string;
       name: string;
-      email: string;
-      role: null | string;
+      emailVerifiedAt: string;
+      role: UserRoles;
     };
-    role: null | string;
-    tokens: {
-      token: string;
-      refreshToken: string;
+    staff: {
+      id: string;
+      role: UserRoles;
+      isActive: boolean;
+      teacherLevel: null | string;
+      positionDescription: string;
+      createdAt: string;
+      updatedAt: string;
+      professionalLevel: null | string;
+      educationalLevel: null | string;
+      experienceRange: null | string;
+      areaOfSpecialization: null | string;
+      interestedSkills: string[];
+      primaryLearningGoal: null | string;
+      altLearningGoal: null | string;
+      acceptedTermsAndConditions: boolean;
+      userId: string;
+      schoolId: string;
+      school: {
+        institutionName: string;
+      };
     };
   };
-  error: null | string;
+};
+
+export type TeacherSignupResponse = {
+  statusCode: number;
+  message: string;
+  data: {
+    tokens: {
+      access: string;
+      refresh: string;
+    };
+    user: {
+      id: string;
+      name: string;
+      emailVerifiedAt: boolean;
+    };
+  };
+};
+
+export type TeacherSurveyPayload = {
+  personal: {
+    dateOfBirth: string;
+    schoolName: string;
+    location: string;
+  };
+  professional: {
+    professionalLevel: string;
+    educationalLevel: string;
+    experienceRange: string;
+    areaOfSpecialization: string;
+    interestedSkills: string[];
+    primaryLearningGoal: string;
+    altLearningGoal: string;
+    acceptedTermsAndConditions: boolean;
+  };
+};
+
+export type ConfirmPasswordReset = {
+  email: string;
+  password: string;
+  token: string;
+};
+
+export type RefreshTokenPayload = {
+  refreshToken: string;
+};
+
+export type RefreshTokenResponse = APIBaseResponse & {
+  data: {
+    tokens: {
+      access: string;
+      refresh: string;
+    };
+  };
+};
+
+export type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  phoneCountryCode: string;
+  phoneNumber: string;
+  profileImageUrl: null | string;
+  dateOfBirth: null | string;
+  location: null | string;
+  emailVerifiedAt: null | string;
+  isActive: boolean;
+  lastLoggedInAt: string;
+  createdAt: string;
+  updatedAt: string;
+  role: UserRoles;
 };

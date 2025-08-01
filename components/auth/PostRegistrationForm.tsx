@@ -1,6 +1,3 @@
-import { useMutationApi } from "@/api/hooks/useMutationApi";
-import { UPDATE_PROFILE_MUTATION_KEY } from "@/api/keys";
-import { updateProfile } from "@/api/mutations";
 import {
   goalsValidation,
   personalInfoValidation,
@@ -96,19 +93,19 @@ export default function MultiStepFormModal() {
     );
   };
 
-  const updateProfileMutation = useMutationApi(
-    UPDATE_PROFILE_MUTATION_KEY,
-    updateProfile,
-    {
-      onSuccess: (data) => {
-        const _res = data.data;
-        console.log({ res: _res });
-      },
-      onError(err) {
-        console.log({ err });
-      },
-    }
-  );
+  // const updateProfileMutation = useMutationApi(
+  //   UPDATE_PROFILE_MUTATION_KEY,
+  //   updateProfile,
+  //   {
+  //     onSuccess: (data) => {
+  //       const _res = data.data;
+  //       console.log({ res: _res });
+  //     },
+  //     onError(err) {
+  //       console.log({ err });
+  //     },
+  //   }
+  // );
 
   return isOpen ? (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
@@ -181,14 +178,14 @@ export default function MultiStepFormModal() {
                     type="button"
                     onClick={() => setCurrentStep(currentStep - 1)}
                     className="btn"
-                    disabled={updateProfileMutation.isLoading}
+                    // disabled={updateProfileMutation.isLoading}
                   >
                     Previous
                   </Button>
                 )}
                 <Button
-                  loading={updateProfileMutation.isLoading}
-                  disabled={updateProfileMutation.isLoading}
+                  // loading={updateProfileMutation.isLoading}
+                  // disabled={updateProfileMutation.isLoading}
                   type="submit"
                   className="primary__btn btn"
                 >

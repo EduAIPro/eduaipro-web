@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // Import Shadcn UI components (adjust the import paths based on your project structure)
 import {
   Select,
@@ -27,6 +27,7 @@ const countries: Country[] = [
 
 type PhoneInputProps = {
   name: string;
+  dialCodeName?: string;
   label?: string;
   className?: string;
   error: string | null;
@@ -36,6 +37,7 @@ type PhoneInputProps = {
 export default function PhoneInput({
   name,
   setFieldValue,
+  dialCodeName,
   error,
   label,
   className,
@@ -49,6 +51,7 @@ export default function PhoneInput({
     const newCountry = countries.find((c) => c.code === code);
     if (newCountry) {
       setSelectedCountry(newCountry);
+      setFieldValue(dialCodeName ?? "dialCode", newCountry.dialCode);
       formatPhone(rawPhone, newCountry.dialCode);
     }
   };
@@ -65,11 +68,16 @@ export default function PhoneInput({
   // Formats the phone number by appending the dial code
   const formatPhone = (phone: string, dialCode: string) => {
     if (phone.length > 0) {
-      setFieldValue(name, `${dialCode}${phone}`);
+      setFieldValue(name, phone);
     } else {
       setFieldValue(name, "");
     }
   };
+
+  useEffect(() => {
+    setFieldValue(dialCodeName ?? "dialCode", selectedCountry.dialCode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dialCodeName, selectedCountry]);
 
   return (
     <div className={className}>

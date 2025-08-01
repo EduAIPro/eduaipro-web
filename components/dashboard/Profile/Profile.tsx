@@ -2,7 +2,6 @@
 import FormInput from "@/components/common/ui/FormInput";
 import Typography from "@/components/common/ui/Typography";
 import defaultImage from "@/public/assets/images/default-profile.webp";
-import { signupValidation } from "@/utils/validation/auth";
 import { Button } from "@radix-ui/themes";
 import { Form, Formik } from "formik";
 import { Eye, EyeSlash, KeySquare, ProfileCircle, Sms } from "iconsax-react";
@@ -77,7 +76,7 @@ const Profile = () => {
         onSubmit={(values) => {
           console.log("profile updated successfully");
         }}
-        validationSchema={signupValidation}
+        // validationSchema={signupValidation}
       >
         {({ touched, errors }) => (
           <Form className="flex-col flex gap-y-4 w-full mt-10">
@@ -145,7 +144,7 @@ const Profile = () => {
         onSubmit={(values) => {
           console.log("profile updated successfully");
         }}
-        validationSchema={signupValidation}
+        // validationSchema={signupValidation}
       >
         {({ touched, errors }) => (
           <Form className="flex-col flex gap-y-4 w-full mt-10">

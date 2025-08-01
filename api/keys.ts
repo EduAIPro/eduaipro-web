@@ -1,6 +1,11 @@
-//MUTATIONS
+// QUERIES
+export const getMe = "/auth/me";
 
-// user
-export const SIGNUP_EDUCATOR_MUTATION_KEY = "SIGNUP_EDUCATOR_MUTATION_KEY";
-export const LOGIN_MUTATION_KEY = "LOGIN_MUTATION_KEY";
-export const UPDATE_PROFILE_MUTATION_KEY = "UPDATE_PROFILE_MUTATION_KEY";
+// MUTATIONS
+export const signupTeacherKey = "/auth/register/teacher";
+export const loginTeacherKey = "/auth/login";
+export const requestVerifyEmailKey = "/auth/email/request";
+export const confirmVerifyEmailKey = "/auth/email/verify";
+export const requestPasswordResetKey = "/auth/password/request";
+export const confirmPasswordResetKey = "/auth/password/reset";
+export const completeSurveyKey = "/auth/onboarding/complete";
