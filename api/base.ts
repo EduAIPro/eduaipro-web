@@ -1,4 +1,4 @@
-import { access_token_retrieve } from "@/utils/auth";
+import { access_token_retrieve } from "@/utils/auth/helpers";
 import axios, { InternalAxiosRequestConfig } from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -25,6 +25,7 @@ const authInterceptor = async (config: InternalAxiosRequestConfig) => {
   const publicRoute = PUBLIC_ROUTES.includes(config.url || "");
   if (!publicRoute) {
     const access_token = await access_token_retrieve(refreshPromise);
+
     if (access_token) {
       config.headers["Authorization"] = access_token;
     }

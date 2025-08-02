@@ -6,6 +6,8 @@ interface ApiResponse<T> {
   status: number;
 }
 
+type ErrorResponse = { statusCode: number; message: string };
+
 export async function apiPostRequest<T>(
   url: string,
   data?: any
@@ -32,11 +34,12 @@ export async function apiPostRequest<T>(
       // Handle HTTP errors (4xx, 5xx)
       throw (axiosError.response.data as any)?.error?.message;
     } else if (axiosError.request) {
-      // Handle network errors (no response received)
-      throw new Error("Network Error: No response received from the server");
+      const message = (axiosError.response?.data as ErrorResponse)?.message;
+
+      throw message;
     } else {
       // Handle other errors
-      throw new Error(`Error: ${axiosError.message}`);
+      throw axiosError.message;
     }
   }
 }

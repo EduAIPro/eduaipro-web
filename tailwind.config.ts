@@ -137,7 +137,7 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "boost-career-pattern": "url('/assets/images/shape-bg.png')",
         "auth-bg":
-          "url('/assets/images/img14.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
+          "url('/assets/images/auth-bg.webp'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "gradient-45": "linear-gradient(205deg, var(--tw-gradient-stops))",
       },
       animation: {

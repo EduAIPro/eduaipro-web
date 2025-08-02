@@ -1,14 +1,17 @@
 "use client";
 import { signupTeacherKey } from "@/api/keys";
 import { signup } from "@/api/mutations";
+import { CONFIG } from "@/constants/config";
 import { TeacherSignup as TeacherSignupType } from "@/types/auth";
+import { storeAccessToken } from "@/utils/auth/helpers";
 import { trimObj } from "@/utils/key";
 import {
   SignupFormValue,
   signupValidation,
 } from "@/utils/validation/auth/index";
 import { Form, Formik } from "formik";
-import { Eye, EyeSlash } from "iconsax-react";
+import { EyeClosedIcon, EyeIcon } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -17,18 +20,18 @@ import FormInput from "../common/ui/FormInput";
 import PhoneInput from "../common/ui/PhoneInput";
 import Typography from "../common/ui/Typography";
 import { Button } from "../ui/button";
-import { LoginComp } from "./LoginComp";
 
 export default function TeacherSignup() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  const { trigger, isMutating, error } = useSWRMutation(
-    signupTeacherKey,
-    signup
-  );
+  const { trigger, isMutating } = useSWRMutation(signupTeacherKey, signup);
 
   async function onSubmit(data: SignupFormValue) {
+    if (data.password !== data.confirmPassword) {
+      toast.error("Your password must match");
+      return;
+    }
     try {
       const payload: TeacherSignupType = {
         firstName: data.firstName,
@@ -40,11 +43,17 @@ export default function TeacherSignup() {
         password: data.password,
       };
 
-      const result = await trigger(trimObj(payload));
+      const res = await trigger(trimObj(payload));
+      const { user, tokens } = res.data;
 
-      console.log({ result });
-    } catch (error) {
-      console.log({ error });
+      if (tokens.access) {
+        storeAccessToken(tokens.access);
+        sessionStorage.setItem(CONFIG.USER_IDENTIFIER, user.id);
+      }
+
+      router.push("/verify-email");
+    } catch (error: any) {
+      toast.error(error.message);
     }
   }
   const defaultValues: SignupFormValue = {
@@ -60,6 +69,16 @@ export default function TeacherSignup() {
     },
   };
 
+  const PasswordIcon = () => (
+    <Button
+      size="icon"
+      variant="ghost"
+      onClick={() => setShowPassword(!showPassword)}
+    >
+      {showPassword ? <EyeIcon /> : <EyeClosedIcon />}
+    </Button>
+  );
+
   return (
     <div className="flex-col flex gap-y-6">
       <div className="text-left">
@@ -72,22 +91,8 @@ export default function TeacherSignup() {
       </div>
       <Formik
         initialValues={defaultValues}
-        onSubmit={async (values) => {
-          if (values.password !== values.confirmPassword) {
-            toast.error("Your password must match");
-          } else {
-            onSubmit(values)
-              .then(() => {
-                toast.success("Registration successful 🎉");
-
-                router.push("/dashboard");
-              })
-              .catch((err) => {
-                console.log({ err });
-              });
-          }
-        }}
         validationSchema={signupValidation}
+        onSubmit={onSubmit}
       >
         {({ touched, errors, setFieldValue, isValid }) => (
           <Form className="flex-col flex gap-y-4">
@@ -102,7 +107,6 @@ export default function TeacherSignup() {
                     ? errors.firstName
                     : null
                 }
-                // leftIcon={<ProfileCircle />}
               />
               <FormInput
                 label="Last name"
@@ -112,7 +116,6 @@ export default function TeacherSignup() {
                 error={
                   touched.lastName && errors.lastName ? errors.lastName : null
                 }
-                // leftIcon={<ProfileCircle />}
               />
             </div>
             <FormInput
@@ -123,7 +126,6 @@ export default function TeacherSignup() {
               error={
                 touched.username && errors.username ? errors.username : null
               }
-              // leftIcon={<ProfileCircle />}
             />
             <FormInput
               label="Email address"
@@ -131,7 +133,6 @@ export default function TeacherSignup() {
               placeholder="name@example.com"
               type="email"
               error={touched.email && errors.email ? errors.email : null}
-              // leftIcon={<Sms />}
             />
             <PhoneInput
               label="Phone number"
@@ -152,15 +153,7 @@ export default function TeacherSignup() {
                 touched.password && errors.password ? errors.password : null
               }
               type={showPassword ? "text" : "password"}
-              // leftIcon={<KeySquare />}
-              rightIcon={
-                <div
-                  className="cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <Eye /> : <EyeSlash />}
-                </div>
-              }
+              rightIcon={<PasswordIcon />}
             />
             <FormInput
               name="confirmPassword"
@@ -172,23 +165,26 @@ export default function TeacherSignup() {
                   : null
               }
               type={showPassword ? "text" : "password"}
-              // leftIcon={<KeySquare />}
-              rightIcon={
-                <div
-                  className="cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <Eye /> : <EyeSlash />}
-                </div>
-              }
+              rightIcon={<PasswordIcon />}
             />
             <div className="mt-4 w-full">
-              <Button type="submit" loading={isMutating} disabled={!isValid}>
+              <Button
+                type="submit"
+                loading={isMutating}
+                disabled={!isValid}
+                className="w-full"
+              >
                 <p className="white">Register</p>
               </Button>
             </div>
-            <div className="sm:hidden flex items-center justify-center">
-              <LoginComp />
+
+            <div>
+              <p className="text-center">
+                Already have an account?{" "}
+                <span className="text-primary-300 hover:scale-95 duration-300 underline font-medium">
+                  <Link href="/login">Login</Link>
+                </span>
+              </p>
             </div>
           </Form>
         )}

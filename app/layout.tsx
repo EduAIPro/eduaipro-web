@@ -71,7 +71,7 @@ export default function RootLayout({
         <SWRConfig>
           <AppLayoutBase>{children}</AppLayoutBase>
         </SWRConfig>
-        <Toaster />
+        <Toaster position="top-center" expand richColors theme="light" />
       </body>
     </html>
   );

@@ -7,7 +7,13 @@ import { ReactNode } from "react";
 
 export default function AppLayoutBase({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const AUTH_PATHS = ["/login", "/register"];
+  const AUTH_PATHS = [
+    "/login",
+    "/register",
+    "/verify-email",
+    "/forgot-password",
+    "/forgot-password/reset",
+  ];
   const LANDING_PATHS = ["/", "/faq", "/courses"];
   const DefaultLayout = ({ children }: { children: ReactNode }) => (
     <main>{children}</main>

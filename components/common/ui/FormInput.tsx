@@ -39,9 +39,7 @@ export default function FormInput({
   return (
     <div className={`${className}`}>
       {label && (
-        <Typography.H4 className="mb-1" weight="medium" size="base">
-          {label}
-        </Typography.H4>
+        <p className="font-medium text-base mb-1 text-grey-650">{label}</p>
       )}
       <div
         className={cn(

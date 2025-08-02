@@ -3,11 +3,6 @@ import yupPassword from "yup-password";
 yupPassword(Yup);
 
 // Validation schemas for each step
-export const loginValidation = Yup.object().shape({
-  email: Yup.string().email().required("Email address is required"),
-  password: Yup.string().password().required("Your password is required"),
-});
-
 export const adminSignupValidation = Yup.object().shape({
   adminName: Yup.string()
     .required("The admin's name is required")

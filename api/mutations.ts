@@ -10,16 +10,22 @@ import {
   TeacherSignupResponse,
   TeacherSurveyPayload,
 } from "@/types/auth";
+import { setAuthCookes } from "@/utils/auth";
 import { apiPostRequest } from "./request";
+
+// const isLocalhost = window.location.host.includes("localhost");
 
 export async function signup(
   url: string,
   { arg }: { arg: TeacherSignup }
 ): Promise<TeacherSignupResponse> {
   try {
-    console.log({ arg });
-
     const response = await apiPostRequest<TeacherSignupResponse>(url, arg);
+
+    await setAuthCookes(
+      response.data.data.tokens.access,
+      response.data.data.tokens.refresh
+    );
 
     return response.data;
   } catch (error) {
@@ -27,10 +33,17 @@ export async function signup(
   }
 }
 
-export async function login(data: Login): Promise<TeacherLoginResponse> {
+export async function login(
+  url: string,
+  { arg }: { arg: Login }
+): Promise<TeacherLoginResponse> {
   try {
-    const url = "/auth/login";
-    const response = await apiPostRequest<TeacherLoginResponse>(url, data);
+    const response = await apiPostRequest<TeacherLoginResponse>(url, arg);
+
+    await setAuthCookes(
+      response.data.data.tokens.access,
+      response.data.data.tokens.refresh
+    );
 
     return response.data;
   } catch (error) {
@@ -51,12 +64,12 @@ export async function requestVerifyEmail(data: {
   }
 }
 
-export async function confirmEmailVerification(data: {
-  token: string;
-}): Promise<APIBaseResponse> {
+export async function confirmEmailVerification(
+  url: string,
+  { arg }: { arg: { token: string } }
+): Promise<APIBaseResponse> {
   try {
-    const url = "/auth/email/verify";
-    const response = await apiPostRequest<APIBaseResponse>(url, data);
+    const response = await apiPostRequest<APIBaseResponse>(url, arg);
 
     return response.data;
   } catch (error) {
@@ -64,12 +77,12 @@ export async function confirmEmailVerification(data: {
   }
 }
 
-export async function requestPasswordReset(data: {
-  email: string;
-}): Promise<APIBaseResponse> {
+export async function requestPasswordReset(
+  url: string,
+  { arg }: { arg: { email: string } }
+): Promise<APIBaseResponse> {
   try {
-    const url = "/auth/password/request";
-    const response = await apiPostRequest<APIBaseResponse>(url, data);
+    const response = await apiPostRequest<APIBaseResponse>(url, arg);
 
     return response.data;
   } catch (error) {
@@ -78,11 +91,11 @@ export async function requestPasswordReset(data: {
 }
 
 export async function confirmPasswordReset(
-  data: ConfirmPasswordReset
+  url: string,
+  { arg }: { arg: ConfirmPasswordReset }
 ): Promise<APIBaseResponse> {
   try {
-    const url = "/auth/password/reset";
-    const response = await apiPostRequest<APIBaseResponse>(url, data);
+    const response = await apiPostRequest<APIBaseResponse>(url, arg);
 
     return response.data;
   } catch (error) {
@@ -117,11 +130,11 @@ export async function logOut(
 }
 
 export async function completeSurvey(
-  data: TeacherSurveyPayload
+  url: string,
+  { arg }: { arg: TeacherSurveyPayload }
 ): Promise<APIBaseResponse> {
   try {
-    const url = "/auth/onboarding/complete";
-    const response = await apiPostRequest<TeacherLoginResponse>(url, data);
+    const response = await apiPostRequest<TeacherLoginResponse>(url, arg);
 
     return response.data;
   } catch (error) {

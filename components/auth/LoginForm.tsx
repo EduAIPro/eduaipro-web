@@ -1,59 +1,47 @@
 "use client";
+import { loginTeacherKey } from "@/api/keys";
+import { login } from "@/api/mutations";
 import FormInput from "@/components/common/ui/FormInput";
-import Typography from "@/components/common/ui/Typography";
-import { loginValidation } from "@/utils/validation/auth";
-import { Button } from "@radix-ui/themes";
+import { trimObj } from "@/utils/key";
+import { LoginFormValue, loginValidation } from "@/utils/validation/auth/index";
 import { Form, Formik } from "formik";
-import { Eye, EyeSlash, KeySquare, Sms } from "iconsax-react";
+import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
+import useSWRMutation from "swr/mutation";
+import { Button } from "../ui/button";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
-  // const { toast } = useToast();
+  const { trigger, isMutating } = useSWRMutation(loginTeacherKey, login);
+
   const router = useRouter();
 
-  // const loginMutation = useMutationApi(LOGIN_MUTATION_KEY, login, {
-  //   onSuccess: (data) => {
-  //     const _res = data.data;
-  //     window.localStorage.setItem(
-  //       "access_token",
-  //       JSON.stringify(_res.tokens.token)
-  //     );
-  //     window.localStorage.setItem(
-  //       "refresh_token",
-  //       JSON.stringify(_res.tokens.refreshToken)
-  //     );
+  async function onSubmit(data: LoginFormValue) {
+    try {
+      await trigger(trimObj(data));
 
-  //     toast({
-  //       title: "Login successful 🎉",
-  //     });
+      router.push("/dashboard");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  }
 
-  //     router.push("/dashboard/personal-development-plan");
-  //   },
-  //   onError(err) {
-  //     toast({
-  //       title: err as string,
-  //       variant: "destructive",
-  //     });
-  //   },
-  // });
+  const defaultValues = {
+    email: "",
+    password: "",
+  };
 
   return (
     <Formik
-      initialValues={{
-        email: "",
-        password: "",
-      }}
+      initialValues={defaultValues}
       validationSchema={loginValidation}
-      onSubmit={(values) => {
-        // loginMutation.mutate(trimObj(values));
-      }}
-      autoComplete="off"
+      onSubmit={onSubmit}
     >
-      {({ errors, touched }) => (
+      {({ errors, touched, isValid }) => (
         <Form className="flex-col flex gap-y-4">
           <FormInput
             name="email"
@@ -61,7 +49,6 @@ export default function LoginForm() {
             placeholder="name@example.com"
             type="email"
             error={touched.email && errors.email ? errors.email : null}
-            leftIcon={<Sms />}
           />
           <FormInput
             name="password"
@@ -69,37 +56,34 @@ export default function LoginForm() {
             placeholder="Enter your password"
             error={touched.password && errors.password ? errors.password : null}
             type={showPassword ? "text" : "password"}
-            leftIcon={<KeySquare />}
             rightIcon={
-              <div
-                className="cursor-pointer"
+              <Button
+                size="icon"
+                variant="ghost"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <Eye /> : <EyeSlash />}
-              </div>
+                {showPassword ? <EyeIcon /> : <EyeClosedIcon />}
+              </Button>
             }
           />
+
           <div className="flex justify-end">
-            <Typography.H3 fontColor="brand" weight="medium" size="base">
-              Forgot your password?
-            </Typography.H3>
+            <Link href="/forgot-password">
+              <p className="font-medium text-sm text-primary-300">
+                Forgot your password?
+              </p>
+            </Link>
           </div>
-          <Button
-            // disabled={loginMutation.isLoading}
-            // loading={loginMutation.isLoading}
-            className="primary__btn btn"
-          >
-            <Typography.P fontColor="white">Login</Typography.P>
+          <Button type="submit" loading={isMutating} disabled={!isValid}>
+            <p>Login</p>
           </Button>
-          <div className="sm:hidden">
-            <Typography.H3 className="text-center" weight="medium" size="base">
+          <div>
+            <p className="text-center">
               {"Don't"} have an account?{" "}
-              <Link href="/register">
-                <h3 className="underline text-brand-900 inline-block">
-                  Sign up
-                </h3>
-              </Link>
-            </Typography.H3>
+              <span className="text-primary-300 hover:scale-95 duration-300 underline font-medium">
+                <Link href="/register">Register</Link>
+              </span>
+            </p>
           </div>
         </Form>
       )}
