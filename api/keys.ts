@@ -1,5 +1,6 @@
 // QUERIES
 export const getMe = "/auth/me";
+export const getStaff = "/school/staff";
 
 // MUTATIONS
 export const signupTeacherKey = "/auth/register/teacher";

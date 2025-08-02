@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
   ResetPasswordFormValue,
   resetPasswordValidation,
-} from "@/utils/validation/auth/index";
+} from "@/utils/validation/auth";
 import { Form, Formik } from "formik";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";

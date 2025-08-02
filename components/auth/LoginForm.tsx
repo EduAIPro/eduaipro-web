@@ -2,8 +2,10 @@
 import { loginTeacherKey } from "@/api/keys";
 import { login } from "@/api/mutations";
 import FormInput from "@/components/common/ui/FormInput";
+import { CONFIG } from "@/constants/config";
+import { storeAccessToken } from "@/utils/auth/helpers";
 import { trimObj } from "@/utils/key";
-import { LoginFormValue, loginValidation } from "@/utils/validation/auth/index";
+import { LoginFormValue, loginValidation } from "@/utils/validation/auth";
 import { Form, Formik } from "formik";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
@@ -22,8 +24,13 @@ export default function LoginForm() {
 
   async function onSubmit(data: LoginFormValue) {
     try {
-      await trigger(trimObj(data));
+      const res = await trigger(trimObj(data));
+      const { tokens, user } = res.data;
 
+      if (tokens.access) {
+        storeAccessToken(tokens.access);
+        sessionStorage.setItem(CONFIG.USER_IDENTIFIER, user.id);
+      }
       router.push("/dashboard");
     } catch (error: any) {
       toast.error(error.message);

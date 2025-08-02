@@ -62,7 +62,6 @@ export const access_token_retrieve = async (
           return null;
         })
         .finally(() => {
-          console.log("refresh finished");
           // 3.4 Reset refreshPromise to allow future attempts
           refreshPromise = null;
         });

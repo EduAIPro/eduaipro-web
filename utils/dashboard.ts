@@ -1,4 +1,4 @@
-export function greetUser(name: string) {
+export function greetUser(name?: string) {
   const currentHour = new Date().getHours();
   let greeting;
 
@@ -10,5 +10,5 @@ export function greetUser(name: string) {
     greeting = "Good evening";
   }
 
-  return `${greeting}, ${name}`;
+  return `${greeting}, ${name ?? ""}`;
 }

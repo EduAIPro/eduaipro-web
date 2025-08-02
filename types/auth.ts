@@ -100,9 +100,10 @@ export type TeacherSurveyPayload = {
     dateOfBirth: string;
     schoolName: string;
     location: string;
+    phoneNumber?: string;
   };
   professional: {
-    professionalLevel: string;
+    teacherLevel: string;
     educationalLevel: string;
     experienceRange: string;
     areaOfSpecialization: string;

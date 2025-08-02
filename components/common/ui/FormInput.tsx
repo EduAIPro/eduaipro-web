@@ -1,14 +1,8 @@
 "use client";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { Field } from "formik";
-import {
-  ArrowDown2,
-  ArrowUp2,
-  Calendar,
-  Check,
-  NotificationCircle,
-  TickCircle,
-} from "iconsax-react";
+import { ArrowDown2, ArrowUp2, Check, NotificationCircle } from "iconsax-react";
 import { HTMLInputTypeAttribute, ReactNode, useState } from "react";
 import Typography from "./Typography";
 
@@ -111,13 +105,6 @@ export function DateInput({
             : ""
         )}
       >
-        <div
-          className={`py-1 px-[6px] rounded-lg ${
-            error ? "bg-red-100/50" : "bg-blue-500/10"
-          }`}
-        >
-          <Calendar />
-        </div>
         <Field
           name={name}
           type="date"
@@ -229,8 +216,8 @@ export function SelectInput({
                   {options.map((option) => (
                     <div
                       key={option.value}
-                      className={`px-4 py-2 hover:bg-blue-50 cursor-pointer ${
-                        field.value === option.value ? "bg-blue-50" : ""
+                      className={`px-4 py-2 hover:bg-primary-100 cursor-pointer ${
+                        field.value === option.value ? "bg-primary-100" : ""
                       }`}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -241,7 +228,7 @@ export function SelectInput({
                       <Typography.P
                         size="base"
                         className={
-                          field.value === option.value ? "text-blue-500" : ""
+                          field.value === option.value ? "text-primary-400" : ""
                         }
                       >
                         {option.label}
@@ -382,23 +369,15 @@ export function CheckboxInput({
         <Field type="checkbox" name={name}>
           {({ field, form }: any) => (
             <div className="flex flex-col">
-              <label
-                onClick={() => {
-                  form.setFieldValue(name, !field.value);
-                }}
-                className="flex items-center gap-x-3 cursor-pointer group"
-              >
-                <div
-                  className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors
-                    ${
-                      field.value
-                        ? "border-brand-1000 bg-brand-1000"
-                        : "border-gray-300 group-hover:border-brand-800"
-                    }`}
-                >
-                  {field.value && <TickCircle className="w-3 h-3 text-white" />}
-                </div>
-                {label && <Typography.P size="base">{label}</Typography.P>}
+              <label className="flex items-center gap-x-3 cursor-pointer group">
+                <Checkbox
+                  name={name}
+                  checked={!!field.value}
+                  onCheckedChange={(checked) =>
+                    form.setFieldValue(name, checked)
+                  }
+                />
+                {label && <p>{label}</p>}
               </label>
               {error && (
                 <div className="mt-2">

@@ -1,10 +1,12 @@
 import * as Yup from "yup";
+import { InferType } from "yup";
 
 export const personalInfoValidation = Yup.object().shape({
   dateOfBirth: Yup.string().required("Date of birth is required"),
+  schoolName: Yup.string().optional(),
   phone: Yup.string()
     .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
-    .required("Your phone number is required"),
+    .optional(),
   location: Yup.string().required("Your location is required"),
 });
 
@@ -30,3 +32,9 @@ export const goalsValidation = Yup.object().shape({
   ),
   otherLearningGoals: Yup.string(),
 });
+
+export type GoalsFormValue = InferType<typeof goalsValidation>;
+export type PersonalInfoFormValue = InferType<typeof personalInfoValidation>;
+export type ProfessionalBackgroundFormValue = InferType<
+  typeof professionalBackgroundValidation
+>;

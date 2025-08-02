@@ -22,10 +22,7 @@ export async function signup(
   try {
     const response = await apiPostRequest<TeacherSignupResponse>(url, arg);
 
-    await setAuthCookes(
-      response.data.data.tokens.access,
-      response.data.data.tokens.refresh
-    );
+    await setAuthCookes(response.data.data.tokens.refresh);
 
     return response.data;
   } catch (error) {
@@ -40,10 +37,7 @@ export async function login(
   try {
     const response = await apiPostRequest<TeacherLoginResponse>(url, arg);
 
-    await setAuthCookes(
-      response.data.data.tokens.access,
-      response.data.data.tokens.refresh
-    );
+    await setAuthCookes(response.data.data.tokens.refresh);
 
     return response.data;
   } catch (error) {

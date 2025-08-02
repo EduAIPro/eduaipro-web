@@ -1,18 +1,23 @@
 import api from "@/api/base";
-import { getMe } from "@/api/keys";
-
+import { getStaff } from "@/api/keys";
+import { Staff } from "@/types/user";
+import { useMemo } from "react";
 import useSWR from "swr";
 
 export default function useUser() {
-  const fetcher = (url: string) => api.get(url).then((res) => res.data);
+  const fetcher = (url: string) => api.get(url).then((res) => res.data.data);
 
-  const { data, error, isLoading, mutate } = useSWR(getMe, fetcher);
-
+  const { data, error, isLoading, mutate } = useSWR<Staff>(getStaff, fetcher);
+  const { user, ...staff } = useMemo(
+    () => data ?? { user: null, staff: null },
+    [data]
+  );
   return {
-    user: data,
+    user,
+    staff,
     isLoading,
-    isError: error,
-    refetch: mutate(getMe),
+    isError: !!error,
+    refetch: () => mutate(),
     error,
   };
 }

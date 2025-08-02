@@ -14,10 +14,10 @@ type Response = {
 export async function authRefreshAction(): Promise<Response> {
   const _cookies = await cookies();
 
-  const refreshCookie = _cookies.get(CONFIG.REFRESH_TOKEN_IDENTIFIER);
+  const refreshCookie = _cookies.get("refreshToken");
 
   if (!refreshCookie?.value) {
-    return { is_completed: true, error: "Refresh cookie does not exiss" };
+    return { is_completed: true, error: "Refresh cookie does not exist" };
   }
 
   try {
@@ -27,7 +27,7 @@ export async function authRefreshAction(): Promise<Response> {
 
     _cookies.set({
       ...CONFIG.BASE_COOKIE_OPTION,
-      name: CONFIG.REFRESH_TOKEN_IDENTIFIER,
+      name: "refreshToken",
       value: data.data.tokens.refresh,
     });
 
@@ -37,23 +37,12 @@ export async function authRefreshAction(): Promise<Response> {
   }
 }
 
-export const setAuthCookes = async (access: string, refresh: string) => {
+export const setAuthCookes = async (refresh: string) => {
   const _cookies = await cookies();
-
-  const isSecure = process.env.NEXT_PUBLIC_ENVIRONMENT === "production";
-  _cookies.set({
-    sameSite: "strict",
-    path: "/",
-    secure: isSecure,
-    name: CONFIG.ACCESS_TOKEN_IDENTIFIER,
-    value: access,
-  });
-
-  console.log({ CONFIG });
 
   _cookies.set({
     ...CONFIG.BASE_COOKIE_OPTION,
-    name: CONFIG.REFRESH_TOKEN_IDENTIFIER,
+    name: "refreshToken",
     value: refresh,
   });
 };

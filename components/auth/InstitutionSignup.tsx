@@ -1,7 +1,7 @@
 "use client";
 
 import { schoolFocusAreas, schoolType } from "@/utils/data";
-import { institutionSignupValidation } from "@/utils/validation/auth";
+import { institutionSignupValidation } from "@/utils/validation/old";
 import { Button } from "@radix-ui/themes";
 import { Form, Formik } from "formik";
 import {

@@ -2,20 +2,21 @@ import FormInput, {
   CheckboxInput,
   SelectInput,
 } from "@/components/common/ui/FormInput";
+import { learningGoal } from "@/utils/data";
+import { GoalsFormValue } from "@/utils/validation/auth";
 import { FormikErrors, FormikTouched } from "formik";
-import React from "react";
-import { PostRegistrationFormValues } from "../PostRegistrationForm";
-import { Book, Briefcase, Cup, MessageQuestion } from "iconsax-react";
+import { Cup } from "iconsax-react";
 import ModalTitleAndDesc from "../ModalTitleAndDesc";
-import { learningGoal, preferredLearningMethod } from "@/utils/data";
+
+type GoalsAndSecurityProps = {
+  touched: FormikTouched<GoalsFormValue>;
+  errors: FormikErrors<GoalsFormValue>;
+};
 
 export default function GoalsAndSecurity({
   touched,
   errors,
-}: {
-  touched: FormikTouched<PostRegistrationFormValues>;
-  errors: FormikErrors<PostRegistrationFormValues>;
-}) {
+}: GoalsAndSecurityProps) {
   return (
     <div>
       <ModalTitleAndDesc
@@ -34,7 +35,6 @@ export default function GoalsAndSecurity({
               ? errors.learningGoals
               : null
           }
-          leftIcon={<Cup />}
         />
         <FormInput
           label="Other Learning Goals (optional)"
@@ -47,31 +47,8 @@ export default function GoalsAndSecurity({
               ? errors.otherLearningGoals
               : null
           }
-          leftIcon={<Cup />}
         />
-        {/* <SelectInput
-          name="learningMethod"
-          label="Preferred Learning Method"
-          options={preferredLearningMethod}
-          error={
-            touched.learningMethod && errors.learningMethod
-              ? errors.learningMethod
-              : null
-          }
-          leftIcon={<Book />}
-        /> */}
-        <FormInput
-          label="Security Question"
-          placeholder="Enter a security question in case you forget your password"
-          className="w-full"
-          name="securityQuestion"
-          error={
-            touched.securityQuestion && errors.securityQuestion
-              ? errors.securityQuestion
-              : null
-          }
-          leftIcon={<MessageQuestion />}
-        />
+
         <CheckboxInput
           single
           name="termsAccepted"

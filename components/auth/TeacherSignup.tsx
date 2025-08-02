@@ -5,10 +5,7 @@ import { CONFIG } from "@/constants/config";
 import { TeacherSignup as TeacherSignupType } from "@/types/auth";
 import { storeAccessToken } from "@/utils/auth/helpers";
 import { trimObj } from "@/utils/key";
-import {
-  SignupFormValue,
-  signupValidation,
-} from "@/utils/validation/auth/index";
+import { SignupFormValue, signupValidation } from "@/utils/validation/auth";
 import { Form, Formik } from "formik";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";

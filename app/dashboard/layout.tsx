@@ -1,7 +1,11 @@
 "use client";
 export const dynamic = "force-static";
-import Typography from "@/components/common/ui/Typography";
-import { MedalStar, ProfileCircle, RouteSquare } from "iconsax-react";
+import CertIcon from "@/components/svgs/cert-two.svg";
+import PDPIcon from "@/components/svgs/pdp.svg";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { ProfileCircle } from "iconsax-react";
+import { LogOutIcon, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -26,30 +30,29 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   }, []);
 
   const menuItems = [
-    // { name: "Overview", path: "/overview", id: "overview", icon: <Home2 /> },
     {
       name: "Personal Development Plan (PDP)",
-      path: "/personal-development-plan",
-      id: "pdp",
-      icon: <RouteSquare size={18} />,
+      path: "/dashboard",
+      id: "dashboard",
+      icon: PDPIcon,
     },
     {
       name: "Certification status",
       path: "/certification-status",
       id: "certification",
-      icon: <MedalStar size={18} />,
+      icon: CertIcon,
     },
     {
       name: "Profile",
       id: "profile",
       path: "/profile",
-      icon: <ProfileCircle size={18} />,
+      icon: UserIcon,
     },
     {
       name: "Quiz",
       id: "quiz",
       path: "/quiz",
-      icon: <ProfileCircle size={18} />,
+      icon: ProfileCircle,
     },
     // {
     //   name: "Notifications",
@@ -67,15 +70,14 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
 
   return (
     <div
-      className={`transition-all duration-300 flex flex-col min-h-screen bg-gray-50`}
+      className={`transition-all duration-300 flex flex-col min-h-screen bg-[#F9FAFC]`}
     >
-      {/* Sidebar */}
       <div
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className={`sticky inset-x-0 w-full z-50 max-md:bg-black/20 h-fit shadow-sm transform transition-all duration-500 max-sm:fixed bottom-0`}
+        className={`relative inset-x-0 w-full z-50 max-md:bg-black/20 h-fit transform transition-all duration-500 max-sm:fixed bottom-0`}
       >
         <div
-          className={`flex items-center gap-12 bg-white py-3 px-4 max-sm:border-t border-grey-8/20 sm:px-8`}
+          className={`flex items-center justify-between gap-12 py-3 px-4 max-sm:border-t border-grey-8/20 sm:px-8`}
         >
           <div className="max-sm:hidden">
             <Link href="/">
@@ -86,39 +88,43 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
                 alt=""
               />
             </Link>
-            {/* <button
-              className="p-2 border rounded-lg"
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-            >
-              <RxHamburgerMenu className="w-4 h-4 text-gray-600" />
-            </button> */}
           </div>
           <nav className="flex items-center gap-3 max-sm:justify-between max-sm:w-full">
-            {menuItems.map((item, index) => (
-              <button
-                key={item.name}
-                id={item.id}
-                onClick={() => handleNavigation(`/dashboard${item.path}`)}
-                className={`w-full duration-300 flex max-sm:flex-col items-center px-3 gap-2 rounded-md py-2 text-left text-gray-700 hover:bg-blue-100 hover:text-brand-1002 ${
-                  pathname.includes(item.path)
-                    ? "bg-blue-50 !text-brand-1001"
-                    : ""
-                }`}
-              >
-                {item.icon}
-                <Typography.P
-                  weight="medium"
-                  className="whitespace-nowrap max-sm:!text-sm max-sm:text-grey-11/90"
+            {menuItems.map((item, index) => {
+              const isActive = pathname.includes(item.path);
+              return (
+                <button
+                  key={item.name}
+                  id={item.id}
+                  onClick={() => handleNavigation(`/dashboard${item.path}`)}
+                  className={cn(
+                    "w-full duration-300 flex max-sm:flex-col items-center px-3 gap-2 rounded-md py-2 text-left transition-all hover:bg-primary-100 hover:border hover:border-primary-200",
+                    isActive
+                      ? "border-primary-200  bg-[#EEF5FF] !text-primary-400"
+                      : ""
+                  )}
                 >
-                  {index === 0 &&
-                  documentWindow &&
-                  documentWindow.screen.width < 640
-                    ? "PDP"
-                    : item.name}
-                </Typography.P>
-              </button>
-            ))}
+                  <item.icon
+                    color={isActive ? "#0043BE" : "#656565"}
+                    size={18}
+                  />
+                  <p className="font-medium whitespace-nowrap max-sm:!text-sm max-sm:text-grey-650">
+                    {index === 0 &&
+                    documentWindow &&
+                    documentWindow.screen.width < 640
+                      ? "PDP"
+                      : item.name}
+                  </p>
+                </button>
+              );
+            })}
           </nav>
+
+          <div>
+            <Button variant="outline" size="icon" className="min-w-14 py-3">
+              <LogOutIcon className="text-[#FF0000]" />
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -146,9 +152,7 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto p-4 md:p-6 max-sm:pb-14">
-          <div className="min-h-screen bg-white rounded-lg p-2 md:p-6">
-            {children}
-          </div>
+          <div className="p-2 md:p-6">{children}</div>
         </main>
       </div>
     </div>

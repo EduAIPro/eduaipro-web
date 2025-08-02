@@ -1,11 +1,13 @@
 "use client";
+import MultiStepFormModal from "@/components/auth/PostRegistrationForm";
 import { ChatBot } from "@/components/chatbot";
 import DashboardHeaderAndSubtitle from "@/components/dashboard/common/DashboardHeaderAndSubtitle";
 import ProgressTracker from "@/components/dashboard/common/ProgressTracker";
 import { Notifications } from "@/components/dashboard/notifications";
 import PersonalDevPlan from "@/components/dashboard/PersonalDevPlan/PersonalDevPlan";
+import useUser from "@/hooks/use-user";
+import { Staff } from "@/types/user";
 import { greetUser } from "@/utils/dashboard";
-// import { useSearchParams } from "next/navigation";
 
 if (typeof Promise.withResolvers === "undefined") {
   if (window)
@@ -20,13 +22,18 @@ if (typeof Promise.withResolvers === "undefined") {
     };
 }
 
-const PersonalDevelopmentPalnPage = () => {
-  // const userType = useSearchParams().get("type");
+export default function OverviewPage() {
+  const { user, staff, isLoading } = useUser();
+
   return (
     <>
-      <div className="flex flex-col gap-5">
+      {staff && user && !(staff as Staff)?.acceptedTermsAndConditions ? (
+        <MultiStepFormModal userPhone={!!user?.phoneNumber} />
+      ) : null}
+
+      <div className="flex flex-col gap-5 bg-[#F9FAFC]">
         <DashboardHeaderAndSubtitle
-          title={greetUser("James")}
+          title={greetUser(user?.firstName)}
           subtitle="Resume your learning journey"
           rightElement={
             <div className="flex items-center max-sm:justify-between gap-6">
@@ -36,12 +43,10 @@ const PersonalDevelopmentPalnPage = () => {
           }
         />
         <PersonalDevPlan />
-
-        {/* {userType === "teacher" ? <MultiStepFormModal /> : null} */}
       </div>
       <ChatBot />
     </>
   );
-};
+}
 
-export default PersonalDevelopmentPalnPage;
+// background: linear-gradient(180deg, #FFFFFF 0%, #EBEBEB 100%);

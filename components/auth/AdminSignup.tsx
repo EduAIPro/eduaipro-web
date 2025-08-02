@@ -1,6 +1,6 @@
 "use client";
 import { adminRoles } from "@/utils/data";
-import { adminSignupValidation } from "@/utils/validation/auth";
+import { adminSignupValidation } from "@/utils/validation/old";
 import { Button } from "@radix-ui/themes";
 import { Form, Formik } from "formik";
 import { Eye, EyeSlash, KeySquare, ProfileCircle, Sms } from "iconsax-react";

@@ -1,5 +1,4 @@
 "use client";
-import MultiStepFormModal from "@/components/auth/PostRegistrationForm";
 import { ChatBot } from "@/components/chatbot";
 import DashboardHeaderAndSubtitle from "@/components/dashboard/common/DashboardHeaderAndSubtitle";
 import { Notifications } from "@/components/dashboard/notifications";
@@ -27,7 +26,7 @@ export default function DashboardPage() {
         <div className="g:flex px-3 max-lg:hidden w-[35%]">
           <DashboardProfile />
         </div>
-        <MultiStepFormModal />
+        {/* <MultiStepFormModal /> */}
         {/* {userType === "teacher" ? <MultiStepFormModal /> : null} */}
         <TourGuide />
       </div>
