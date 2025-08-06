@@ -84,7 +84,7 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
                 src="/assets/images/logo-outline.png"
                 width={120}
                 height={70}
-                alt=""
+                alt="logo"
               />
             </Link>
           </div>
