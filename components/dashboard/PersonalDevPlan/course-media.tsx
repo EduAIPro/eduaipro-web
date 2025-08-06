@@ -150,7 +150,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
 
     const { module: currentMod } = getModuleAndItemForPage(currentPage);
     const { module: nextMod, moduleItem: nextItem } = getModuleAndItemForPage(
-      nextPage.pageNumber
+      nextPage.pageNumber + 1
     );
 
     console.log({ currentMod, nextMod, nextItem });
@@ -270,7 +270,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
           <div
             className={cn(
               "w-full bg-gray-200 rounded-full h-2",
-              isFullscreen ? "max-xs:hidden bg-white" : "hidden"
+              isFullscreen ? "max-xs:hidden" : "hidden"
             )}
           >
             <div
@@ -282,7 +282,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
           <div
             ref={containerRef}
             className={cn(
-              "relative rounded overflow-hidden min-h-[400px] flex items-center justify-center",
+              "relative rounded overflow-hidden min-h-[400px] bg-white flex items-center justify-center",
               isFullscreen ? "max-xs:h-screen" : ""
             )}
           >
@@ -334,6 +334,22 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
             </div>
           </div>
 
+          {/* Thumbnail Visualizer */}
+          <div className="overflow-x-auto whitespace-nowrap py-2 space-x-2 max-xs:hidden">
+            {pdfLoading || !thumbnails
+              ? // Show skeleton loaders if PDF is still loading.
+                Array.from({ length: 10 }).map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="inline-block p-1 border rounded opacity-50"
+                  >
+                    <div className="w-20 h-16 bg-gray-200 animate-pulse" />
+                    <div className="mt-1 h-4 bg-gray-200 animate-pulse rounded" />
+                  </div>
+                ))
+              : thumbnails}
+          </div>
+
           {/* Navigation */}
           <div className={cn("flex justify-between")}>
             <Button
@@ -367,22 +383,6 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                 <p>Next page</p>
               )}
             </Button>
-          </div>
-
-          {/* Thumbnail Visualizer */}
-          <div className="overflow-x-auto whitespace-nowrap py-2 space-x-2 max-xs:hidden">
-            {pdfLoading || !thumbnails
-              ? // Show skeleton loaders if PDF is still loading.
-                Array.from({ length: 10 }).map((_, idx) => (
-                  <div
-                    key={idx}
-                    className="inline-block p-1 border rounded opacity-50"
-                  >
-                    <div className="w-20 h-16 bg-gray-200 animate-pulse" />
-                    <div className="mt-1 h-4 bg-gray-200 animate-pulse rounded" />
-                  </div>
-                ))
-              : thumbnails}
           </div>
         </>
       ) : (

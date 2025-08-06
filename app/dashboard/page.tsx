@@ -8,6 +8,7 @@ import DocumentIcon from "@/components/svgs/document.svg";
 import useCourse from "@/hooks/use-course";
 import useUser from "@/hooks/use-user";
 import { Staff } from "@/types/user";
+import { useMemo } from "react";
 
 if (typeof Promise.withResolvers === "undefined") {
   if (window)
@@ -30,6 +31,15 @@ export default function OverviewPage() {
     isLoading: courseLoading,
     refetch,
   } = useCourse();
+
+  const percentage = useMemo(() => {
+    if (!course || !courseProgress) return 0;
+    const currIndex = courseProgress?.unit.index;
+    const total = course?.units.length;
+
+    const percent = ((currIndex / total) * 100).toFixed(0);
+    return Number(percent);
+  }, [courseProgress, course]);
 
   return isLoading || courseLoading ? (
     <DashboardSkeleton />
@@ -61,13 +71,15 @@ export default function OverviewPage() {
                 <div className="flex items-center gap-1">
                   <div className="shrink-0">
                     <CircularProgress
-                      progress={67}
+                      progress={percentage}
                       size={20}
                       strokeWidth={4}
                       duration={2000}
                     />
                   </div>
-                  <p className="text-sm font-medium text-grey-500">67%</p>
+                  <p className="text-sm font-medium text-grey-500">
+                    {percentage}%
+                  </p>
                 </div>
               </div>
 

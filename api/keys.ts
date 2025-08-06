@@ -14,8 +14,12 @@ export const confirmVerifyEmailKey = "/auth/email/verify";
 export const requestPasswordResetKey = "/auth/password/request";
 export const confirmPasswordResetKey = "/auth/password/reset";
 export const completeSurveyKey = "/auth/onboarding/complete";
+export const logoutKey = "/auth/logout";
 
 // courses
 export const updateModuleKey = "/course/active/progress";
 export const generateUnitQuestions = "/course/active/unit/questions";
 export const submitAssessmentKey = "/course/active/unit/questions/submit";
+
+// certificates
+export const listCertificates = "/school/staff/certificates";

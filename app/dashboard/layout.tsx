@@ -1,11 +1,10 @@
 "use client";
 export const dynamic = "force-static";
+import { ConfirmLogoutModal } from "@/components/dashboard/common";
 import CertIcon from "@/components/svgs/cert-two.svg";
 import PDPIcon from "@/components/svgs/pdp.svg";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ProfileCircle } from "iconsax-react";
-import { LogOutIcon, UserIcon } from "lucide-react";
+import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -37,23 +36,23 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       icon: PDPIcon,
     },
     {
-      name: "Certification status",
-      path: "/certification-status",
+      name: "Certificates",
+      path: "/dashboard/certificates",
       id: "certification",
       icon: CertIcon,
     },
     {
       name: "Profile",
       id: "profile",
-      path: "/profile",
+      path: "/dashboard/profile",
       icon: UserIcon,
     },
-    {
-      name: "Quiz",
-      id: "quiz",
-      path: "/quiz",
-      icon: ProfileCircle,
-    },
+    // {
+    //   name: "Quiz",
+    //   id: "quiz",
+    //   path: "/quiz",
+    //   icon: ProfileCircle,
+    // },
     // {
     //   name: "Notifications",
     //   path: "/notifications",
@@ -91,16 +90,16 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
           </div>
           <nav className="flex items-center gap-3 max-sm:justify-between max-sm:w-full">
             {menuItems.map((item, index) => {
-              const isActive = pathname.includes(item.path);
+              const isActive = pathname === item.path;
               return (
                 <button
                   key={item.name}
                   id={item.id}
-                  onClick={() => handleNavigation(`/dashboard${item.path}`)}
+                  onClick={() => handleNavigation(item.path)}
                   className={cn(
                     "w-full duration-300 flex max-sm:flex-col items-center px-3 gap-2 rounded-md py-2 text-left transition-all hover:bg-primary-100 hover:border hover:border-primary-200",
                     isActive
-                      ? "border-primary-200  bg-[#EEF5FF] !text-primary-400"
+                      ? "border-primary-200  bg-primary-300/20 !text-primary-400"
                       : ""
                   )}
                 >
@@ -120,11 +119,7 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
             })}
           </nav>
 
-          <div>
-            <Button variant="outline" size="icon" className="min-w-14 py-3">
-              <LogOutIcon className="text-[#FF0000]" />
-            </Button>
-          </div>
+          <ConfirmLogoutModal />
         </div>
       </div>
 

@@ -112,11 +112,11 @@ export async function refreshToken(
 }
 
 export async function logOut(
-  data: RefreshTokenPayload
+  url: string,
+  { arg }: { arg: RefreshTokenPayload }
 ): Promise<APIBaseResponse> {
   try {
-    const url = "/auth/logout";
-    const response = await apiClient<APIBaseResponse>(url, data);
+    const response = await apiClient<APIBaseResponse>(url, arg);
 
     return response.data;
   } catch (error) {

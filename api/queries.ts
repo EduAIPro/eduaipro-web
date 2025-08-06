@@ -5,3 +5,6 @@ export const fetchUnitDetails = (args: string[]) =>
 
 export const fetchUnitQuestions = (url: string) =>
   api.get(url).then((res) => res.data.data);
+
+export const generalFetcher = (url: string) =>
+  api.get(url).then((res) => res.data.data);

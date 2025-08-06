@@ -37,6 +37,20 @@ export async function authRefreshAction(): Promise<Response> {
   }
 }
 
+export const getRefreshToken = async () => {
+  const _cookies = await cookies();
+
+  const refreshCookie = _cookies.get("refreshToken");
+
+  return refreshCookie?.value;
+};
+
+export const deleteRefreshToken = async () => {
+  const _cookies = await cookies();
+
+  _cookies.delete("refreshToken");
+};
+
 export const setAuthCookes = async (refresh: string) => {
   const _cookies = await cookies();
 

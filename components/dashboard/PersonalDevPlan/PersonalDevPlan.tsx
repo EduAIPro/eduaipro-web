@@ -13,6 +13,7 @@ import { CourseProgress, CourseUnit } from "@/types/course";
 import { useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { Assessment } from "./assessment";
+import { AssessmentCompletedModal } from "./assessment-completed-modal";
 import CourseMedia from "./course-media";
 import { UnitsContent } from "./units-content";
 
@@ -104,24 +105,27 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
   };
 
   return (
-    <div>
-      {isMobile ? (
-        <div className="lg:grid grid-cols-4 min-[1600px]:grid-cols-5 gap-6 w-full justify-between">
-          <LeftPanel />
-          <RightPanel />
-        </div>
-      ) : (
-        <ResizablePanelGroup direction="horizontal" className="space-x-5">
-          <ResizablePanel defaultSize={75}>
+    <>
+      <div>
+        {isMobile ? (
+          <div className="lg:grid grid-cols-4 min-[1600px]:grid-cols-5 gap-6 w-full justify-between">
             <LeftPanel />
-          </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={25}>
             <RightPanel />
-          </ResizablePanel>
-        </ResizablePanelGroup>
-      )}
-    </div>
+          </div>
+        ) : (
+          <ResizablePanelGroup direction="horizontal" className="space-x-5">
+            <ResizablePanel defaultSize={75}>
+              <LeftPanel />
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+            <ResizablePanel defaultSize={25}>
+              <RightPanel />
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        )}
+      </div>
+      <AssessmentCompletedModal />
+    </>
   );
 };
 

@@ -139,7 +139,7 @@ export function UnitsContent({
                                   className="text-sm lg:text-base cursor-pointer flex items-center gap-2 w-full"
                                 >
                                   <AccordionItem
-                                    value={index.toString()}
+                                    value={`${unit.index.toString()}-${unitModule.index.toString()}`}
                                     key={index}
                                     className="w-full"
                                   >
