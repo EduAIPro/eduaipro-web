@@ -10,11 +10,29 @@ import {
 import { Form, Formik } from "formik";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
 
 export default function ResetPassword() {
+  return (
+    <div className="max-xs:mt-10 max-lg:mt-20 h-full sm:justify-center flex flex-col space-y-6 lg:max-w-xl mx-auto">
+      <div>
+        <h2 className="font-semibold text-grey-800 text-2xl">New password</h2>
+        <p className="text-base font-medium text-grey-650 mt-2">
+          Enter a new password that you would use to log in to your account.
+          Enter a password that is secure (and you would remember this time)
+        </p>
+      </div>
+
+      <Suspense>
+        <ResetPasswordForm />
+      </Suspense>
+    </div>
+  );
+}
+
+const ResetPasswordForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const searchParams = useSearchParams();
@@ -61,59 +79,49 @@ export default function ResetPassword() {
     </Button>
   );
   return (
-    <div className="max-xs:mt-10 max-lg:mt-20 h-full sm:justify-center flex flex-col space-y-6 lg:max-w-xl mx-auto">
-      <div>
-        <h2 className="font-semibold text-grey-800 text-2xl">New password</h2>
-        <p className="text-base font-medium text-grey-650 mt-2">
-          Enter a new password that you would use to log in to your account.
-          Enter a password that is secure (and you would remember this time)
-        </p>
-      </div>
-
-      <div>
-        <Formik
-          initialValues={defaultValues}
-          validationSchema={resetPasswordValidation}
-          onSubmit={onSubmit}
-        >
-          {({ touched, errors, isValid }) => (
-            <Form className="flex-col flex gap-y-4">
-              <FormInput
-                label="Password"
-                name="password"
-                placeholder="Enter your password"
-                type={showPassword ? "text" : "password"}
-                rightIcon={<PasswordIcon />}
-                error={
-                  touched.password && errors.password ? errors.password : null
-                }
-              />
-              <FormInput
-                name="confirmPassword"
-                label="Confirm password"
-                placeholder="Enter your password again"
-                type={showPassword ? "text" : "password"}
-                rightIcon={<PasswordIcon />}
-                error={
-                  touched.confirmPassword && errors.confirmPassword
-                    ? errors.confirmPassword
-                    : null
-                }
-              />
-              <div className="mt-4 w-full">
-                <Button
-                  type="submit"
-                  loading={isMutating}
-                  disabled={!isValid}
-                  className="w-full"
-                >
-                  <p className="white">Submit</p>
-                </Button>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
+    <div>
+      <Formik
+        initialValues={defaultValues}
+        validationSchema={resetPasswordValidation}
+        onSubmit={onSubmit}
+      >
+        {({ touched, errors, isValid }) => (
+          <Form className="flex-col flex gap-y-4">
+            <FormInput
+              label="Password"
+              name="password"
+              placeholder="Enter your password"
+              type={showPassword ? "text" : "password"}
+              rightIcon={<PasswordIcon />}
+              error={
+                touched.password && errors.password ? errors.password : null
+              }
+            />
+            <FormInput
+              name="confirmPassword"
+              label="Confirm password"
+              placeholder="Enter your password again"
+              type={showPassword ? "text" : "password"}
+              rightIcon={<PasswordIcon />}
+              error={
+                touched.confirmPassword && errors.confirmPassword
+                  ? errors.confirmPassword
+                  : null
+              }
+            />
+            <div className="mt-4 w-full">
+              <Button
+                type="submit"
+                loading={isMutating}
+                disabled={!isValid}
+                className="w-full"
+              >
+                <p className="white">Submit</p>
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
-}
+};

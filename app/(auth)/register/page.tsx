@@ -7,8 +7,9 @@ import { userRoles } from "@/utils/data";
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function RegisterPage() {
+function RegisterForm() {
   const userType = useSearchParams().get("type");
   const userTypes = ["institution", "teacher", "admin"];
   return (
@@ -33,6 +34,14 @@ export default function RegisterPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense>
+      <RegisterForm />
+    </Suspense>
   );
 }
 
