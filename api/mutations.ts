@@ -1,7 +1,6 @@
 import {
   APIBaseResponse,
   ConfirmPasswordReset,
-  CreateTeacherAccountPayload,
   Login,
   RefreshTokenPayload,
   RefreshTokenResponse,
@@ -10,17 +9,19 @@ import {
   TeacherSignupResponse,
   TeacherSurveyPayload,
 } from "@/types/auth";
+import { UpdateModulePayload, UpdateModuleResponse } from "@/types/course";
 import { setAuthCookes } from "@/utils/auth";
-import { apiPostRequest } from "./request";
+import { apiClient } from "./request";
 
 // const isLocalhost = window.location.host.includes("localhost");
 
+// AUTHENTICATION
 export async function signup(
   url: string,
   { arg }: { arg: TeacherSignup }
 ): Promise<TeacherSignupResponse> {
   try {
-    const response = await apiPostRequest<TeacherSignupResponse>(url, arg);
+    const response = await apiClient<TeacherSignupResponse>(url, arg);
 
     await setAuthCookes(response.data.data.tokens.refresh);
 
@@ -35,7 +36,7 @@ export async function login(
   { arg }: { arg: Login }
 ): Promise<TeacherLoginResponse> {
   try {
-    const response = await apiPostRequest<TeacherLoginResponse>(url, arg);
+    const response = await apiClient<TeacherLoginResponse>(url, arg);
 
     await setAuthCookes(response.data.data.tokens.refresh);
 
@@ -50,7 +51,7 @@ export async function requestVerifyEmail(data: {
 }): Promise<APIBaseResponse> {
   try {
     const url = "/auth/email/request";
-    const response = await apiPostRequest<APIBaseResponse>(url, data);
+    const response = await apiClient<APIBaseResponse>(url, data);
 
     return response.data;
   } catch (error) {
@@ -63,7 +64,7 @@ export async function confirmEmailVerification(
   { arg }: { arg: { token: string } }
 ): Promise<APIBaseResponse> {
   try {
-    const response = await apiPostRequest<APIBaseResponse>(url, arg);
+    const response = await apiClient<APIBaseResponse>(url, arg);
 
     return response.data;
   } catch (error) {
@@ -76,7 +77,7 @@ export async function requestPasswordReset(
   { arg }: { arg: { email: string } }
 ): Promise<APIBaseResponse> {
   try {
-    const response = await apiPostRequest<APIBaseResponse>(url, arg);
+    const response = await apiClient<APIBaseResponse>(url, arg);
 
     return response.data;
   } catch (error) {
@@ -89,7 +90,7 @@ export async function confirmPasswordReset(
   { arg }: { arg: ConfirmPasswordReset }
 ): Promise<APIBaseResponse> {
   try {
-    const response = await apiPostRequest<APIBaseResponse>(url, arg);
+    const response = await apiClient<APIBaseResponse>(url, arg);
 
     return response.data;
   } catch (error) {
@@ -102,7 +103,7 @@ export async function refreshToken(
 ): Promise<RefreshTokenResponse> {
   try {
     const url = "/auth/refresh";
-    const response = await apiPostRequest<RefreshTokenResponse>(url, data);
+    const response = await apiClient<RefreshTokenResponse>(url, data);
 
     return response.data;
   } catch (error) {
@@ -115,7 +116,7 @@ export async function logOut(
 ): Promise<APIBaseResponse> {
   try {
     const url = "/auth/logout";
-    const response = await apiPostRequest<APIBaseResponse>(url, data);
+    const response = await apiClient<APIBaseResponse>(url, data);
 
     return response.data;
   } catch (error) {
@@ -128,7 +129,7 @@ export async function completeSurvey(
   { arg }: { arg: TeacherSurveyPayload }
 ): Promise<APIBaseResponse> {
   try {
-    const response = await apiPostRequest<TeacherLoginResponse>(url, arg);
+    const response = await apiClient<TeacherLoginResponse>(url, arg);
 
     return response.data;
   } catch (error) {
@@ -136,14 +137,31 @@ export async function completeSurvey(
   }
 }
 
-export async function updateProfile(data: CreateTeacherAccountPayload) {
+// COURSES
+export async function updateModule(
+  url: string,
+  { arg }: { arg: UpdateModulePayload }
+): Promise<UpdateModuleResponse> {
   try {
-    const url = "/auth/update";
-    const response = await apiPostRequest<any>(url, data);
+    const response = await apiClient<UpdateModuleResponse>(url, arg, "patch");
 
-    if (response.data.error) {
-      throw response.data.error;
-    }
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function submitAssessment(
+  url: string,
+  { arg }: { arg: { [q: number]: string } }
+): Promise<UpdateModuleResponse> {
+  try {
+    const answers = Object.entries(arg).map(([key, value]) => ({
+      index: Number(key),
+      answer: value,
+    }));
+
+    const response = await apiClient<UpdateModuleResponse>(url, { answers });
 
     return response.data;
   } catch (error) {

@@ -1,5 +1,5 @@
 import { access_token_retrieve } from "@/utils/auth/helpers";
-import axios, { InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const PUBLIC_ROUTES = [
@@ -36,5 +36,14 @@ const authInterceptor = async (config: InternalAxiosRequestConfig) => {
 api.interceptors.request.use(authInterceptor, (error) => {
   return Promise.reject(error);
 });
+
+api.interceptors.response.use(
+  (val) => val,
+  (error: AxiosError) => {
+    if (error.status && error.status === 401) {
+      window.location.href = "/login";
+    }
+  }
+);
 
 export default api;

@@ -1,16 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // pages/course.tsx
-import { getUnitDetails, updateModuleKey } from "@/api/keys";
+
+import { updateModuleKey } from "@/api/keys";
 import { updateModule } from "@/api/mutations";
-import { fetchUnitDetails } from "@/api/queries";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-  ContentPage,
-  CourseProgress,
-  Module,
-  UnitDetails,
-} from "@/types/course";
+import { CourseProgress, UnitDetails } from "@/types/course";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import React, {
@@ -29,9 +24,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import ReactPlayer from "react-player";
-import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
-import { coursesFiles } from "../PersonalDevPlan/data";
 
 interface ThumbnailProps {
   page: number;
@@ -40,58 +33,34 @@ interface ThumbnailProps {
   onClick: (page: number) => void;
 }
 
-type CourseData = {
-  file: string;
-  modules: {
-    title: string;
-    pageStarts: number;
-    pageEnds: number;
-    isCompleted: boolean;
-  }[];
-};
-
-type ModuleContentProps = {
+type CourseMediaProps = {
   currentPage: number;
-  pdfUrl: string;
-  nextPdfUrl: string;
+  pdfUrl?: string | null;
   introHasPlayed: boolean;
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  setPdfUrl: Dispatch<SetStateAction<string>>;
-  pages: ContentPage[];
-  nextPages: ContentPage[];
+  setPdfUrl: Dispatch<SetStateAction<string | null>>;
   introVideoUrl?: string;
   courseProgress: CourseProgress;
   refetchCourse: VoidFunction;
-  moduleIndex: number;
+  unitInfo?: UnitDetails;
+  refetchUnitDetails: VoidFunction;
 };
 
 // Setup pdfjs worker for react-pdf
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-const ModuleContent: React.FC<ModuleContentProps> = ({
+const CourseMedia: React.FC<CourseMediaProps> = ({
   currentPage,
   setCurrentPage,
   pdfUrl,
   introVideoUrl,
   setPdfUrl,
-  pages,
-  nextPdfUrl,
-  nextPages,
-  moduleIndex,
   courseProgress,
   introHasPlayed,
   refetchCourse,
+  unitInfo,
+  refetchUnitDetails,
 }) => {
-  const [courseData, setCourseData] = useState<CourseData>({
-    file: pdfUrl,
-    modules: pages.map((p, i) => ({
-      title: p.pageTitle,
-      pageStarts: p.pageNumber,
-      pageEnds: pages[i + 1].pageNumber - 1,
-      isCompleted: courseProgress.module.index > moduleIndex,
-    })),
-  });
-
   const [numPages, setNumPages] = useState<number>(0);
   const [pdfDoc, setPdfDoc] = useState<any | null>(null);
   const [pdfLoading, setPdfLoading] = useState<boolean>(true);
@@ -101,135 +70,139 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
 
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<HTMLDivElement | null>(null);
-  const { trigger } = useSWRMutation(updateModuleKey, updateModule);
+  const playerRef = useRef<ReactPlayer>(null);
 
-  const {
-    data: unitInfo,
-    error,
-    isLoading,
-    mutate,
-  } = useSWR<UnitDetails>(
-    [getUnitDetails, courseProgress.unit.id],
-    fetchUnitDetails
-  );
+  const { trigger } = useSWRMutation(updateModuleKey, updateModule);
 
   const isMobile = containerWidth <= 500;
 
   useEffect(() => {
-    const introPlayed = window.localStorage.getItem("hasIntroPlayed");
-    if (introPlayed) {
-      setHasIntroPlayed(true);
-    }
-  }, [introHasPlayed]);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      setContainerWidth(containerRef.current.clientWidth);
-    }
-    if (window !== undefined) {
-      const courseFile = window.localStorage.getItem("lastFile");
-
-      if (courseFile && !courseData.file.includes(courseFile)) {
-        setUnitIndex(coursesFiles.indexOf(courseFile));
-        setCourseData((prev) => ({ ...prev, file: courseFile }));
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth);
       }
-    }
+    };
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  // useEffect(() => {
-  //   if (courseData.file !== pdfUrl) {
-  //     setPdfUrl(courseData.file)
-  //     setCourseData((prev) => ({ ...prev, file: courseData.file }));
-  //     window.localStorage.setItem("lastFile", courseData.file);
-  //   }
-  // }, [pdfUrl]);
+  // Sync intro video state with localStorage
+  useEffect(() => {
+    const introPlayed = window.localStorage.getItem("hasIntroPlayed");
+    if (introPlayed) setHasIntroPlayed(true);
+  }, [introHasPlayed]);
 
-  // Called when the PDF document is loaded.
+  // PDF load success
   const onDocumentLoadSuccess = useCallback((pdf: any) => {
     setNumPages(pdf.numPages);
     setPdfDoc(pdf);
     setPdfLoading(false);
   }, []);
 
-  // Returns the module that contains the given page.
-  const getModuleForPage = useCallback(
-    (page: number) =>
-      courseData.modules.find(
-        (m) => page >= m.pageStarts && page <= m.pageEnds
-      ),
-    [courseData.modules]
+  // Find the module and moduleItem for a given page number
+  const getModuleAndItemForPage = useCallback(
+    (page: number) => {
+      if (!unitInfo) return { module: undefined, moduleItem: undefined };
+      for (const mod of unitInfo.modules) {
+        for (const item of mod.moduleItems) {
+          if (item.pages.some((p) => p.pageNumber === page)) {
+            return { module: mod, moduleItem: item };
+          }
+        }
+      }
+      return { module: undefined, moduleItem: undefined };
+    },
+    [unitInfo]
   );
 
-  const playerRef = useRef<ReactPlayer>(null);
+  // Get all pages in order for the current unit
+  const allPages = useMemo(() => {
+    if (!unitInfo) return [];
+    return unitInfo.modules.flatMap((mod) =>
+      mod.moduleItems.flatMap((item) => item.pages)
+    );
+  }, [unitInfo]);
 
-  // // Determine if a page is enabled based on module completion.
-  // const isPageEnabled = useCallback(
-  //   (page: number): boolean => {
-  //     const mod = getModuleForPage(page);
-  //     if (!mod) return false;
-  //     if (mod.isCompleted) return true;
-  //     const currentModule = getModuleForPage(currentPage);
-  //     return !!currentModule && currentModule.title === mod.title;
-  //   },
-  //   [currentPage, getModuleForPage]
-  // );
+  // Get the index of the current page in allPages
+  const currentPageIndex = useMemo(() => {
+    return allPages.findIndex((p) => p.pageNumber === currentPage);
+  }, [allPages, currentPage]);
 
-  // Handle thumbnail clicks.
-  const handleThumbnailClick = (page: number) => setCurrentPage(page);
+  console.log({ allPages, currentPageIndex });
+  // Get the next and previous pages (if any)
+  const nextPage = useMemo(() => {
+    if (currentPageIndex === -1 || currentPageIndex + 1 >= allPages.length)
+      return undefined;
+    return allPages[currentPageIndex + 1];
+  }, [allPages, currentPageIndex]);
 
-  // Handle Next button logic.
-  const handleNext = useCallback(() => {
-    const currentModule = getModuleForPage(currentPage);
-    if (!currentModule) return;
-    if (currentPage === currentModule.pageEnds) {
-      // Mark current module as complete.
-      setCourseData((prev) => {
-        if (currentPage === prev.modules[prev.modules.length - 1].pageEnds) {
-          let newModule: Module | null = null;
+  const prevPage = useMemo(() => {
+    if (currentPageIndex <= 0) return undefined;
+    return allPages[currentPageIndex - 1];
+  }, [allPages, currentPageIndex]);
 
-          unitInfo?.modules.forEach((m) => {
-            const isValid = m.moduleItems.filter(
-              (item) => item.pages[0].pageTitle === pages[0].pageTitle
-            );
+  console.log({ nextPage, prevPage });
 
-            if (isValid) {
-              newModule = m;
-            }
-          });
-          if (newModule) {
-            trigger({ moduleId: (newModule as Module).id }).then(() =>
-              refetchCourse()
-            );
-          }
-          return {
-            file: nextPdfUrl,
-            modules: nextPages.map((p, i) => ({
-              title: p.pageTitle,
-              pageStarts: p.pageNumber,
-              pageEnds: pages[i + 1].pageNumber - 1,
-              isCompleted: courseProgress.module.index > moduleIndex,
-            })),
-          };
-        }
-        const updatedModules = prev.modules.map((m) =>
-          m.title === currentModule.title ? { ...m, isCompleted: true } : m
-        );
+  // Handle Next button
+  const handleNext = useCallback(async () => {
+    if (!unitInfo || !nextPage) return;
 
-        return { ...prev, modules: updatedModules };
-      });
+    const { module: currentMod } = getModuleAndItemForPage(currentPage);
+    const { module: nextMod, moduleItem: nextItem } = getModuleAndItemForPage(
+      nextPage.pageNumber
+    );
+
+    console.log({ currentMod, nextMod, nextItem });
+
+    // If moving to a new module, update progress
+    if (nextMod && currentMod && nextMod.id !== currentMod.id) {
+      console.log("trigerring update");
+      await trigger({ moduleId: nextMod.id });
+      refetchCourse();
+      refetchUnitDetails();
+      return;
     }
-    if (currentPage < numPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  }, [currentPage, getModuleForPage, numPages]);
 
-  const handlePrev = useCallback(() => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  }, [currentPage]);
+    console.log({ currentPage, pdfUrl });
 
-  // Assumes you have a ref (viewerRef) attached to the viewer container.
+    // If moving to a new moduleItem (i.e., new PDF), update PDF url
+    if (nextItem && nextItem.signedPdfUrl !== pdfUrl) {
+      console.log("going to the next pdf");
+      setPdfUrl(nextItem.signedPdfUrl);
+      return;
+    }
+    console.log("going to the next page");
+    setCurrentPage(nextPage.pageNumber);
+    return;
+  }, [unitInfo, prevPage, currentPage]);
+
+  // Handle Previous button
+  const handlePrev = useCallback(async () => {
+    if (!unitInfo || !prevPage) return;
+
+    const { module: currentMod } = getModuleAndItemForPage(currentPage);
+    const { module: prevMod, moduleItem: prevItem } = getModuleAndItemForPage(
+      prevPage.pageNumber
+    );
+
+    // If moving to a previous module, update progress
+    if (prevMod && currentMod && prevMod.id !== currentMod.id) {
+      await trigger({ moduleId: prevMod.id });
+      refetchCourse();
+      refetchUnitDetails();
+      // refetchUnitDetails(unitInfo);
+    }
+
+    // If moving to a previous moduleItem (i.e., new PDF), update PDF url
+    if (prevItem && prevItem.signedPdfUrl !== pdfUrl) {
+      setPdfUrl(prevItem.signedPdfUrl);
+    }
+
+    setCurrentPage(prevPage.pageNumber);
+  }, [unitInfo, prevPage, currentPage]);
+
+  // Fullscreen toggle
   const toggleFullScreen = useCallback(() => {
     if (document.fullscreenElement) {
       document.exitFullscreen();
@@ -238,13 +211,14 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
       setIsFullscreen(true);
       viewerRef.current.requestFullscreen();
     }
-  }, [viewerRef]);
+  }, []);
 
+  // Progress percent
   const progressPercent = numPages
     ? Math.min((currentPage / numPages) * 100, 100)
     : 0;
 
-  // Memoize the thumbnails for efficient re-renders.
+  // Memoized thumbnails
   const thumbnails = useMemo(() => {
     if (!pdfDoc || numPages === 0) return null;
     return Array.from({ length: numPages }, (_, idx) => {
@@ -255,17 +229,31 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
           page={page}
           pdfDoc={pdfDoc}
           currentPage={currentPage}
-          onClick={handleThumbnailClick}
+          onClick={setCurrentPage}
         />
       );
     });
-  }, [pdfDoc, numPages, currentPage, handleThumbnailClick]);
+  }, [pdfDoc, numPages, currentPage, setCurrentPage]);
 
+  // Reset PDF state when file changes
   useEffect(() => {
-    // Reset the PDF state when file changes.
     setPdfDoc(null);
     setPdfLoading(true);
-  }, [courseData.file]);
+  }, [pdfUrl]);
+
+  // Sync current page and PDF with courseProgress on mount or when courseProgress changes
+  useEffect(() => {
+    if (!unitInfo) return;
+    // Find the current module and moduleItem
+    const currentMod = unitInfo.modules.find(
+      (m) => m.index === courseProgress.module?.index
+    );
+    if (!currentMod) return;
+    const currentItem = currentMod.moduleItems[0];
+    if (!currentItem) return;
+    setPdfUrl(currentItem.signedPdfUrl);
+    setCurrentPage(currentItem.pages[0]?.pageNumber || 1);
+  }, [unitInfo]);
 
   return (
     <div
@@ -282,7 +270,7 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
           <div
             className={cn(
               "w-full bg-gray-200 rounded-full h-2",
-              isFullscreen ? "max-xs:hidden" : "hidden"
+              isFullscreen ? "max-xs:hidden bg-white" : "hidden"
             )}
           >
             <div
@@ -299,8 +287,8 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
             )}
           >
             <Document
-              file={courseData.file}
-              key={courseData.file}
+              file={pdfUrl}
+              key={pdfUrl}
               onLoadSuccess={onDocumentLoadSuccess}
               className={cn(
                 isFullscreen ? "max-xs:rotate-90 py-2" : "",
@@ -350,7 +338,7 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
           <div className={cn("flex justify-between")}>
             <Button
               onClick={handlePrev}
-              disabled={currentPage === 1}
+              disabled={!prevPage}
               variant="secondary"
               className={cn(
                 isFullscreen
@@ -366,7 +354,7 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
             </Button>
             <Button
               onClick={handleNext}
-              disabled={numPages ? currentPage >= numPages : true}
+              disabled={!nextPage}
               className={cn(
                 isFullscreen
                   ? "max-xs:fixed max-xs:bottom-3 max-xs:z-20 max-xs:left-2"
@@ -427,7 +415,7 @@ const ModuleContent: React.FC<ModuleContentProps> = ({
   );
 };
 
-export default ModuleContent;
+export default CourseMedia;
 
 // Memoized Thumbnail component for caching.
 const Thumbnail: React.FC<ThumbnailProps> = memo(function ThumbnailComponent({
@@ -455,7 +443,6 @@ const Thumbnail: React.FC<ThumbnailProps> = memo(function ThumbnailComponent({
       ) : (
         <div className="w-20 h-28 bg-gray-200 animate-pulse" />
       )}
-      {/* <div className="text-xs text-center mt-1">Page {page}</div> */}
     </button>
   );
 });

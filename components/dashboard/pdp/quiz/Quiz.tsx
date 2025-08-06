@@ -95,21 +95,21 @@ export function Quiz({ quizData, previousAttempts, onSubmit }: QuizProps) {
   };
 
   // Handle tab visibility change
-  //   useEffect(() => {
-  //     const handleVisibilityChange = () => {
-  //       if (isQuizActive && document.visibilityState === "hidden") {
-  //         wasAutoSubmitted.current = true;
-  //         handleSubmit();
-  //       }
-  //     };
+  // useEffect(() => {
+  //   const handleVisibilityChange = () => {
+  //     if (isQuizActive && document.visibilityState === "hidden") {
+  //       wasAutoSubmitted.current = true;
+  //       handleSubmit();
+  //     }
+  //   };
 
-  //     document.addEventListener("visibilitychange", handleVisibilityChange);
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
 
-  //     return () => {
-  //       document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //     };
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [isQuizActive, answers]);
+  //   return () => {
+  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isQuizActive, answers]);
 
   useEffect(() => {
     // Show warning when quiz is active

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Loader2Icon } from "lucide-react";
 
 const buttonVariants = cva(
-  "inline-flex items-center min-w-[100px] transition-all shadow-[inset_-1px_-2px_3px_rgba(0,_0,_0,_0.15)] cursor-pointer hover:scale-[1.02] justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-800/80 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300",
+  "inline-flex items-center min-w-[100px] transition-all shadow-[inset_-1px_-2px_3px_rgba(0,_0,_0,_0.15)] cursor-pointer hover:scale-95 transition-all justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-800/80 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300",
   {
     variants: {
       variant: {
