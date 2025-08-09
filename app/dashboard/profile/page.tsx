@@ -1,16 +1,50 @@
 "use client";
-import DashboardHeaderAndSubtitle from "@/components/dashboard/common/DashboardHeaderAndSubtitle";
-import Profile from "@/components/dashboard/Profile/Profile";
+import {
+  ChangePassword,
+  EditProfile,
+  ProfileHeader,
+  UserInfo,
+} from "@/components/dashboard/profile";
+import useUser from "@/hooks/use-user";
+import { useMemo } from "react";
 
 const ProfilePage = () => {
+  const { user } = useUser();
+  const userDetails = useMemo(
+    () => ({
+      fullName: user ? `${user?.firstName} ${user?.lastName}` : "",
+      email: user?.email ?? "",
+      phoneNumber: user?.phoneNumber ?? "",
+    }),
+    [user]
+  );
+
+  const userImageInfo = useMemo(
+    () => ({
+      name: user ? `${user?.firstName} ${user?.lastName}` : "",
+      email: user?.email ?? "",
+      profilePicUrl: user?.profileImageUrl ?? "",
+    }),
+    [user]
+  );
   return (
-    <div className="flex flex-col gap-5 md:gap-10">
-      <DashboardHeaderAndSubtitle
-        title="Profile"
-        subtitle="View and update your personal information."
-      />
-      <Profile />
-    </div>
+    <>
+      <ProfileHeader user={userImageInfo} />
+      <section className="mt-5 grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <div className="border border-grey-400 bg-white rounded-lg p-5">
+          <UserInfo
+            user={{
+              ...userDetails,
+              lastLoggedInAt: user?.lastLoggedInAt ?? "",
+            }}
+          />
+        </div>
+        <div className="xl:col-span-2 border border-grey-400 bg-white rounded-lg p-5 space-y-5">
+          <EditProfile user={userDetails} />
+          <ChangePassword />
+        </div>
+      </section>
+    </>
   );
 };
 

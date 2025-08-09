@@ -23,3 +23,7 @@ export const submitAssessmentKey = "/course/active/unit/questions/submit";
 
 // certificates
 export const listCertificates = "/school/staff/certificates";
+
+// profile
+export const editProfileKey = "/school/staff";
+export const changePasswordKey = "/auth/password/change";

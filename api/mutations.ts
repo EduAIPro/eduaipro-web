@@ -1,5 +1,7 @@
+import { AssessmentSubmitResponse } from "@/types/assessment";
 import {
   APIBaseResponse,
+  ChangePasswordPayload,
   ConfirmPasswordReset,
   Login,
   RefreshTokenPayload,
@@ -11,6 +13,7 @@ import {
 } from "@/types/auth";
 import { UpdateModulePayload, UpdateModuleResponse } from "@/types/course";
 import { setAuthCookes } from "@/utils/auth";
+import { PersonalInfoFormValue } from "@/utils/validation/teacher-profile/settings";
 import { apiClient } from "./request";
 
 // const isLocalhost = window.location.host.includes("localhost");
@@ -98,12 +101,38 @@ export async function confirmPasswordReset(
   }
 }
 
+export async function changePassword(
+  url: string,
+  { arg }: { arg: ChangePasswordPayload }
+): Promise<APIBaseResponse> {
+  try {
+    const response = await apiClient<APIBaseResponse>(url, arg, "patch");
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function refreshToken(
   data: RefreshTokenPayload
 ): Promise<RefreshTokenResponse> {
   try {
     const url = "/auth/refresh";
     const response = await apiClient<RefreshTokenResponse>(url, data);
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateTeacherProfile(
+  url: string,
+  { arg }: { arg: PersonalInfoFormValue }
+): Promise<APIBaseResponse> {
+  try {
+    const response = await apiClient<APIBaseResponse>(url, arg, "patch");
 
     return response.data;
   } catch (error) {
@@ -154,16 +183,18 @@ export async function updateModule(
 export async function submitAssessment(
   url: string,
   { arg }: { arg: { [q: number]: string } }
-): Promise<UpdateModuleResponse> {
+): Promise<AssessmentSubmitResponse> {
   try {
     const answers = Object.entries(arg).map(([key, value]) => ({
       index: Number(key),
       answer: value,
     }));
 
-    const response = await apiClient<UpdateModuleResponse>(url, { answers });
+    const response = await apiClient<{ data: AssessmentSubmitResponse }>(url, {
+      answers,
+    });
 
-    return response.data;
+    return response.data?.data;
   } catch (error) {
     throw error;
   }

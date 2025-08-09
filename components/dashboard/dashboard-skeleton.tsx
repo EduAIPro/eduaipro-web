@@ -14,8 +14,8 @@ export default function DashboardSkeleton() {
           ))}
         </div>
       </div>
-      <div className="flex items-center gap-6">
-        <div className="w-2/3 space-y-6">
+      <div className="flex md:items-center gap-6 max-md:flex-col">
+        <div className="md:w-2/3 space-y-6">
           <Skeleton className="w-full rounded-xl h-[80vh] bg-grey-400/40" />
           <div className="flex items-center overflow-x-auto gap-5">
             {new Array(7).fill("").map((_, i) => (
@@ -26,7 +26,7 @@ export default function DashboardSkeleton() {
             ))}
           </div>
         </div>
-        <div className="w-1/3 h-[calc(80vh+88px)]">
+        <div className="md:w-1/3 h-[calc(80vh+88px)]">
           <Skeleton className="w-full h-full rounded-xl bg-grey-400/40" />
         </div>
       </div>

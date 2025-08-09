@@ -7,7 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { GeneratedQuestions } from "@/types/assessment";
+import {
+  AssessmentSubmitResponse,
+  GeneratedQuestions,
+} from "@/types/assessment";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
@@ -18,6 +21,7 @@ type AssessmentProps = {
   isLoading: boolean;
   initialTime?: number;
   removeAssessmentScreen: VoidFunction;
+  onSubmisson: (v: AssessmentSubmitResponse) => void;
 };
 
 export const Assessment: React.FC<AssessmentProps> = ({
@@ -25,6 +29,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
   error,
   isLoading,
   removeAssessmentScreen,
+  onSubmisson,
   initialTime = 1200, // 15 minutes default
 }) => {
   const [current, setCurrent] = useState(0);
@@ -50,7 +55,12 @@ export const Assessment: React.FC<AssessmentProps> = ({
   } = useSWRMutation(submitAssessmentKey, submitAssessment);
 
   const submitAssessments = () => {
-    trigger(selected);
+    trigger(selected).then((v) => {
+      if (v) {
+        onSubmisson(v);
+        removeAssessmentScreen();
+      }
+    });
   };
 
   // Timer effect
@@ -205,7 +215,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
           </div>
         </div>
         {isOnLastStep ? (
-          <div>
+          <div className="mt-3">
             <p className="text-grey-500">
               By clicking submit, you confirm that you have completed this quiz
               on your own without any assistance from others, and you understand

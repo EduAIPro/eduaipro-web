@@ -73,7 +73,7 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
     >
       <div
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className={`relative inset-x-0 w-full z-50 max-md:bg-black/20 h-fit transform transition-all duration-500 max-sm:fixed bottom-0`}
+        className={`relative inset-x-0 w-full z-50 max-md:bg-white h-fit transform transition-all duration-500 max-sm:fixed bottom-0`}
       >
         <div
           className={`flex items-center justify-between gap-12 py-3 px-4 max-sm:border-t border-grey-8/20 sm:px-8`}
@@ -118,8 +118,9 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
               );
             })}
           </nav>
-
-          <ConfirmLogoutModal />
+          <div className="max-md:hidden">
+            <ConfirmLogoutModal />
+          </div>
         </div>
       </div>
 
@@ -143,6 +144,9 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
               <RxHamburgerMenu className="w-4 h-4 text-gray-600" />
             </button>
           ) : null} */}
+          <div className="flex items-center gap-3">
+            <ConfirmLogoutModal />
+          </div>
         </header>
 
         {/* Content */}

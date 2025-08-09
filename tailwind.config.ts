@@ -71,9 +71,13 @@ const config: Config = {
         },
         error: {
           DEFAULT: "#d6132a",
+          surface: "#FFEAEA",
+          600: "#DD0000",
         },
         success: {
           DEFAULT: "#00dd66",
+          surface: "#EDFFED",
+          600: "#008000",
         },
         accent: {
           "100": "#EBEFF9",
@@ -103,7 +107,9 @@ const config: Config = {
           "50": "#F4F8FF",
           "100": "#F5F8FF",
           "150": "#D9E3F8",
+          "180": "#F9FBFC",
           "200": "#AFCAFC",
+          "250": "#E6E8EA",
           "300": "#2E6BCE",
           "400": "#0043BE",
           foreground: "hsl(var(--primary-foreground))",

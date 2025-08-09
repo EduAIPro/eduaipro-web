@@ -55,4 +55,14 @@ export type AssessmentSubmitResponse = {
     updatedAt: string;
     gradePercentage: number;
   };
+  accredited: boolean;
+  result: Result[];
+};
+
+export type Result = {
+  index: number;
+  questionText: string;
+  AssessmentQuestionOption: AssessmentQuestionOption[];
+  correctOptionIdentifiers: string[];
+  userAnswer?: string;
 };

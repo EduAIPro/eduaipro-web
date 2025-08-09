@@ -120,6 +120,11 @@ export type ConfirmPasswordReset = {
   token: string;
 };
 
+export type ChangePasswordPayload = {
+  currentPassword: string;
+  newPassword: string;
+};
+
 export type RefreshTokenPayload = {
   refreshToken: string;
 };
