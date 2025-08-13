@@ -1,6 +1,8 @@
 import { access_token_retrieve } from "@/utils/auth/helpers";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
+type ErrorResponse = { statusCode: number; message: string };
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const PUBLIC_ROUTES = [
   "/auth/register/teacher",
@@ -40,8 +42,24 @@ api.interceptors.request.use(authInterceptor, (error) => {
 api.interceptors.response.use(
   (val) => val,
   (error: AxiosError) => {
+    const axiosError = error;
+
     if (error.status && error.status === 401) {
       window.location.href = "/login";
+    }
+    if (
+      axiosError.response &&
+      (axiosError.response.data as ErrorResponse)?.message
+    ) {
+      // Handle HTTP errors (4xx, 5xx)
+      throw (axiosError.response.data as ErrorResponse)?.message;
+    } else if (axiosError.request) {
+      const message = (axiosError.response?.data as ErrorResponse)?.message;
+
+      throw message;
+    } else {
+      // Handle other errors
+      throw axiosError.message;
     }
   }
 );

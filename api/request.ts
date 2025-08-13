@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import api from "./base";
 
 interface ApiResponse<T> {
@@ -43,21 +43,6 @@ export async function apiClient<T>(
       status: response.status,
     };
   } catch (error) {
-    const axiosError = error as AxiosError;
-
-    if (
-      axiosError.response &&
-      (axiosError.response.data as any)?.error?.message
-    ) {
-      // Handle HTTP errors (4xx, 5xx)
-      throw (axiosError.response.data as any)?.error?.message;
-    } else if (axiosError.request) {
-      const message = (axiosError.response?.data as ErrorResponse)?.message;
-
-      throw message;
-    } else {
-      // Handle other errors
-      throw axiosError.message;
-    }
+    throw error;
   }
 }

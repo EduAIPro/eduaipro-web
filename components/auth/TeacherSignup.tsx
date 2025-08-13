@@ -50,7 +50,7 @@ export default function TeacherSignup() {
 
       router.push("/verify-email");
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error);
     }
   }
   const defaultValues: SignupFormValue = {
@@ -90,6 +90,7 @@ export default function TeacherSignup() {
         initialValues={defaultValues}
         validationSchema={signupValidation}
         onSubmit={onSubmit}
+        validateOnBlur
       >
         {({ touched, errors, setFieldValue, isValid }) => (
           <Form className="flex-col flex gap-y-4">
@@ -152,18 +153,24 @@ export default function TeacherSignup() {
               type={showPassword ? "text" : "password"}
               rightIcon={<PasswordIcon />}
             />
-            <FormInput
-              name="confirmPassword"
-              label="Confirm password"
-              placeholder="Enter your password again"
-              error={
-                touched.confirmPassword && errors.confirmPassword
-                  ? errors.confirmPassword
-                  : null
-              }
-              type={showPassword ? "text" : "password"}
-              rightIcon={<PasswordIcon />}
-            />
+            <div>
+              <FormInput
+                name="confirmPassword"
+                label="Confirm password"
+                placeholder="Enter your password again"
+                error={
+                  touched.confirmPassword && errors.confirmPassword
+                    ? errors.confirmPassword
+                    : null
+                }
+                type={showPassword ? "text" : "password"}
+                rightIcon={<PasswordIcon />}
+              />
+              <p className="text-grey-500 text-sm mt-2">
+                Your password must contain at least 8 characters including at
+                least one digit, symbol, uppercase and lowercase letter
+              </p>
+            </div>
             <div className="mt-4 w-full">
               <Button
                 type="submit"
