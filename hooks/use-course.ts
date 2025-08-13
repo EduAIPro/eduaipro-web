@@ -4,11 +4,17 @@ import { CourseWithProgress } from "@/types/course";
 import { useMemo } from "react";
 import useSWR from "swr";
 
-export default function useCourse() {
+type UseCourseProps = {
+  acceptedTermsAndConditions: boolean;
+};
+
+export default function useCourse({
+  acceptedTermsAndConditions,
+}: UseCourseProps) {
   const fetcher = (url: string) => api.get(url).then((res) => res.data.data);
 
   const { data, error, isLoading, mutate } = useSWR<CourseWithProgress>(
-    getCourseWithProgress,
+    acceptedTermsAndConditions ? getCourseWithProgress : null,
     fetcher
   );
   const { course, courseProgress } = useMemo(

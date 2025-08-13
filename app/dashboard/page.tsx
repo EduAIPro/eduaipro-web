@@ -30,7 +30,9 @@ export default function OverviewPage() {
     courseProgress,
     isLoading: courseLoading,
     refetch,
-  } = useCourse();
+  } = useCourse({
+    acceptedTermsAndConditions: !!(staff as Staff)?.acceptedTermsAndConditions,
+  });
 
   const percentage = useMemo(() => {
     if (!course || !courseProgress) return 0;
@@ -41,15 +43,16 @@ export default function OverviewPage() {
     return Number(percent);
   }, [courseProgress, course]);
 
+  console.log({ staff, user });
+
   return isLoading || courseLoading ? (
     <DashboardSkeleton />
+  ) : staff && !(staff as Staff)?.acceptedTermsAndConditions ? (
+    <MultiStepFormModal userPhone={!!user?.phoneNumber} />
   ) : (
-    course && courseProgress && (
+    course &&
+    courseProgress && (
       <>
-        {staff && user && !(staff as Staff)?.acceptedTermsAndConditions ? (
-          <MultiStepFormModal userPhone={!!user?.phoneNumber} />
-        ) : null}
-
         <div className="flex flex-col gap-8">
           <div className="space-y-3">
             <h2 className="text-xl font-semibold">{course.title}</h2>
