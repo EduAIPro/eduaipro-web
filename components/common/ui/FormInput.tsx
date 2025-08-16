@@ -16,6 +16,7 @@ interface FormInputProps {
   name: string;
   error?: string | null;
   className?: string;
+  disabled?: boolean;
 }
 
 export default function FormInput({
@@ -28,6 +29,7 @@ export default function FormInput({
   className,
   error,
   note,
+  disabled,
 }: FormInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   return (
@@ -57,6 +59,7 @@ export default function FormInput({
         <Field
           name={name}
           type={type}
+          disabled={disabled}
           placeholder={placeholder}
           onFocus={() => {
             setIsFocused(true);

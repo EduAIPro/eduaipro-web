@@ -52,6 +52,7 @@ export const EditProfile = ({ user }: EditProfileProps) => {
               name="email"
               placeholder="name@example.com"
               type="email"
+              disabled
               error={touched.email && errors.email ? errors.email : null}
             />
             <FormInput
