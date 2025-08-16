@@ -68,7 +68,11 @@ export default function RootLayout({
       className={`${montserrat.variable} ${workSans.variable} antialiased`}
     >
       <body className={montserrat.className}>
-        <SWRConfig>
+        <SWRConfig
+          value={{
+            revalidateOnFocus: false,
+          }}
+        >
           <AppLayoutBase>{children}</AppLayoutBase>
         </SWRConfig>
         <Toaster position="top-center" expand richColors theme="light" />

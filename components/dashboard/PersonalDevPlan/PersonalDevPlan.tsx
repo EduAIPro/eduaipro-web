@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { generateUnitQuestions } from "@/api/keys";
 import { fetchUnitQuestions } from "@/api/queries";
@@ -13,7 +14,7 @@ import {
   GeneratedQuestions,
 } from "@/types/assessment";
 import { CourseProgress, CourseUnit } from "@/types/course";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { Assessment } from "./assessment";
 import { AssessmentCompletedModal } from "./assessment/completed-modal";
@@ -37,7 +38,10 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
   const [assessmentResults, setAssessmentResults] =
     useState<null | AssessmentSubmitResponse>(null);
   const [pdfUrl, setPdfUrl] = useState<null | string>(null);
-
+  const [accordionValues, setAccordionValues] = useState<string[]>(["1"]);
+  const [moduleAccValues, setModuleAccValues] = useState<string[][]>(
+    units.map((_, i) => (i === 0 ? ["1"] : []))
+  );
   const { courseProgress } = props;
   const [activeUnitId, setActiveUnitId] = useState<null | string>(
     courseProgress.unit.id
@@ -62,6 +66,27 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
   } = useGetUnit({
     unitId: activeUnitId,
   });
+
+  useEffect(() => {
+    if (window && !introHasPlayed) {
+      const hasIntroPlayed = window.localStorage.getItem("hasIntroPlayed");
+      if (hasIntroPlayed || !!unitInfo) {
+        setIntroHasPlayed(true);
+      }
+    }
+  }, [unitInfo]);
+
+  useEffect(() => {
+    if (window && !pdfUrl) {
+      const lastPdf = window.localStorage.getItem("lastPdf");
+      if (lastPdf) {
+        setPdfUrl(lastPdf);
+      } else if (unitInfo) {
+        const mostRecentPdf = unitInfo.modules[0].moduleItems[0].signedPdfUrl;
+        setPdfUrl(mostRecentPdf);
+      }
+    }
+  }, []);
 
   function startAssessment() {
     setIsQuizOn(true);
@@ -105,9 +130,14 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
       <UnitsContent
         setCurrentPage={setCurrentPage}
         setIntroHasPlayed={setIntroHasPlayed}
+        introHasPlayed={introHasPlayed}
         units={units}
         pdfUrl={pdfUrl}
         setPdfUrl={setPdfUrl}
+        values={accordionValues}
+        moduleValues={moduleAccValues}
+        setModuleValues={setModuleAccValues}
+        setValues={setAccordionValues}
         courseProgress={props.courseProgress}
         generateQuestions={startAssessment}
         isGeneratingQuestions={isMutating}
@@ -135,12 +165,12 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
               <RightPanel />
             </div>
           ) : (
-            <ResizablePanelGroup direction="horizontal" className="space-x-5">
-              <ResizablePanel defaultSize={75}>
+            <ResizablePanelGroup direction="horizontal" className="space-x-3">
+              <ResizablePanel defaultSize={65}>
                 <LeftPanel />
               </ResizablePanel>
               <ResizableHandle withHandle />
-              <ResizablePanel defaultSize={25}>
+              <ResizablePanel defaultSize={35}>
                 <RightPanel />
               </ResizablePanel>
             </ResizablePanelGroup>

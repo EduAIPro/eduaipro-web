@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { updateModuleKey } from "@/api/keys";
 import { updateModule } from "@/api/mutations";
 import ModuleDoc from "@/components/svgs/module-doc.svg";
@@ -10,8 +11,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { CourseProgress, CourseUnit, UnitDetails } from "@/types/course";
+import {
+  ContentPage,
+  CourseProgress,
+  CourseUnit,
+  ModuleItem,
+  UnitDetails,
+} from "@/types/course";
 import { groupByType } from "@/utils/helpers";
+import { removeUnitModulePatternsExtended } from "@/utils/text";
 import {
   CircleCheckIcon,
   Loader2Icon,
@@ -19,11 +27,20 @@ import {
   SparklesIcon,
   UnlockIcon,
 } from "lucide-react";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import useSWRMutation from "swr/mutation";
 
 type UnitsContentProps = {
   setCurrentPage: Dispatch<SetStateAction<number>>;
+  setValues: Dispatch<SetStateAction<string[]>>;
+  setModuleValues: Dispatch<SetStateAction<string[][]>>;
   setIntroHasPlayed: Dispatch<SetStateAction<boolean>>;
   setPdfUrl: Dispatch<SetStateAction<string | null>>;
   setActiveUnitId: Dispatch<SetStateAction<string | null>>;
@@ -35,6 +52,9 @@ type UnitsContentProps = {
   isQuizOn: boolean;
   unitInfo?: UnitDetails;
   isLoading: boolean;
+  introHasPlayed: boolean;
+  values: string[];
+  moduleValues: string[][];
 };
 
 export function UnitsContent({
@@ -49,215 +69,294 @@ export function UnitsContent({
   isQuizOn,
   setActiveUnitId,
   isLoading,
+  values,
+  setValues,
   unitInfo,
+  introHasPlayed,
+  moduleValues,
+  setModuleValues,
 }: UnitsContentProps) {
   const { trigger } = useSWRMutation(updateModuleKey, updateModule);
+  const processedModulesRef = useRef(new Set<string>());
 
+  // Memoize expensive calculations
+  const memoizedUnits = useMemo(() => {
+    return units.map((unit) => ({
+      ...unit,
+      isUnitCompleted: unit.index < courseProgress.unit.index,
+      isUnitAccessible: unit.index <= courseProgress.unit.index,
+    }));
+  }, [units, courseProgress.unit.index]);
+
+  const memoizedModules = useMemo(() => {
+    if (!unitInfo) return [];
+
+    return unitInfo.modules.map((unitModule) => {
+      const isCompleted = courseProgress.module
+        ? unitModule.index <= courseProgress.module?.index
+        : false;
+
+      const moduleItems = groupByType(unitModule.moduleItems);
+
+      return {
+        ...unitModule,
+        isCompleted,
+        moduleItems,
+      };
+    });
+  }, [unitInfo, courseProgress.module]);
+
+  // Optimize module updates with better dependency tracking
   useEffect(() => {
-    if (unitInfo) {
-      unitInfo.modules.forEach((m) => {
-        const activeModule = m.moduleItems.find(
-          (item) => item.pdfUrl === pdfUrl
-        );
-        if (
-          !courseProgress.module ||
-          (activeModule && m.index > courseProgress.module?.index)
-        ) {
-          trigger({
-            moduleId: m.id,
-          });
-        }
-      });
+    if (!unitInfo || !pdfUrl) return;
+
+    const modulesToUpdate: string[] = [];
+
+    unitInfo.modules.forEach((m) => {
+      // Skip if already processed
+      if (processedModulesRef.current.has(`${m.id}-${pdfUrl}`)) return;
+
+      const activeModule = m.moduleItems.find(
+        (item) => item.signedPdfUrl === pdfUrl
+      );
+
+      if (
+        activeModule &&
+        (!courseProgress.module || m.index > courseProgress.module?.index)
+      ) {
+        modulesToUpdate.push(m.id);
+        processedModulesRef.current.add(`${m.id}-${pdfUrl}`);
+      }
+    });
+
+    // Batch update modules
+    if (modulesToUpdate.length > 0) {
+      Promise.all(
+        modulesToUpdate.map((moduleId) => trigger({ moduleId }))
+      ).catch(console.error);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pdfUrl, unitInfo]);
+  }, [pdfUrl, unitInfo?.modules, courseProgress.module?.index]);
+  console.log({ unitInfo });
+  // Memoized handlers to prevent unnecessary re-renders
+  const handleUnitClick = useCallback(
+    (unit: CourseUnit, index: number) => {
+      if (unit.index > courseProgress.unit.index) return;
+
+      setActiveUnitId(unit.id);
+
+      if (index === 0 && !introHasPlayed) {
+        setIntroHasPlayed(true);
+        try {
+          window.localStorage.setItem("hasIntroPlayed", "true");
+        } catch (error) {
+          console.warn("Failed to save intro state:", error);
+        }
+      }
+    },
+    [courseProgress.unit.index, introHasPlayed]
+  );
+
+  const handlePageClick = (item: ContentPage, contentItem: ModuleItem) => {
+    if (!item.pageNumber) return;
+    if (pdfUrl === contentItem.signedPdfUrl) {
+      setCurrentPage(item.pageNumber);
+    } else {
+      setPdfUrl(contentItem.signedPdfUrl);
+      setCurrentPage(item.pageNumber);
+    }
+  };
 
   return (
     <div className="max-lg:mt-6 min-[1600px]:col-span-2 bg-white rounded-xl border border-[#DBDBDB] p-5">
       <h4 className="font-semibold !text-base">Course content</h4>
-      <ScrollArea className="h-full mt-6">
-        <Accordion type="single" className="border rounded-lg p-2.5 pt-0">
-          {units.map((unit, i) => {
-            const isUnitCompleted = unit.index < courseProgress.unit.index;
-
-            return (
-              <AccordionItem
-                disabled={unit.index > courseProgress.unit.index}
-                value={unit.index.toString()}
-                key={unit.index}
+      <ScrollArea className="h-full mt-6 max-h-screen overflow-y-auto no-scrollbar">
+        <Accordion
+          value={values}
+          onValueChange={(v) => {
+            setValues(v);
+            console.log({ v });
+          }}
+          type="multiple"
+          className="border rounded-lg p-2.5 pt-0"
+        >
+          {memoizedUnits.map((unit, i) => (
+            <AccordionItem
+              disabled={!unit.isUnitAccessible}
+              value={unit.index.toString()}
+              key={unit.id} // Use ID instead of index for better key stability
+            >
+              <AccordionTrigger
+                onClick={() => handleUnitClick(unit, i)}
+                className="hover:no-underline" // Prevent default hover underline that might cause layout shift
               >
-                <AccordionTrigger
-                  onClick={() => {
-                    setActiveUnitId(unit.id);
-                    setIntroHasPlayed(true);
-                    window.localStorage.setItem("hasIntroPlayed", "true");
-                  }}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-fit">
-                      {unit.index > courseProgress.unit.index ? (
-                        <LockIcon size={20} className="text-gray-600" />
-                      ) : (
-                        <UnlockIcon size={20} className="text-primary-300" />
-                      )}
-                    </div>
-                    <div className="">
-                      <h5 className="font-semibold text-sm text-grey-12/90 text-left">
-                        Unit {unit.index} - {unit.title}
-                      </h5>
-                      {unitInfo ? (
-                        <span className="text-xs lg:text-sm line-clamp-1 text-grey-10 w-full text-left">
-                          {unitInfo.modules.length}{" "}
-                          {unitInfo.modules.length === 1 ? "module" : "modules"}
-                        </span>
-                      ) : null}
-                    </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 flex items-center justify-center shrink-0">
+                    {!unit.isUnitAccessible ? (
+                      <LockIcon size={20} className="text-gray-600" />
+                    ) : (
+                      <UnlockIcon size={20} className="text-primary-300" />
+                    )}
                   </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  {isLoading ? (
-                    <Loader2Icon className="animate-spin mx-auto" />
-                  ) : (
-                    unitInfo && (
-                      <div className="overflow-hidden transition-all duration-500 ease-in-out overflow-y-auto">
-                        <ul className="space-y-2">
-                          <Accordion type="single" className="w-full">
-                            {unitInfo.modules.map((unitModule, index) => {
-                              const isCompleted = courseProgress.module
-                                ? unit.index <= courseProgress.unit.index &&
-                                  unitModule.index <=
-                                    courseProgress.module?.index
-                                : null;
-
-                              const moduleItems = groupByType(
-                                unitModule.moduleItems
-                              );
-                              return (
-                                <li
-                                  key={unitModule.id}
-                                  role="button"
-                                  className="text-sm lg:text-base cursor-pointer flex items-center gap-2 w-full"
+                  <div className="text-left">
+                    <h5 className="font-semibold text-sm text-grey-12/90">
+                      Unit {unit.index}
+                    </h5>
+                    {unitInfo && (
+                      <span className="text-xs lg:text-sm line-clamp-1 text-grey-10 w-full">
+                        {unitInfo.modules.length}{" "}
+                        {unitInfo.modules.length === 1 ? "module" : "modules"}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                {isLoading ? (
+                  <div className="flex justify-center py-4">
+                    <Loader2Icon className="animate-spin" size={24} />
+                  </div>
+                ) : unitInfo ? (
+                  <div className="space-y-2">
+                    <Accordion
+                      value={moduleValues[i]}
+                      onValueChange={(v) => {
+                        const newModule = moduleValues.map((m, mi) =>
+                          mi === i ? v : m
+                        );
+                        setModuleValues(newModule);
+                        console.log({ newModule });
+                      }}
+                      type="multiple"
+                      className="w-full"
+                    >
+                      {memoizedModules.map((unitModule) => {
+                        const pages = unitModule.moduleItems.map(
+                          (m) => m.items.length
+                        );
+                        const totalSlides = pages.reduce((p, c) => p + c, 0);
+                        return (
+                          <AccordionItem
+                            value={`${unit.index}-${unitModule.index}`}
+                            key={unitModule.id}
+                            className="w-full"
+                          >
+                            <AccordionTrigger className="hover:no-underline">
+                              <div className="text-sm lg:text-base cursor-pointer flex items-start gap-2">
+                                <div className="shrink-0 w-4 h-4 flex items-center justify-center mt-0.5">
+                                  {unitModule.isCompleted ? (
+                                    <CircleCheckIcon
+                                      size={17}
+                                      className="text-primary-300"
+                                    />
+                                  ) : (
+                                    <ModuleDoc width={16} height={16} />
+                                  )}
+                                </div>
+                                <div
+                                  className={cn(
+                                    "text-left",
+                                    unitModule.isCompleted
+                                      ? "text-primary-300"
+                                      : "text-grey-500"
+                                  )}
                                 >
-                                  <AccordionItem
-                                    value={`${unit.index.toString()}-${unitModule.index.toString()}`}
-                                    key={index}
-                                    className="w-full"
+                                  <h4 className="text-sm font-semibold">
+                                    Module {unitModule.index}
+                                  </h4>
+                                  <p className="text-xs">
+                                    {totalSlides} slides
+                                  </p>
+                                </div>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="space-y-2">
+                              <ul className="space-y-2">
+                                {unitModule.moduleItems.map((moduleItem) => (
+                                  <li
+                                    key={`${moduleItem.title}-${unitModule.id}`}
                                   >
-                                    <AccordionTrigger>
-                                      <div className="text-sm lg:text-base cursor-pointer flex items-start gap-2">
-                                        <div className="shrink-0">
-                                          {isCompleted ? (
-                                            <CircleCheckIcon
-                                              size={17}
-                                              className="text-primary-300"
-                                            />
-                                          ) : (
-                                            <ModuleDoc width={16} height={16} />
-                                          )}
-                                        </div>
-                                        <div
-                                          className={cn(
-                                            isCompleted
-                                              ? "text-primary-300"
-                                              : "text-grey-500"
-                                          )}
-                                        >
-                                          <h4 className="text-sm font-semibold text-left">
-                                            Module {unitModule.index} -{" "}
-                                            {unitModule.title}
-                                          </h4>
-                                          <p className="text-left">
-                                            {unitModule.moduleItems.length}{" "}
-                                            slides
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="space-y-2">
-                                      <ul className="space-y-2">
-                                        {moduleItems.map((moduleItem) => (
-                                          <li key={moduleItem.title}>
-                                            <h2 className="font-semibold text-sm capitalize">
-                                              {moduleItem.title
-                                                .replace("_", " ")
-                                                .toLowerCase()}
-                                            </h2>
-                                            {moduleItem.items.map(
-                                              (contentItem) => (
-                                                <ul key={contentItem.id}>
-                                                  {contentItem.pages.map(
-                                                    (item) => (
-                                                      <li key={item.id}>
-                                                        <button
-                                                          onClick={() => {
-                                                            if (
-                                                              item.pageNumber &&
-                                                              pdfUrl ===
-                                                                contentItem.pdfUrl
-                                                            ) {
-                                                              setCurrentPage(
-                                                                item.pageNumber
-                                                              );
-                                                            } else if (
-                                                              item.pageNumber
-                                                            ) {
-                                                              setCurrentPage(
-                                                                item.pageNumber
-                                                              );
-                                                              setPdfUrl(
-                                                                contentItem.pdfUrl
-                                                              );
-                                                            }
-                                                          }}
-                                                          role="button"
-                                                          className="cursor-pointer pl-6"
-                                                        >
-                                                          <p className="hover:underline hover:text-black">
-                                                            - {item.pageTitle}
-                                                          </p>
-                                                        </button>
-                                                      </li>
-                                                    )
-                                                  )}
-                                                </ul>
-                                              )
-                                            )}
+                                    <h2 className="font-semibold text-sm capitalize mb-1">
+                                      {moduleItem.title
+                                        .replace("_", " ")
+                                        .toLowerCase()}
+                                    </h2>
+                                    {moduleItem.items.map((contentItem) => (
+                                      <ul
+                                        key={contentItem.id}
+                                        className="space-y-1"
+                                      >
+                                        {contentItem.pages.map((item) => (
+                                          <li key={item.id}>
+                                            <button
+                                              onClick={() =>
+                                                handlePageClick(
+                                                  item,
+                                                  contentItem
+                                                )
+                                              }
+                                              className="cursor-pointer pl-6 w-full text-left hover:bg-gray-50 py-1 px-2 rounded transition-colors"
+                                              type="button"
+                                            >
+                                              <p
+                                                className={cn(
+                                                  "hover:underline hover:text-black text-sm",
+                                                  courseProgress.module?.id ===
+                                                    contentItem.id
+                                                    ? "text-primary-400"
+                                                    : ""
+                                                )}
+                                              >
+                                                -
+                                                {removeUnitModulePatternsExtended(
+                                                  item.pageTitle
+                                                )}
+                                              </p>
+                                            </button>
                                           </li>
                                         ))}
                                       </ul>
-                                    </AccordionContent>
-                                  </AccordionItem>
-                                </li>
-                              );
-                            })}
-                          </Accordion>
-                        </ul>
-                        <div className="mt-3">
-                          {isUnitCompleted ? (
-                            <div>
-                              <p className="text-lg font-medium flex items-center justify-between">
-                                Score:{" "}
-                                <span className="text-green-600">50%</span>
-                              </p>
-                            </div>
-                          ) : (
-                            <Button
-                              loading={isGeneratingQuestions}
-                              onClick={generateQuestions}
-                              disabled={isQuizOn}
-                              className="w-full"
-                            >
-                              <SparklesIcon /> Start assessment
-                            </Button>
-                          )}
+                                    ))}
+                                  </li>
+                                ))}
+                              </ul>
+                            </AccordionContent>
+                          </AccordionItem>
+                        );
+                      })}
+                    </Accordion>
+
+                    <div className="mt-4 pt-3">
+                      {unit.isUnitCompleted ? (
+                        <div className="bg-green-50 p-3 rounded-lg border-green-600 border">
+                          <p className="text-sm font-medium flex items-center justify-between">
+                            <span>Unit Completed</span>
+                            <span className="text-green-600 font-semibold">
+                              Score: 50%
+                            </span>
+                          </p>
                         </div>
-                      </div>
-                    )
-                  )}
-                </AccordionContent>
-              </AccordionItem>
-            );
-          })}
+                      ) : (
+                        <Button
+                          loading={isGeneratingQuestions}
+                          onClick={generateQuestions}
+                          disabled={isQuizOn || isGeneratingQuestions}
+                          className="w-full"
+                          type="button"
+                        >
+                          <SparklesIcon className="mr-2" size={16} />
+                          Start assessment
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-4 text-gray-500">
+                    <p>No content available</p>
+                  </div>
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
         </Accordion>
       </ScrollArea>
     </div>
