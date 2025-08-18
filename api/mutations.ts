@@ -28,7 +28,13 @@ export async function signup(
 
     await setAuthCookes(response.data.data.tokens.refresh);
 
-    return response.data;
+    localStorage.setItem("accessToken", JSON.stringify(data.data.tokens.token));
+    localStorage.setItem(
+      "refreshToken",
+      JSON.stringify(data.data.tokens.refreshToken)
+    );
+
+    return data;
   } catch (error) {
     throw error;
   }
@@ -43,7 +49,13 @@ export async function login(
 
     await setAuthCookes(response.data.data.tokens.refresh);
 
-    return response.data;
+    localStorage.setItem("accessToken", JSON.stringify(data.data.tokens.token));
+    localStorage.setItem(
+      "refreshToken",
+      JSON.stringify(data.data.tokens.refreshToken)
+    );
+
+    return data;
   } catch (error) {
     throw error;
   }

@@ -156,3 +156,78 @@ export type User = {
   updatedAt: string;
   role: UserRoles;
 };
+
+export type SchoolSignupPayload = {
+  name: string;
+  city: string;
+  state: string;
+  adminName: string;
+  type: string;
+  password: string;
+  location: string;
+  contactNumber: string;
+  officialEmail: string;
+  contactEmail: string;
+  phoneNumber: string;
+  position: string;
+};
+
+export enum UserRoles {
+  teacher = "Teacher",
+  school = "SCHOOL",
+}
+export type SchoolSignupResponse = {
+  statusCode: number;
+  error: null | string;
+  message: string;
+  data: {
+    school: {
+      name: string;
+      type: string;
+      location: string;
+      contactNumber: string;
+      officialEmail: string;
+      role: UserRoles;
+      isActive: boolean;
+      contactEmail: string;
+      phoneNumber: string;
+      position: string;
+      website?: string;
+      schoolID: string;
+      admins: any[];
+      _id: string;
+      lastLogin: string;
+      createdAt: string;
+      updatedAt: string;
+      activeAdminsCount: number;
+      id: string;
+    };
+    tokens: {
+      token: string;
+      refreshToken: string;
+    };
+  };
+};
+
+export type SchoolLogin = {
+  officialEmail: string;
+  password: string;
+};
+
+export type SchoolLoginResponse = {
+  statusCode: number;
+  message: string;
+  data: {
+    school: {
+      id: string;
+      name: string;
+      email: string;
+      type: string;
+    };
+    tokens: {
+      token: string;
+      refreshToken: string;
+    };
+  };
+  error: null | string;
+};

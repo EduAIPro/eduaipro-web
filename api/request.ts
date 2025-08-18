@@ -11,9 +11,17 @@ type ErrorResponse = { statusCode: number; message: string };
 export async function apiClient<T>(
   url: string,
   data?: any,
+<<<<<<< HEAD
   method: "post" | "patch" | "delete" = "post"
 ): Promise<ApiResponse<T>> {
   try {
+=======
+  method: "post" | "put" | "patch" | "delete" = "post"
+): Promise<ApiResponse<T>> {
+  try {
+    // const response: AxiosResponse<T> = await api.post(url, data);
+
+>>>>>>> f0da746b29617c9f484189a4f1be0dd152b75de9
     let response: AxiosResponse<T>;
 
     switch (method.toLowerCase()) {

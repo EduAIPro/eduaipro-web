@@ -1,8 +1,8 @@
 "use client";
 import AdminSignup from "@/components/auth/AdminSignup";
-import InstitutionSignup from "@/components/auth/InstitutionSignup";
 import TeacherSignup from "@/components/auth/TeacherSignup";
 import Typography from "@/components/common/ui/Typography";
+import { SchoolSignup } from "@/components/school/auth/signup";
 import { userRoles } from "@/utils/data";
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
@@ -12,6 +12,7 @@ import { Suspense } from "react";
 function RegisterForm() {
   const userType = useSearchParams().get("type");
   const userTypes = ["institution", "teacher", "admin"];
+
   return (
     <div className="lg:min-h-[85vh] max-sm:mt-10 sm:justify-center flex flex-col">
       {!userType ? (
@@ -27,7 +28,7 @@ function RegisterForm() {
           {userType === userTypes[1] ? (
             <TeacherSignup />
           ) : userType === userTypes[0] ? (
-            <InstitutionSignup />
+            <SchoolSignup />
           ) : userType === "admin" ? (
             <AdminSignup />
           ) : null}
