@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { Field } from "formik";
+import { Field, useFormikContext } from "formik";
 import Typography from "./Typography";
 
 interface Country {
@@ -42,9 +42,17 @@ export default function PhoneInput({
   label,
   className,
 }: PhoneInputProps) {
+  const { values } = useFormikContext<any>();
+
+  const phoneField =
+    values["phoneNumber"] || values["phone"] || values["contactPhone"];
+
   const [isFocused, setIsFocused] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
-  const [rawPhone, setRawPhone] = useState<string>("");
+  const [selectedCountry, setSelectedCountry] = useState<Country>(
+    phoneField.dialCode ?? countries[0]
+  );
+
+  const [rawPhone, setRawPhone] = useState<string>(phoneField.digits ?? "");
 
   // Updates the selected country and re-formats the phone number
   const handleCountryChange = (code: string) => {

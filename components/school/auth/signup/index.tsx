@@ -1,5 +1,5 @@
 "use client";
-import { CreateAccountFormValue } from "@/utils/validation/auth/signup";
+import { CreateAccountFormValue } from "@/utils/validation/auth/school";
 import { FileQuestionIcon } from "lucide-react";
 import { useState } from "react";
 import { CreateSchoolAccount } from "./create-account";
@@ -8,20 +8,30 @@ import { SetupSchoolProfile } from "./setup-school";
 type SchoolSignupProps = {};
 
 export const SchoolSignup = ({}: SchoolSignupProps) => {
-  const [accountValues, setAccountValues] =
-    useState<null | CreateAccountFormValue>(null);
+  const [accountValues, setAccountValues] = useState<CreateAccountFormValue>({
+    name: "",
+    email: "",
+    position: "",
+    password: "",
+    confirmPassword: "",
+    phone: {
+      dialCode: "",
+      digits: "",
+    },
+  });
   const [step, setStep] = useState(1);
   return (
     <div>
       {step === 1 ? (
         <CreateSchoolAccount
+          defaultValues={accountValues}
           onSave={(values) => {
             setStep(2);
             setAccountValues(values);
           }}
         />
-      ) : accountValues ? (
-        <SetupSchoolProfile accountValues={accountValues} />
+      ) : step === 2 && accountValues ? (
+        <SetupSchoolProfile accountValues={accountValues} setStep={setStep} />
       ) : (
         <div className="max-w-md mx-auto space-y-4 max-lg:mt-20">
           <div className="size-32 sm:size-40 rounded-full mx-auto bg-grey-400/20 flex items-center justify-center">

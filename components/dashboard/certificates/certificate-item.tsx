@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Certificate } from "@/types/certificates";
+import { Accreditation } from "@/types/certificates";
 import { downloadImage } from "@/utils/dashboard";
 import { format } from "date-fns";
 import { CalendarDaysIcon, DownloadIcon } from "lucide-react";
@@ -9,7 +9,7 @@ import { toast } from "sonner";
 export const CertificateItem = ({
   certificate,
 }: {
-  certificate: Certificate;
+  certificate: Accreditation;
 }) => {
   const metadata = [
     {

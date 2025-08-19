@@ -12,8 +12,16 @@ import {
   TeacherSurveyPayload,
 } from "@/types/auth";
 import { UpdateModulePayload, UpdateModuleResponse } from "@/types/course";
+import {
+  SchoolSignupPayload,
+  UpdatePersonalInfoPayload,
+  UpdateSchoolInfoPayload,
+  UpdateSchoolInfoResponse,
+} from "@/types/school/auth";
+import { Staff } from "@/types/user";
 import { setAuthCookes } from "@/utils/auth";
 import { PersonalInfoFormValue } from "@/utils/validation/teacher-profile/settings";
+import { toast } from "sonner";
 import { apiClient } from "./request";
 
 // const isLocalhost = window.location.host.includes("localhost");
@@ -28,13 +36,22 @@ export async function signup(
 
     await setAuthCookes(response.data.data.tokens.refresh);
 
-    localStorage.setItem("accessToken", JSON.stringify(data.data.tokens.token));
-    localStorage.setItem(
-      "refreshToken",
-      JSON.stringify(data.data.tokens.refreshToken)
-    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
 
-    return data;
+export async function schoolSignup(
+  url: string,
+  { arg }: { arg: SchoolSignupPayload }
+): Promise<TeacherSignupResponse> {
+  try {
+    const response = await apiClient<TeacherSignupResponse>(url, arg);
+
+    await setAuthCookes(response.data.data.tokens.refresh);
+
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -49,24 +66,18 @@ export async function login(
 
     await setAuthCookes(response.data.data.tokens.refresh);
 
-    localStorage.setItem("accessToken", JSON.stringify(data.data.tokens.token));
-    localStorage.setItem(
-      "refreshToken",
-      JSON.stringify(data.data.tokens.refreshToken)
-    );
-
-    return data;
+    return response.data;
   } catch (error) {
     throw error;
   }
 }
 
-export async function requestVerifyEmail(data: {
-  email: string;
-}): Promise<APIBaseResponse> {
+export async function requestVerifyEmail(
+  url: string,
+  { arg }: { arg: { email: string } }
+): Promise<APIBaseResponse> {
   try {
-    const url = "/auth/email/request";
-    const response = await apiClient<APIBaseResponse>(url, data);
+    const response = await apiClient<APIBaseResponse>(url, arg);
 
     return response.data;
   } catch (error) {
@@ -208,6 +219,82 @@ export async function submitAssessment(
 
     return response.data?.data;
   } catch (error) {
+    throw error;
+  }
+}
+
+// SCHOOL
+export async function sendInvitation(
+  url: string,
+  { arg }: { arg: { email: string } }
+): Promise<boolean> {
+  try {
+    await apiClient(url, arg);
+
+    return true;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updatePersonalInfo(
+  url: string,
+  { arg }: { arg: Partial<UpdatePersonalInfoPayload> }
+): Promise<boolean> {
+  try {
+    await apiClient(url, arg, "patch");
+
+    return true;
+  } catch (error) {
+    toast.error(error as string);
+    throw error;
+  }
+}
+
+export async function updateSchoolInfo(
+  url: string,
+  { arg }: { arg: Partial<UpdateSchoolInfoPayload> }
+): Promise<UpdateSchoolInfoResponse> {
+  try {
+    const response = await apiClient<UpdateSchoolInfoResponse>(
+      url,
+      arg,
+      "patch"
+    );
+
+    return response.data;
+  } catch (error) {
+    toast.error(error as string);
+    throw error;
+  }
+}
+
+export async function deactivateStaff(
+  url: string,
+  { arg }: { arg: { staffId: string } }
+): Promise<Staff> {
+  try {
+    const apiUrl = url + `/${arg.staffId}/deactivate`;
+    const response = await apiClient<Staff>(apiUrl, undefined, "patch");
+
+    return response.data;
+  } catch (error) {
+    toast.error(error as string);
+    throw error;
+  }
+}
+
+export async function reactivateStaff(
+  url: string,
+  { arg }: { arg: { staffId: string } }
+): Promise<Staff> {
+  try {
+    const apiUrl = url + `/${arg.staffId}/activate`;
+    const response = await apiClient<Staff>(apiUrl, undefined, "patch");
+
+    return response.data;
+  } catch (error) {
+    toast.error(error as string);
     throw error;
   }
 }

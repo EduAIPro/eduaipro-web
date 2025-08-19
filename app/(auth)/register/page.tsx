@@ -70,7 +70,7 @@ const PickRole = () => {
             key={idx + "hardman"}
             onClick={() =>
               router.replace(
-                idx !== 4
+                idx !== 5
                   ? `${currentPath}?type=teacher`
                   : `${currentPath}?type=institution`
               )

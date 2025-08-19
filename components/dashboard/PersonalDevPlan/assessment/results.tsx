@@ -25,7 +25,7 @@ export const AssessmentResults = ({
 
   const { result, assessmentPassed, assessmentRecord } = response;
   const [questionIndex, setQuestionIndex] = useState(result?.[0].index);
-  console.log({ result, response });
+
   const activeQuestion = useMemo(
     () => result?.[questionIndex],
     [questionIndex, result]

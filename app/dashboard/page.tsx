@@ -43,12 +43,13 @@ export default function OverviewPage() {
     return Number(percent);
   }, [courseProgress, course]);
 
-  console.log({ staff, user });
-
   return isLoading || courseLoading ? (
     <DashboardSkeleton />
   ) : staff && !(staff as Staff)?.acceptedTermsAndConditions ? (
-    <MultiStepFormModal userPhone={!!user?.phoneNumber} />
+    <MultiStepFormModal
+      isInvited={!!(staff as Staff).schoolId}
+      userPhone={!!user?.phoneNumber}
+    />
   ) : (
     course &&
     courseProgress && (

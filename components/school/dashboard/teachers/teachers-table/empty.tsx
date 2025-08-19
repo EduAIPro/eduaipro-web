@@ -5,8 +5,8 @@ export const Empty = () => {
   return (
     <div className="max-w-sm md:max-w-lg w-full flex items-center justify-center mx-auto min-h-[60vh]">
       <div className="">
-        <div>
-          <EmptyIcon className="w-full h-32 sm:h-40" />
+        <div className="mx-auto w-fit">
+          <EmptyIcon className="w-full h-32 mx-auto" />
         </div>
         <div className="text-center space-y-2">
           <h2 className="font-semibold text-lg sm:text-2xl">

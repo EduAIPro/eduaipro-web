@@ -14,21 +14,40 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart";
-const chartData = [{ browser: "safari", visitors: 200, fill: "#CB36CB" }];
+import { StaffAccreditationStatus } from "@/types/school";
+import { useMemo } from "react";
 
-type AccreditationChartProps = {};
+type AccreditationChartProps = {
+  status: StaffAccreditationStatus | undefined;
+};
 
 const chartConfig = {
   visitors: {
-    label: "Visitors",
+    label: "Accrediatation status",
   },
-  safari: {
-    label: "Safari",
+  accredited: {
+    label: "Accredited",
     color: "hsl(var(--chart-2))",
+  },
+  notAccredited: {
+    label: "Safari",
+    color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
-export const AccreditationChart = () => {
+export const AccreditationChart = ({ status }: AccreditationChartProps) => {
+  const chartData = useMemo(() => {
+    const value = [
+      { label: "Accredited", value: 0, fill: "#CB36CB" },
+      { label: "Not accredited", value: 0, fill: "#FABEE8" },
+    ];
+    if (status) {
+      value[0].value = status.totalAccreditedStaffs ?? 90;
+      value[1].value = status.totalNonAccreditedStaffs ?? 78;
+    }
+    return value;
+  }, [status]);
+
   return (
     <ChartContainer
       config={chartConfig}
@@ -48,12 +67,12 @@ export const AccreditationChart = () => {
           className="first:fill-[#FABEE8] last:fill-background"
           polarRadius={[56, 44]}
         />
-        <RadialBar dataKey="visitors" background cornerRadius={10} />
+        <RadialBar dataKey="value" background cornerRadius={10} width={400} />
         <ChartLegend
           layout="vertical"
           verticalAlign="middle"
           align="right"
-          content={<ChartLegendContent nameKey="browser" />}
+          content={<ChartLegendContent nameKey="label" />}
           className="w-full flex-col gap-2 text-sm font-medium text-grey-500 [&>*]:basis-1/4 [&>*]:justify-center"
         />
         <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
@@ -72,7 +91,7 @@ export const AccreditationChart = () => {
                       y={viewBox.cy}
                       className="fill-foreground text-2xl font-bold"
                     >
-                      {chartData[0].visitors.toLocaleString()}
+                      {chartData[0].value.toLocaleString()}
                     </tspan>
                   </text>
                 );

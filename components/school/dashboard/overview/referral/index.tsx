@@ -1,9 +1,17 @@
+import { getSchoolInviteLinkKey } from "@/api/keys";
+import { generalFetcher } from "@/api/queries";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { SchoolInviteToken } from "@/types/school/invites";
 import { CopyIcon } from "lucide-react";
+import { toast } from "sonner";
+import useSWR from "swr";
 
-type ReferralProps = {};
-
-export const Referral = ({}: ReferralProps) => {
+export const Referral = () => {
+  const { data, isLoading } = useSWR<SchoolInviteToken>(
+    getSchoolInviteLinkKey,
+    generalFetcher
+  );
   return (
     <div className="bg-white p-5 border border-grey-400 rounded-xl space-y-5">
       <div>
@@ -14,8 +22,22 @@ export const Referral = ({}: ReferralProps) => {
       </div>
       <div>
         <div className="border px-2 py-1 flex items-center justify-between w-full rounded-lg">
-          <p>https://eduaipro.com?love/1334dikjla4jn</p>
-          <Button>
+          {isLoading ? (
+            <Skeleton className="w-full h-6 rounded-lg mr-3" />
+          ) : (
+            <p className="truncate mr-3">
+              https://eduaipro.ng/register?type=teacher&token={data?.token}
+            </p>
+          )}
+          <Button
+            disabled={isLoading}
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `https://eduaipro.ng/register?type=teacher&token=${data?.token}`
+              );
+              toast.success("Invite link copied successfully");
+            }}
+          >
             <CopyIcon className="text-white" />
           </Button>
         </div>

@@ -25,13 +25,20 @@ export default function LoginForm() {
   async function onSubmit(data: LoginFormValue) {
     try {
       const res = await trigger(trimObj(data));
-      const { tokens, user } = res.data;
+      const { tokens, user, staff } = res.data;
 
       if (tokens.access) {
         storeAccessToken(tokens.access);
         sessionStorage.setItem(CONFIG.USER_IDENTIFIER, user.id);
       }
-      router.push("/dashboard");
+
+      if (staff.role === "USER") {
+        router.push("/dashboard");
+      } else if (staff.role === "OWNER") {
+        router.push("/school");
+      } else {
+        router.push("/admin");
+      }
     } catch (error: any) {
       toast.error(error.message);
     }

@@ -1,3 +1,6 @@
+import { UserRoles } from "../auth";
+import { Accreditation } from "../certificates";
+
 export type Teacher = {
   name: string;
   email: string;
@@ -7,15 +10,60 @@ export type Teacher = {
   createdAt: string;
 };
 
-export type Certificate = {
-  name: string;
-  course: string;
+export type SchoolStaff = {
   id: string;
-  timeline: {
-    start: Date;
-    end: Date;
+  role: UserRoles;
+  isActive: boolean;
+  teacherLevel: string;
+  positionDescription: UserRoles;
+  createdAt: string;
+  updatedAt: string;
+  professionalLevel: null | string;
+  educationalLevel: null | string;
+  experienceRange: null | string;
+  areaOfSpecialization: null | string;
+  interestedSkills: string[];
+  primaryLearningGoal: null | string;
+  altLearningGoal: null | string;
+  acceptedTermsAndConditions: boolean;
+  userId: string;
+  schoolId: string;
+  school: {
+    institutionName: string;
   };
-  progress: number;
-  issued: Date;
-  expires: Date;
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    emailVerifiedAt: null | string;
+    phoneNumber: string;
+    phoneCountryCode: string;
+    createdAt: string;
+  };
+};
+
+export type SchoolStaffsData = {
+  pagination: {
+    total: number;
+    current: number;
+    next: null | string;
+  };
+  data: Omit<SchoolStaff, "school">[];
+};
+
+export type StaffDetail = Omit<SchoolStaff, "school"> & {
+  accreditationHistory: Accreditation[];
+  accreditationProgressPercentage: number;
+  user: {
+    dateOfBirth: string;
+    firstName: string;
+    lastName: string;
+    lastLoggedInAt: string;
+    emailVerifiedAt: string;
+    email: string;
+    phoneNumber: string;
+    phoneCountryCode: string;
+    profileImageUrl: null | string;
+  };
 };

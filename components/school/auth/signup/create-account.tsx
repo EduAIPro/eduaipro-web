@@ -4,29 +4,34 @@ import { Button } from "@/components/ui/button";
 import {
   CreateAccountFormValue,
   createAccountValidation,
-} from "@/utils/validation/auth/signup";
+} from "@/utils/validation/auth/school";
 import { Form, Formik } from "formik";
-import { Eye, EyeSlash, KeySquare, ProfileCircle, Sms } from "iconsax-react";
+import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "sonner";
 
 type CreateSchoolAccountProps = {
   onSave: (v: CreateAccountFormValue) => void;
+  defaultValues: CreateAccountFormValue;
 };
 
-export const CreateSchoolAccount = ({ onSave }: CreateSchoolAccountProps) => {
+export const CreateSchoolAccount = ({
+  onSave,
+  defaultValues,
+}: CreateSchoolAccountProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const initialValues = {
-    name: "",
-    email: "",
-    phone: "",
-    position: "",
-    password: "",
-    confirmPassword: "",
-  };
-
   function handleSubmit(values: CreateAccountFormValue) {
+    if (values.password !== values.confirmPassword) {
+      toast.error("Your password must match");
+      return;
+    }
+    const [firstName, ...lastName] = values.name.trim().split(" ");
+    if (!firstName.length || !lastName.length) {
+      toast.error("First and last names are both required");
+      return;
+    }
     if (values) {
       onSave(values);
     }
@@ -35,6 +40,12 @@ export const CreateSchoolAccount = ({ onSave }: CreateSchoolAccountProps) => {
   function togglePassword() {
     setShowPassword(!showPassword);
   }
+
+  const PasswordIcon = () => (
+    <Button size="icon" variant="ghost" onClick={togglePassword}>
+      {showPassword ? <EyeIcon /> : <EyeClosedIcon />}
+    </Button>
+  );
   return (
     <div className="space-y-8">
       <div>
@@ -45,78 +56,80 @@ export const CreateSchoolAccount = ({ onSave }: CreateSchoolAccountProps) => {
       </div>
       <Formik
         onSubmit={handleSubmit}
-        initialValues={initialValues}
+        initialValues={defaultValues}
         validationSchema={createAccountValidation}
       >
-        {({ touched, errors, setFieldValue, isValid, values }) => {
-          const fieldError = (fieldName: keyof CreateAccountFormValue) =>
-            touched[fieldName] && errors[fieldName] ? errors[fieldName] : null;
+        {({ touched, errors, setFieldValue, isValid }) => {
+          const fieldError = (fieldNames: string[]) => {
+            const errorMessages = fieldNames
+              .map((field) => {
+                if (
+                  touched[field as keyof CreateAccountFormValue] &&
+                  errors[field as keyof CreateAccountFormValue]
+                ) {
+                  return errors[field as keyof CreateAccountFormValue];
+                } else {
+                  return null;
+                }
+              })
+              .filter((i) => i !== null);
+            return errorMessages.join(", ");
+          };
 
           return (
             <Form className="space-y-5">
               <FormInput
                 label="Full name"
                 placeholder="Enter your name"
-                className="w-full"
                 name="name"
-                error={fieldError("name")}
-                leftIcon={<ProfileCircle />}
+                error={fieldError(["name"])}
+                note="Enter your first and last name"
               />
 
               <FormInput
                 label="Email address"
                 placeholder="Enter your email"
-                className="w-full"
                 name="email"
-                error={fieldError("email")}
-                leftIcon={<Sms />}
+                error={fieldError(["email"])}
               />
 
               <PhoneInput
                 label="Phone number"
-                name="phone"
+                name="phone.digits"
+                dialCodeName="phone.dialCode"
                 setFieldValue={setFieldValue}
-                error={fieldError("phone")}
+                error={fieldError(["phone.digits", "phone.dialCode"])}
               />
 
               <FormInput
                 label="Position"
                 placeholder="Enter your position"
-                className="w-full"
                 name="position"
-                error={fieldError("position")}
-                leftIcon={<ProfileCircle />}
+                error={fieldError(["position"])}
               />
 
               <FormInput
                 label="Password"
                 placeholder="Enter password"
-                className="w-full"
                 name="password"
-                leftIcon={<KeySquare />}
-                error={fieldError("password")}
+                error={fieldError(["password"])}
                 type={showPassword ? "text" : "password"}
-                rightIcon={
-                  <Button variant="ghost" size="sm" onClick={togglePassword}>
-                    {showPassword ? <Eye /> : <EyeSlash />}
-                  </Button>
-                }
+                rightIcon={<PasswordIcon />}
               />
-
-              <FormInput
-                label="Confirm password"
-                placeholder="Confirm your password"
-                className="w-full"
-                name="confirmPassword"
-                leftIcon={<KeySquare />}
-                error={fieldError("confirmPassword")}
-                type={showPassword ? "text" : "password"}
-                rightIcon={
-                  <Button variant="ghost" size="sm" onClick={togglePassword}>
-                    {showPassword ? <Eye /> : <EyeSlash />}
-                  </Button>
-                }
-              />
+              <div>
+                <FormInput
+                  label="Confirm password"
+                  placeholder="Confirm your password"
+                  name="confirmPassword"
+                  error={fieldError(["confirmPassword"])}
+                  type={showPassword ? "text" : "password"}
+                  rightIcon={<PasswordIcon />}
+                />
+                <p className="text-grey-500 text-sm mt-2">
+                  Your password must contain at least 8 characters including at
+                  least one digit, symbol, uppercase and lowercase letter
+                </p>
+              </div>
 
               <Button disabled={!isValid} className="w-full" type="submit">
                 <h3>Create account</h3>
@@ -124,7 +137,7 @@ export const CreateSchoolAccount = ({ onSave }: CreateSchoolAccountProps) => {
 
               <div className="flex items-center justify-between">
                 <p>Already have an account?</p>
-                <Link href="/login/school">
+                <Link href="/login">
                   <h3 className="text-base underline font-medium">Login</h3>
                 </Link>
               </div>

@@ -10,24 +10,57 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { StaffCourseProgress } from "@/types/school";
+import { useMemo } from "react";
 
-type CourseProgressChartProps = {};
-
-const chartData = [{ month: "january", desktop: 1260, mobile: 570 }];
+type CourseProgressChartProps = {
+  progress: StaffCourseProgress | undefined;
+};
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  totalPending: {
+    label: "Total pending",
     color: "hsl(var(--chart-1))",
   },
-  mobile: {
-    label: "Mobile",
+  totalInProgress: {
+    label: "Total in progress",
+    color: "hsl(var(--chart-2))",
+  },
+  totalCompleted: {
+    label: "Total completed",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
 
-export const CourseProgressChart = ({}: CourseProgressChartProps) => {
-  const totalVisitors = chartData[0].desktop + chartData[0].mobile;
+export const CourseProgressChart = ({ progress }: CourseProgressChartProps) => {
+  const chartData = useMemo(() => {
+    let data = [{ totalPending: 700, totalInProgress: 0, totalCompleted: 0 }];
+    if (progress) {
+      data[0].totalPending =
+        progress.totalPending > 0 ? progress.totalPending : 1;
+      data[0].totalInProgress = progress.totalInProgress;
+      data[0].totalCompleted = progress.totalCompleted;
+    }
+    return data;
+  }, [progress]);
+
+  const totalPercent = useMemo(() => {
+    if (progress) {
+      const totalStaff =
+        progress.totalCompleted +
+        progress.totalInProgress +
+        progress.totalPending;
+      const percentage = totalStaff
+        ? ((progress.totalCompleted / totalStaff) * 100).toFixed(0)
+        : 0;
+
+      return percentage ? percentage : percentage;
+    } else {
+      return 0;
+    }
+  }, [progress]);
+
+  console.log({ chartData });
 
   return (
     <ChartContainer
@@ -42,10 +75,7 @@ export const CourseProgressChart = ({}: CourseProgressChartProps) => {
         width={45}
         className="!p-0"
       >
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent hideLabel />}
-        />
+        <ChartTooltip cursor content={<ChartTooltipContent hideLabel />} />
         <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
           <Label
             content={({ viewBox }) => {
@@ -57,7 +87,7 @@ export const CourseProgressChart = ({}: CourseProgressChartProps) => {
                       y={(viewBox.cy || 0) - 16}
                       className="fill-foreground text-4xl font-bold mb-2"
                     >
-                      70%
+                      {totalPercent}%
                     </tspan>
                     <tspan
                       x={viewBox.cx}
@@ -73,26 +103,24 @@ export const CourseProgressChart = ({}: CourseProgressChartProps) => {
           />
         </PolarRadiusAxis>
         <RadialBar
-          dataKey="desktop"
+          dataKey="totalCompleted"
           stackId="a"
           cornerRadius={5}
-          // fill="var(--color-desktop)"
-          className="stroke-transparent stroke-2 fill-primary-50"
+          className="stroke-transparent stroke-2 fill-green-600"
         />
         <RadialBar
-          dataKey="mobile"
-          // fill="var(--color-mobile)"
+          dataKey="totalInProgress"
           stackId="a"
           cornerRadius={5}
           className="stroke-transparent stroke-2 fill-primary-300"
         />
         <RadialBar
-          dataKey="mobile"
-          // fill="var(--color-mobile)"
+          dataKey="totalPending"
           stackId="a"
           cornerRadius={5}
-          className="stroke-transparent stroke-2 fill-primary-100"
+          className="stroke-transparent stroke-2 fill-primary-50"
         />
+
         <ChartLegend
           layout="horizontal"
           verticalAlign="bottom"

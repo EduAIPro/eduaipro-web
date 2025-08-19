@@ -26,10 +26,11 @@ type SurveyFormValues = PersonalInfoFormValue &
   ProfessionalBackgroundFormValue &
   GoalsFormValue;
 
-type MultiStepFormModalProps = { userPhone: boolean };
+type MultiStepFormModalProps = { userPhone: boolean; isInvited: boolean };
 
 export default function MultiStepFormModal({
   userPhone,
+  isInvited,
 }: MultiStepFormModalProps) {
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -50,8 +51,8 @@ export default function MultiStepFormModal({
       const payload: TeacherSurveyPayload = {
         personal: {
           dateOfBirth: values.dateOfBirth,
-          schoolName: values.schoolName ?? "",
           ...(values.phone && { phoneNumber: values.phone }),
+          ...(!isInvited && { schoolName: values.schoolName }),
           location: values.location,
         },
         professional: {
@@ -111,6 +112,7 @@ export default function MultiStepFormModal({
             touched={formik.touched}
             errors={formik.errors}
             userPhoneExists={!!userPhone}
+            isInvited={isInvited}
           />
         )}
         {currentStep === 2 && (

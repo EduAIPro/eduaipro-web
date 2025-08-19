@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 import { InferType } from "yup";
 import yupPassword from "yup-password";
+import { phoneValidation } from "./school/signup.schema";
 yupPassword(Yup);
 
 export const signupValidation = Yup.object().shape({
@@ -21,8 +22,8 @@ export const signupValidation = Yup.object().shape({
     .password()
     .required("You must confirm your password before you can proceed"),
   phoneNumber: Yup.object().shape({
-    dialCode: Yup.string().required("Your country dialcode"),
-    digits: Yup.string().required("Your phone number is a required value"),
+    dialCode: Yup.string().required("Country dialcode is required"),
+    digits: phoneValidation.required("Your phone number is a required value"),
   }),
 });
 

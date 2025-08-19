@@ -9,7 +9,7 @@ import { SignupFormValue, signupValidation } from "@/utils/validation/auth";
 import { Form, Formik } from "formik";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
@@ -21,6 +21,9 @@ import { Button } from "../ui/button";
 export default function TeacherSignup() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const invitationCode = searchParams.get("token");
+  const userEmail = searchParams.get("email");
 
   const { trigger, isMutating } = useSWRMutation(signupTeacherKey, signup);
 
@@ -38,6 +41,7 @@ export default function TeacherSignup() {
         phoneNumber: data.phoneNumber.digits,
         phoneCountryCode: data.phoneNumber.dialCode.slice(1),
         password: data.password,
+        ...(invitationCode && { invitationCode }),
       };
 
       const res = await trigger(trimObj(payload));
@@ -48,7 +52,13 @@ export default function TeacherSignup() {
         sessionStorage.setItem(CONFIG.USER_IDENTIFIER, user.id);
       }
 
-      router.push("/verify-email");
+      if (invitationCode) {
+        router.push("/dashboard");
+      } else {
+        router.push(
+          `/verify-email?email=${encodeURIComponent(data.email)}&role=USER`
+        );
+      }
     } catch (error: any) {
       toast.error(error);
     }
@@ -56,7 +66,7 @@ export default function TeacherSignup() {
   const defaultValues: SignupFormValue = {
     firstName: "",
     lastName: "",
-    email: "",
+    email: userEmail ? decodeURIComponent(userEmail) : "",
     username: "",
     password: "",
     confirmPassword: "",
@@ -147,11 +157,11 @@ export default function TeacherSignup() {
               label="Password"
               name="password"
               placeholder="Enter your password"
+              type={showPassword ? "text" : "password"}
+              rightIcon={<PasswordIcon />}
               error={
                 touched.password && errors.password ? errors.password : null
               }
-              type={showPassword ? "text" : "password"}
-              rightIcon={<PasswordIcon />}
             />
             <div>
               <FormInput
@@ -196,3 +206,5 @@ export default function TeacherSignup() {
     </div>
   );
 }
+
+// deevyn.edeh+90@gmail.com

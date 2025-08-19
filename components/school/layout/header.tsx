@@ -1,11 +1,11 @@
 "use client";
 
+import { ConfirmLogoutModal } from "@/components/dashboard/common";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ConfirmLogoutModal } from "./logout-confirmation";
 import { NavItems } from "./nav";
 import { HeaderNotifications } from "./notifications";
 

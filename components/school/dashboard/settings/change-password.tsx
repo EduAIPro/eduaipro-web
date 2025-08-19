@@ -1,6 +1,8 @@
+import { changePasswordKey } from "@/api/keys";
+import { changePassword } from "@/api/mutations";
 import FormInput from "@/components/common/ui/FormInput";
 import { Button } from "@/components/ui/button";
-import useSchoolStore from "@/store/school";
+import { trimObj } from "@/utils/key";
 import {
   ChangePasswordFormValue,
   changePassowordValidation,
@@ -8,19 +10,42 @@ import {
 import { Form, Formik } from "formik";
 import { Eye, EyeClosed } from "lucide-react";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
+import useSWRMutation from "swr/mutation";
 
 type ChangePasswordSettingsProps = {};
 
 export const ChangePasswordSettings = ({}: ChangePasswordSettingsProps) => {
   const [showPassword, setShowPassword] = useState(false);
-
-  const { school } = useSchoolStore();
+  const { trigger, isMutating } = useSWRMutation(
+    changePasswordKey,
+    changePassword
+  );
 
   const initialData = {
     oldPassword: "",
     newPassword: "",
     confirmPassword: "",
   };
+
+  async function onSubmit(
+    values: ChangePasswordFormValue,
+    { resetForm }: { resetForm: VoidFunction }
+  ) {
+    if (values.newPassword !== values.confirmPassword) {
+      toast.error("New passwords do not match");
+      return;
+    }
+    if (values) {
+      const payload = {
+        newPassword: values.newPassword,
+        currentPassword: values.oldPassword,
+      };
+      await trigger(trimObj(payload));
+      toast.success("Password changed successfully");
+      resetForm();
+    }
+  }
 
   const inputType = useMemo(
     () => (showPassword ? "text" : "password"),
@@ -52,7 +77,7 @@ export const ChangePasswordSettings = ({}: ChangePasswordSettingsProps) => {
           validationSchema={changePassowordValidation}
           initialValues={initialData}
           validateOnMount
-          onSubmit={(values: ChangePasswordFormValue) => {}}
+          onSubmit={onSubmit}
         >
           {({ touched, errors, isValid }) => {
             const fieldError = (fieldName: keyof ChangePasswordFormValue) =>
@@ -66,10 +91,10 @@ export const ChangePasswordSettings = ({}: ChangePasswordSettingsProps) => {
                 <div className="space-y-2.5 w-full max-sm:space-y-5 sm:col-span-2">
                   <div className="flex max-sm:flex-col justify-between w-full sm:items-center gap-4">
                     <h2 className="font-semibold sm:whitespace-nowrap">
-                      Former password
+                      Current password
                     </h2>
                     <FormInput
-                      placeholder="Enter your name"
+                      placeholder="Enter your current password"
                       className="sm:max-w-[60%] w-full"
                       name="oldPassword"
                       error={fieldError("oldPassword")}
@@ -83,7 +108,7 @@ export const ChangePasswordSettings = ({}: ChangePasswordSettingsProps) => {
                       New password
                     </h2>
                     <FormInput
-                      placeholder="********"
+                      placeholder="Enter your new password"
                       className="sm:max-w-[60%] w-full"
                       name="newPassword"
                       error={fieldError("newPassword")}
@@ -97,7 +122,7 @@ export const ChangePasswordSettings = ({}: ChangePasswordSettingsProps) => {
                       Confirm password
                     </h2>
                     <FormInput
-                      placeholder="********"
+                      placeholder="Confirm your new password"
                       className="sm:max-w-[60%] w-full"
                       name="confirmPassword"
                       error={fieldError("confirmPassword")}
@@ -107,7 +132,12 @@ export const ChangePasswordSettings = ({}: ChangePasswordSettingsProps) => {
                   </div>
                 </div>
                 <div className="flex flex-col sm:justify-end sm:items-end w-full">
-                  <Button className="max-sm:w-full" disabled={!isValid}>
+                  <Button
+                    type="submit"
+                    loading={isMutating}
+                    className="max-sm:w-full"
+                    disabled={!isValid}
+                  >
                     Update
                   </Button>
                 </div>

@@ -1,24 +1,85 @@
+import { updatePersonalInfoKey } from "@/api/keys";
+import { updatePersonalInfo } from "@/api/mutations";
 import FormInput from "@/components/common/ui/FormInput";
 import PhoneInput from "@/components/common/ui/PhoneInput";
 import { Button } from "@/components/ui/button";
-import useSchoolStore from "@/store/school";
+import { UpdatePersonalInfoPayload } from "@/types/school/auth";
+import { User } from "@/types/user";
+import { trimObj } from "@/utils/key";
 import {
   PersonalInfoFormValue,
   personalInfoValidation,
 } from "@/utils/validation/school";
 import { Form, Formik } from "formik";
+import { useMemo } from "react";
+import { toast } from "sonner";
+import useSWRMutation from "swr/mutation";
 
-type PersonalInfoSettingsProps = {};
+type PersonalInfoSettingsProps = {
+  user: (Partial<User> & { positionDescription: string }) | null;
+  refetch: VoidFunction;
+};
 
-export const PersonalInfoSettings = ({}: PersonalInfoSettingsProps) => {
-  const { school } = useSchoolStore();
+export const PersonalInfoSettings = ({
+  user,
+  refetch,
+}: PersonalInfoSettingsProps) => {
+  const { trigger, isMutating } = useSWRMutation(
+    updatePersonalInfoKey,
+    updatePersonalInfo
+  );
 
-  const initialData = {
-    name: school?.adminName ?? "",
-    email: school?.officialEmail ?? "",
-    position: school?.position ?? "",
-    phone: school?.contactNumber ?? "",
-  };
+  const initialData = useMemo(() => {
+    const userName = user
+      ? `${user.firstName ?? ""} ${user.lastName ?? ""}`
+      : "";
+    const data = {
+      name: userName,
+      position: user?.positionDescription ?? "",
+      phone: {
+        dialCode: user?.phoneCountryCode ?? "",
+        digits: user?.phoneNumber ?? "",
+      },
+    };
+    return data;
+  }, [user]);
+
+  async function handleSubmit(
+    data: PersonalInfoFormValue,
+    { resetForm }: { resetForm: VoidFunction }
+  ) {
+    const [firstName, ...lastName] = data.name.trim().split(" ");
+    if (!firstName.length || !lastName.length) {
+      toast.error("First and last names are both required");
+      return;
+    }
+    try {
+      const payload: UpdatePersonalInfoPayload = {
+        userFirstName: firstName,
+        userLastName: lastName.join(" "),
+        phoneCountryCode: data.phone.dialCode,
+        phoneNumber: data.phone.digits,
+        positionDescription: data.position,
+      };
+
+      const values: Partial<UpdatePersonalInfoPayload> = {};
+
+      Object.entries(payload).forEach(([key, value]) => {
+        if (value && value !== "") {
+          values[key as keyof UpdatePersonalInfoPayload] = value;
+        }
+      });
+
+      await trigger(trimObj(values));
+
+      toast.success("Profile updated successfully");
+
+      refetch();
+      resetForm();
+    } catch (error) {
+      toast.error(error as string);
+    }
+  }
   return (
     <div className="space-y-4">
       <div className="pb-1 border-b border-grey-400">
@@ -31,13 +92,25 @@ export const PersonalInfoSettings = ({}: PersonalInfoSettingsProps) => {
           validationSchema={personalInfoValidation}
           initialValues={initialData}
           validateOnMount
-          onSubmit={(values: PersonalInfoFormValue) => {}}
+          enableReinitialize
+          onSubmit={handleSubmit}
         >
           {({ touched, errors, setFieldValue, isValid }) => {
-            const fieldError = (fieldName: keyof PersonalInfoFormValue) =>
-              touched[fieldName] && errors[fieldName]
-                ? errors[fieldName]
-                : null;
+            const fieldError = (fieldNames: string[]) => {
+              const errorMessages = fieldNames
+                .map((field) => {
+                  if (
+                    touched[field as keyof PersonalInfoFormValue] &&
+                    errors[field as keyof PersonalInfoFormValue]
+                  ) {
+                    return errors[field as keyof PersonalInfoFormValue];
+                  } else {
+                    return null;
+                  }
+                })
+                .filter((i) => i !== null);
+              return errorMessages.join(", ");
+            };
 
             return (
               <Form className="py-4 grid sm:grid-cols-3 lg:grid-cols-4 max-sm:gap-5 text-grey-500">
@@ -51,7 +124,7 @@ export const PersonalInfoSettings = ({}: PersonalInfoSettingsProps) => {
                       placeholder="Enter your name"
                       className="sm:max-w-[60%] w-full"
                       name="name"
-                      error={fieldError("name")}
+                      error={fieldError(["name"])}
                     />
                   </div>
 
@@ -59,12 +132,9 @@ export const PersonalInfoSettings = ({}: PersonalInfoSettingsProps) => {
                     <h2 className="font-semibold sm:whitespace-nowrap">
                       Email address
                     </h2>
-                    <FormInput
-                      placeholder="Enter your email"
-                      className="sm:max-w-[60%] w-full"
-                      name="email"
-                      error={fieldError("email")}
-                    />
+                    <div className="py-2 rounded-lg sm:max-w-[60%] w-full border bg-muted/50 px-3">
+                      <p>{user?.email ?? "hello world"}</p>
+                    </div>
                   </div>
 
                   <div className="flex max-sm:flex-col justify-between w-full sm:items-center gap-4">
@@ -72,9 +142,10 @@ export const PersonalInfoSettings = ({}: PersonalInfoSettingsProps) => {
                       Phone number
                     </h2>
                     <PhoneInput
-                      name="phone"
+                      name="phone.digits"
+                      dialCodeName="phone.dialCode"
                       setFieldValue={setFieldValue}
-                      error={fieldError("phone")}
+                      error={fieldError(["phone.digits", "phone.dialCode"])}
                       className="sm:max-w-[60%] w-full"
                     />
                   </div>
@@ -87,12 +158,17 @@ export const PersonalInfoSettings = ({}: PersonalInfoSettingsProps) => {
                       placeholder="Enter your position"
                       className="sm:max-w-[60%] w-full"
                       name="position"
-                      error={fieldError("position")}
+                      error={fieldError(["position"])}
                     />
                   </div>
                 </div>
                 <div className="flex flex-col sm:justify-end sm:items-end w-full">
-                  <Button className="max-sm:w-full" disabled={!isValid}>
+                  <Button
+                    loading={isMutating}
+                    type="submit"
+                    className="max-sm:w-full"
+                    disabled={!isValid}
+                  >
                     Edit
                   </Button>
                 </div>

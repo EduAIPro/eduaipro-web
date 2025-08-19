@@ -8,12 +8,14 @@ type PersonalInfoProps = {
   touched: FormikTouched<PersonalInfoFormValue>;
   errors: FormikErrors<PersonalInfoFormValue>;
   userPhoneExists: boolean;
+  isInvited: boolean;
 };
 
 export default function PersonalInfo({
   touched,
   errors,
   userPhoneExists,
+  isInvited,
 }: PersonalInfoProps) {
   return (
     <div>
@@ -34,15 +36,17 @@ export default function PersonalInfo({
               : null
           }
         />
-        <FormInput
-          label="School name"
-          placeholder="Enter your school name"
-          className="w-full"
-          name="schoolName"
-          error={
-            touched.schoolName && errors.schoolName ? errors.schoolName : null
-          }
-        />
+        {isInvited ? null : (
+          <FormInput
+            label="School name"
+            placeholder="Enter your school name"
+            className="w-full"
+            name="schoolName"
+            error={
+              touched.schoolName && errors.schoolName ? errors.schoolName : null
+            }
+          />
+        )}
         {userPhoneExists ? null : (
           <FormInput
             label="Contact number"

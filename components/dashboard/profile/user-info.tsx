@@ -11,7 +11,6 @@ type UserInfoProps = {
 };
 
 export const UserInfo = ({ user }: UserInfoProps) => {
-  console.log({ user });
   const userInfo = useMemo(
     () =>
       user

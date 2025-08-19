@@ -1,44 +1,48 @@
-import CertificateIcon from "@/components/svgs/school/certificate.svg";
+// import CertificateIcon from "@/components/svgs/school/certificate.svg";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Certificate } from "@/types/school/teachers";
+import { Accreditation } from "@/types/certificates";
 import { format } from "date-fns";
 import { DownloadIcon } from "lucide-react";
+import Image from "next/image";
 import { Fragment } from "react";
 
 type ProfileSheetProps = {
-  certificate: Certificate;
+  certificate: Accreditation;
+  progress: number;
+  emailVerifiedAt: string;
   onBack: VoidFunction;
 };
 
 export const CertificateSheet = ({
   certificate,
   onBack,
+  progress,
+  emailVerifiedAt,
 }: ProfileSheetProps) => {
-  const progress = certificate.progress;
   const certificateInfo = [
     {
       label: "Certificate name",
-      value: certificate.name,
+      value: certificate.certificateName,
     },
     {
       label: "Issuing Body",
-      value: "EduAIPro",
+      value: certificate.issuingBodyName,
     },
     {
       label: "Certificate ID",
-      value: certificate.id,
+      value: certificate.certificateId,
     },
   ];
 
   const timelineInfo = [
     {
       label: "Start date",
-      value: certificate.timeline.start,
+      value: emailVerifiedAt,
     },
     {
       label: "Deadline",
-      value: certificate.timeline.end,
+      value: certificate.issuedAt,
     },
   ];
 
@@ -56,11 +60,11 @@ export const CertificateSheet = ({
   const validityInfo = [
     {
       label: "Issue Date",
-      value: certificate.issued,
+      value: certificate.createdAt,
     },
     {
       label: "Expiry Date",
-      value: certificate.expires,
+      value: certificate.expiresAt,
     },
   ];
 
@@ -68,19 +72,26 @@ export const CertificateSheet = ({
     <Fragment>
       <div className="space-y-4 -mt-10 animate-in">
         <div className="border-[2.5px] border-white rounded-xl size-[100px] flex items-center justify-center bg-[#F6F6F6]">
-          <CertificateIcon
+          <Image
+            alt="Certificate image"
+            src={certificate.certificateImageUrl}
+            width={72}
+            height={72}
+            className="size-[72px]"
+          />
+          {/* <CertificateIcon
             strokeWidth={1}
             color="black"
             className="size-[72px]"
-          />
+          /> */}
         </div>
         <div className="flex md:items-center justify-between max-md:flex-col gap-5">
           <div>
             <h2 className="text-grey-800 font-medium text-lg">
-              {certificate.name}
+              {certificate.certificateName}
             </h2>
             <p className="text-sm font-medium text-grey-500">
-              Certificate ID: {certificate.id}
+              Certificate ID: {certificate.certificateId}
             </p>
           </div>
           <Button>

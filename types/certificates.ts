@@ -4,12 +4,12 @@ export type ListCertificates = {
     current: number;
     next: null | number;
   };
-  data: Certificate[];
+  data: Accreditation[];
 };
 
 export type AccreditationStatus = "ACCREDITED" | "NOT_ACCREDITED";
 
-export type Certificate = {
+export type Accreditation = {
   id: string;
   issuingBodyName: string;
   certificateName: string;

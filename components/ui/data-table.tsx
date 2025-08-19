@@ -10,7 +10,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-// import Empty from "@/assets/icons/empty.svg?react"
+import WarningIcon from "@/components/svgs/warning.svg";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
@@ -470,8 +470,7 @@ type BaseProps = { onRefresh?: () => void; loading: boolean };
 const ErrorComponent = ({ onRefresh, loading }: BaseProps) => {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-10">
-      <p>illustration</p>
-      {/* <Empty width={64} height={64} /> */}
+      <WarningIcon />
       <div className="mt-6">
         <p className="text-error-1 mx-auto max-w-sm font-medium">
           There was an error while loading data. Please try again.

@@ -21,7 +21,10 @@ export const ChangePassword = () => {
     changePassword
   );
 
-  function onSubmit(values: ChangePasswordFormValue) {
+  async function onSubmit(
+    values: ChangePasswordFormValue,
+    { resetForm }: { resetForm: VoidFunction }
+  ) {
     if (values.password !== values.confirmPassword) {
       toast.error("New passwords do not match");
       return;
@@ -31,7 +34,9 @@ export const ChangePassword = () => {
         newPassword: values.password,
         currentPassword: values.oldPassword,
       };
-      trigger(trimObj(payload));
+      await trigger(trimObj(payload));
+      toast.success("Password changed successfully");
+      resetForm();
     }
   }
 

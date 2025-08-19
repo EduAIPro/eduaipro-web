@@ -1,61 +1,60 @@
-import { useMutationApi } from "@/api/hooks/useMutationApi";
-import {
-  ACTIVATE_SCHOOL_TEACHER_MUTATION_KEY,
-  GET_ALL_SCHOOL_TEACHERS_QUERY_KEY,
-  GET_SCHOOL_TEACHER_BY_ID_QUERY_KEY,
-} from "@/api/keys";
-import { approveTeacherAccount } from "@/api/mutations";
+import { getSchoolStaffsKey } from "@/api/keys";
+import { reactivateStaff } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
-import { BanIcon } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { mutate } from "swr";
+import useSWRMutation from "swr/mutation";
 
 type ConfirmActivateTeacherModalProps = {
-  teacherId: string;
+  staffId: string;
 };
 
 export const ConfirmActivateTeacherModal = ({
-  teacherId,
+  staffId,
 }: ConfirmActivateTeacherModalProps) => {
   const [open, setOpen] = useState(false);
 
-  const activateTeacherAccountMutation = useMutationApi(
-    ACTIVATE_SCHOOL_TEACHER_MUTATION_KEY,
-    approveTeacherAccount,
-    {
-      onSuccess() {
-        toast.success("Teacher approved successfully!");
-        setOpen(false);
-      },
-      onError(error) {
-        toast.error((error as any)?.message as string);
-        setOpen(false);
-      },
-    },
-    [GET_SCHOOL_TEACHER_BY_ID_QUERY_KEY, GET_ALL_SCHOOL_TEACHERS_QUERY_KEY]
+  const { trigger, isMutating } = useSWRMutation(
+    getSchoolStaffsKey,
+    reactivateStaff
   );
+
+  async function handleReactivateStaff() {
+    try {
+      await trigger({ staffId });
+      toast.success("Staff reactivated successfully");
+      setOpen(false);
+      mutate(getSchoolStaffsKey);
+    } catch (error) {
+      toast.error(error as string);
+    }
+  }
   return (
     <Modal
       open={open}
       toggleModal={setOpen}
       trigger={
         <Button className="max-md:w-full">
-          <BanIcon />
+          <CheckIcon />
           Activate user
         </Button>
       }
       footer={
         <>
-          <Button variant="outline" className="max-sm:w-full">
+          <Button
+            onClick={() => setOpen(false)}
+            variant="outline"
+            className="max-sm:w-full"
+          >
             Cancel
           </Button>
           <Button
             className="max-sm:w-full"
-            loading={activateTeacherAccountMutation.isLoading}
-            onClick={() => {
-              activateTeacherAccountMutation.mutate(teacherId);
-            }}
+            loading={isMutating}
+            onClick={handleReactivateStaff}
           >
             Yes, continue
           </Button>

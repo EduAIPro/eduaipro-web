@@ -1,26 +1,36 @@
 "use client";
-import { confirmVerifyEmailKey } from "@/api/keys";
-import { confirmEmailVerification } from "@/api/mutations";
+import { confirmVerifyEmailKey, requestVerifyEmailKey } from "@/api/keys";
+import { confirmEmailVerification, requestVerifyEmail } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { cn } from "@/lib/utils";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
 
 export default function VerifyEmail() {
   const [otp, setOtp] = useState("");
+  const [counter, setCounter] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const userEmail = searchParams.get("email");
+  const userRole = searchParams.get("role");
 
   const { trigger, isMutating } = useSWRMutation(
     confirmVerifyEmailKey,
     confirmEmailVerification
   );
+
+  const { trigger: resendVerification, isMutating: isResendingVerification } =
+    useSWRMutation(requestVerifyEmailKey, requestVerifyEmail);
 
   async function onSubmit() {
     if (!otp.trim() || otp.length < 6) {
@@ -32,11 +42,56 @@ export default function VerifyEmail() {
 
       toast.success("Email verification successful 🎉");
 
-      router.push("/dashboard");
+      if (userRole === "USER") {
+        router.push("/dashboard");
+      } else if (userRole === "OWNER") {
+        router.push("/school");
+      } else {
+        router.push("/admin");
+      }
     } catch (error: any) {
       toast.error(error.message);
     }
   }
+
+  const handleResendCode = async () => {
+    // Start the timer again
+    const timer = setInterval(() => {
+      setCounter((prevCounter) => {
+        if (prevCounter <= 1) {
+          clearInterval(timer);
+          setCanResend(true);
+          return 0;
+        }
+        return prevCounter - 1;
+      });
+    }, 1000);
+
+    // Resend the verification code
+    if (userEmail) {
+      await resendVerification({ email: decodeURIComponent(userEmail) });
+      setCanResend(false);
+      setCounter(60);
+      setOtp("");
+    }
+  };
+
+  useEffect(() => {
+    // Start countdown for OTP expiry
+    const timer = setInterval(() => {
+      setCounter((prevCounter) => {
+        if (prevCounter <= 1) {
+          clearInterval(timer);
+          setCanResend(true);
+          return 0;
+        }
+        return prevCounter - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="max-xs:mt-10 max-lg:mt-20 h-full sm:justify-center flex flex-col space-y-6 lg:max-w-xl mx-auto">
       <div>
@@ -68,6 +123,26 @@ export default function VerifyEmail() {
               ))}
             </InputOTPGroup>
           </InputOTP>
+        </div>
+        <div className={cn("flex items-center gap-3 mt-6")}>
+          <p className="">
+            {canResend ? "" : `Didn't get the code? resend in ${counter}s`}
+          </p>
+
+          <Button
+            loading={isResendingVerification}
+            disabled={!canResend}
+            onClick={handleResendCode}
+            variant="ghost"
+            className={cn(
+              "flex items-center gap-2",
+              canResend ? "" : "opacity-50"
+            )}
+          >
+            <p className={cn(canResend ? "text-primary-400" : "text-grey-500")}>
+              Resend Code
+            </p>
+          </Button>
         </div>
         <Button
           loading={isMutating}

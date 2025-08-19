@@ -7,6 +7,7 @@ export type User = {
   username?: string;
   email: string;
   phoneNumber: string;
+  phoneCountryCode: string;
   profileImageUrl: null | string;
   lastLoggedInAt: string;
 };
@@ -16,7 +17,7 @@ export type Staff = {
   role: UserRoles;
   isActive: boolean;
   teacherLevel: null | string;
-  positionDescription: UserRoles;
+  positionDescription: string | UserRoles;
   createdAt: string;
   updatedAt: string;
   educationalLevel: null | string;

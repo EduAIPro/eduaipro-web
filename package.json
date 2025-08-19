@@ -52,15 +52,15 @@
     "react-pdf": "^9.2.1",
     "react-player": "^2.16.0",
     "react-resizable-panels": "^2.1.7",
+    "recharts": "^2.15.4",
     "sharp": "^0.34.2",
     "sonner": "^2.0.6",
     "swr": "^2.3.4",
-    "recharts": "^2.15.3",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "yup": "^1.4.0",
     "yup-password": "^0.4.0",
-    "zustand": "^5.0.5"
+    "zustand": "^5.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",

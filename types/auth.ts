@@ -1,3 +1,5 @@
+import { SchoolStaff } from "./school/teachers";
+
 export type CreateTeacherAccountPayload = {
   teachingLevel: string;
   subjectsTaught: string[];
@@ -28,6 +30,7 @@ export type TeacherSignup = {
   phoneCountryCode: string;
   phoneNumber: string;
   password: string;
+  invitationCode?: string;
 };
 
 export type Login = {
@@ -54,28 +57,7 @@ export type TeacherLoginResponse = APIBaseResponse & {
       emailVerifiedAt: string;
       role: UserRoles;
     };
-    staff: {
-      id: string;
-      role: UserRoles;
-      isActive: boolean;
-      teacherLevel: null | string;
-      positionDescription: string;
-      createdAt: string;
-      updatedAt: string;
-      professionalLevel: null | string;
-      educationalLevel: null | string;
-      experienceRange: null | string;
-      areaOfSpecialization: null | string;
-      interestedSkills: string[];
-      primaryLearningGoal: null | string;
-      altLearningGoal: null | string;
-      acceptedTermsAndConditions: boolean;
-      userId: string;
-      schoolId: string;
-      school: {
-        institutionName: string;
-      };
-    };
+    staff: Omit<SchoolStaff, "user">;
   };
 };
 
@@ -98,7 +80,7 @@ export type TeacherSignupResponse = {
 export type TeacherSurveyPayload = {
   personal: {
     dateOfBirth: string;
-    schoolName: string;
+    schoolName?: string;
     location: string;
     phoneNumber?: string;
   };
@@ -155,58 +137,6 @@ export type User = {
   createdAt: string;
   updatedAt: string;
   role: UserRoles;
-};
-
-export type SchoolSignupPayload = {
-  name: string;
-  city: string;
-  state: string;
-  adminName: string;
-  type: string;
-  password: string;
-  location: string;
-  contactNumber: string;
-  officialEmail: string;
-  contactEmail: string;
-  phoneNumber: string;
-  position: string;
-};
-
-export enum UserRoles {
-  teacher = "Teacher",
-  school = "SCHOOL",
-}
-export type SchoolSignupResponse = {
-  statusCode: number;
-  error: null | string;
-  message: string;
-  data: {
-    school: {
-      name: string;
-      type: string;
-      location: string;
-      contactNumber: string;
-      officialEmail: string;
-      role: UserRoles;
-      isActive: boolean;
-      contactEmail: string;
-      phoneNumber: string;
-      position: string;
-      website?: string;
-      schoolID: string;
-      admins: any[];
-      _id: string;
-      lastLogin: string;
-      createdAt: string;
-      updatedAt: string;
-      activeAdminsCount: number;
-      id: string;
-    };
-    tokens: {
-      token: string;
-      refreshToken: string;
-    };
-  };
 };
 
 export type SchoolLogin = {

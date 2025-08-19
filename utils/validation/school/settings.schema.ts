@@ -1,18 +1,18 @@
 import * as Yup from "yup";
 import { passwordValidation } from "..";
-import { phoneValidation } from "../auth/signup/signup.schema";
+import { phoneValidation } from "../auth/school/signup.schema";
 
 export const personalInfoValidation = Yup.object().shape({
   name: Yup.string()
     .required("Full name is a required value")
     .min(2, "Full name must be at least two characters long"),
-  email: Yup.string()
-    .required("Email address is a required value")
-    .email("Please enter a valid email"),
   position: Yup.string()
     .required("Position is a required value")
     .min(2, "Position must be at least two characters long"),
-  phone: phoneValidation.required("Your phone number is required"),
+  phone: Yup.object().shape({
+    dialCode: Yup.string().required("Country dialcode is required"),
+    digits: phoneValidation.required("Phone number is a required value"),
+  }),
 });
 
 export type PersonalInfoFormValue = Yup.InferType<
@@ -35,7 +35,12 @@ export const schoolInfoValidation = Yup.object().shape({
   address: Yup.string()
     .required("Address is a required value")
     .min(2, "Address must be at least two characters long"),
-  contactPhone: phoneValidation.required("Contact phone number is required"),
+  contactPhone: Yup.object().shape({
+    dialCode: Yup.string().required("Country dialcode is required"),
+    digits: phoneValidation.required(
+      "Contact phone number is a required value"
+    ),
+  }),
 });
 
 export type SchoolInfoFormValue = Yup.InferType<typeof schoolInfoValidation>;
