@@ -27,7 +27,10 @@ export const NotificationSettings = ({}: NotificationSettingsProps) => {
         <div className=" w-full max-sm:space-y-5 sm:col-span-2">
           <ul className="space-y-2.5 text-grey-500">
             {notificationCategories.map((n) => (
-              <li className="flex items-center gap-3 max-sm:justify-between">
+              <li
+                key={n.label}
+                className="flex items-center gap-3 max-sm:justify-between"
+              >
                 <p className="font-medium whitespace-nowrap min-w-[250px]">
                   {n.label}
                 </p>

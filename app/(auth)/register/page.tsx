@@ -26,7 +26,9 @@ function RegisterForm() {
             </div>
           </Link>
           {userType === userTypes[1] ? (
-            <TeacherSignup />
+            <Suspense>
+              <TeacherSignup />
+            </Suspense>
           ) : userType === userTypes[0] ? (
             <SchoolSignup />
           ) : userType === "admin" ? (

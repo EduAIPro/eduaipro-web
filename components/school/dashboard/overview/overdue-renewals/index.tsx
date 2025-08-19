@@ -34,8 +34,8 @@ export const OverdueRenewals = ({}: OverdueRenewalsProps) => {
         </div>
         {isLoading ? (
           <div className="space-y-4">
-            {new Array(8).fill("").map(() => (
-              <div className="flex justify-between">
+            {new Array(8).fill("").map((_, i) => (
+              <div key={i} className="flex justify-between">
                 <div className="space-y-2 w-1/2">
                   <Skeleton className="h-3 rounded-md w-full" />
                   <Skeleton className="h-3 rounded-md w-1/2" />

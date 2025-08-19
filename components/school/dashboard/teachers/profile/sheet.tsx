@@ -74,7 +74,7 @@ export const ProfileSheet = ({
                 Ooops, an error occured
               </h2>
               <p className="font-medium text-grey-500 text-base">
-                We searched far and wide but couldn't find that teachers
+                We searched far and wide but {"couldn't"} find that teachers
                 details. Please try again later
               </p>
             </div>

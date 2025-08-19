@@ -10,11 +10,11 @@ import {
 import { cn } from "@/lib/utils";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
 
-export default function VerifyEmail() {
+function VerifyEmail() {
   const [otp, setOtp] = useState("");
   const [counter, setCounter] = useState(60);
   const [canResend, setCanResend] = useState(false);
@@ -156,3 +156,13 @@ export default function VerifyEmail() {
     </div>
   );
 }
+
+const WrappedComponent = () => {
+  return (
+    <Suspense>
+      <VerifyEmail />
+    </Suspense>
+  );
+};
+
+export default WrappedComponent;
