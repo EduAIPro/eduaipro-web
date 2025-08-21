@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 // Import Shadcn UI components (adjust the import paths based on your project structure)
 import {
   Select,
@@ -47,10 +47,17 @@ export default function PhoneInput({
   const phoneField =
     values["phoneNumber"] || values["phone"] || values["contactPhone"];
 
+  const defaultCountry = useMemo(() => {
+    if (phoneField && phoneField.dialCode) {
+      return countries.find((c) => c.dialCode === phoneField.dialCode)!;
+    } else {
+      return countries[0];
+    }
+  }, [phoneField]);
+
   const [isFocused, setIsFocused] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<Country>(
-    phoneField.dialCode ?? countries[0]
-  );
+  const [selectedCountry, setSelectedCountry] =
+    useState<Country>(defaultCountry);
 
   const [rawPhone, setRawPhone] = useState<string>(phoneField.digits ?? "");
 
