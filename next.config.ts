@@ -47,9 +47,9 @@ const nextConfig: NextConfig = {
       ...config,
       externals: [
         ...config.externals,
-        // {
-        //   sharp: 'commonjs sharp'
-        // }
+        {
+          sharp: "commonjs sharp",
+        },
       ],
     };
 
