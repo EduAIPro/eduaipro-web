@@ -26,6 +26,7 @@ export const TeachersCard = ({ staffActivity }: TeachersCardProps) => {
     } else {
       return { percentInactive: 50, percentActive: 50 };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalStaff]);
   return (
     <div className="school_card flex flex-col justify-between space-y-14">
@@ -37,7 +38,7 @@ export const TeachersCard = ({ staffActivity }: TeachersCardProps) => {
         <div className="flex items-center gap-1 justify-between">
           <div
             style={{ width: `${percentage.percentActive}%` }}
-            className="rounded-full h-1.5 bg-[#008000]"
+            className="rounded-full h-1.5 bg-success-600"
           ></div>
           <div
             style={{ width: `${percentage.percentInactive}%` }}
@@ -46,7 +47,7 @@ export const TeachersCard = ({ staffActivity }: TeachersCardProps) => {
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1">
-            <div className="size-2 rounded-full bg-[#008000]"></div>
+            <div className="size-2 rounded-full bg-success-600"></div>
             <p>{staffActivity?.totalActiveStaffs ?? 0} active</p>
           </div>
           <div className="flex items-center gap-1">

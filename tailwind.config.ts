@@ -77,6 +77,7 @@ const config: Config = {
         success: {
           DEFAULT: "#00dd66",
           surface: "#EDFFED",
+          400: "#6CD76C",
           600: "#008000",
         },
         accent: {
@@ -108,11 +109,19 @@ const config: Config = {
           "100": "#F5F8FF",
           "150": "#D9E3F8",
           "180": "#F9FBFC",
+          "190": "#E6E8EA",
           "200": "#AFCAFC",
-          "250": "#E6E8EA",
+          "250": "#8FC7F5",
+          "260": "#008CFF",
           "300": "#2E6BCE",
           "400": "#0043BE",
           foreground: "hsl(var(--primary-foreground))",
+        },
+        purple: {
+          800: "#800080",
+          750: "#CB36CB",
+          700: "#CC6FCC",
+          600: "#FABEE8",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

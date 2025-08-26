@@ -30,7 +30,11 @@ export default function AppLayoutBase({ children }: { children: ReactNode }) {
     DefaultLayout.displayName = "LoginLayout";
     AppLayout = DefaultLayout;
   }
-  if (pathname.includes("/dashboard") || pathname.includes("/school")) {
+  if (
+    pathname.includes("/dashboard") ||
+    pathname.includes("/school") ||
+    pathname.includes("/admin")
+  ) {
     DefaultLayout.displayName = "DashboardLayout";
     AppLayout = DefaultLayout;
   }

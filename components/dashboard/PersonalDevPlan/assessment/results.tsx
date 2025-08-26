@@ -97,7 +97,7 @@ export const AssessmentResults = ({
                 {activeQuestion.questionText}
               </h2>
               {!activeQuestion.userAnswer ? (
-                <div className="rounded-md bg-primary-180 border border-primary-250 uppercase w-fit px-1.5 text-xs absolute top-0 left-36">
+                <div className="rounded-md bg-primary-180 border border-primary-190 uppercase w-fit px-1.5 text-xs absolute top-0 left-36">
                   <p>unanswered</p>
                 </div>
               ) : null}
@@ -115,7 +115,7 @@ export const AssessmentResults = ({
 
                 let Icon: any = SquareIcon;
                 let styles =
-                  "p-2.5 rounded-lg border bg-primary-180 border-primary-250";
+                  "p-2.5 rounded-lg border bg-primary-180 border-primary-190";
 
                 if (userAnswerExists) {
                   if (isCorrect) {
@@ -132,7 +132,7 @@ export const AssessmentResults = ({
                     // User answered, but this is not the correct or selected option
                     Icon = SquareIcon;
                     styles =
-                      "p-2.5 rounded-lg border bg-primary-180 border-primary-250";
+                      "p-2.5 rounded-lg border bg-primary-180 border-primary-190";
                   }
                 } else {
                   // User did not answer
@@ -144,7 +144,7 @@ export const AssessmentResults = ({
                   } else {
                     Icon = SquareIcon;
                     styles =
-                      "p-2.5 rounded-lg border bg-primary-180 border-primary-250";
+                      "p-2.5 rounded-lg border bg-primary-180 border-primary-190";
                   }
                 }
 
