@@ -32,9 +32,9 @@ export default function LoginForm() {
         sessionStorage.setItem(CONFIG.USER_IDENTIFIER, user.id);
       }
 
-      if (staff.role === "USER") {
+      if (user.role === "USER") {
         router.push("/dashboard");
-      } else if (staff.role === "OWNER") {
+      } else if (user.role === "OWNER") {
         router.push("/school");
       } else {
         router.push("/admin");
