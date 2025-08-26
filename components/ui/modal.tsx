@@ -67,18 +67,18 @@ export const Modal = ({
         {title && (
           <DialogHeader
             className={cn(
-              "border-b border-divider-primary px-5 py-5 text-left text-grey-800",
+              "border-b border-divider-primary px-5 py-4 text-left text-grey-800",
               hideTitle ? "sr-only" : ""
             )}
           >
-            <DialogTitle>{title}</DialogTitle>
+            <DialogTitle className="max-sm:text-base">{title}</DialogTitle>
             <DialogDescription className="sr-only">{title}</DialogDescription>
           </DialogHeader>
         )}
 
         <div
           className={cn(
-            "min-h-[30vh] flex-1 overflow-auto p-5 sm:min-h-0",
+            "min-h-[30vh] flex-1 overflow-auto px-5 py-3 sm:min-h-0",
             className
           )}
         >
@@ -86,7 +86,7 @@ export const Modal = ({
         </div>
 
         {footer && (
-          <DialogFooter className="border-t border-divider-primary px-5 py-3 text-left text-grey-800">
+          <DialogFooter className="flex flex-col gap-2 border-t border-divider-primary px-5 py-3 text-left text-grey-800">
             {footer}
           </DialogFooter>
         )}

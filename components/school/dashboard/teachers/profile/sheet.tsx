@@ -12,8 +12,10 @@ import { StaffDetail } from "@/types/school/teachers";
 import { format } from "date-fns";
 import { ChevronRightIcon } from "lucide-react";
 import { Fragment, useState } from "react";
-import { ConfirmActivateTeacherModal } from "../modals/confirm-activate-teacher.modal";
-import { ConfirmDeactivateTeacherModal } from "../modals/confirm-deactivate-teacher.modal";
+import {
+  ConfirmActivateTeacherModal,
+  ConfirmDeactivateTeacherModal,
+} from "../modals";
 // import { ConfirmDeleteTeacherModal } from "../modals/confirm-delete-teacher.modal";
 import { CertificateSheet } from "./certificate-sheet";
 import { TeacherLoading } from "./loading";

@@ -8,7 +8,7 @@ import { SchoolStaff, SchoolStaffsData } from "@/types/school/teachers";
 import { useRouter } from "next/navigation";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
-import { InviteSchoolModal } from "../modals/invite-school-modal";
+import { InviteSchoolModal } from "../modals";
 import { Empty } from "./empty";
 
 export const SchoolsTable = () => {

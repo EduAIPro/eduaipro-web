@@ -46,4 +46,10 @@ export const getSchoolStaffsKey = "/school/staff/staffs";
 export const getSchoolInviteLinkKey = "/school/invite/link";
 export const getOverdueRenewalsKey = "/school/accreditation-renewals";
 
-export const getSchoolsKey = "/admin/schools";
+// export const getSchoolsKey = "/admin/schools";
+
+// ADMIN
+// mutations
+
+// queries
+export const getSchoolsKey = "/admin/school/schools";
