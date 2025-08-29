@@ -23,7 +23,7 @@ export default function CallToAction() {
             <div className="flex max-md:flex-col items-center gap-3 w-fit mx-auto">
               {appIcons.map((p) => (
                 <Button key={p.platformName} className="max-sm:w-full">
-                  <p.icon variant="Bold" color="white" />
+                  {/* <p.icon variant="Bold" color="white" /> */}
                   Coming soon on {p.platformName}
                 </Button>
               ))}
