@@ -29,8 +29,6 @@ export const AccreditationChart = ({ status }: AccreditationChartProps) => {
     return value;
   }, [status]);
 
-  console.log({ chartData });
-
   const chartConfig = {
     value: {
       label: "Accreditation",
