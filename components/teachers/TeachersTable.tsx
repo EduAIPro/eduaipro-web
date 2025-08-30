@@ -4,10 +4,11 @@ import { useState } from "react";
 import { Table, TableBody, TableHeader } from "@/components/ui/table";
 import { Teacher } from "@/app/types/Teacher";
 
-import TeachersTableHeader from "./TeachersTableHeader";
-import TeachersTableRow from "./TeachersTableRow";
-import TeachersTableEmpty from "./TeachersTableEmpty";
-import TeachersTablePagination from "./TeachersTablePagination";
+import SharedHeaderWithCheckbox from "@/components/sharedComponents/SharedTableHeader";
+import TableRowItem, { TableColumn } from "@/components/sharedComponents/SharedTableRows";
+import TableEmpty from "@/components/sharedComponents/SharedEmptyTable";
+import SharedPagination from "@/components/sharedComponents/SharedPagination";
+
 
 interface TeachersTableProps {
   teachers: Teacher[];
@@ -21,6 +22,7 @@ export default function TeachersTable({ teachers }: TeachersTableProps) {
   const totalPages = Math.ceil(teachers.length / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
   const paginatedTeachers = teachers.slice(startIndex, startIndex + rowsPerPage);
+
 
   const toggleRow = (id: number) => {
     setSelectedRows((prev) =>
@@ -41,28 +43,65 @@ export default function TeachersTable({ teachers }: TeachersTableProps) {
     }
   };
 
+ const columns: (keyof Teacher | TableColumn<Teacher>)[] = [
+  "name",
+  "email",
+  "phone",
+  "school",
+  "teachingLevel",
+  {
+    key: "status",
+    render: (t: Teacher) => (
+      <span className="flex items-center gap-[10px]">
+        <span
+          className={`h-[6px] w-[6px] rounded-full ${
+            t.status === "Active" ? "bg-green-500" : "bg-yellow-500"
+          }`}
+        ></span>
+        {t.status || "-"}
+      </span>
+    ),
+  },
+  "dateJoined",
+];
+
+
+  const colSpan = columns.length + 1;
+
   return (
     <div className="space-y-4">
       <div className="overflow-x-auto rounded-[10px] border border-gray-200">
         <Table className="min-w-full">
           <TableHeader>
-            <TeachersTableHeader
-              paginatedTeachers={paginatedTeachers}
+            <SharedHeaderWithCheckbox
+              data={paginatedTeachers}
               selectedRows={selectedRows}
               toggleAll={toggleAll}
+              columns={[
+                "Name",
+                "Email",
+                "Phone Number",
+                "School",
+                "Teaching Level",
+                "Status",
+                "Date Joined",
+                "Action",
+              ]}
             />
           </TableHeader>
 
           <TableBody>
             {paginatedTeachers.length === 0 ? (
-              <TeachersTableEmpty />
+              <TableEmpty colSpan={colSpan} message="No teachers found" />
             ) : (
               paginatedTeachers.map((teacher) => (
-                <TeachersTableRow
+                <TableRowItem<Teacher, number>
                   key={teacher.id}
-                  teacher={teacher}
+                  item={teacher}
+                  idKey="id"
                   selectedRows={selectedRows}
                   toggleRow={toggleRow}
+                  columns={columns}
                 />
               ))
             )}
@@ -71,10 +110,10 @@ export default function TeachersTable({ teachers }: TeachersTableProps) {
       </div>
 
       {totalPages > 1 && (
-        <TeachersTablePagination
+        <SharedPagination
           currentPage={currentPage}
           totalPages={totalPages}
-          setCurrentPage={setCurrentPage}
+          onPageChange={setCurrentPage}
         />
       )}
     </div>

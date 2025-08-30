@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { Table, TableBody, TableHeader } from "@/components/ui/table";
-import { Course} from "@/app/types/Course";
+import { Course } from "@/app/types/Course";
 
-import CoursesTableHeader from "./CoursesTableHeader";
-import CoursesTableRow from "./CoursesTableRow";
-import CoursesTableEmpty from "./CoursesTableEmpty";
-import CoursesTablePagination from "./CoursesTablePagination";
+import TableRowItem, { TableColumn } from "@/components/sharedComponents/SharedTableRows";
+import TableEmpty from "@/components/sharedComponents/SharedEmptyTable";
+import SharedPagination from "@/components/sharedComponents/SharedPagination";
+import SharedHeaderWithCheckbox from "@/components/sharedComponents/SharedTableHeader";
 
 interface CoursesTableProps {
   courses: Course[];
@@ -41,28 +41,68 @@ export default function CoursesTable({ courses }: CoursesTableProps) {
     }
   };
 
+const columns: (keyof Course | TableColumn<Course>)[] = [
+  "title",
+  {
+    key: "enrolled",
+    render: (c: Course) => ` ${c.enrolled} Teachers`,
+  },
+  {
+    key: "completed",
+    render: (c: Course) => `${c.completed} Completed`,
+  },
+  {
+    key: "rate",
+    render: (c: Course) => `${c.rate}%`, 
+  },
+   {
+    key: "period",
+    render: (c: Course) => `${c.period} Months`,
+  },
+  {
+    key: "validity",
+    render: (c: Course) => `${c.validity} Months`,
+  },
+  "dateCreated",
+];
+
+
+  const colSpan = columns.length + 1;
+
   return (
     <div className="space-y-4">
       <div className="overflow-x-auto rounded-[10px] border border-gray-200">
         <Table className="min-w-full">
           <TableHeader>
-            <CoursesTableHeader
-              paginatedCourses={paginatedCourses}
+            <SharedHeaderWithCheckbox
+              data={paginatedCourses}
               selectedRows={selectedRows}
               toggleAll={toggleAll}
+              columns={[
+                "Course Title",
+                "Enrolled Teachers",
+                "Teachers Completed",
+                "Completion Rate",
+                "Access Period",
+                "Validity Period",
+                "Date Created",
+                "Action",
+              ]}
             />
           </TableHeader>
 
           <TableBody>
             {paginatedCourses.length === 0 ? (
-              <CoursesTableEmpty />
+              <TableEmpty colSpan={colSpan} message="No courses found" />
             ) : (
               paginatedCourses.map((course) => (
-                <CoursesTableRow
+                <TableRowItem<Course, number>
                   key={course.id}
-                  course={course}
+                  item={course}
+                  idKey="id"
                   selectedRows={selectedRows}
                   toggleRow={toggleRow}
+                  columns={columns}
                 />
               ))
             )}
@@ -71,10 +111,10 @@ export default function CoursesTable({ courses }: CoursesTableProps) {
       </div>
 
       {totalPages > 1 && (
-        <CoursesTablePagination
+        <SharedPagination
           currentPage={currentPage}
           totalPages={totalPages}
-          setCurrentPage={setCurrentPage}
+          onPageChange={setCurrentPage}
         />
       )}
     </div>

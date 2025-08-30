@@ -6,35 +6,37 @@ import {
   PaginationItem,
 } from "@/components/ui/pagination";
 
-interface CoursesTablePaginationProps {
+interface TablePaginationProps {
   currentPage: number;
   totalPages: number;
-  setCurrentPage: (page: number) => void;
+  onPageChange: (page: number) => void;
 }
 
-export default function TeachersTablePagination({
+export default function TablePagination({
   currentPage,
   totalPages,
-  setCurrentPage,
-}: CoursesTablePaginationProps) {
+  onPageChange,
+}: TablePaginationProps) {
   return (
     <div className="flex justify-start float-end">
       <Pagination>
         <PaginationContent className="flex items-center gap-2">
+          
           <PaginationItem>
             <button
               className="px-2 py-1 border rounded-md"
-              onClick={() => setCurrentPage(1)}
+              onClick={() => onPageChange(1)}
               disabled={currentPage === 1}
             >
               «
             </button>
           </PaginationItem>
 
+    
           <PaginationItem>
             <button
               className="px-2 py-1 border rounded-md"
-              onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}
+              onClick={() => onPageChange(Math.max(currentPage - 1, 1))}
               disabled={currentPage === 1}
             >
               ‹
@@ -45,20 +47,22 @@ export default function TeachersTablePagination({
             Page {currentPage} of {totalPages}
           </span>
 
+
           <PaginationItem>
             <button
               className="px-2 py-1 border rounded-md"
-              onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))}
+              onClick={() => onPageChange(Math.min(currentPage + 1, totalPages))}
               disabled={currentPage === totalPages}
             >
               ›
             </button>
           </PaginationItem>
 
+       
           <PaginationItem>
             <button
               className="px-2 py-1 border rounded-md"
-              onClick={() => setCurrentPage(totalPages)}
+              onClick={() => onPageChange(totalPages)}
               disabled={currentPage === totalPages}
             >
               »

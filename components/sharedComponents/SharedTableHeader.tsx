@@ -3,46 +3,38 @@
 import { TableHead, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronsUpDown } from "lucide-react";
-import { Teacher } from "@/app/types/Teacher";
 
-interface TeachersTableHeaderProps {
-  paginatedTeachers: Teacher[];
+interface SharedHeaderCheckboxProps<T extends { id: number }> {
+  data: T[];
   selectedRows: number[];
   toggleAll: () => void;
+  columns: string[];
 }
 
-export default function TeachersTableHeader({
-  paginatedTeachers,
+export default function SharedHeaderCheckbox<T extends { id: number }>({
+  data,
   selectedRows,
   toggleAll,
-}: TeachersTableHeaderProps) {
+  columns,
+}: SharedHeaderCheckboxProps<T>) {
   return (
     <TableRow className="bg-[#ECECEC] rounded-t-[12px]">
+    
       <TableHead>
         <Checkbox
-          checked={paginatedTeachers.every((t) =>
-            selectedRows.includes(t.id)
-          )}
+          checked={data.length > 0 && data.every((item) => selectedRows.includes(item.id))}
           onCheckedChange={toggleAll}
           aria-label="Select all rows"
         />
       </TableHead>
-      {[
-        "Name",
-        "Email",
-        "Phone Number",
-        "School",
-        "Teaching Level",
-        "Status",
-        "Date Joined",
-        "Action",
-      ].map((head) => (
+
+      {columns.map((col) => (
         <TableHead
-          key={head}
+          key={col}
           className="text-[14px] font-semibold text-[#656565] leading-[100%]"
         >
           <div className="flex items-center gap-1">
-            <span>{head}</span>
+            <span>{col}</span>
             <ChevronsUpDown className="h-[14px] w-[14px]" />
           </div>
         </TableHead>

@@ -1,10 +1,7 @@
-"use client";
-
-import React, { useState } from "react";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Plus, SearchIcon } from "lucide-react";
+import { Plus } from "lucide-react";
 import Image from "next/image";
+import SearchWithActions from "../sharedComponents/SharedSearchInput";
 import { Course } from "@/app/types/Course";
 
 interface CoursesSearchProps {
@@ -12,58 +9,36 @@ interface CoursesSearchProps {
   onSearch: (filtered: Course[]) => void;
 }
 
-const CoursesSearch: React.FC<CoursesSearchProps> = ({
+export default function CoursesSearch({
   courses,
   onSearch,
-}) => {
-  const [query, setQuery] = useState("");
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-
-    const filtered = courses.filter(
-      (t) =>
-        t.title.toLowerCase().includes(value.toLowerCase()) ||
-        t.enrolled.toString().includes(value.toLowerCase()) ||
-        t.completed.toString().includes(value.toLowerCase())
-    );
-
-    onSearch(filtered);
-  };
-
+}: CoursesSearchProps) {
   return (
-    <div className="flex items-center justify-between">
-      <div className="relative w-full max-w-sm">
-        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-        <Input
-          placeholder="Search Courses"
-          className="pl-10"
-          value={query}
-          onChange={handleSearch}
-        />
-      </div>
+    <SearchWithActions<Course>
+      data={courses}
+      searchKeys={["title", "enrolled", "completed"]}
+      placeholder="Search Courses"
+      onSearch={onSearch}
+      extraActions={
+        <>
+          <Button
+            variant="ghost"
+            className="p-[10px] flex items-center text-[#656565]">
+            <Image
+              src="/assets/images/Vector.svg"
+              alt="filter"
+              width={15}
+              height={13.5}
+            />
+            Filter
+          </Button>
 
-      <div className="flex items-center gap-[10px]">
-        <Button
-          variant="ghost"
-          className="p-[10px] flex items-center text-[#656565]">
-          <Image
-            src="/assets/images/Vector.svg"
-            alt="filter"
-            width={15}
-            height={13.5}
-          />
-          Filter
-        </Button>
-
-        <Button variant="default">
-          <Plus />
-          Create New Course
-        </Button>
-      </div>
-    </div>
+          <Button variant="default">
+            <Plus />
+            Create New Course
+          </Button>
+        </>
+      }
+    />
   );
-};
-
-export default CoursesSearch;
+}
