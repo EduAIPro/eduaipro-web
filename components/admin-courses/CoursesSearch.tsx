@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import Image from "next/image";
 import SearchWithActions from "../sharedComponents/SharedSearchInput";
 import { Course } from "@/app/types/Course";
+import Link from "next/link";
 
 interface CoursesSearchProps {
   courses: Course[];
@@ -33,10 +34,12 @@ export default function CoursesSearch({
             Filter
           </Button>
 
-          <Button variant="default">
-            <Plus />
-            Create New Course
-          </Button>
+          <Link href="/admin/courses/new-course">
+            <Button variant="default">
+              <Plus />
+              Create New Course
+            </Button>
+          </Link>
         </>
       }
     />
