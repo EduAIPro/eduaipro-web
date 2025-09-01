@@ -14,7 +14,7 @@ type Response = {
 export async function authRefreshAction(): Promise<Response> {
   const _cookies = await cookies();
 
-  const refreshCookie = _cookies.get("refreshToken");
+  const refreshCookie = _cookies.get("eduaipro:refresh-token");
 
   if (!refreshCookie?.value) {
     return { is_completed: true, error: "Refresh cookie does not exist" };
@@ -27,7 +27,7 @@ export async function authRefreshAction(): Promise<Response> {
 
     _cookies.set({
       ...CONFIG.BASE_COOKIE_OPTION,
-      name: "refreshToken",
+      name: "eduaipro:refresh-token",
       value: data.data.tokens.refresh,
     });
 
@@ -40,7 +40,7 @@ export async function authRefreshAction(): Promise<Response> {
 export const getRefreshToken = async () => {
   const _cookies = await cookies();
 
-  const refreshCookie = _cookies.get("refreshToken");
+  const refreshCookie = _cookies.get("eduaipro:refresh-token");
 
   return refreshCookie?.value;
 };
@@ -48,7 +48,7 @@ export const getRefreshToken = async () => {
 export const deleteRefreshToken = async () => {
   const _cookies = await cookies();
 
-  _cookies.delete("refreshToken");
+  _cookies.delete("eduaipro:refresh-token");
 };
 
 export const setAuthCookes = async (refresh: string) => {
@@ -56,7 +56,7 @@ export const setAuthCookes = async (refresh: string) => {
 
   _cookies.set({
     ...CONFIG.BASE_COOKIE_OPTION,
-    name: "refreshToken",
+    name: "eduaipro:refresh-token",
     value: refresh,
   });
 };

@@ -1,5 +1,5 @@
-import CalenderActiveIcon from "@/components/svgs/school/calendar-active.svg";
-import CalenderIcon from "@/components/svgs/school/calendar.svg";
+// import CalenderActiveIcon from "@/components/svgs/school/calendar-active.svg";
+// import CalenderIcon from "@/components/svgs/school/calendar.svg";
 import DashboardActiveIcon from "@/components/svgs/school/dashboard-active.svg";
 import DashboardIcon from "@/components/svgs/school/dashboard.svg";
 import SettingsActiveIcon from "@/components/svgs/school/settings-active.svg";
@@ -20,12 +20,12 @@ export const NavItems = [
     icon: TeachersIcon,
     activeIcon: TeachersActiveIcon,
   },
-  {
-    name: "Calendar",
-    url: "/school/calendar",
-    icon: CalenderIcon,
-    activeIcon: CalenderActiveIcon,
-  },
+  // {
+  //   name: "Calendar",
+  //   url: "/school/calendar",
+  //   icon: CalenderIcon,
+  //   activeIcon: CalenderActiveIcon,
+  // },
   {
     name: "Settings",
     url: "/school/settings",

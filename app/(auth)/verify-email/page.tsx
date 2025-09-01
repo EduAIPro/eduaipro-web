@@ -42,7 +42,7 @@ function VerifyEmail() {
 
       toast.success("Email verification successful 🎉");
 
-      if (userRole === "USER") {
+      if (userRole === "TEACHER") {
         router.push("/dashboard");
       } else if (userRole === "OWNER") {
         router.push("/school");

@@ -31,7 +31,7 @@ export const changePasswordKey = "/auth/password/change";
 
 // SCHOOL
 // mutations
-export const signupSchoolKey = "/auth/register/teacher";
+export const signupSchoolKey = "/auth/register/school";
 export const acceptBulkInviteKey = "/school/invite/accept";
 export const bulkSchoolInviteKey = "/school/invite/bulk";
 export const schoolInviteKey = "/school/invite";
