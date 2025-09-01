@@ -4,8 +4,10 @@ import { generalFetcher } from "@/api/queries";
 import FormInput, { SelectInput } from "@/components/common/ui/FormInput";
 import PhoneInput from "@/components/common/ui/PhoneInput";
 import { Button } from "@/components/ui/button";
+import { CONFIG } from "@/constants/config";
 import { CountriesList } from "@/types/school";
 import { SchoolSignupPayload } from "@/types/school/auth";
+import { storeAccessToken } from "@/utils/auth/helpers";
 import { trimObj } from "@/utils/key";
 import {
   CreateAccountFormValue,
@@ -62,12 +64,19 @@ export const SetupSchoolProfile = ({
         contactPhoneCountryCode: data.contactPhone.dialCode.slice(1),
         countryId: data.country,
       };
+
       const payload: SchoolSignupPayload = {
         personal: personalInfo,
         school,
       };
 
-      await trigger(trimObj(payload));
+      const res = await trigger(trimObj(payload));
+      const { tokens, user } = res.data;
+
+      if (tokens.access) {
+        storeAccessToken(tokens.access);
+        sessionStorage.setItem(CONFIG.USER_IDENTIFIER, user.id);
+      }
 
       router.push(
         `/verify-email?email=${encodeURIComponent(

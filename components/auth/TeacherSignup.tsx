@@ -56,7 +56,7 @@ export default function TeacherSignup() {
         router.push("/dashboard");
       } else {
         router.push(
-          `/verify-email?email=${encodeURIComponent(data.email)}&role=USER`
+          `/verify-email?email=${encodeURIComponent(data.email)}&role=TEACHER`
         );
       }
     } catch (error: any) {
