@@ -27,7 +27,7 @@ export default function HeroSection() {
           <div className="flex max-sm:flex-col items-center gap-3 sm:w-fit mx-auto">
             {appIcons.map((p) => (
               <Button key={p.platformName} className="max-sm:w-full">
-                <p.icon variant="Bold" color="white" />
+                {/* <p.icon variant="Bold" color="white" /> */}
                 Coming soon on {p.platformName}
               </Button>
             ))}

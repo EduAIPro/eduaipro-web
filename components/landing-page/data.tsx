@@ -1,21 +1,23 @@
-import {
-  Activity,
-  Apple,
-  ArrowSquare,
-  Book,
-  Briefcase,
-  Chart,
-  Data,
-  DeviceMessage,
-  Diagram,
-  Element4,
-  GooglePlay,
-  Messages1,
-  People,
-  Profile2User,
-  Star1,
-  WalletMoney,
-} from "iconsax-react";
+// import {
+//   Activity,
+
+//   Apple,
+
+//   ArrowSquare,
+//   Book,
+//   Briefcase,
+//   Chart,
+//   Data,
+//   DeviceMessage,
+//   Diagram,
+//   Element4,
+//   GooglePlay,
+//   Messages1,
+//   People,
+//   Profile2User,
+//   Star1,
+//   WalletMoney,
+// } from "iconsax-react";
 import { BsGlobe, BsGraphUpArrow } from "react-icons/bs";
 import { FaChalkboardTeacher, FaRegChartBar } from "react-icons/fa";
 import { FaComputer } from "react-icons/fa6";
@@ -33,13 +35,13 @@ import { TbMessageChatbot, TbStars } from "react-icons/tb";
 
 export const appIcons = [
   {
-    icon: Apple,
+    // icon: Apple,
     link: "",
     title: "Download on the",
     platformName: "App store",
   },
   {
-    icon: GooglePlay,
+    // icon: GooglePlay,
     link: "",
     title: "Get it on",
     platformName: "Play Store",
@@ -285,7 +287,7 @@ export const educatorBenefits = [
         title: "Classroom Management",
         description:
           "Learn effective techniques to maintain structure and address disruptive behavior. Promote inclusivity while fostering a positive learning environment.",
-        icon: People,
+        // icon: People,
       },
       {
         title: "Technological Proficiency",
@@ -308,19 +310,19 @@ export const educatorBenefits = [
         title: "Advanced Subject Knowledge",
         description:
           "Deepen expertise in your subject and stay updated on recent developments. Use your knowledge to enhance teaching quality and engage students effectively.",
-        icon: Book,
+        // icon: Book,
       },
       {
         title: "Technology Integration",
         description:
           "Master tools and platforms to create interactive learning environments. Incorporate online resources to support diverse learning styles.",
-        icon: DeviceMessage,
+        // icon: DeviceMessage,
       },
       {
         title: "Career Growth",
         description:
           "Prepare for leadership roles like department head or academic advisor. Earn certifications that validate your expertise and improve career prospects.",
-        icon: ArrowSquare,
+        // icon: ArrowSquare,
       },
       {
         title: "Networking & Assessment",
@@ -453,7 +455,7 @@ export const teachingAssistantBenefits = [
     title: "Enhanced Support Skills",
     description:
       "Learn effective lesson planning and classroom management strategies to assist teachers. Develop skills to prepare engaging teaching materials and support diverse learners.",
-    icon: Profile2User,
+    // icon: Profile2User,
   },
   {
     title: "Inclusive Practices",
@@ -471,7 +473,7 @@ export const teachingAssistantBenefits = [
     title: "Technology & Collaboration",
     description:
       "Learn to use classroom tools effectively and strengthen teamwork with teachers. Enhance communication and collaboration within the school setting.",
-    icon: Messages1,
+    // icon: Messages1,
   },
 ];
 
@@ -480,13 +482,13 @@ export const mentorBenefits = [
     title: "Enhanced Communication Skills",
     description:
       "Master active listening, empathetic communication, and providing clear, actionable feedback.",
-    icon: DeviceMessage,
+    // icon: DeviceMessage,
   },
   {
     title: "Improved Mentoring Techniques:",
     description:
       "Gain insights into building trust with mentees and developing adaptive approaches for mentoring diverse learners.",
-    icon: People,
+    // icon: People,
   },
   {
     title: "Conflict Resolution Abilities",
@@ -498,19 +500,19 @@ export const mentorBenefits = [
     title: "Career Development Support",
     description:
       "Gain tools to help mentees explore career paths, prepare for job opportunities, and provide guidance on resumes, interviews, and skill-building.",
-    icon: Diagram,
+    // icon: Diagram,
   },
   {
     title: "Professional Recognition",
     description:
       "Receive accreditation and certifications to validate mentoring expertise.",
-    icon: Briefcase,
+    // icon: Briefcase,
   },
   {
     title: "Expanded Networking Opportunities:",
     description:
       "Join mentoring communities to share experiences and learn from peers.",
-    icon: Data,
+    // icon: Data,
   },
 ];
 
@@ -519,7 +521,7 @@ export const institutionBenefits = [
     title: "Enhanced Educator Quality",
     description:
       "Provide educators with internationally accredited courses and AI-driven learning paths to improve teaching performance.",
-    icon: Activity,
+    // icon: Activity,
   },
   {
     title: "Streamlined Certification Management",
@@ -537,7 +539,7 @@ export const institutionBenefits = [
     title: "Data-Driven Insights",
     description:
       "Generate actionable data on educator performance for strategic decision-making and institutional growth.",
-    icon: Chart,
+    // icon: Chart,
   },
   {
     title: "Global Collaboration",
@@ -549,7 +551,7 @@ export const institutionBenefits = [
     title: "Cost-Effective Professional Development",
     description:
       "Optimize budgets with centralized, scalable training programs that deliver high-quality courses in a flexible, convenient online format.",
-    icon: WalletMoney,
+    // icon: WalletMoney,
   },
   {
     title: "Strengthened Institutional Reputation",
@@ -567,13 +569,13 @@ export const institutionBenefits = [
     title: "Institution Dashboard",
     description:
       "Track and monitor staff progress with a user-friendly dashboard offering real-time updates.",
-    icon: Element4,
+    // icon: Element4,
   },
   {
     title: "Global Educational Standards",
     description:
       "Access the latest global trends and practices to maintain competitiveness in the education sector.",
-    icon: Star1,
+    // icon: Star1,
   },
   {
     title: "Quality Mark Plaque",
