@@ -16,36 +16,41 @@ export default function AdminSearch({ admins, onSearch }: AdminSearchProps) {
   };
 
   return (
-    <SearchWithActions<Admin>
-      data={admins}
-      searchKeys={["name", "position", "schoolAffiliation"]}
-      placeholder="Search Admin"
-      onSearch={onSearch}
-      extraActions={
-        <>
-          <Button
-            variant="ghost"
-            className="p-[10px] flex items-center text-[#656565]">
-            <Image
-              src="/assets/images/Vector.svg"
-              alt="filter"
-              width={15}
-              height={13.5}
-            />
-            Filter
-          </Button>
+    <div className="flex flex-col md:flex-row md:items-center md:gap-4 gap-2">
+     
+      <div className="w-full flex-1">
+        <SearchWithActions<Admin>
+          data={admins}
+          searchKeys={["name", "position", "schoolAffiliation"]}
+          placeholder="Search Admin"
+          onSearch={onSearch}
+        />
+      </div>
 
-          <AdminModal
-            triggerButtonText={
-              <>
-                <Plus />
-                Invite Admin
-              </>
-            }
-            onSend={handleSendNotification}
+      
+      <div className="flex flex-col md:flex-row gap-2 md:gap-4">
+        <Button
+          variant="ghost"
+          className="p-[10px] border flex items-center text-[#656565]">
+          <Image
+            src="/assets/images/Vector.svg"
+            alt="filter"
+            width={15}
+            height={13.5}
           />
-        </>
-      }
-    />
+          Filter
+        </Button>
+
+        <AdminModal
+          triggerButtonText={
+            <>
+              <Plus />
+              Invite Admin
+            </>
+          }
+          onSend={handleSendNotification}
+        />
+      </div>
+    </div>
   );
 }

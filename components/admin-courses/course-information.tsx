@@ -34,7 +34,7 @@ export default function CourseInformation() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full bg-white border rounded-[12px] p-[20px] flex flex-col max-w-[440px]">
+      className="w-full bg-white border rounded-[12px] p-[20px] flex flex-col xl:max-w-[440px]">
       <h2 className="text-[18px] text-[#141414] font-semibold">
         Course Information
       </h2>
@@ -55,7 +55,7 @@ export default function CourseInformation() {
             placeholder=""
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="h-[152px]"
+            className="h-[100px] md:h-[152px]"
           />
         </div>
 
@@ -92,7 +92,7 @@ export default function CourseInformation() {
         </div>
       </div>
 
-      <Button type="submit" className="w-full mt-[200px]">
+      <Button type="submit" className="w-full mt-[50px] md:mt-[200px]">
         Create Course
       </Button>
     </form>

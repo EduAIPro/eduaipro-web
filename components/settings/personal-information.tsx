@@ -35,79 +35,93 @@ const PersonalInformation = () => {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col gap-[10px]">
-        <p className="text-[18px] font-semibold text-[#141414]">
+      <div className="flex flex-col gap-2">
+        <p className="text-lg font-semibold text-[#141414]">
           Personal Information
         </p>
         <hr className="bg-[#DBDBDB]" />
       </div>
-      <div className="mt-[30px] w-[781px] mx-auto">
-        <div className="flex flex-col gap-[10px]">
-          <div className="flex items-center gap-[20px]">
-            <label
-              htmlFor="fullName"
-              className="text-[14px] font-medium text-[#656565] w-[210px]">
-              Full Name:
-            </label>
-            <Input
-              id="fullName"
-              value={personalInfo.fullName}
-              onChange={(e) =>
-                handlePersonalInfoChange("fullName", e.target.value)
-              }
-              className="bg-gray-50 w-full"
-            />
-          </div>
-          <div className="flex items-center gap-[20px]">
-            <label
-              htmlFor="email"
-              className="text-[14px] font-medium text-[#656565] w-[210px]">
-              Email Address:
-            </label>
-            <Input
-              id="email"
-              type="email"
-              value={personalInfo.email}
-              onChange={(e) =>
-                handlePersonalInfoChange("email", e.target.value)
-              }
-              className="bg-gray-50 w-full"
-            />
-          </div>
-          <div className="flex items-center gap-[20px]">
-            <label
-              htmlFor="phone"
-              className="text-[14px] font-medium text-[#656565] w-[210px]">
-              Phone Number:
-            </label>
-            <Input
-              id="phone"
-              value={personalInfo.phoneNumber}
-              onChange={(e) =>
-                handlePersonalInfoChange("phoneNumber", e.target.value)
-              }
-              className="bg-gray-50 w-full"
-            />
-          </div>
-          <div className="flex items-center gap-[20px]">
-            <label
-              htmlFor="position"
-              className="text-[14px] font-medium text-[#656565] w-[210px]">
-              Position:
-            </label>
-            <Input
-              id="position"
-              value={personalInfo.position}
-              onChange={(e) =>
-                handlePersonalInfoChange("position", e.target.value)
-              }
-              className="bg-gray-50"
-            />
-          </div>
+
+      <div className="mt-6 w-full max-w-[781px] mx-auto space-y-4">
+      
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5">
+          <label
+            htmlFor="fullName"
+            className="text-sm font-medium text-[#656565] sm:w-[210px]"
+          >
+            Full Name:
+          </label>
+          <Input
+            id="fullName"
+            value={personalInfo.fullName}
+            onChange={(e) =>
+              handlePersonalInfoChange("fullName", e.target.value)
+            }
+            className="bg-gray-50 w-full"
+          />
         </div>
-      </div>{" "}
-      <div className="flex float-right -translate-y-[40px]">
-        <Button variant="default" onClick={handlePersonalInfoSave} className="">
+
+   
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5">
+          <label
+            htmlFor="email"
+            className="text-sm font-medium text-[#656565] sm:w-[210px]"
+          >
+            Email Address:
+          </label>
+          <Input
+            id="email"
+            type="email"
+            value={personalInfo.email}
+            onChange={(e) => handlePersonalInfoChange("email", e.target.value)}
+            className="bg-gray-50 w-full"
+          />
+        </div>
+
+   
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5">
+          <label
+            htmlFor="phone"
+            className="text-sm font-medium text-[#656565] sm:w-[210px]"
+          >
+            Phone Number:
+          </label>
+          <Input
+            id="phone"
+            value={personalInfo.phoneNumber}
+            onChange={(e) =>
+              handlePersonalInfoChange("phoneNumber", e.target.value)
+            }
+            className="bg-gray-50 w-full"
+          />
+        </div>
+
+    
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-5">
+          <label
+            htmlFor="position"
+            className="text-sm font-medium text-[#656565] sm:w-[210px]"
+          >
+            Position:
+          </label>
+          <Input
+            id="position"
+            value={personalInfo.position}
+            onChange={(e) =>
+              handlePersonalInfoChange("position", e.target.value)
+            }
+            className="bg-gray-50 w-full"
+          />
+        </div>
+      </div>
+
+      
+      <div className="mt-6 justify-end sm:justify-end w-full max-w-[781px] mx-auto flex xl:float-right xl:-translate-y-[63px]">
+        <Button
+          variant="default"
+          onClick={handlePersonalInfoSave}
+          className="w-full sm:w-auto"
+        >
           Edit
         </Button>
       </div>

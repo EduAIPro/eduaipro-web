@@ -11,7 +11,7 @@ export default function AdminCoursesPage() {
   return (
     <section>
       {" "}
-      <p className="text-[28px] font-semibold text-[#141414] leading-[100%]">
+      <p className="text-[24px] sm:text-[28px] font-semibold sm:font-bold text-[#141414] leading-[100%]">
         Courses
       </p>
       <div className="flex flex-col gap-[20px] mt-[40px]">

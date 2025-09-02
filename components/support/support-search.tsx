@@ -19,39 +19,42 @@ export default function SupportSearch({
   };
 
   return (
-    <SearchWithActions<Support>
-      data={supports}
-      searchKeys={["ticketName", "requester", "assignee"]}
-      placeholder="Search Ticket"
-      onSearch={onSearch}
-      extraActions={
-        <>
-          <Button
-            variant="ghost"
-            className="p-[10px] flex items-center text-[#656565]">
-            <Image
-              src="/assets/images/Vector.svg"
-              alt="filter"
-              width={15}
-              height={13.5}
-            />
-            Filter
-          </Button>
+    <div className="flex flex-col md:flex-row gap-3 w-full">
+      
+      <div className="flex-1">
+        <SearchWithActions<Support>
+          data={supports}
+          searchKeys={["ticketName", "requester", "assignee"]}
+          placeholder="Search Ticket"
+          onSearch={onSearch}
+        />
+      </div>
 
-
-          <AddTicketModal
-            triggerButtonText={
-              <>
-                {/* <Button variant="default"> */}
-                  <Plus />
-                  Add Ticket
-                {/* </Button> */}
-              </>
-            }
-            onSend={handleAddTicket}
+  
+      <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
+        <Button
+          variant="ghost"
+          className="p-[10px] flex items-center text-[#656565] border"
+        >
+          <Image
+            src="/assets/images/Vector.svg"
+            alt="filter"
+            width={15}
+            height={13.5}
           />
-        </>
-      }
-    />
+          Filter
+        </Button>
+
+        <AddTicketModal
+          triggerButtonText={
+            <div className="flex items-center gap-1">
+              <Plus className="w-4 h-4" />
+              <span>Add Ticket</span>
+            </div>
+          }
+          onSend={handleAddTicket}
+        />
+      </div>
+    </div>
   );
 }
