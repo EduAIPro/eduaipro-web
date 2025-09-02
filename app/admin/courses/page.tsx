@@ -1,10 +1,10 @@
 "use client";
 
-import { coursesData } from "@/app/types/coursesData";
-import CoursesSearch from "@/components/admin-courses/CoursesSearch";
-import { Course } from "@/app/types/Course";
+import { coursesData } from "@/app/types/courses-data";
+import CoursesSearch from "@/components/admin-courses/courses-search";
+import { Course } from "@/app/types/course";
 import { useState } from "react";
-import CoursesTable from "@/components/admin-courses/CoursesTable";
+import CoursesTable from "@/components/admin-courses/courses-table";
 
 export default function AdminCoursesPage() {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>(coursesData);

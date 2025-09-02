@@ -2,21 +2,49 @@
 
 import { useState } from "react";
 import { Table, TableBody, TableHeader } from "@/components/ui/table";
-import { Course } from "@/app/types/Course";
+import { Course } from "@/app/types/course";
 
-import TableRowItem, { TableColumn } from "@/components/sharedComponents/SharedTableRows";
-import TableEmpty from "@/components/sharedComponents/SharedEmptyTable";
-import SharedPagination from "@/components/sharedComponents/SharedPagination";
-import SharedHeaderWithCheckbox from "@/components/sharedComponents/SharedTableHeader";
+import TableRowItem, { TableColumn } from "@/components/shared-components/shared-table-rows";
+import TableEmpty from "@/components/shared-components/shared-empty-table";
+import SharedPagination from "@/components/shared-components/shared-pagination";
+import SharedHeaderWithCheckbox from "@/components/shared-components/shared-table-header";
+import { Edit, Eye, SquarePen, Trash2 } from "lucide-react";
 
 interface CoursesTableProps {
   courses: Course[];
 }
 
+
+const courseActions = [
+   {
+    label: "View",
+    onClick: (course: Course) => {
+      console.log("View course:", course);
+    },
+    icon: <span><Eye size={16} /></span>,
+  },
+  {
+    label: "Edit",
+    onClick: (course: Course) => {
+      console.log("Edit course:", course);
+    },
+    icon: <span><SquarePen size={16} /></span>,
+  },
+  {
+    label: "Delete",
+    onClick: (course: Course) => {
+      console.log("Delete course:", course);
+    },
+    icon: <span><Trash2 size={16} /></span>,
+    danger: true, 
+  },
+];
+
+
 export default function CoursesTable({ courses }: CoursesTableProps) {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
 
   const totalPages = Math.ceil(courses.length / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
@@ -103,6 +131,7 @@ const columns: (keyof Course | TableColumn<Course>)[] = [
                   selectedRows={selectedRows}
                   toggleRow={toggleRow}
                   columns={columns}
+                   actions={courseActions}
                 />
               ))
             )}

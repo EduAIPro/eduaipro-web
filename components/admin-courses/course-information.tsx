@@ -34,7 +34,7 @@ export default function CourseInformation() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full bg-white shadow-md rounded-[12px] p-[20px] flex flex-col max-w-[440px]">
+      className="w-full bg-white border rounded-[12px] p-[20px] flex flex-col max-w-[440px]">
       <h2 className="text-[18px] text-[#141414] font-semibold">
         Course Information
       </h2>

@@ -79,7 +79,7 @@ export default function CourseSchedule() {
   };
 
   return (
-    <section className="p-[20px] rounded-[12px] space-y-4 bg-white w-full">
+    <section className="p-[20px] rounded-[12px] space-y-4 bg-white w-full border">
       <h2 className="font-semibold text-lg mb-[50px]">Course Schedule</h2>
 
       {units.map((unit, unitIndex) => (

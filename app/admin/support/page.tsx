@@ -1,3 +1,25 @@
+"use client"
+
+import { Support } from "@/app/types/support";
+import { supportsData } from "@/app/types/support-data";
+import SupportSearch from "@/components/support/support-search";
+import SupportTable from "@/components/support/support-table";
+import { useState } from "react";
+
 export default function AdminSupportPage() {
-  return <section></section>;
+
+    const [filteredSupports, setFilteredSupports] = useState<Support[]>(supportsData);
+  return (
+    <section>
+      {" "}
+      <p className="text-[28px] font-semibold text-[#141414] leading-[100%]">
+        Support
+      </p>
+
+       <div className="flex flex-col gap-[20px] mt-[40px]">
+        <SupportSearch supports={supportsData} onSearch={setFilteredSupports} />
+        <SupportTable supports={filteredSupports} />
+       </div>
+    </section>
+  );
 }

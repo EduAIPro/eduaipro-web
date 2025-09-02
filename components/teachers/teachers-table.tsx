@@ -2,22 +2,48 @@
 
 import { useState } from "react";
 import { Table, TableBody, TableHeader } from "@/components/ui/table";
-import { Teacher } from "@/app/types/Teacher";
+import { Teacher } from "@/app/types/teacher";
 
-import SharedHeaderWithCheckbox from "@/components/sharedComponents/SharedTableHeader";
-import TableRowItem, { TableColumn } from "@/components/sharedComponents/SharedTableRows";
-import TableEmpty from "@/components/sharedComponents/SharedEmptyTable";
-import SharedPagination from "@/components/sharedComponents/SharedPagination";
+import SharedHeaderWithCheckbox from "@/components/shared-components/shared-table-header";
+import TableRowItem, { TableColumn } from "@/components/shared-components/shared-table-rows";
+import TableEmpty from "@/components/shared-components/shared-empty-table";
+import SharedPagination from "@/components/shared-components/shared-pagination";
+import { Eye, SquarePen, Trash2 } from "lucide-react";
 
 
 interface TeachersTableProps {
   teachers: Teacher[];
 }
 
+const teachersActions = [
+   {
+    label: "View",
+    onClick: (teacher: Teacher) => {
+      console.log("View course:", teacher);
+    },
+    icon: <span><Eye size={16} /></span>,
+  },
+  {
+    label: "Edit",
+    onClick: (teacher: Teacher) => {
+      console.log("Edit teacher:", teacher);
+    },
+    icon: <span><SquarePen size={16} /></span>,
+  },
+  {
+    label: "Delete",
+    onClick: (teacher: Teacher) => {
+      console.log("Delete course:", teacher);
+    },
+    icon: <span><Trash2 size={16} /></span>,
+    danger: true, 
+  },
+];
+
 export default function TeachersTable({ teachers }: TeachersTableProps) {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
 
   const totalPages = Math.ceil(teachers.length / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
@@ -102,6 +128,7 @@ export default function TeachersTable({ teachers }: TeachersTableProps) {
                   selectedRows={selectedRows}
                   toggleRow={toggleRow}
                   columns={columns}
+                   actions={teachersActions}
                 />
               ))
             )}

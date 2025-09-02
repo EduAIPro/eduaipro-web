@@ -1,9 +1,9 @@
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import Image from "next/image";
-import SearchWithActions from "../sharedComponents/SharedSearchInput"
-import NotificationModal from "./NotificationModal";
-import { Teacher } from "@/app/types/Teacher";
+import SearchWithActions from "../shared-components/shared-search-input"
+import NotificationModal from "./notification-modal";
+import { Teacher } from "@/app/types/teacher";
 
 interface TeacherSearchProps {
   teachers: Teacher[];
@@ -19,7 +19,7 @@ export default function TeacherSearch({ teachers, onSearch }: TeacherSearchProps
     <SearchWithActions<Teacher>
       data={teachers}
       searchKeys={["name", "email", "school"]}
-      placeholder="Search Teachers"
+      placeholder="Search Teacher"
       onSearch={onSearch}
       extraActions={
         <>

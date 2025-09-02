@@ -1,7 +1,7 @@
 
-import ChangePassword from "@/components/settings/ChangePassword";
+import ChangePassword from "@/components/settings/change-password";
 import Notification from "@/components/settings/Notification";
-import PersonalInformation from "@/components/settings/PersonalInformation";
+import PersonalInformation from "@/components/settings/personal-information";
 
 
 export default function AdminSettingsPage() {
