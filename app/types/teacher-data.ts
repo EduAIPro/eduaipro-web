@@ -1,4 +1,4 @@
-import { Teacher } from "./Teacher";
+import { Teacher } from "./teacher";
 export const teachersData: Teacher[] = [
   {
     id: 1,

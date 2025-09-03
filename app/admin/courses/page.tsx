@@ -1,17 +1,17 @@
 "use client";
 
-import { coursesData } from "@/app/types/coursesData";
-import CoursesSearch from "@/components/admin-courses/CoursesSearch";
-import { Course } from "@/app/types/Course";
+import { coursesData } from "@/app/types/courses-data";
+import CoursesSearch from "@/components/admin-courses/courses-search";
+import { Course } from "@/app/types/course";
 import { useState } from "react";
-import CoursesTable from "@/components/admin-courses/CoursesTable";
+import CoursesTable from "@/components/admin-courses/courses-table";
 
 export default function AdminCoursesPage() {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>(coursesData);
   return (
     <section>
       {" "}
-      <p className="text-[28px] font-semibold text-[#141414] leading-[100%]">
+      <p className="text-[24px] sm:text-[28px] font-semibold sm:font-bold text-[#141414] leading-[100%]">
         Courses
       </p>
       <div className="flex flex-col gap-[20px] mt-[40px]">

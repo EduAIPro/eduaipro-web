@@ -2,7 +2,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { Field } from "formik";
-import { ArrowDown2, ArrowUp2, Check, NotificationCircle } from "iconsax-react";
+// import { ArrowDown2, ArrowUp2, Check, NotificationCircle } from "iconsax-react";
 import { HTMLInputTypeAttribute, ReactNode, useState } from "react";
 import Typography from "./Typography";
 
@@ -139,7 +139,7 @@ interface Option {
 }
 
 export function SelectInput({
-  rightIcon = <ArrowDown2 className="text-gray-700 w-5 h-5" />,
+  // rightIcon = <ArrowDown2 className="text-gray-700 w-5 h-5" />,
   leftIcon,
   placeholder = "Select an option",
   label,
@@ -208,11 +208,11 @@ export function SelectInput({
                   setIsOpen(!isOpen);
                 }}
               >
-                {isOpen ? (
+                {/* {isOpen ? (
                   <ArrowUp2 className="text-gray-700 w-5 h-5" />
                 ) : (
                   rightIcon
-                )}
+                )} */}
               </div>
               {isOpen && (
                 <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-grey-4/50 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50">
@@ -306,9 +306,9 @@ export function RadioInput({
                           : "border-gray-300"
                       }`}
                   >
-                    {field.value === option.value && (
+                    {/* {field.value === option.value && (
                       <NotificationCircle className="w-2 h-2 text-white fill-current" />
-                    )}
+                    )} */}
                   </div>
                   <div className="ml-3">
                     <Typography.P
@@ -437,7 +437,7 @@ export function CheckboxInput({
                               : "border-gray-300"
                           }`}
                       >
-                        {isChecked && <Check className="w-3 h-3 text-white" />}
+                        {/* {isChecked && <Check className="w-3 h-3 text-white" />} */}
                       </div>
                       <div className="ml-3">
                         <Typography.P

@@ -41,10 +41,10 @@ const Notification = () => {
         <p className="text-[18px] font-semibold text-[#141414]">Notification</p>
         <hr className="bg-[#DBDBDB]" />
       </div>
-      <div className="mt-[30px] w-[781px] mx-auto">
+      <div className="mt-[30px] mx-auto md:ml-[230px]">
         <div className="flex flex-col gap-[10px]">
-          <div className="flex items-center justify-between">
-            <label className="text-[14px] font-medium text-[#656565]">
+          <div className="flex items-center gap-3">
+            <label className="text-[14px] w-[250px] font-medium text-[#656565]">
               New Teacher Joined
             </label>
             <Switch
@@ -55,8 +55,8 @@ const Notification = () => {
             />
           </div>
 
-          <div className="flex items-center justify-between">
-            <label className="text-[14px] font-medium text-[#656565]">
+          <div className="flex items-center gap-3">
+            <label className="text-[14px] w-[250px] font-medium text-[#656565]">
               New Admin Joined
             </label>
             <Switch
@@ -67,8 +67,8 @@ const Notification = () => {
             />
           </div>
 
-          <div className="flex items-center justify-between">
-            <label className="text-[14px] font-medium text-[#656565]">
+          <div className="flex items-center gap-3">
+            <label className="text-[14px] w-[250px] font-medium text-[#656565]">
               New School Registered
             </label>
             <Switch
@@ -79,8 +79,8 @@ const Notification = () => {
             />
           </div>
 
-          <div className="flex items-center justify-between">
-            <label className="text-[14px] font-medium text-[#656565]">
+          <div className="flex items-center gap-3">
+            <label className="text-[14px] w-[250px] font-medium text-[#656565]">
               Certification Renewal Alert
             </label>
             <Switch
@@ -91,8 +91,8 @@ const Notification = () => {
             />
           </div>
 
-          <div className="flex items-center justify-between">
-            <label className="text-[14px] font-medium text-[#656565]">
+          <div className="flex items-center gap-3">
+            <label className="text-[14px] w-[250px] font-medium text-[#656565]">
               Accreditation Obtained
             </label>
             <Switch
@@ -103,8 +103,8 @@ const Notification = () => {
             />
           </div>
 
-          <div className="flex items-center justify-between">
-            <label className="text-[14px] font-medium text-[#656565]">
+          <div className="flex items-center gap-3">
+            <label className="text-[14px] w-[250px] font-medium text-[#656565]">
               Course Access Period Update
             </label>
             <Switch
@@ -115,8 +115,8 @@ const Notification = () => {
             />
           </div>
 
-          <div className="flex items-center justify-between">
-            <label className="text-[14px] font-medium text-[#656565]">
+          <div className="flex items-center gap-3">
+            <label className="text-[14px] w-[250px] font-medium text-[#656565]">
               Course Validity Period Update
             </label>
             <Switch

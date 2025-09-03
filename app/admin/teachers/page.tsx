@@ -1,18 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import TeacherSearch from "@/components/teachers/TeachersSearch";
-import TeachersTable from "@/components/teachers/TeachersTable";
-import { teachersData } from "@/app/types/teacherData";
-import { Teacher } from "@/app/types/Teacher";
+import TeacherSearch from "@/components/teachers/teachers-search";
+import TeachersTable from "@/components/teachers/teachers-table";
+import { teachersData } from "@/app/types/teacher-data";
+import { Teacher } from "@/app/types/teacher";
 
 export default function AdminTeachersPage() {
-  const [filteredTeachers, setFilteredTeachers] = useState<Teacher[]>(teachersData);
+  const [filteredTeachers, setFilteredTeachers] =
+    useState<Teacher[]>(teachersData);
 
   return (
     <section>
-      <p className="text-[28px] font-semibold text-[#141414] leading-[100%]">
-        Teacher
+      <p className="text-[24px] sm:text-[28px] font-semibold sm:font-bold text-[#141414] leading-[100%]">
+        Teachers
       </p>
 
       <div className="flex flex-col gap-[20px] mt-[40px]">

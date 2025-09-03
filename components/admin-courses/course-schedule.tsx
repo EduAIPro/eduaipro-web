@@ -33,24 +33,6 @@ export default function CourseSchedule() {
     moduleIndex: number;
   } | null>(null);
 
-  const handleEditFiles = (
-    unitIndex: number,
-    moduleIndex: number,
-    files: FileList | null
-  ) => {
-    if (!files) return;
-    const updated = [...units];
-    updated[unitIndex].modules[moduleIndex].files = Array.from(files);
-    setUnits(updated);
-    setEditing(null);
-  };
-
-  //   const removeModule = (unitIndex: number, moduleIndex: number) => {
-  //     const updated = [...units];
-  //     updated[unitIndex].modules.splice(moduleIndex, 1);
-  //     setUnits(updated);
-  //   };
-
   const handleInputChange = (
     unitIndex: number,
     moduleIndex: number | null,
@@ -79,15 +61,16 @@ export default function CourseSchedule() {
   };
 
   return (
-    <section className="p-[20px] rounded-[12px] space-y-4 bg-white w-full">
-      <h2 className="font-semibold text-lg mb-[50px]">Course Schedule</h2>
+    <section className="p-[20px] rounded-[12px] space-y-4 bg-white w-full border">
+      <h2 className="font-semibold text-lg mb-[30px]">Course Schedule</h2>
 
       {units.map((unit, unitIndex) => (
         <div
           key={unitIndex}
           className="border rounded-lg p-4 space-y-3 bg-[#F9FBFC]">
-          <div className="flex gap-2 items-center justify-between">
-            <div className="flex gap-[20px]">
+          {/* Unit header row */}
+          <div className="flex flex-col md:flex-row gap-3 md:gap-6 items-start md:items-center justify-between">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 w-full md:w-auto">
               <div className="flex items-center font-semibold text-[14px] text-[#141414]">
                 <GripVertical className="inline-block mr-2" size={16} />
                 <p className="mr-[2px]">Unit</p>
@@ -97,20 +80,19 @@ export default function CourseSchedule() {
               <Input
                 placeholder="Enter unit title"
                 value={unit.unitTitle}
-                className="w-[378px]"
+                className="w-full sm:w-[300px] md:w-[378px]"
                 onChange={(e) =>
                   handleInputChange(unitIndex, null, e.target.value)
                 }
               />
             </div>
-            <div className="flex items-center gap-[10px]">
-              {" "}
+            <div className="flex items-center gap-2 self-end md:self-auto">
               <Button
                 variant="outline"
                 size="icon"
                 onClick={() => setEditing({ unitIndex, moduleIndex: -1 })}>
                 <SquarePen />
-              </Button>{" "}
+              </Button>
               <Button
                 variant="destructive"
                 size="icon"
@@ -120,34 +102,34 @@ export default function CourseSchedule() {
             </div>
           </div>
 
+          {/* Modules */}
           {unit.modules.map((module, moduleIndex) => (
             <div key={moduleIndex} className="rounded p-3 space-y-2 bg-white">
               <p className="text-[14px] font-medium text-[#141414]">
                 Module Title
               </p>
-              <div>
-                <div className="flex gap-2 items-center">
-                  <Input
-                    placeholder="Enter module title"
-                    value={module.moduleTitle}
+              <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
+                <Input
+                  placeholder="Enter module title"
+                  value={module.moduleTitle}
+                  onChange={(e) =>
+                    handleInputChange(unitIndex, moduleIndex, e.target.value)
+                  }
+                  className="flex-1"
+                />
+                <label className="cursor-pointer text-sm font-medium text-[#656565] border rounded-md px-3 py-2 hover:bg-gray-100 flex items-center justify-center sm:w-[130px]">
+                  <Plus className="inline-block mr-1" size={16} /> Add File
+                  <input
+                    type="file"
+                    className="hidden"
                     onChange={(e) =>
-                      handleInputChange(unitIndex, moduleIndex, e.target.value)
+                      handleFileUpload(unitIndex, moduleIndex, e.target.files)
                     }
                   />
-                  <label className="ml-2 cursor-pointer text-sm font-medium text-[#656565] border rounded-md px-3 hover:bg-gray-100 w-[130px] p-[10px] flex items-center">
-                    <Plus className="inline-block mr-1" size={16} /> Add File
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={(e) =>
-                        handleFileUpload(unitIndex, moduleIndex, e.target.files)
-                      }
-                    />
-                  </label>
-                </div>
+                </label>
               </div>
 
-              <div className="flex flex-col gap-[20px]">
+              <div className="flex flex-col gap-4">
                 {module.files.length > 0 && (
                   <ul className="text-sm text-gray-600">
                     {module.files.map((file, i) => (
@@ -155,10 +137,10 @@ export default function CourseSchedule() {
                     ))}
                   </ul>
                 )}
-                <div className="mt-[20px]">
+                <div>
                   <Button
                     variant="ghost"
-                    className="border border-[#2E6BCE] text-[#2E6BCE] hover:text-[#2E6BCE]"
+                    className="border border-[#2E6BCE] text-[#2E6BCE] hover:text-[#2E6BCE] w-full sm:w-auto"
                     onClick={() => addModule(unitIndex)}>
                     <Plus size={16} className="text-[#2E6BCE]" /> Add Module
                   </Button>
@@ -169,9 +151,14 @@ export default function CourseSchedule() {
         </div>
       ))}
 
-      <Button onClick={addUnit} className="bg-blue-600 text-white float-right">
-        <Plus size={16} /> Add Unit
-      </Button>
+      {/* Add unit button */}
+      <div className="flex justify-end">
+        <Button
+          onClick={addUnit}
+          className="bg-blue-600 text-white w-full sm:w-auto">
+          <Plus size={16} /> Add Unit
+        </Button>
+      </div>
     </section>
   );
 }
