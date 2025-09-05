@@ -1,3 +1,4 @@
+import { Pagination } from ".";
 import { UserRoles } from "../auth";
 import { Accreditation } from "../certificates";
 
@@ -44,11 +45,7 @@ export type SchoolStaff = {
 };
 
 export type SchoolStaffsData = {
-  pagination: {
-    total: number;
-    current: number;
-    next: null | string;
-  };
+  pagination: Pagination;
   data: Omit<SchoolStaff, "school">[];
 };
 

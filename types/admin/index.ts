@@ -1,3 +1,6 @@
+import { Country } from "../school";
+import { Staff } from "../user";
+
 export type AdminSchool = {
   id: string;
   institutionName: string;
@@ -15,7 +18,7 @@ export type AdminSchool = {
   _count: {
     staffMembers: number;
   };
-  owner: SchoolOwner;
+  owner: Staff | null;
 };
 
 export type SchoolOwner = {
@@ -23,3 +26,63 @@ export type SchoolOwner = {
   lastName: string;
   email: string;
 };
+
+export type TotalTeachersAggregate = {
+  activeTeachersCount: number;
+  inactiveTeachersCount: number;
+};
+
+export type TotalAdminsAggregate = {
+  activeAdminsCount: number;
+  inactiveAdminsCount: number;
+};
+
+export type TotalEnrolledAggregate = {
+  totalEnrolledCount: number;
+  totalNotEnrolledCount: number;
+};
+
+export type TotalAccreditedAggregate = {
+  totalAccreditedTeacherCount: number;
+  totalNotAccreditedTeachersCount: number;
+};
+
+export type CourseCompletionRateAggregate = {
+  averageCompletionRate: number;
+  totalSchools: number;
+  schoolsWithData: number;
+};
+
+export type GetAdminAggregates = {
+  totalSchools: number;
+  totalTeachers: TotalTeachersAggregate;
+  totalAdmins: TotalAdminsAggregate;
+  totalEnrolled: TotalEnrolledAggregate;
+  totalAccreditedTeachers: TotalAccreditedAggregate;
+  courseCompletionRate: CourseCompletionRateAggregate;
+};
+
+export type GetTopTeachers = (Staff & {
+  courseProgress: {
+    progress: number;
+  }[];
+  _count: {
+    accreditationHistory: number;
+    Message: number;
+  };
+  school: {
+    id: string;
+    institutionName: string;
+  };
+  engagementScore: number;
+})[];
+
+export type GetTopSchools = (AdminSchool & {
+  engagementScore: number;
+})[];
+
+export type GetCountryDistribution = {
+  country: Country;
+  schoolCount: number;
+  percentage: number;
+}[];

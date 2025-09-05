@@ -10,6 +10,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import EmptyIcon from "@/components/svgs/school/empty-table.svg";
 import WarningIcon from "@/components/svgs/warning.svg";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -494,9 +495,7 @@ const EmptyComponent = ({
 }: BaseProps & { onAddNew?: () => void }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-10">
-      <p>illustration</p>
-
-      {/* <Empty width={64} height={64} /> */}
+      <EmptyIcon />
       <div className="mt-6">
         <p className="mx-auto max-w-sm font-medium">
           There are currently no records to display

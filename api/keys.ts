@@ -46,10 +46,30 @@ export const getSchoolStaffsKey = "/school/staff/staffs";
 export const getSchoolInviteLinkKey = "/school/invite/link";
 export const getOverdueRenewalsKey = "/school/accreditation-renewals";
 
-// export const getSchoolsKey = "/admin/schools";
-
 // ADMIN
 // mutations
+export const sendNotificationKey = "/admin/notification/send-message";
+export const adminCreateCourseKey = "/admin/course";
+export const adminDeactivateStaffKey = (schoolId: string, staffId: string) =>
+  `/admin/school/staff/staffs/${schoolId}/${staffId}/deactivate`;
+export const adminActivateStaffKey = (schoolId: string, staffId: string) =>
+  `/admin/school/staff/staffs/${schoolId}/${staffId}/activate`;
+export const updateSchoolStatusKey = (schoolId: string) =>
+  `/admin/school/schools/${schoolId}/active-status`;
+export const updateSchoolKey = (schoolId: string) =>
+  `/admin/school/schools/${schoolId}`;
 
 // queries
 export const getSchoolsKey = "/admin/school/schools";
+export const getAdminAggregatesKey = "/admin/aggregates";
+export const getTopTeachersKey = "/admin/top-engaged-teachers";
+export const getTopSchoolsKey = "/admin/top-engaged-schools";
+export const getCountryDistributionKey = "/admin/country-distribution";
+export const getCoursesKey = "/admin/course/courses";
+export const getAllSystemStaffsKey = "/admin/school/staff/staffs";
+export const adminGetStaffKey = (id: string) =>
+  `/admin/school/staff/staffs/${id}`;
+export const adminGetSchoolStaffsKey = (id: string) =>
+  `/admin/school/schools/${id}/staffs`;
+export const adminGetSchoolCertificationsKey = (id: string) =>
+  `/admin/school/schools/${id}/certifications`;

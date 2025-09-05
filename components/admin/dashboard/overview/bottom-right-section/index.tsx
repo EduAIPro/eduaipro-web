@@ -1,12 +1,27 @@
-import { AccreditationCard } from "./accreditation-card";
+import {
+  CourseCompletionRateAggregate,
+  TotalAccreditedAggregate,
+} from "@/types/admin";
+import { AccreditationCard } from "./accreditation";
 import { CompletionRateCard } from "./course-completion-rate";
 import { TopEngagingSchool } from "./top-engaging-school";
 
-export const BottomRightSection = () => {
+export const BottomRightSection = ({
+  totalAccreditedTeachers,
+  courseCompletionRate,
+  isLoading,
+}: {
+  totalAccreditedTeachers: TotalAccreditedAggregate | undefined;
+  courseCompletionRate: CourseCompletionRateAggregate | undefined;
+  isLoading: boolean;
+}) => {
   return (
-    <div className="grid grid-cols-2 gap-5">
-      <CompletionRateCard />
-      <AccreditationCard />
+    <div className="grid grid-cols-2 gap-3 xl:gap-5">
+      <CompletionRateCard isLoading={isLoading} data={courseCompletionRate} />
+      <AccreditationCard
+        isLoading={isLoading}
+        status={totalAccreditedTeachers}
+      />
       <TopEngagingSchool />
     </div>
   );

@@ -11,7 +11,7 @@ export const fetchUnitQuestions = (url: string) =>
   api.get(url).then((res) => res.data.data);
 
 export const fetchPaginatedData = (args: string[]) =>
-  api.get(args[0]).then((res) => res.data.data);
+  api.get(`${args[0]}?page=${args[1]}`).then((res) => res.data.data);
 
 export const generalFetcher = (url: string) =>
   api.get(url).then((res) => res.data.data);

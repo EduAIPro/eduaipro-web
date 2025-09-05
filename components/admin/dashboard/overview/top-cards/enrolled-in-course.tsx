@@ -1,66 +1,68 @@
-import { StaffActivity } from "@/types/school";
+import { TotalEnrolledAggregate } from "@/types/admin";
+import { LoaderIcon } from "lucide-react";
+import { useMemo } from "react";
 // import { useMemo } from "react";
 
 type EnrolledInCourseCardProps = {
-  staffActivity?: StaffActivity | undefined;
+  enrolled: TotalEnrolledAggregate | undefined;
+  isLoading: boolean;
 };
 
 export const EnrolledInCourseCard = ({
-  staffActivity,
+  enrolled,
+  isLoading,
 }: EnrolledInCourseCardProps) => {
-  //   const totalStaff = useMemo(() => {
-  //     if (staffActivity) {
-  //       return (
-  //         staffActivity.totalActiveStaffs + staffActivity.totalInactiveStaffs
-  //       );
-  //     } else {
-  //       return 0;
-  //     }
-  //   }, [staffActivity]);
-  //   const percentage = useMemo(() => {
-  //     if (totalStaff) {
-  //       const percentActive = (
-  //         (staffActivity!.totalActiveStaffs / totalStaff) *
-  //         100
-  //       ).toFixed(0);
-  //       const percentInactive = 100 - Number(percentActive);
-  //       return { percentActive, percentInactive };
-  //     } else {
-  //       return { percentInactive: 50, percentActive: 50 };
-  //     }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [totalStaff]);
+  const totalEnrollment = useMemo(
+    () => enrolled?.totalEnrolledCount! + enrolled?.totalNotEnrolledCount! ?? 0,
+    [enrolled]
+  );
+
+  const percentage = useMemo(() => {
+    if (totalEnrollment) {
+      const percentActive = (
+        (enrolled?.totalEnrolledCount! / totalEnrollment) *
+        100
+      ).toFixed(0);
+      const percentInactive = 100 - Number(percentActive);
+      return { percentActive, percentInactive };
+    } else {
+      return { percentInactive: 50, percentActive: 50 };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalEnrollment]);
   return (
     <div className="school_card flex flex-col justify-between space-y-14">
       <div className="space-y-1">
         <p className="text-grey-500 text-base font-medium">
           Enrolled in course
         </p>
-        <h2 className="text-2xl font-semibold">500</h2>
+        {isLoading ? (
+          <LoaderIcon className="animate-spin size-5" />
+        ) : (
+          <h2 className="text-2xl font-semibold">
+            {enrolled?.totalEnrolledCount}
+          </h2>
+        )}
       </div>
       <div className="space-y-1">
         <div className="flex items-center gap-1 justify-between">
           <div
-            style={{ width: "40%" }}
-            // style={{ width: `${percentage.percentActive}%` }}
+            style={{ width: `${percentage.percentActive}%` }}
             className="rounded-full h-1.5 bg-success-600"
           ></div>
           <div
-            style={{ width: "60%" }}
-            // style={{ width: `${percentage.percentInactive}%` }}
+            style={{ width: `${percentage.percentInactive}%` }}
             className="rounded-full h-1.5 bg-success-400"
           ></div>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1">
             <div className="size-2 rounded-full bg-success-600"></div>
-            <p>2 active</p>
-            {/* <p>{staffActivity?.totalActiveStaffs ?? 0} active</p> */}
+            <p>{enrolled?.totalEnrolledCount ?? 0} enrolled</p>
           </div>
           <div className="flex items-center gap-1">
             <div className="size-2 rounded-full bg-success-400"></div>
-            <p>32 inactive</p>
-            {/* <p>{staffActivity?.totalInactiveStaffs ?? 0} inactive</p> */}
+            <p>{enrolled?.totalNotEnrolledCount ?? 0} not enrolled</p>
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { TeachersListColumnsDef } from "./columns";
 import { getSchoolsKey, getSchoolStaffsKey } from "@/api/keys";
 import { fetchPaginatedData } from "@/api/queries";
 import { DataTable } from "@/components/ui/data-table";
-import { SchoolStaff, SchoolStaffsData } from "@/types/school/teachers";
+import { SchoolList, SchoolslistResponse } from "@/types/admin/schools";
 import { useRouter } from "next/navigation";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
@@ -17,11 +17,11 @@ export const SchoolsTable = () => {
 
   const router = useRouter();
 
-  const { data, isLoading, error } = useSWR<SchoolStaffsData>(
+  const { data, isLoading, error } = useSWR<SchoolslistResponse>(
     [getSchoolsKey, currentPage],
     fetchPaginatedData
   );
-
+  console.log({ data });
   const filterOptions = useMemo(
     () => [
       {
@@ -37,7 +37,7 @@ export const SchoolsTable = () => {
 
   return (
     <Fragment>
-      <DataTable<Omit<SchoolStaff, "school">, unknown>
+      <DataTable<SchoolList, unknown>
         canSearch
         hasError={!!error}
         isLoading={isLoading}
@@ -63,7 +63,7 @@ export const SchoolsTable = () => {
         meta={{
           total: data?.pagination.total || 0,
           page: data?.pagination.current || 1,
-          totalPages: data?.pagination.total || 10,
+          totalPages: data?.pagination.totalPages || 10,
           limit: 10,
         }}
       />

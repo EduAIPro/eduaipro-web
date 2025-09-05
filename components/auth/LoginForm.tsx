@@ -5,7 +5,7 @@ import FormInput from "@/components/common/ui/FormInput";
 import { CONFIG } from "@/constants/config";
 import { storeAccessToken } from "@/utils/auth/helpers";
 import { trimObj } from "@/utils/key";
-import { LoginFormValue, loginValidation } from "@/utils/validation/auth";
+import { LoginFormValue } from "@/utils/validation/auth";
 import { Form, Formik } from "formik";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
@@ -32,15 +32,18 @@ export default function LoginForm() {
         sessionStorage.setItem(CONFIG.USER_IDENTIFIER, user.id);
       }
 
+      if (user && user?.role && user.role === "ADMIN") {
+        router.push("/admin");
+        return;
+      }
+
       if (staff.role === "TEACHER") {
         router.push("/dashboard");
-      } else if (staff.role === "OWNER") {
-        router.push("/school");
       } else {
-        router.push("/admin");
+        router.push("/school");
       }
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.toString());
     }
   }
 
@@ -52,7 +55,7 @@ export default function LoginForm() {
   return (
     <Formik
       initialValues={defaultValues}
-      validationSchema={loginValidation}
+      // validationSchema={loginValidation}
       onSubmit={onSubmit}
     >
       {({ errors, touched, isValid }) => (

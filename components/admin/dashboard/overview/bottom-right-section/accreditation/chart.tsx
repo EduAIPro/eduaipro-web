@@ -8,12 +8,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { StaffAccreditationStatus } from "@/types/school";
+import { TotalAccreditedAggregate } from "@/types/admin";
 import { useMemo } from "react";
 import { Pie, PieChart } from "recharts";
 
 type AccreditationChartProps = {
-  status: StaffAccreditationStatus | undefined;
+  status: TotalAccreditedAggregate | undefined;
 };
 
 export const AccreditationChart = ({ status }: AccreditationChartProps) => {
@@ -23,8 +23,8 @@ export const AccreditationChart = ({ status }: AccreditationChartProps) => {
       { label: "notAccredited", value: 0, fill: "#FABEE8" },
     ];
     if (status) {
-      value[0].value = status.totalAccreditedStaffs ?? 0;
-      value[1].value = status.totalNonAccreditedStaffs ?? 0;
+      value[0].value = status.totalAccreditedTeacherCount ?? 0;
+      value[1].value = status.totalNotAccreditedTeachersCount ?? 0;
     }
     return value;
   }, [status]);
@@ -48,7 +48,8 @@ export const AccreditationChart = ({ status }: AccreditationChartProps) => {
       config={chartConfig}
       className="aspect-square max-h-[150px] w-full !p-0"
     >
-      {status?.totalAccreditedStaffs || status?.totalNonAccreditedStaffs ? (
+      {status?.totalAccreditedTeacherCount ||
+      status?.totalNotAccreditedTeachersCount ? (
         <PieChart>
           <ChartTooltip
             cursor={false}

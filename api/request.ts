@@ -43,6 +43,7 @@ export async function apiClient<T>(
       status: response.status,
     };
   } catch (error) {
+    console.log({ error });
     throw error;
   }
 }

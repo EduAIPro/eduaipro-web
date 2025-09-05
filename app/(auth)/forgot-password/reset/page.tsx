@@ -60,7 +60,7 @@ const ResetPasswordForm = () => {
 
       router.push("/login");
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error);
     }
   }
 
