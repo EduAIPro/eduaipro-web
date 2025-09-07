@@ -1,3 +1,4 @@
+import { AdminSchool } from "@/types/admin";
 import { AssessmentSubmitResponse } from "@/types/assessment";
 import {
   APIBaseResponse,
@@ -291,6 +292,39 @@ export async function reactivateStaff(
   try {
     const apiUrl = url + `/${arg.staffId}/activate`;
     const response = await apiClient<Staff>(apiUrl, undefined, "patch");
+
+    return response.data;
+  } catch (error) {
+    toast.error(error as string);
+    throw error;
+  }
+}
+
+// ADMIN
+export async function editSchoolInfo(
+  url: string,
+  { arg }: { arg: Partial<UpdateSchoolInfoPayload> }
+): Promise<UpdateSchoolInfoResponse> {
+  try {
+    const response = await apiClient<UpdateSchoolInfoResponse>(
+      url,
+      arg,
+      "patch"
+    );
+
+    return response.data;
+  } catch (error) {
+    toast.error(error as string);
+    throw error;
+  }
+}
+
+export async function updateSchoolStatus(
+  url: string,
+  { arg }: { arg: { active: boolean } }
+): Promise<AdminSchool> {
+  try {
+    const response = await apiClient<AdminSchool>(url, arg, "patch");
 
     return response.data;
   } catch (error) {

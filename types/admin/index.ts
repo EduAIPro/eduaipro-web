@@ -73,7 +73,7 @@ export type GetTopTeachers = (Staff & {
   school: {
     id: string;
     institutionName: string;
-  };
+  } | null;
   engagementScore: number;
 })[];
 

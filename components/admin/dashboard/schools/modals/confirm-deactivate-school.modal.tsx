@@ -1,31 +1,34 @@
-import { getSchoolStaffsKey } from "@/api/keys";
+import { updateSchoolStatusKey } from "@/api/keys";
+import { updateSchoolStatus } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { BanIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { mutate } from "swr";
+import useSWRMutation from "swr/mutation";
 
 type ConfirmDeactivateSchoolModalProps = {
   schoolId: string;
+  refetch: VoidFunction;
 };
 
 export const ConfirmDeactivateSchoolModal = ({
   schoolId,
+  refetch,
 }: ConfirmDeactivateSchoolModalProps) => {
   const [open, setOpen] = useState(false);
 
-  // const { trigger, isMutating } = useSWRMutation(
-  //   getSchoolStaffsKey,
-  //   deactivateStaff
-  // );
+  const { trigger, isMutating } = useSWRMutation(
+    schoolId ? updateSchoolStatusKey(schoolId) : null,
+    updateSchoolStatus
+  );
 
-  async function handleDeactivateStaff() {
+  async function handleDeactivateSchool() {
     try {
-      // await trigger({ schoolId });
+      await trigger({ active: false });
       toast.success("School deactivated successfully");
+      refetch();
       setOpen(false);
-      mutate(`${getSchoolStaffsKey}/${schoolId}`);
     } catch (error) {
       toast.error(error as string);
     }
@@ -46,8 +49,7 @@ export const ConfirmDeactivateSchoolModal = ({
           <Button onClick={() => setOpen(false)} variant="outline">
             Cancel
           </Button>
-          <Button onClick={handleDeactivateStaff}>
-            {/* <Button loading={isMutating} onClick={handleDeactivateStaff}> */}
+          <Button loading={isMutating} onClick={handleDeactivateSchool}>
             Yes, continue
           </Button>
         </>

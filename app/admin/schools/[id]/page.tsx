@@ -1,6 +1,6 @@
 "use client";
 import { getSchoolsKey } from "@/api/keys";
-import { generalFetcher } from "@/api/queries";
+import { fetchWithSingleParam } from "@/api/queries";
 import {
   SchoolDetailsHeader,
   SchoolInfo,
@@ -15,22 +15,30 @@ export default function SchoolDetailsPage() {
   const router = useRouter();
   const { id } = useParams();
 
-  const { data, isLoading } = useSWR<RetrieveSchoolDetails>(
-    id ? `${getSchoolsKey}/${id}` : null,
-    generalFetcher
+  const { data, isLoading, mutate } = useSWR<RetrieveSchoolDetails>(
+    id ? [getSchoolsKey, id] : null,
+    fetchWithSingleParam
   );
 
   console.log({ data });
   return (
     <section className="">
-      <div className="h-[140px]">
-        <Button onClick={() => router.back()} variant="ghost">
+      <div className="h-24 md:h-[140px]">
+        <Button
+          onClick={() => router.back()}
+          variant="ghost"
+          className="!px-0 hover:!px-3"
+        >
           <ChevronLeftIcon size={24} />
-          <p className="text-xl">School Detail</p>
+          <p className="text-lg md:text-xl">School Detail</p>
         </Button>
       </div>
-      <div className="bg-white -mx-4 px-5 border border-transparent space-y-9 py-3 pb-12">
-        <SchoolDetailsHeader isLoading={isLoading} data={data} />
+      <div className="bg-white -mx-4 px-2 md:px-5 border border-transparent space-y-9 py-3 pb-12">
+        <SchoolDetailsHeader
+          isLoading={isLoading}
+          data={data}
+          refetch={mutate}
+        />
         <SchoolInfo isLoading={isLoading} data={data} />
       </div>
     </section>

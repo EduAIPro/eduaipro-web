@@ -49,7 +49,10 @@ export default function PhoneInput({
 
   const defaultCountry = useMemo(() => {
     if (phoneField && phoneField.dialCode) {
-      return countries.find((c) => c.dialCode === phoneField.dialCode)!;
+      return (
+        countries.find((c) => c.dialCode === phoneField.dialCode) ??
+        countries[0]
+      );
     } else {
       return countries[0];
     }
@@ -58,7 +61,7 @@ export default function PhoneInput({
   const [isFocused, setIsFocused] = useState(false);
   const [selectedCountry, setSelectedCountry] =
     useState<Country>(defaultCountry);
-
+  console.log({ selectedCountry });
   const [rawPhone, setRawPhone] = useState<string>(phoneField.digits ?? "");
 
   // Updates the selected country and re-formats the phone number

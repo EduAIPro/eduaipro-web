@@ -1,44 +1,47 @@
-import { getSchoolStaffsKey } from "@/api/keys";
+import { updateSchoolStatusKey } from "@/api/keys";
+import { updateSchoolStatus } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { CheckIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { mutate } from "swr";
+import useSWRMutation from "swr/mutation";
 
 type ConfirmActivateSchoolModalProps = {
   schoolId: string;
+  refetch: VoidFunction;
 };
 
 export const ConfirmActivateSchoolModal = ({
   schoolId,
+  refetch,
 }: ConfirmActivateSchoolModalProps) => {
   const [open, setOpen] = useState(false);
 
-  // const { trigger, isMutating } = useSWRMutation(
-  //   getSchoolStaffsKey,
-  //   reactivateStaff
-  // );
+  const { trigger, isMutating } = useSWRMutation(
+    schoolId ? updateSchoolStatusKey(schoolId) : null,
+    updateSchoolStatus
+  );
 
-  async function handleReactivateStaff() {
+  async function handleReactivateSchool() {
     try {
-      // await trigger({ schoolId });
-      toast.success("School activated successfully");
+      await trigger({ active: true });
+      toast.success("School reactivated successfully");
+      refetch();
       setOpen(false);
-      mutate(getSchoolStaffsKey);
     } catch (error) {
       toast.error(error as string);
     }
   }
   return (
     <Modal
-      title="Activate school"
+      title="Reactivate school"
       open={open}
       toggleModal={setOpen}
       trigger={
         <Button className="max-md:w-full">
           <CheckIcon />
-          Activate school
+          Reactivate school
         </Button>
       }
       footer={
@@ -52,8 +55,8 @@ export const ConfirmActivateSchoolModal = ({
           </Button>
           <Button
             className="max-sm:w-full"
-            // loading={isMutating}
-            onClick={handleReactivateStaff}
+            loading={isMutating}
+            onClick={handleReactivateSchool}
           >
             Yes, continue
           </Button>

@@ -99,7 +99,7 @@ export const SchoolInformationSettings = () => {
           enableReinitialize
           onSubmit={handleSubmit}
         >
-          {({ touched, errors, setFieldValue, isValid, values }) => {
+          {({ touched, errors, setFieldValue, isValid }) => {
             const fieldError = (fieldNames: string[]) => {
               const errorMessages = fieldNames
                 .map((field) => {
@@ -125,7 +125,7 @@ export const SchoolInformationSettings = () => {
                       Institution name
                     </h2>
                     <FormInput
-                      placeholder="Enter your name"
+                      placeholder="Enter your institution name"
                       className="sm:max-w-[60%] w-full"
                       name="institutionName"
                       error={fieldError(["institutionName"])}

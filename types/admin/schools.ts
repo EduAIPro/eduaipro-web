@@ -22,3 +22,24 @@ export type RetrieveSchoolDetails = AdminSchool & {
     totalAccreditedTeacherCount: number;
   };
 };
+
+export type SchoolCertificate = {
+  schoolId: string;
+  schoolName: string;
+  courseId: string;
+  courseTitle: string;
+  courseLevel: string;
+  enrolledTeachers: number;
+  completedTeachers: number;
+  metrics: {
+    totalAccreditedTeachers: number;
+    totalTeachers: number;
+    totalPendingRenewals: number;
+    totalExpiredCertificates: number;
+  };
+};
+
+export type ListSchoolCertificates = {
+  pagination: Pagination;
+  data: SchoolCertificate[];
+};

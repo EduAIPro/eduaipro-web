@@ -1,12 +1,14 @@
 "use client";
-import { SchoolTeachersListColumnsDef } from "./columns";
+import { SchoolCertificatesListColumnsDef } from "./columns";
 
-import { adminGetSchoolStaffsKey } from "@/api/keys";
+import { adminGetSchoolCertificationsKey } from "@/api/keys";
 import { fetchPaginatedData } from "@/api/queries";
-import { TeacherProfile } from "@/components/school/dashboard/teachers/profile";
+import { EmptyState } from "@/components/empty";
 import { DataTable } from "@/components/ui/data-table";
-import { SchoolStaff, SchoolStaffsData } from "@/types/school/teachers";
-import { useRouter } from "next/navigation";
+import {
+  ListSchoolCertificates,
+  SchoolCertificate,
+} from "@/types/admin/schools";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 
@@ -14,16 +16,13 @@ type SchoolTeachersTableProps = {
   schoolId: string | undefined;
 };
 
-export const SchoolTeachersTable = ({ schoolId }: SchoolTeachersTableProps) => {
+export const CertificatesTable = ({ schoolId }: SchoolTeachersTableProps) => {
   const [searchValue, setSearchValue] = useState("");
-  const [teacherId, setTeacherId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const router = useRouter();
-
-  const { data, isLoading, error } = useSWR<SchoolStaffsData>(
+  const { data, isLoading, error } = useSWR<ListSchoolCertificates>(
     schoolId
-      ? [adminGetSchoolStaffsKey(schoolId), currentPage, schoolId]
+      ? [adminGetSchoolCertificationsKey(schoolId), currentPage, schoolId]
       : null,
     fetchPaginatedData
   );
@@ -43,37 +42,28 @@ export const SchoolTeachersTable = ({ schoolId }: SchoolTeachersTableProps) => {
 
   return (
     <Fragment>
-      <DataTable<Omit<SchoolStaff, "school">, unknown>
+      <DataTable<SchoolCertificate, unknown>
         canSearch
         hasError={!!error}
         isLoading={isLoading}
         data={data?.data ?? []}
-        columns={SchoolTeachersListColumnsDef}
+        columns={SchoolCertificatesListColumnsDef}
         filterOptions={filterOptions}
+        emptyComponent={<EmptyState />}
         onPageChange={(page) => setCurrentPage(page)}
-        onRefresh={() => mutate(adminGetSchoolStaffsKey(schoolId ?? ""))}
+        onRefresh={() =>
+          mutate(adminGetSchoolCertificationsKey(schoolId ?? ""))
+        }
         searchInput={{
-          placeholder: "Search teachers",
+          placeholder: "Search certificates",
           value: searchValue,
           setValue: (val: string) => setSearchValue(val),
-        }}
-        onRowClick={(row) => {
-          setTeacherId(row.id);
         }}
         meta={{
           total: data?.pagination.total || 0,
           page: data?.pagination.current || 1,
           totalPages: data?.pagination.totalPages || 10,
           limit: 10,
-        }}
-      />
-
-      <TeacherProfile
-        isAdmin
-        open={!!teacherId}
-        teacherId={teacherId ?? ""}
-        toggleOpen={(v) => {
-          if (!v) setTeacherId(null);
         }}
       />
     </Fragment>

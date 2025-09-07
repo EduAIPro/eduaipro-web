@@ -1,4 +1,4 @@
-import { getSchoolStaffsKey } from "@/api/keys";
+import { adminGetStaffKey, getSchoolStaffsKey } from "@/api/keys";
 import { fetchWithSingleParam } from "@/api/queries";
 import { StaffDetail } from "@/types/school/teachers";
 import useSWR from "swr";
@@ -9,14 +9,16 @@ type TeacherProfileProps = {
   open: boolean;
   toggleOpen: (v: boolean) => void;
   teacherId: string;
+  isAdmin?: boolean;
 };
 
 export const TeacherProfile = ({
   teacherId,
+  isAdmin = false,
   ...props
 }: TeacherProfileProps) => {
   const { data, isLoading } = useSWR<StaffDetail>(
-    [getSchoolStaffsKey, teacherId],
+    [isAdmin ? adminGetStaffKey : getSchoolStaffsKey, teacherId],
     fetchWithSingleParam
   );
 

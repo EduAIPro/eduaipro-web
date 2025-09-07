@@ -24,7 +24,7 @@ export const TopEngagingSchool = () => {
               <Skeleton key={i} className="h-10 rounded-lg w-full" />
             ))
         ) : data?.length ? (
-          data.map((s, i) => (
+          data.splice(0, 5).map((s, i) => (
             <li
               key={i}
               style={{

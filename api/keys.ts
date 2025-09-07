@@ -67,8 +67,7 @@ export const getTopSchoolsKey = "/admin/top-engaged-schools";
 export const getCountryDistributionKey = "/admin/country-distribution";
 export const getCoursesKey = "/admin/course/courses";
 export const getAllSystemStaffsKey = "/admin/school/staff/staffs";
-export const adminGetStaffKey = (id: string) =>
-  `/admin/school/staff/staffs/${id}`;
+export const adminGetStaffKey = "/admin/school/staff/staffs";
 export const adminGetSchoolStaffsKey = (id: string) =>
   `/admin/school/schools/${id}/staffs`;
 export const adminGetSchoolCertificationsKey = (id: string) =>

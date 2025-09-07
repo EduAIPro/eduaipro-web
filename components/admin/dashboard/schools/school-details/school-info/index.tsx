@@ -1,7 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RetrieveSchoolDetails } from "@/types/admin/schools";
 import { useState } from "react";
+import { CertificatesTable } from "./certificates-table";
 import { SchoolOverview } from "./overview";
+import { SchoolTeachersTable } from "./teachers-table";
 
 export type SchoolInfoProps = {
   data: RetrieveSchoolDetails | undefined;
@@ -22,6 +24,12 @@ export const SchoolInfo = (props: SchoolInfoProps) => {
       </TabsList>
       <TabsContent value="overview">
         <SchoolOverview {...props} />
+      </TabsContent>
+      <TabsContent value="teachers">
+        <SchoolTeachersTable schoolId={props?.data?.id} />
+      </TabsContent>
+      <TabsContent value="certification">
+        <CertificatesTable schoolId={props?.data?.id} />
       </TabsContent>
     </Tabs>
   );

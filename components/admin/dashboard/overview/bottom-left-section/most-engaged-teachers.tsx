@@ -32,7 +32,7 @@ export const MostEngagedTeachers = () => {
                   {t.user.firstName} {t.user.lastName}
                 </h3>
                 <p className="font-medium text-grey-500 text-sm">
-                  {t.school.institutionName}
+                  {t.school?.institutionName}
                 </p>
               </div>
             </li>

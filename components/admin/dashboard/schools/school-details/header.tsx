@@ -1,4 +1,5 @@
 import {
+  ConfirmActivateSchoolModal,
   ConfirmDeactivateSchoolModal,
   ConfirmDeleteSchoolModal,
 } from "@/components/admin/dashboard/schools/modals";
@@ -7,17 +8,21 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { RetrieveSchoolDetails } from "@/types/admin/schools";
 import { format } from "date-fns";
 
+type SchoolDetailsProps = {
+  isLoading: boolean;
+  data: RetrieveSchoolDetails | undefined;
+  refetch: VoidFunction;
+};
+
 export const SchoolDetailsHeader = ({
   isLoading,
   data,
-}: {
-  isLoading: boolean;
-  data: RetrieveSchoolDetails | undefined;
-}) => {
+  refetch,
+}: SchoolDetailsProps) => {
   return (
-    <div className="space-y-4 -mt-8 flex items-end justify-between">
+    <div className="space-y-4 -mt-8 flex lg:items-end justify-between max-lg:flex-col">
       <div className="flex items-end gap-4">
-        <div className="border-[2.5px] border-white rounded-full size-[100px] flex items-center justify-center bg-[#F6F6F6]">
+        <div className="border-[2.5px] shrink-0 border-white rounded-full size-[100px] flex items-center justify-center bg-[#F6F6F6]">
           <UserProfile className="size-[72px]" />
         </div>
         <div>
@@ -41,11 +46,18 @@ export const SchoolDetailsHeader = ({
       </div>
 
       <div className="flex items-center gap-3 max-md:w-full">
-        {/* {staff.isActive ? ( */}
-        <ConfirmDeactivateSchoolModal schoolId="jenrte" />
-        {/* ) : (
-        <ConfirmActivateTeacherModal staffId={staff.id} />
-      )} */}
+        {isLoading ? (
+          <Skeleton className="rounded-lg w-40 h-9" />
+        ) : data ? (
+          data?.isActive ? (
+            <ConfirmDeactivateSchoolModal
+              schoolId={data.id}
+              refetch={refetch}
+            />
+          ) : (
+            <ConfirmActivateSchoolModal schoolId={data.id} refetch={refetch} />
+          )
+        ) : null}
         <ConfirmDeleteSchoolModal />
       </div>
     </div>
