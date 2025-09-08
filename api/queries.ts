@@ -16,6 +16,14 @@ export const fetchPaginatedData = (args: string[]) =>
 export const generalFetcher = (url: string) =>
   api.get(url).then((res) => res.data.data);
 
+export const fetchWithSearchQuery = (args: string[]) =>
+  api.get(`${args[0]}?search=${args[1]}`).then((res) => res.data.data);
+
+export const fetchPaginatedSearchQuery = (args: string[]) =>
+  api
+    .get(`${args[0]}?page=${args[1]}&search=${args[2]}`)
+    .then((res) => res.data.data);
+
 export const fetchSchoolStaffs = (
   url: string,
   params: fetchSchoolStaffsParams

@@ -1,4 +1,5 @@
 import { AdminSchool } from "@/types/admin";
+import { SendNotificationPayload } from "@/types/admin/notifications";
 import { AssessmentSubmitResponse } from "@/types/assessment";
 import {
   APIBaseResponse,
@@ -325,6 +326,20 @@ export async function updateSchoolStatus(
 ): Promise<AdminSchool> {
   try {
     const response = await apiClient<AdminSchool>(url, arg, "patch");
+
+    return response.data;
+  } catch (error) {
+    toast.error(error as string);
+    throw error;
+  }
+}
+
+export async function sendMessageNotification(
+  url: string,
+  { arg }: { arg: SendNotificationPayload }
+): Promise<{ success: boolean }> {
+  try {
+    const response = await apiClient<{ success: boolean }>(url, arg);
 
     return response.data;
   } catch (error) {

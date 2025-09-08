@@ -61,7 +61,7 @@ export default function PhoneInput({
   const [isFocused, setIsFocused] = useState(false);
   const [selectedCountry, setSelectedCountry] =
     useState<Country>(defaultCountry);
-  console.log({ selectedCountry });
+
   const [rawPhone, setRawPhone] = useState<string>(phoneField.digits ?? "");
 
   // Updates the selected country and re-formats the phone number

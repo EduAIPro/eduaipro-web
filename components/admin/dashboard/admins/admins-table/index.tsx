@@ -1,24 +1,23 @@
 "use client";
-import { SchoolsListColumnsDef } from "./columns";
+import { AdminsListColumnsDef } from "./columns";
 
-import { getSchoolsKey, getSchoolStaffsKey } from "@/api/keys";
+import { getAllSystemAdmins } from "@/api/keys";
 import { fetchPaginatedSearchQuery } from "@/api/queries";
 import { DataTable } from "@/components/ui/data-table";
-import { SchoolList, SchoolslistResponse } from "@/types/admin/schools";
+import { GetSystemStaffs } from "@/types/admin/teachers";
+import { Staff } from "@/types/user";
 import { useRouter } from "next/navigation";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
-import { InviteSchoolModal } from "../modals";
-import { Empty } from "./empty";
 
-export const SchoolsTable = () => {
+export const AdminsTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
   const router = useRouter();
 
-  const { data, isLoading, error } = useSWR<SchoolslistResponse>(
-    [getSchoolsKey, currentPage, searchValue],
+  const { data, isLoading, error } = useSWR<GetSystemStaffs>(
+    [getAllSystemAdmins, currentPage, searchValue],
     fetchPaginatedSearchQuery
   );
 
@@ -37,29 +36,23 @@ export const SchoolsTable = () => {
 
   return (
     <Fragment>
-      <DataTable<SchoolList, unknown>
+      <DataTable<Staff, unknown>
         canSearch
         hasError={!!error}
         isLoading={isLoading}
         data={data?.data ?? []}
-        columns={SchoolsListColumnsDef}
+        columns={AdminsListColumnsDef}
         filterOptions={filterOptions}
         onPageChange={(page) => setCurrentPage(page)}
-        onRefresh={() => mutate(getSchoolStaffsKey)}
-        emptyComponent={<Empty />}
+        onRefresh={() => mutate(getAllSystemAdmins)}
         searchInput={{
-          placeholder: "Search school",
+          placeholder: "Search admins",
           value: searchValue,
           setValue: (val: string) => setSearchValue(val),
         }}
         onRowClick={(row) => {
           router.push(`/admin/schools/${row.id}`);
         }}
-        otherFilters={
-          <>
-            <InviteSchoolModal />
-          </>
-        }
         meta={{
           total: data?.pagination.total || 0,
           page: data?.pagination.current || 1,

@@ -1,50 +1,65 @@
 import { cn } from "@/lib/utils";
-import { SchoolList } from "@/types/admin/schools";
+import { SystemStaff } from "@/types/admin/teachers";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 
-export const SchoolsListColumnsDef: ColumnDef<SchoolList>[] = [
+export const TeachersListColumnsDef: ColumnDef<SystemStaff>[] = [
   {
     accessorKey: "name",
-    header: "School name",
+    header: "Name",
     cell: ({ row }) => {
       return (
         <p className="text-grey-500 truncate text-sm font-medium">
-          {row.original.institutionName}
+          {row.original.user.firstName} {row.original.user.lastName}
         </p>
       );
     },
   },
   {
-    accessorKey: "owner.name",
-    header: "Admin Name",
+    accessorKey: "email",
+    header: "Email",
     cell: ({ row }) => {
       return (
         <p className="text-grey-500 truncate text-sm font-semibold">
-          {row.original.owner?.user?.firstName}{" "}
-          {row.original.owner?.user?.lastName}
+          {row.original.user.email}
         </p>
       );
     },
   },
   {
-    accessorKey: "totalTeacherCount",
-    header: "Teacher Count",
+    accessorKey: "phone",
+    header: "Phone Number",
     cell: ({ row }) => {
       return (
         <p className="text-grey-500 truncate text-sm font-medium">
-          {row.original.totalTeacherCount} Teachers
+          {row.original.user.phoneNumber}
         </p>
       );
     },
   },
   {
-    accessorKey: "totalAccreditedTeacherCount",
-    header: "Accredited Teachers",
+    accessorKey: "school",
+    header: "School",
     cell: ({ row }) => {
       return (
         <p className="text-grey-500 truncate text-sm font-medium">
-          {row.original.totalAccreditedTeacherCount} Teachers
+          {row.original.school ? row.original.school?.institutionName : "-"}
+        </p>
+      );
+    },
+  },
+  {
+    accessorKey: "level",
+    header: "Teaching Level",
+    cell: ({ row }) => {
+      return (
+        <p
+          className={cn(
+            "text-grey-500 truncate text-sm font-medium",
+            row.original.teacherLevel ? "" : "italic text-sm"
+          )}
+        >
+          {row.original.teacherLevel ?? "Not provided"}
         </p>
       );
     },

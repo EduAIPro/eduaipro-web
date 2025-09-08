@@ -4,7 +4,6 @@ import {
   HeadsetIcon,
   LayoutDashboardIcon,
   NotepadTextIcon,
-  SettingsIcon,
   UserIcon,
   UsersIcon,
 } from "lucide-react";
@@ -49,10 +48,5 @@ export const AdminNavItems = [
     name: "Support",
     url: "/admin/support",
     icon: HeadsetIcon,
-  },
-  {
-    name: "Settings",
-    url: "/admin/settings",
-    icon: SettingsIcon,
   },
 ];

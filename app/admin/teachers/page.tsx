@@ -1,24 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import TeacherSearch from "@/components/teachers/teachers-search";
-import TeachersTable from "@/components/teachers/teachers-table";
-import { teachersData } from "@/app/types/teacher-data";
-import { Teacher } from "@/app/types/teacher";
+import { SystemTeachersTable } from "@/components/admin/dashboard/teachers";
 
 export default function AdminTeachersPage() {
-  const [filteredTeachers, setFilteredTeachers] =
-    useState<Teacher[]>(teachersData);
-
   return (
     <section>
-      <p className="text-[24px] sm:text-[28px] font-semibold sm:font-bold text-[#141414] leading-[100%]">
-        Teachers
-      </p>
-
-      <div className="flex flex-col gap-[20px] mt-[40px]">
-        <TeacherSearch teachers={teachersData} onSearch={setFilteredTeachers} />
-        <TeachersTable teachers={filteredTeachers} />
+      <div className="space-y-5">
+        <h1 className="font-semibold sm:font-bold text-2xl sm:text-3xl">
+          Teachers
+        </h1>
+        <SystemTeachersTable />
       </div>
     </section>
   );

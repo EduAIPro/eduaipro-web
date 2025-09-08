@@ -2,7 +2,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { Field } from "formik";
-// import { ArrowDown2, ArrowUp2, Check, NotificationCircle } from "iconsax-react";
+import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { HTMLInputTypeAttribute, ReactNode, useState } from "react";
 import Typography from "./Typography";
 
@@ -17,6 +17,7 @@ interface FormInputProps {
   error?: string | null;
   className?: string;
   disabled?: boolean;
+  autoFocus?: boolean;
 }
 
 export default function FormInput({
@@ -30,6 +31,7 @@ export default function FormInput({
   error,
   note,
   disabled,
+  autoFocus,
 }: FormInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   return (
@@ -61,6 +63,7 @@ export default function FormInput({
           type={type}
           disabled={disabled}
           placeholder={placeholder}
+          autoFocus={autoFocus}
           onFocus={() => {
             setIsFocused(true);
           }}
@@ -139,7 +142,6 @@ interface Option {
 }
 
 export function SelectInput({
-  // rightIcon = <ArrowDown2 className="text-gray-700 w-5 h-5" />,
   leftIcon,
   placeholder = "Select an option",
   label,
@@ -163,9 +165,7 @@ export function SelectInput({
   return (
     <div className={`${className} relative`}>
       {label && (
-        <Typography.H4 className="mb-1" weight="medium" size="base">
-          {label}
-        </Typography.H4>
+        <p className="font-medium text-base mb-1 text-grey-650">{label}</p>
       )}
       <div
         className={cn(
@@ -208,11 +208,13 @@ export function SelectInput({
                   setIsOpen(!isOpen);
                 }}
               >
-                {/* {isOpen ? (
-                  <ArrowUp2 className="text-gray-700 w-5 h-5" />
-                ) : (
-                  rightIcon
-                )} */}
+                <ChevronDownIcon
+                  className={cn(
+                    "duration-300 transition-all",
+                    isOpen ? "rotate-180" : "rotate-0"
+                  )}
+                  size={18}
+                />
               </div>
               {isOpen && (
                 <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-grey-4/50 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50">
@@ -399,9 +401,7 @@ export function CheckboxInput({
   return (
     <div className={`${className}`}>
       {label && (
-        <Typography.H4 className="mb-1" weight="medium" size="base">
-          {label}
-        </Typography.H4>
+        <p className="font-medium text-base mb-1 text-grey-650">{label}</p>
       )}
       {description && (
         <Typography.P className="mb-3 text-gray-500" size="small">
@@ -421,29 +421,37 @@ export function CheckboxInput({
                   ? field.value.includes(option.value)
                   : false;
 
+                const isDisabled =
+                  field.value.includes("all") && option.value !== "all";
+
                 return (
                   <label
                     key={option.value}
-                    className={`flex items-center gap-x-3 p-3 cursor-pointer hover:bg-gray-50 transition-colors
-                      ${index === 0 ? "rounded-t-lg" : ""} 
-                      ${index === options.length - 1 ? "rounded-b-lg" : ""}`}
+                    className={cn(
+                      "flex items-center gap-x-3 p-3 hover:bg-gray-50 transition-colors",
+                      index === 0 ? "rounded-t-lg" : "",
+                      index === options.length - 1 ? "rounded-b-lg" : "",
+                      isDisabled ? "opacity-50" : "cursor-pointer"
+                    )}
                   >
                     <div className="flex items-center flex-1">
                       <div
                         className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors
                           ${
                             isChecked
-                              ? "border-blue-500 bg-blue-500"
+                              ? "border-primary bg-primary"
                               : "border-gray-300"
                           }`}
                       >
-                        {/* {isChecked && <Check className="w-3 h-3 text-white" />} */}
+                        {isChecked && (
+                          <CheckIcon className="w-3 h-3 text-white" />
+                        )}
                       </div>
                       <div className="ml-3">
                         <Typography.P
                           size="base"
                           className={`${
-                            isChecked ? "text-blue-500 font-medium" : ""
+                            isChecked ? "text-primary-300 font-medium" : ""
                           }`}
                         >
                           {option.label}
@@ -453,6 +461,7 @@ export function CheckboxInput({
                     <input
                       type="checkbox"
                       className="hidden"
+                      disabled={isDisabled}
                       checked={isChecked}
                       onChange={(e) => {
                         const newValue = Array.isArray(field.value)

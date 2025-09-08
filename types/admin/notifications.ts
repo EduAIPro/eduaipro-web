@@ -10,6 +10,19 @@ export type SendNotificationPayload = {
   countryIds?: string[];
 };
 
+export enum NotificationRecipient {
+  TEACHER = "TEACHER",
+  SCHOOL = "SCHOOL",
+  COUNTRY = "COUNTRY",
+}
+
+export enum NotificationTypes {
+  INFO = "INFO",
+  ALERT = "ALERT",
+  WARNING = "WARNING",
+  REMINDER = "REMINDER",
+}
+
 export type NotificationRecipientType = "TEACHER" | "SCHOOL" | "COUNTRY";
 export type NotificationType = "INFO" | "ALERT" | "WARNING" | "REMINDER";
 

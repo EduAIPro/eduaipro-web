@@ -1,50 +1,49 @@
 import { cn } from "@/lib/utils";
-import { SchoolList } from "@/types/admin/schools";
+import { Staff } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 
-export const SchoolsListColumnsDef: ColumnDef<SchoolList>[] = [
+export const AdminsListColumnsDef: ColumnDef<Staff>[] = [
   {
-    accessorKey: "name",
-    header: "School name",
+    accessorKey: "adminName",
+    header: "Name",
     cell: ({ row }) => {
       return (
-        <p className="text-grey-500 truncate text-sm font-medium">
-          {row.original.institutionName}
+        <p className="text-grey-500 truncate text-sm font-semibold">
+          {row.original.user?.firstName} {row.original.user?.lastName}
         </p>
       );
     },
   },
   {
-    accessorKey: "owner.name",
-    header: "Admin Name",
+    accessorKey: "adminEmail",
+    header: "Email",
     cell: ({ row }) => {
       return (
         <p className="text-grey-500 truncate text-sm font-semibold">
-          {row.original.owner?.user?.firstName}{" "}
-          {row.original.owner?.user?.lastName}
+          {row.original?.user?.email}
+        </p>
+      );
+    },
+  },
+  {
+    accessorKey: "name",
+    header: "School affiliation",
+    cell: ({ row }) => {
+      return (
+        <p className="text-grey-500 truncate text-sm font-medium">
+          {row.original.school?.institutionName ?? "-"}
         </p>
       );
     },
   },
   {
     accessorKey: "totalTeacherCount",
-    header: "Teacher Count",
+    header: "Position",
     cell: ({ row }) => {
       return (
         <p className="text-grey-500 truncate text-sm font-medium">
-          {row.original.totalTeacherCount} Teachers
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: "totalAccreditedTeacherCount",
-    header: "Accredited Teachers",
-    cell: ({ row }) => {
-      return (
-        <p className="text-grey-500 truncate text-sm font-medium">
-          {row.original.totalAccreditedTeacherCount} Teachers
+          {row.original.positionDescription}
         </p>
       );
     },

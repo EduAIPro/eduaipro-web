@@ -20,7 +20,6 @@ export default function SchoolDetailsPage() {
     fetchWithSingleParam
   );
 
-  console.log({ data });
   return (
     <section className="">
       <div className="h-24 md:h-[140px]">

@@ -1,12 +1,18 @@
 "use client";
 
 import { ConfirmLogoutModal } from "@/components/dashboard/common";
-import { HeaderNotifications } from "@/components/school/layout/notifications";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { EllipsisVerticalIcon, SettingsIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { SendMessageModal } from "../modals";
 import { AdminNavItems } from "./nav";
 
 export const AdminLayoutHeader = () => {
@@ -58,8 +64,24 @@ export const AdminLayoutHeader = () => {
         })}
       </ul>
       <div className="flex-shrink-0 flex items-center gap-4">
-        <HeaderNotifications />
-        <ConfirmLogoutModal />
+        <DropdownMenu>
+          <DropdownMenuTrigger className="border p-2 rounded-lg">
+            <EllipsisVerticalIcon size={18} className="text-grey-650" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="p-0 rounded-xl shadow-lg shadow-black/5 flex flex-col min-w-48">
+            <SendMessageModal />
+            <Link href="/admin/settings">
+              <Button
+                variant="ghost"
+                className="hover:scale-100 w-full justify-start"
+              >
+                <SettingsIcon />
+                <p>Settings</p>
+              </Button>
+            </Link>
+            <ConfirmLogoutModal isAdmin />
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

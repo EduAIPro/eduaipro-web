@@ -61,6 +61,8 @@ export const updateSchoolKey = (schoolId: string) =>
 
 // queries
 export const getSchoolsKey = "/admin/school/schools";
+export const getSchoolsWithParamKey = (q: string) =>
+  `/admin/school/schools?search=${q}`;
 export const getAdminAggregatesKey = "/admin/aggregates";
 export const getTopTeachersKey = "/admin/top-engaged-teachers";
 export const getTopSchoolsKey = "/admin/top-engaged-schools";
@@ -68,6 +70,7 @@ export const getCountryDistributionKey = "/admin/country-distribution";
 export const getCoursesKey = "/admin/course/courses";
 export const getAllSystemStaffsKey = "/admin/school/staff/staffs";
 export const adminGetStaffKey = "/admin/school/staff/staffs";
+export const getAllSystemAdmins = "/admin/school/staff/owners";
 export const adminGetSchoolStaffsKey = (id: string) =>
   `/admin/school/schools/${id}/staffs`;
 export const adminGetSchoolCertificationsKey = (id: string) =>
