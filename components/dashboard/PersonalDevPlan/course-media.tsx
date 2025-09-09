@@ -139,10 +139,10 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
 
   // Check if current PDF is the last module in the current unit
   const isOnLastModule = useMemo(() => {
-    if (!allModules || !pdfUrl) return false;
+    if (!allModules?.length || !pdfUrl) return false;
     const lastModuleItem = allModules[allModules.length - 1];
     return (
-      extractPublicId(pdfUrl) === extractPublicId(lastModuleItem.signedPdfUrl)
+      extractPublicId(pdfUrl) === extractPublicId(lastModuleItem?.signedPdfUrl)
     );
   }, [unitInfo, pdfUrl]);
 
@@ -151,7 +151,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
     if (!allModules || !pdfUrl) return false;
     const firstModuleItem = allModules[0];
     return (
-      extractPublicId(pdfUrl) === extractPublicId(firstModuleItem.signedPdfUrl)
+      extractPublicId(pdfUrl) === extractPublicId(firstModuleItem?.signedPdfUrl)
     );
   }, [unitInfo, pdfUrl]);
 
