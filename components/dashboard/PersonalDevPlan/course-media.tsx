@@ -155,14 +155,6 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
     );
   }, [unitInfo, pdfUrl]);
 
-  console.log({
-    nextPageData,
-    isOnLastModule,
-    currentModuleData,
-    pdfUrl,
-    allModules,
-  });
-
   // Check if we're on the first unit (unit index = 1)
   const isOnFirstUnit = useMemo(() => {
     return unitInfo?.index === 1;
