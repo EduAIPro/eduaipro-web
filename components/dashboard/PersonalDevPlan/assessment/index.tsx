@@ -209,7 +209,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
               >
                 <Checkbox checked={selected[current] === opt.identifier} />
                 <span className="font-semibold mx-2">{opt.identifier}.</span>
-                {opt.value}
+                <p>{opt.value}</p>
               </button>
             ))}
           </div>

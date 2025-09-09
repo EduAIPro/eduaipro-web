@@ -294,7 +294,8 @@ export function UnitsContent({
                                                   contentItem
                                                 )
                                               }
-                                              className="cursor-pointer pl-6 w-full text-left hover:bg-gray-50 py-1 px-2 rounded transition-colors"
+                                              disabled={isQuizOn}
+                                              className="cursor-pointer pl-6 w-full text-left disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 py-1 px-2 rounded transition-colors"
                                               type="button"
                                             >
                                               <p

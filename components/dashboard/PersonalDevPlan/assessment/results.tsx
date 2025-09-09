@@ -14,12 +14,14 @@ type AssessmentResultsProps = {
   response: AssessmentSubmitResponse;
   retakeAssessment: VoidFunction;
   questionsLoading: boolean;
+  closeModal: VoidFunction;
 };
 
 export const AssessmentResults = ({
   response,
   retakeAssessment,
   questionsLoading,
+  closeModal,
 }: AssessmentResultsProps) => {
   const router = useRouter();
 
@@ -83,10 +85,11 @@ export const AssessmentResults = ({
       </div>
       <div className="col-span-2 space-y-5">
         <div className="p-5 border border-grey-400 rounded-xl bg-white pb-20">
-          <div>
+          <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold">
               Answers to Quiz: Assessment for Learning
             </h2>
+            <Button onClick={closeModal}>Go back to learning</Button>
           </div>
           <div className="mt-8">
             <div className="space-y-1 relative">
