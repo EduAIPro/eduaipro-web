@@ -113,13 +113,12 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
       />
     ) : (
       <CourseMedia
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
         introHasPlayed={introHasPlayed}
         pdfUrl={pdfUrl}
         setPdfUrl={setPdfUrl}
         unitInfo={unitInfo}
         refetchUnitDetails={() => mutate(unitInfo)}
+        startAssessment={startAssessment}
         {...props}
       />
     );
@@ -156,6 +155,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
           response={assessmentResults}
           retakeAssessment={startAssessment}
           questionsLoading={isMutating}
+          closeModal={() => setIsViewingResults(false)}
         />
       ) : (
         <div>

@@ -15,6 +15,13 @@ export default function HeroSection() {
               Access the {"world's"} best AI-Powered Accredited CPD Program
             </h1>
           </div>
+          <Button
+          // onClick={() => {
+          //   // throw new Error("test err");
+          // }}
+          >
+            throw error
+          </Button>
           <div>
             <p className="text-base text-grey-800 font-medium">
               Transform your teaching with {"EduAIPro's"} Accredited Continued
