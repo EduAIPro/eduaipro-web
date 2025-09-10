@@ -62,20 +62,11 @@ export type GetAdminAggregates = {
   courseCompletionRate: CourseCompletionRateAggregate;
 };
 
-export type GetTopTeachers = (Staff & {
-  courseProgress: {
-    progress: number;
-  }[];
-  _count: {
-    accreditationHistory: number;
-    Message: number;
-  };
-  school: {
-    id: string;
-    institutionName: string;
-  } | null;
-  engagementScore: number;
-})[];
+export type GetTopTeachers = {
+  firstName: string;
+  lastName: string;
+  institutionName: string;
+}[];
 
 export type GetTopSchools = (AdminSchool & {
   engagementScore: number;

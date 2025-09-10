@@ -21,7 +21,7 @@ export const MostEngagedTeachers = () => {
           new Array(10).fill("").map((_, i) => <Loader key={i} />)
         ) : data?.length ? (
           data.map((t, i) => (
-            <li key={t.id} className="flex items-center gap-5">
+            <li key={i} className="flex items-center gap-5">
               <div className="size-8 flex items-center justify-center bg-grey-400/30 rounded-full">
                 <h2 className="font-semibold text-grey-500 text-base">
                   0{i + 1}
@@ -29,10 +29,10 @@ export const MostEngagedTeachers = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-sm">
-                  {t.user.firstName} {t.user.lastName}
+                  {t.firstName} {t.lastName}
                 </h3>
                 <p className="font-medium text-grey-500 text-sm">
-                  {t.school?.institutionName}
+                  {t?.institutionName}
                 </p>
               </div>
             </li>

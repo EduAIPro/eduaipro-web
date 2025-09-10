@@ -1,4 +1,5 @@
 import { AdminSchool } from "@/types/admin";
+import { CreateCoursePayload } from "@/types/admin/courses";
 import { SendNotificationPayload } from "@/types/admin/notifications";
 import { AssessmentSubmitResponse } from "@/types/assessment";
 import {
@@ -13,7 +14,11 @@ import {
   TeacherSignupResponse,
   TeacherSurveyPayload,
 } from "@/types/auth";
-import { UpdateModulePayload, UpdateModuleResponse } from "@/types/course";
+import {
+  Course,
+  UpdateModulePayload,
+  UpdateModuleResponse,
+} from "@/types/course";
 import {
   SchoolSignupPayload,
   UpdatePersonalInfoPayload,
@@ -344,6 +349,36 @@ export async function sendMessageNotification(
     return response.data;
   } catch (error) {
     toast.error(error as string);
+    throw error;
+  }
+}
+
+// courses
+export async function createCourse(
+  url: string,
+  { arg }: { arg: CreateCoursePayload }
+): Promise<Course> {
+  try {
+    const response = await apiClient<Course>(url, arg);
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function deleteCourse(
+  url: string,
+  { arg }: { arg: { id: string } }
+): Promise<{ message: string }> {
+  try {
+    const response = await apiClient<{ message: string }>(
+      `${url}/${arg.id}`,
+      undefined,
+      "delete"
+    );
+
+    return response.data;
+  } catch (error) {
     throw error;
   }
 }

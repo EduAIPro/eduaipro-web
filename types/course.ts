@@ -75,6 +75,12 @@ export type Module = {
 
 export type ModuleType = "CONTENT" | "PRACTICAL_APPLICATIONS" | "CASE_STUDY";
 
+export enum ModuleTypeEnum {
+  CONTENT = "CONTENT",
+  PRACTICAL_APPLICATIONS = "PRACTICAL_APPLICATIONS",
+  CASE_STUDY = "CASE_STUDY",
+}
+
 export type ModuleItem = {
   id: string;
   pdfUrl: string;

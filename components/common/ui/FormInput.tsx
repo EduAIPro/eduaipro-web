@@ -3,7 +3,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { Field } from "formik";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
-import { HTMLInputTypeAttribute, ReactNode, useState } from "react";
+import {
+  HTMLInputTypeAttribute,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Typography from "./Typography";
 
 interface FormInputProps {
@@ -18,6 +24,7 @@ interface FormInputProps {
   className?: string;
   disabled?: boolean;
   autoFocus?: boolean;
+  as?: string;
 }
 
 export default function FormInput({
@@ -32,6 +39,7 @@ export default function FormInput({
   note,
   disabled,
   autoFocus,
+  as,
 }: FormInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   return (
@@ -59,6 +67,7 @@ export default function FormInput({
           </div>
         ) : null}
         <Field
+          as={as}
           name={name}
           type={type}
           disabled={disabled}
@@ -161,9 +170,29 @@ export function SelectInput({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+        setIsFocused(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
   return (
-    <div className={`${className} relative`}>
+    <div className={`${className} relative`} ref={dropdownRef}>
       {label && (
         <p className="font-medium text-base mb-1 text-grey-650">{label}</p>
       )}
@@ -190,60 +219,65 @@ export function SelectInput({
           </div>
         )}
         <Field name={name}>
-          {({ field, form }: any) => (
-            <>
-              <div className="flex-1 text-base text-grey-12">
-                {field.value ? (
-                  <span>
-                    {options.find((opt) => opt.value === field.value)?.label}
-                  </span>
-                ) : (
-                  <span className="text-gray-400">{placeholder}</span>
-                )}
-              </div>
-              <div
-                className="ml-2"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsOpen(!isOpen);
-                }}
-              >
-                <ChevronDownIcon
-                  className={cn(
-                    "duration-300 transition-all",
-                    isOpen ? "rotate-180" : "rotate-0"
+          {({ field, form }: any) => {
+            return (
+              <>
+                <div className="flex-1 text-base text-grey-12">
+                  {field.value && field.value !== "" ? (
+                    <span>
+                      {options.find((opt) => opt.value === field.value)?.label}
+                    </span>
+                  ) : (
+                    <span className="text-grey-500/80">{placeholder}</span>
                   )}
-                  size={18}
-                />
-              </div>
-              {isOpen && (
-                <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-grey-4/50 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50">
-                  {options.map((option) => (
-                    <div
-                      key={option.value}
-                      className={`px-4 py-2 hover:bg-primary-100 cursor-pointer ${
-                        field.value === option.value ? "bg-primary-100" : ""
-                      }`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        form.setFieldValue(name, option.value);
-                        setIsOpen(false);
-                      }}
-                    >
-                      <Typography.P
-                        size="base"
-                        className={
-                          field.value === option.value ? "text-primary-400" : ""
-                        }
-                      >
-                        {option.label}
-                      </Typography.P>
-                    </div>
-                  ))}
                 </div>
-              )}
-            </>
-          )}
+                <div
+                  className="ml-2"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsOpen(!isOpen);
+                  }}
+                >
+                  <ChevronDownIcon
+                    className={cn(
+                      "duration-300 transition-all",
+                      isOpen ? "rotate-180" : "rotate-0"
+                    )}
+                    size={18}
+                  />
+                </div>
+                {isOpen && (
+                  <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-grey-4/50 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50">
+                    {options.map((option) => (
+                      <div
+                        key={option.value}
+                        className={`px-4 py-2 hover:bg-primary-100 cursor-pointer ${
+                          field.value === option.value ? "bg-primary-100" : ""
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          form.setFieldValue(name, option.value);
+                          setIsOpen(false);
+                          setIsFocused(false);
+                        }}
+                      >
+                        <Typography.P
+                          size="base"
+                          className={
+                            field.value === option.value
+                              ? "text-primary-400"
+                              : ""
+                          }
+                        >
+                          {option.label}
+                        </Typography.P>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            );
+          }}
         </Field>
       </div>
       {error && (

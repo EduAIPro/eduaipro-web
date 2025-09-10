@@ -4,12 +4,12 @@ import { ColumnDef } from "@tanstack/react-table";
 export const SchoolCertificatesListColumnsDef: ColumnDef<SchoolCertificate>[] =
   [
     {
-      accessorKey: "type",
-      header: "Certificate type",
+      accessorKey: "name",
+      header: "Certificate name",
       cell: ({ row }) => {
         return (
           <p className="text-grey-500 truncate text-sm font-medium">
-            {row.original.courseLevel}
+            {row.original.courseTitle}
           </p>
         );
       },

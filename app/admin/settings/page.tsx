@@ -1,21 +1,16 @@
+"use client";
+// import { NotificationSettings } from "@/components/admin/dashboard/settings";
+import { ChangePasswordSettings } from "@/components/school/dashboard/settings";
 
-import ChangePassword from "@/components/settings/change-password";
-import Notification from "@/components/settings/notification";
-import PersonalInformation from "@/components/settings/personal-information";
-
-
-export default function AdminSettingsPage() {
+const SettingsPage = () => {
   return (
-    <section>
-      <p className="text-[24px] sm:text-[28px] font-semibold sm:font-bold text-[#141414] leading-[100%]">
-        Settings
-      </p>
-
-      <div className="mt-[40px] flex flex-col gap-[30px] p-[40px] bg-white border-[#DBDBDB] border rounded-[12px]">
-        <PersonalInformation />
-        <ChangePassword />
-        <Notification />
+    <section className="space-y-8">
+      <h1 className="text-2xl font-semibold text-grey-800">Settings</h1>
+      <div className="border rounded-xl max-sm:p-4 max-lg:p-5 p-10 bg-white space-y-6">
+        <ChangePasswordSettings />
+        {/* <NotificationSettings />  */}
       </div>
     </section>
   );
-}
+};
+export default SettingsPage;
