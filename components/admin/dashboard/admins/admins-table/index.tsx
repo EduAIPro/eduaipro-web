@@ -50,9 +50,9 @@ export const AdminsTable = () => {
           value: searchValue,
           setValue: (val: string) => setSearchValue(val),
         }}
-        onRowClick={(row) => {
-          router.push(`/admin/schools/${row.id}`);
-        }}
+        // onRowClick={(row) => {
+        //   router.push(`/admin/schools/${row.id}`);
+        // }}
         meta={{
           total: data?.pagination.total || 0,
           page: data?.pagination.current || 1,

@@ -28,6 +28,7 @@ type InputProps = {
   maxItems?: number; // Optional: limit number of selections
   showSelectedCount?: boolean; // Optional: show count instead of all items
   isLoading?: boolean; // Optional: show count instead of all items
+  disabled?: boolean; // Optional: show count instead of all items
 };
 
 export function MultiSearchSelectInput({
@@ -43,6 +44,7 @@ export function MultiSearchSelectInput({
   maxItems,
   showSelectedCount = false,
   isLoading = false,
+  disabled = false,
 }: InputProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -229,6 +231,7 @@ export function MultiSearchSelectInput({
                             option.value
                           );
                           const isDisabled =
+                            disabled ||
                             (!isSelected &&
                               !!maxItems &&
                               selectedValues.length >= maxItems) ||

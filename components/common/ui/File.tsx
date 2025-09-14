@@ -1,14 +1,6 @@
 import { cn } from "@/lib/utils"; // Assuming you have a cn utility
 import { useField, useFormikContext } from "formik";
-import {
-  File,
-  FileAudio,
-  FileText,
-  FileVideo,
-  Image,
-  Upload,
-  X,
-} from "lucide-react";
+import { File, FileAudio, FileText, FileVideo, Image, X } from "lucide-react";
 import React, { ReactNode, useRef, useState } from "react";
 
 interface FormFileInputProps {
@@ -155,11 +147,7 @@ export default function FormFileInput({
           >
             {leftIcon}
           </div>
-        ) : (
-          <div className="py-1 px-[6px] rounded-lg bg-blue-500/10">
-            <Upload className="w-4 h-4 text-grey-650" />
-          </div>
-        )}
+        ) : null}
 
         <input
           ref={fileInputRef}

@@ -1,26 +1,26 @@
 "use client";
-import { CoursesListColumnsDef } from "./columns";
+import { TicketsListColumnsDef } from "./columns";
 
-import { getCoursesKey } from "@/api/keys";
+import { getCoursesKey, ticketsKey } from "@/api/keys";
 import { fetchPaginatedSearchQuery } from "@/api/queries";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import useDebounce from "@/hooks/use-debounce";
-import { GetCoursesList, TableCourse } from "@/types/admin/courses";
-import { PlusIcon } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import {
+  GetSupportTicketList,
+  TableTicket,
+} from "@/utils/validation/admin/support";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
+import { TicketInfoSheet } from "../ticket-info-sheet";
 
-export const CoursesTable = () => {
+export const SupportTicketsTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [ticketId, setTicketId] = useState<null | string>(null);
   const { value } = useDebounce(searchValue, 500);
-  const router = useRouter();
 
-  const { data, isLoading, error } = useSWR<GetCoursesList>(
-    [getCoursesKey, currentPage, value],
+  const { data, isLoading, error } = useSWR<GetSupportTicketList>(
+    [ticketsKey, currentPage, value],
     fetchPaginatedSearchQuery
   );
 
@@ -39,39 +39,35 @@ export const CoursesTable = () => {
 
   return (
     <Fragment>
-      <DataTable<TableCourse, unknown>
+      <DataTable<TableTicket, unknown>
         canSearch
         hasError={!!error}
         isLoading={isLoading}
         data={data?.data ?? []}
-        columns={CoursesListColumnsDef}
+        columns={TicketsListColumnsDef}
         filterOptions={filterOptions}
         onPageChange={(page) => setCurrentPage(page)}
         onRefresh={() => mutate(getCoursesKey)}
         searchInput={{
-          placeholder: "Search course",
+          placeholder: "Search tickets",
           value: searchValue,
           setValue: (val: string) => setSearchValue(val),
         }}
         onRowClick={(row) => {
-          // router.push(`/admin/schools/${row.id}`);
+          setTicketId(row.id);
         }}
-        otherFilters={
-          <>
-            <Link href="/admin/courses/create">
-              <Button>
-                <PlusIcon />
-                <p>Create new course</p>
-              </Button>
-            </Link>
-          </>
-        }
         meta={{
           total: data?.pagination.total || 0,
           page: data?.pagination.current || 1,
           totalPages: data?.pagination.totalPages || 10,
           limit: 10,
         }}
+      />
+
+      <TicketInfoSheet
+        open={!!ticketId}
+        toggleOpen={(v) => (!v ? setTicketId(null) : null)}
+        id={ticketId}
       />
     </Fragment>
   );

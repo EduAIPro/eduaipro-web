@@ -1,26 +1,24 @@
 "use client";
-import { CoursesListColumnsDef } from "./columns";
+import { SurveysListColumnsDef } from "./columns";
 
-import { getCoursesKey } from "@/api/keys";
+import { getCoursesKey, getSurveysKey } from "@/api/keys";
 import { fetchPaginatedSearchQuery } from "@/api/queries";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import useDebounce from "@/hooks/use-debounce";
-import { GetCoursesList, TableCourse } from "@/types/admin/courses";
+import { GetSurveysList, TableSurvey } from "@/types/admin/surveys";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 
-export const CoursesTable = () => {
+export const SurveysTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const { value } = useDebounce(searchValue, 500);
-  const router = useRouter();
 
-  const { data, isLoading, error } = useSWR<GetCoursesList>(
-    [getCoursesKey, currentPage, value],
+  const { data, isLoading, error } = useSWR<GetSurveysList>(
+    [getSurveysKey, currentPage, value],
     fetchPaginatedSearchQuery
   );
 
@@ -39,17 +37,17 @@ export const CoursesTable = () => {
 
   return (
     <Fragment>
-      <DataTable<TableCourse, unknown>
+      <DataTable<TableSurvey, unknown>
         canSearch
         hasError={!!error}
         isLoading={isLoading}
         data={data?.data ?? []}
-        columns={CoursesListColumnsDef}
+        columns={SurveysListColumnsDef}
         filterOptions={filterOptions}
         onPageChange={(page) => setCurrentPage(page)}
         onRefresh={() => mutate(getCoursesKey)}
         searchInput={{
-          placeholder: "Search course",
+          placeholder: "Search surveys",
           value: searchValue,
           setValue: (val: string) => setSearchValue(val),
         }}
@@ -58,10 +56,10 @@ export const CoursesTable = () => {
         }}
         otherFilters={
           <>
-            <Link href="/admin/courses/create">
+            <Link href="/admin/survey/create">
               <Button>
                 <PlusIcon />
-                <p>Create new course</p>
+                <p>Create new survey</p>
               </Button>
             </Link>
           </>

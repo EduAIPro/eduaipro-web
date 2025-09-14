@@ -58,6 +58,7 @@ export const updateSchoolStatusKey = (schoolId: string) =>
   `/admin/school/schools/${schoolId}/active-status`;
 export const updateSchoolKey = (schoolId: string) =>
   `/admin/school/schools/${schoolId}`;
+export const bulkUploadFilesKey = "/file/upload-multiple";
 
 // queries
 export const getSchoolsKey = "/admin/school/schools";
@@ -71,6 +72,15 @@ export const getCoursesKey = "/admin/course/courses";
 export const getAllSystemStaffsKey = "/admin/school/staff/staffs";
 export const adminGetStaffKey = "/admin/school/staff/staffs";
 export const getAllSystemAdmins = "/admin/school/staff/owners";
+
+// survey
+export const getSurveysKey = "/admin/surveys";
+export const getSurveysAggregatesKey = "/admin/surveys/aggregates";
+
+// tickets
+export const ticketsKey = "/admin/support-ticket/tickets";
+
+// school
 export const adminGetSchoolStaffsKey = (id: string) =>
   `/admin/school/schools/${id}/staffs`;
 export const adminGetSchoolCertificationsKey = (id: string) =>

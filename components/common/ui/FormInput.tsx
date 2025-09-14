@@ -22,6 +22,7 @@ interface FormInputProps {
   name: string;
   error?: string | null;
   className?: string;
+  inputClassName?: string;
   disabled?: boolean;
   autoFocus?: boolean;
   as?: string;
@@ -35,6 +36,7 @@ export default function FormInput({
   type = "text",
   name,
   className,
+  inputClassName,
   error,
   note,
   disabled,
@@ -53,7 +55,8 @@ export default function FormInput({
           error ? "border-red-400" : "border-grey-4/50",
           isFocused
             ? "border-brand-1001 transition-colors duration-300 border-[1.5px]"
-            : ""
+            : "",
+          inputClassName
         )}
       >
         {leftIcon ? (

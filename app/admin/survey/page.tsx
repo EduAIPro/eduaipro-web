@@ -1,27 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import SurveyTable from "@/components/survey/survey-table";
-import { Survey } from "@/app/types/survey";
-import { surveysData } from "@/app/types/survey-data";
-import SurveyHeader from "@/components/survey/survey-header";
-import TopSurveyCards from "@/components/survey/top-survey-cards";
+import {
+  SurveyAggregatesCards,
+  SurveysTable,
+} from "@/components/admin/dashboard/surveys";
 
 export default function AdminSurveyPage() {
-  const [filteredSurveys, setFilteredSurveys] = useState<Survey[]>(surveysData);
-
   return (
-    <section>
-      <p className="text-[24px] sm:text-[28px] font-semibold sm:font-bold text-[#141414] leading-[100%]">
-        Survey
-      </p>
-      <div className="mt-[40px]">
-        <TopSurveyCards/>
+    <section className="space-y-8">
+      <div className="space-y-4">
+        <h1 className="font-semibold sm:font-bold text-2xl sm:text-3xl">
+          Survey
+        </h1>
+        <SurveyAggregatesCards />
       </div>
 
-      <div className="flex flex-col gap-[20px] mt-[40px]">
-        <SurveyHeader />
-        <SurveyTable surveys={filteredSurveys} />
+      <div className="space-y-4">
+        <h2 className="font-semibold text-lg">Recent surveys</h2>
+        <SurveysTable />
       </div>
     </section>
   );

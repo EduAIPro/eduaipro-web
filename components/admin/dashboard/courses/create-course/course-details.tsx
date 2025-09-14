@@ -8,17 +8,18 @@ import {
   validityPeriodOptions,
 } from "./constants";
 
-export const CourseDetails = () => {
-  const { touched, errors } = useFormikContext<CreateCourseFormValue>();
+export const CourseDetails = ({ loading }: { loading: boolean }) => {
+  const { touched, errors, isValid } =
+    useFormikContext<CreateCourseFormValue>();
 
   const fieldError = (fieldName: keyof CreateCourseFormValue) =>
     touched[fieldName] && errors[fieldName] ? errors[fieldName] : null;
 
   return (
-    <div className="bg-white p-5 border border-grey-400 rounded-xl flex flex-col justify-between gap-20">
+    <div className="bg-white p-3 md:p-5 border border-grey-400 rounded-xl flex flex-col justify-between gap-10 md:gap-20">
       <div>
         <h2 className="font-semibold text-grey-650">Course information</h2>
-        <div className="space-y-5 mt-8">
+        <div className="space-y-5 mt-4 md:mt-8">
           <FormInput
             name="courseName"
             label="Course name"
@@ -62,7 +63,7 @@ export const CourseDetails = () => {
         </div>
       </div>
 
-      <Button type="submit">
+      <Button loading={loading} disabled={!isValid} type="submit">
         <p>Create course</p>
       </Button>
     </div>

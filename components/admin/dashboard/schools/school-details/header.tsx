@@ -38,7 +38,10 @@ export const SchoolDetailsHeader = ({
               </h2>
               <p className="text-sm font-medium text-grey-500">
                 Last updated:{" "}
-                {format(data?.updatedAt as any, "HH:mm a, dd/mm/yyyy")}
+                {format(
+                  data?.updatedAt ?? (new Date() as any),
+                  "HH:mm a, dd/mm/yyyy"
+                )}
               </p>
             </>
           )}

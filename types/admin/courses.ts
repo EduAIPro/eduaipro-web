@@ -15,11 +15,14 @@ export type TableCourse = {
   introductoryVideoUrl: string;
   certificateValidationDays: number;
   validityPeriodDays: number;
+  completionDurationDays: number;
   createdAt: string;
   updatedAt: string;
   level: TeacherLevelType;
   isMain: boolean;
   createdById: string;
+  totalEnrolledTeachers: number;
+  totalTeachersCompleted: number;
 };
 
 export type CreateCoursePayload = {
@@ -27,7 +30,8 @@ export type CreateCoursePayload = {
   description: string;
   level: TeacherLevelType;
   certificateValidationDays: number;
-  introductoryVideoUrl: string;
+  introductoryVideoUrl?: string;
+  completionDurationDays: number;
   units: CreateCourseUnit[];
 };
 
@@ -50,5 +54,13 @@ export type CreateCourseModuleItem = {
   pages: {
     title: string;
     number: number;
+  }[];
+};
+
+export type BulkFilesUploadResponse = {
+  message: string;
+  urls: {
+    url: string;
+    public_id: string;
   }[];
 };

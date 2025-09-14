@@ -1,6 +1,10 @@
 import { AdminSchool } from "@/types/admin";
-import { CreateCoursePayload } from "@/types/admin/courses";
+import {
+  BulkFilesUploadResponse,
+  CreateCoursePayload,
+} from "@/types/admin/courses";
 import { SendNotificationPayload } from "@/types/admin/notifications";
+import { CreateSurveyPayload, TableSurvey } from "@/types/admin/surveys";
 import { AssessmentSubmitResponse } from "@/types/assessment";
 import {
   APIBaseResponse,
@@ -27,6 +31,10 @@ import {
 } from "@/types/school/auth";
 import { Staff } from "@/types/user";
 import { setAuthCookes } from "@/utils/auth";
+import {
+  SupportTicket,
+  UpdateTicketPayload,
+} from "@/utils/validation/admin/support";
 import { PersonalInfoFormValue } from "@/utils/validation/teacher-profile/settings";
 import { toast } from "sonner";
 import { apiClient } from "./request";
@@ -378,6 +386,78 @@ export async function deleteCourse(
     );
 
     return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// files
+export async function bulkUploadFiles(
+  url: string,
+  { arg }: { arg: { files: File[] } }
+): Promise<BulkFilesUploadResponse> {
+  try {
+    const formData = new FormData();
+    arg.files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const response = await apiClient<{ data: BulkFilesUploadResponse }>(
+      url,
+      formData,
+      "post",
+      true
+    );
+
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// surveys
+export async function createSurvey(
+  url: string,
+  { arg }: { arg: CreateSurveyPayload }
+): Promise<TableSurvey> {
+  try {
+    const response = await apiClient<{ data: TableSurvey }>(url, arg);
+
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function deleteSurvey(
+  url: string,
+  { arg }: { arg: { id: string } }
+): Promise<{ message: string }> {
+  try {
+    const response = await apiClient<{ message: string }>(
+      `${url}/${arg.id}`,
+      undefined,
+      "delete"
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// tickets
+export async function updateTicket(
+  url: string,
+  { arg }: { arg: UpdateTicketPayload }
+): Promise<SupportTicket> {
+  try {
+    const response = await apiClient<{ data: SupportTicket }>(
+      url,
+      arg,
+      "patch"
+    );
+
+    return response.data.data;
   } catch (error) {
     throw error;
   }

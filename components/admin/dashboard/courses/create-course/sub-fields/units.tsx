@@ -2,7 +2,8 @@ import FormInput from "@/components/common/ui/FormInput";
 import { Button } from "@/components/ui/button";
 import { CreateCourseFormValue } from "@/utils/validation/admin";
 import { FieldArray, useFormikContext } from "formik";
-import { PlusIcon, TrashIcon } from "lucide-react";
+import { PlusIcon, Trash2Icon } from "lucide-react";
+import { Fragment } from "react";
 import { emptyUnit } from "../constants";
 import { ModuleFormField } from "./modules";
 
@@ -15,31 +16,49 @@ export const UnitFormField = () => {
   return (
     <FieldArray name="units">
       {({ remove, push }) => (
-        <div>
-          <h3 className="text-lg font-medium mb-3">Units</h3>
+        <div className="border rounded-xl bg-primary-200/10">
           {values.units.map((unit, unitIndex) => (
-            <div key={unitIndex} className="">
-              <FormInput
-                name={`units.${unitIndex}.title`}
-                label="Unit title"
-                placeholder="Enter unit title"
-                error={
-                  fieldError(`units.${unitIndex}.title` as any) as string | null
-                }
-              />
-              <ModuleFormField
-                unitItem={unit}
-                fieldName={`units.${unitIndex}.modules`}
-              />
+            <Fragment key={unitIndex}>
+              <div className="flex items-center justify-between pb-3 border-b border-grey-400 p-4">
+                <div className="flex items-baseline gap-5">
+                  <h3 className="text-sm font-semibold text-grey-650 mb-3 whitespace-nowrap">
+                    Unit {unitIndex + 1}
+                  </h3>
+                  <FormInput
+                    name={`units.${unitIndex}.title`}
+                    label=""
+                    placeholder="Enter unit title"
+                    className="bg-white rounded-xl max-sm:min-w-full sm:min-w-96"
+                    inputClassName="border-grey-400"
+                    error={
+                      fieldError(`units.${unitIndex}.title` as any) as
+                        | string
+                        | null
+                    }
+                  />
+                </div>
 
-              {values.units.length > 1 && (
-                <Button onClick={() => remove(unitIndex)} variant="destructive">
-                  <TrashIcon />
-                </Button>
-              )}
-            </div>
+                {values.units.length > 1 && (
+                  <Button
+                    onClick={() => remove(unitIndex)}
+                    variant="destructive"
+                    size="sm"
+                    className="min-w-fit"
+                  >
+                    <Trash2Icon />
+                  </Button>
+                )}
+              </div>
+              <div className="bg-white p-4">
+                <ModuleFormField
+                  unitItem={unit}
+                  fieldName={`units.${unitIndex}.modules`}
+                />
+              </div>
+            </Fragment>
           ))}
-          <div className="flex items-center justify-end">
+
+          <div className="flex items-center justify-end bg-white pb-4 pr-4 rounded-xl">
             <Button onClick={() => push(emptyUnit)}>
               <PlusIcon />
               <p>Add unit</p>

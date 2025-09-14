@@ -2,7 +2,7 @@ import FormInput from "@/components/common/ui/FormInput";
 import { Button } from "@/components/ui/button";
 import { CreateCourseFormValue, UnitFormValue } from "@/utils/validation/admin";
 import { FieldArray, useFormikContext } from "formik";
-import { PlusIcon, TrashIcon } from "lucide-react";
+import { PlusIcon, Trash2Icon } from "lucide-react";
 import { emptyModule } from "../constants";
 import { ModuleItemFormField } from "./module-items";
 type ModuleFormFieldProps = {
@@ -23,40 +23,52 @@ export const ModuleFormField = ({
   return (
     <FieldArray name={fieldName}>
       {({ remove, push }) => (
-        <div>
-          <h3 className="text-lg font-medium mb-3">Modules</h3>
+        <div className="space-y-8">
           {unitItem.modules.map((mod, moduleIndex) => (
             <div key={moduleIndex} className="">
-              <FormInput
-                name={`${fieldName}.${moduleIndex}.title`}
-                label="Module title"
-                placeholder="Enter module title"
-                error={
-                  fieldError(`${fieldName}.${moduleIndex}.title` as any) as
-                    | string
-                    | null
-                }
-              />
-              <ModuleItemFormField
-                moduleObj={mod}
-                fieldName={`${fieldName}.${moduleIndex}.moduleItems`}
-              />
-
-              {unitItem.modules.length > 1 && (
-                <Button
-                  onClick={() => remove(moduleIndex)}
-                  variant="destructive"
-                >
-                  <TrashIcon />
-                </Button>
-              )}
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-semibold text-grey-650">
+                  Module {moduleIndex + 1}
+                </h3>
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-primary text-primary"
+                    onClick={() => push(emptyModule)}
+                  >
+                    <PlusIcon />
+                    <p>Add module</p>
+                  </Button>
+                  {unitItem.modules.length > 1 && (
+                    <Button
+                      onClick={() => remove(moduleIndex)}
+                      variant="destructive"
+                      className="min-w-fit"
+                      size="sm"
+                    >
+                      <Trash2Icon />
+                    </Button>
+                  )}
+                </div>
+              </div>
+              <div>
+                <FormInput
+                  name={`${fieldName}.${moduleIndex}.title`}
+                  placeholder="Enter module title"
+                  error={
+                    fieldError(`${fieldName}.${moduleIndex}.title` as any) as
+                      | string
+                      | null
+                  }
+                />
+                <ModuleItemFormField
+                  moduleObj={mod}
+                  fieldName={`${fieldName}.${moduleIndex}.moduleItems`}
+                />
+              </div>
             </div>
           ))}
-
-          <Button onClick={() => push(emptyModule)}>
-            <PlusIcon />
-            <p>Add module</p>
-          </Button>
         </div>
       )}
     </FieldArray>
