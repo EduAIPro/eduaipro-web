@@ -34,7 +34,12 @@ export const SurveyAggregatesCards = () => {
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
       {cards.map((card) => (
-        <CardItem isLoading={isLoading} title={card.title} value={card.value} />
+        <CardItem
+          key={card.title}
+          isLoading={isLoading}
+          title={card.title}
+          value={card.value}
+        />
       ))}
     </div>
   );
