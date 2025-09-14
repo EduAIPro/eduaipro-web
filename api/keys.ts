@@ -45,3 +45,43 @@ export const getSchoolAnalyticsKey = "/school/aggregates";
 export const getSchoolStaffsKey = "/school/staff/staffs";
 export const getSchoolInviteLinkKey = "/school/invite/link";
 export const getOverdueRenewalsKey = "/school/accreditation-renewals";
+
+// ADMIN
+// mutations
+export const sendNotificationKey = "/admin/notification/send-message";
+export const adminCreateCourseKey = "/admin/course";
+export const adminDeactivateStaffKey = (schoolId: string, staffId: string) =>
+  `/admin/school/staff/staffs/${schoolId}/${staffId}/deactivate`;
+export const adminActivateStaffKey = (schoolId: string, staffId: string) =>
+  `/admin/school/staff/staffs/${schoolId}/${staffId}/activate`;
+export const updateSchoolStatusKey = (schoolId: string) =>
+  `/admin/school/schools/${schoolId}/active-status`;
+export const updateSchoolKey = (schoolId: string) =>
+  `/admin/school/schools/${schoolId}`;
+export const bulkUploadFilesKey = "/file/upload-multiple";
+
+// queries
+export const getSchoolsKey = "/admin/school/schools";
+export const getSchoolsWithParamKey = (q: string) =>
+  `/admin/school/schools?search=${q}`;
+export const getAdminAggregatesKey = "/admin/aggregates";
+export const getTopTeachersKey = "/admin/top-engaged-teachers";
+export const getTopSchoolsKey = "/admin/top-engaged-schools";
+export const getCountryDistributionKey = "/admin/country-distribution";
+export const getCoursesKey = "/admin/course/courses";
+export const getAllSystemStaffsKey = "/admin/school/staff/staffs";
+export const adminGetStaffKey = "/admin/school/staff/staffs";
+export const getAllSystemAdmins = "/admin/school/staff/owners";
+
+// survey
+export const getSurveysKey = "/admin/surveys";
+export const getSurveysAggregatesKey = "/admin/surveys/aggregates";
+
+// tickets
+export const ticketsKey = "/admin/support-ticket/tickets";
+
+// school
+export const adminGetSchoolStaffsKey = (id: string) =>
+  `/admin/school/schools/${id}/staffs`;
+export const adminGetSchoolCertificationsKey = (id: string) =>
+  `/admin/school/schools/${id}/certifications`;

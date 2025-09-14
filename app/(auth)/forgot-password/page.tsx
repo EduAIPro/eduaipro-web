@@ -24,7 +24,7 @@ export default function ForgotPasswordPage() {
 
       setIsSuccess(true);
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error);
     }
   }
 

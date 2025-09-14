@@ -1,3 +1,10 @@
+import { AdminSchool } from "@/types/admin";
+import {
+  BulkFilesUploadResponse,
+  CreateCoursePayload,
+} from "@/types/admin/courses";
+import { SendNotificationPayload } from "@/types/admin/notifications";
+import { CreateSurveyPayload, TableSurvey } from "@/types/admin/surveys";
 import { AssessmentSubmitResponse } from "@/types/assessment";
 import {
   APIBaseResponse,
@@ -11,7 +18,11 @@ import {
   TeacherSignupResponse,
   TeacherSurveyPayload,
 } from "@/types/auth";
-import { UpdateModulePayload, UpdateModuleResponse } from "@/types/course";
+import {
+  Course,
+  UpdateModulePayload,
+  UpdateModuleResponse,
+} from "@/types/course";
 import {
   SchoolSignupPayload,
   UpdatePersonalInfoPayload,
@@ -20,6 +31,10 @@ import {
 } from "@/types/school/auth";
 import { Staff } from "@/types/user";
 import { setAuthCookes } from "@/utils/auth";
+import {
+  SupportTicket,
+  UpdateTicketPayload,
+} from "@/utils/validation/admin/support";
 import { PersonalInfoFormValue } from "@/utils/validation/teacher-profile/settings";
 import { toast } from "sonner";
 import { apiClient } from "./request";
@@ -295,6 +310,155 @@ export async function reactivateStaff(
     return response.data;
   } catch (error) {
     toast.error(error as string);
+    throw error;
+  }
+}
+
+// ADMIN
+export async function editSchoolInfo(
+  url: string,
+  { arg }: { arg: Partial<UpdateSchoolInfoPayload> }
+): Promise<UpdateSchoolInfoResponse> {
+  try {
+    const response = await apiClient<UpdateSchoolInfoResponse>(
+      url,
+      arg,
+      "patch"
+    );
+
+    return response.data;
+  } catch (error) {
+    toast.error(error as string);
+    throw error;
+  }
+}
+
+export async function updateSchoolStatus(
+  url: string,
+  { arg }: { arg: { active: boolean } }
+): Promise<AdminSchool> {
+  try {
+    const response = await apiClient<AdminSchool>(url, arg, "patch");
+
+    return response.data;
+  } catch (error) {
+    toast.error(error as string);
+    throw error;
+  }
+}
+
+export async function sendMessageNotification(
+  url: string,
+  { arg }: { arg: SendNotificationPayload }
+): Promise<{ success: boolean }> {
+  try {
+    const response = await apiClient<{ success: boolean }>(url, arg);
+
+    return response.data;
+  } catch (error) {
+    toast.error(error as string);
+    throw error;
+  }
+}
+
+// courses
+export async function createCourse(
+  url: string,
+  { arg }: { arg: CreateCoursePayload }
+): Promise<Course> {
+  try {
+    const response = await apiClient<Course>(url, arg);
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function deleteCourse(
+  url: string,
+  { arg }: { arg: { id: string } }
+): Promise<{ message: string }> {
+  try {
+    const response = await apiClient<{ message: string }>(
+      `${url}/${arg.id}`,
+      undefined,
+      "delete"
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// files
+export async function bulkUploadFiles(
+  url: string,
+  { arg }: { arg: { files: File[] } }
+): Promise<BulkFilesUploadResponse> {
+  try {
+    const formData = new FormData();
+    arg.files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const response = await apiClient<{ data: BulkFilesUploadResponse }>(
+      url,
+      formData,
+      "post",
+      true
+    );
+
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// surveys
+export async function createSurvey(
+  url: string,
+  { arg }: { arg: CreateSurveyPayload }
+): Promise<TableSurvey> {
+  try {
+    const response = await apiClient<{ data: TableSurvey }>(url, arg);
+
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function deleteSurvey(
+  url: string,
+  { arg }: { arg: { id: string } }
+): Promise<{ message: string }> {
+  try {
+    const response = await apiClient<{ message: string }>(
+      `${url}/${arg.id}`,
+      undefined,
+      "delete"
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// tickets
+export async function updateTicket(
+  url: string,
+  { arg }: { arg: UpdateTicketPayload }
+): Promise<SupportTicket> {
+  try {
+    const response = await apiClient<{ data: SupportTicket }>(
+      url,
+      arg,
+      "patch"
+    );
+
+    return response.data.data;
+  } catch (error) {
     throw error;
   }
 }

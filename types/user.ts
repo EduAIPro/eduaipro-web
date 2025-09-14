@@ -1,3 +1,4 @@
+import { AdminSchool } from "./admin";
 import { UserRoles } from "./auth";
 
 export type User = {
@@ -29,5 +30,6 @@ export type Staff = {
   acceptedTermsAndConditions: boolean;
   userId: string;
   schoolId: null | string;
+  school?: null | AdminSchool;
   user: User;
 };

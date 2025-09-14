@@ -99,7 +99,7 @@ export const InviteTeacherModal = ({}: InviteTeacherModalProps) => {
             loading={isLoading}
             onClick={() => {
               navigator.clipboard.writeText(
-                `https://eduaipro.ng/register?type=teacher&token=${data?.token}`
+                `${process.env.NEXT_PUBLIC_TEACHER_SIGNUP_LINK}&token=${data?.token}`
               );
               toast.success("Invite link copied successfully");
             }}

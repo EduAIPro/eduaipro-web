@@ -70,7 +70,7 @@ export default function MultiStepFormModal({
       await trigger(trimObj(payload));
       router.refresh();
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error);
     }
   };
 

@@ -26,14 +26,14 @@ export const Referral = () => {
             <Skeleton className="w-full h-6 rounded-lg mr-3" />
           ) : (
             <p className="truncate mr-3">
-              https://eduaipro.ng/register?type=teacher&token={data?.token}
+              {process.env.NEXT_PUBLIC_TEACHER_SIGNUP_LINK}&token={data?.token}
             </p>
           )}
           <Button
             disabled={isLoading}
             onClick={() => {
               navigator.clipboard.writeText(
-                `https://eduaipro.ng/register?type=teacher&token=${data?.token}`
+                `${process.env.NEXT_PUBLIC_TEACHER_SIGNUP_LINK}&token=${data?.token}`
               );
               toast.success("Invite link copied successfully");
             }}

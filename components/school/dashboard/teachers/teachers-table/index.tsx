@@ -7,8 +7,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { SchoolStaff, SchoolStaffsData } from "@/types/school/teachers";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
-import { InviteTeacherModal } from "../modals/invite-teacher.modal";
-import { SendMessageModal } from "../modals/send-message.modal";
+import { InviteTeacherModal, SendMessageModal } from "../modals";
 import { TeacherProfile } from "../profile";
 import { Empty } from "./empty";
 

@@ -50,7 +50,7 @@ function VerifyEmail() {
         router.push("/admin");
       }
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error);
     }
   }
 

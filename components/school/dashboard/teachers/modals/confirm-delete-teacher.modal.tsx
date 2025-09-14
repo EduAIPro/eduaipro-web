@@ -30,7 +30,7 @@ export const ConfirmDeleteTeacherModal =
       >
         <p className="text-[15px] text-grey-500">
           Are you sure you want to delete this teacher from the database? This
-          will delete all related information on this teacher inclusing
+          will delete all related information on this teacher including
           certifications and course progress. This action cannot be undone
         </p>
       </Modal>

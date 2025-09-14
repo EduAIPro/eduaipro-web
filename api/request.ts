@@ -11,14 +11,21 @@ type ErrorResponse = { statusCode: number; message: string };
 export async function apiClient<T>(
   url: string,
   data?: any,
-  method: "post" | "patch" | "delete" = "post"
+  method: "post" | "patch" | "delete" = "post",
+  isFormData = false
 ): Promise<ApiResponse<T>> {
   try {
     let response: AxiosResponse<T>;
+    const formDataHeaders = {
+      headers: {
+        "Content-Type": "multipart/formdata",
+      },
+    };
+    const headers = isFormData ? formDataHeaders : undefined;
 
     switch (method.toLowerCase()) {
       case "post":
-        response = await api.post(url, data);
+        response = await api.post(url, data, headers);
         break;
       case "put":
         response = await api.put(url, data);
@@ -43,6 +50,7 @@ export async function apiClient<T>(
       status: response.status,
     };
   } catch (error) {
+    console.log({ error });
     throw error;
   }
 }

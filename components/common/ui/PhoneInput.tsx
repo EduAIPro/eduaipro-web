@@ -49,7 +49,10 @@ export default function PhoneInput({
 
   const defaultCountry = useMemo(() => {
     if (phoneField && phoneField.dialCode) {
-      return countries.find((c) => c.dialCode === phoneField.dialCode)!;
+      return (
+        countries.find((c) => c.dialCode === phoneField.dialCode) ??
+        countries[0]
+      );
     } else {
       return countries[0];
     }

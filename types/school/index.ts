@@ -11,7 +11,8 @@ export type Country = {
 export type Pagination = {
   total: number;
   current: number;
-  next: null | string;
+  next: null | number;
+  totalPages: number;
 };
 
 export type CountriesList = {

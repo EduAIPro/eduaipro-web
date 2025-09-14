@@ -1,9 +1,7 @@
+import { Pagination } from "./school";
+
 export type ListCertificates = {
-  pagination: {
-    total: number;
-    current: number;
-    next: null | number;
-  };
+  pagination: Pagination;
   data: Accreditation[];
 };
 

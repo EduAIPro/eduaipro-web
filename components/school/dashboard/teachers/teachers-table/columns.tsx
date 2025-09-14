@@ -64,7 +64,7 @@ export const TeachersListColumnsDef: ColumnDef<Omit<SchoolStaff, "school">>[] =
             <div
               className={cn(
                 "size-2 rounded-full",
-                value === "active" ? "bg-[#008000]" : "bg-[#FFA500]"
+                value === "active" ? "bg-success-600" : "bg-[#FFA500]"
               )}
             ></div>
             <p className="font-medium text-sm capitalize">{value}</p>

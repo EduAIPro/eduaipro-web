@@ -10,6 +10,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+import EmptyIcon from "@/components/svgs/school/empty-table.svg";
 import WarningIcon from "@/components/svgs/warning.svg";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -53,6 +54,7 @@ interface DataTableProps<TData, TValue> {
   meta?: PaginationMeta;
   isLoading?: boolean;
   canSearch?: boolean;
+  canFilter?: boolean;
   searchInput?: {
     placeholder?: string;
     value: string;
@@ -90,6 +92,7 @@ export function DataTable<TData, TValue>({
   onRowClick,
   onPageChange,
   filterOptions = [],
+  canFilter = false,
   ...restProps
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -253,26 +256,31 @@ export function DataTable<TData, TValue>({
               Clear filters <X />
             </Button>
           )}
-          <Popover open={isFilterOpen} onOpenChange={(v) => setIsFilterOpen(v)}>
-            <PopoverTrigger asChild>
-              <Button className="bg-white text-grey-500 border-grey-400 hover:bg-grey-3/50">
-                <FilterIcon />
-                <p>Filter</p>
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="p-3 py-1">
-              <div className="flex items-center justify-between">
-                <h3 className="font-medium text-sm">Filter</h3>
-                <button className="p-2 hover:bg-grey-3 duration-300 rounded-md">
-                  <XIcon className="size-4" />
-                </button>
-              </div>
-              <div className="py-4"></div>
-              <div className="flex items-center justify-end">
-                <Button size="sm">Filter</Button>
-              </div>
-            </PopoverContent>
-          </Popover>
+          {canFilter ? (
+            <Popover
+              open={isFilterOpen}
+              onOpenChange={(v) => setIsFilterOpen(v)}
+            >
+              <PopoverTrigger asChild>
+                <Button className="bg-white text-grey-500 border-grey-400 hover:bg-grey-3/50">
+                  <FilterIcon />
+                  <p>Filter</p>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="p-3 py-1">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-medium text-sm">Filter</h3>
+                  <button className="p-2 hover:bg-grey-3 duration-300 rounded-md">
+                    <XIcon className="size-4" />
+                  </button>
+                </div>
+                <div className="py-4"></div>
+                <div className="flex items-center justify-end">
+                  <Button size="sm">Filter</Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          ) : null}
 
           {otherFilters ? (
             <div className="flex items-center gap-3">{otherFilters}</div>
@@ -494,9 +502,7 @@ const EmptyComponent = ({
 }: BaseProps & { onAddNew?: () => void }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-10">
-      <p>illustration</p>
-
-      {/* <Empty width={64} height={64} /> */}
+      <EmptyIcon />
       <div className="mt-6">
         <p className="mx-auto max-w-sm font-medium">
           There are currently no records to display

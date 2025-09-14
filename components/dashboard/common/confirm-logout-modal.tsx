@@ -3,6 +3,7 @@ import { logOut } from "@/api/mutations";
 import WarningIcon from "@/components/svgs/warning.svg";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
+import { cn } from "@/lib/utils";
 import { deleteRefreshToken, getRefreshToken } from "@/utils/auth";
 import { deleteAccessToken } from "@/utils/auth/helpers";
 import { LogOutIcon } from "lucide-react";
@@ -11,7 +12,11 @@ import { useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
 
-export const ConfirmLogoutModal = () => {
+export const ConfirmLogoutModal = ({
+  isAdmin = false,
+}: {
+  isAdmin?: boolean;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { trigger, isMutating } = useSWRMutation(logoutKey, logOut);
@@ -51,8 +56,16 @@ export const ConfirmLogoutModal = () => {
       open={isOpen}
       toggleModal={onClose}
       trigger={
-        <Button variant="outline" size="icon" className="min-w-14 py-3">
-          <LogOutIcon className="text-[#FF0000]" />
+        <Button
+          variant={isAdmin ? "ghost" : "outline"}
+          size={isAdmin ? "default" : "icon"}
+          className={cn(
+            "py-3 text-[#FF0000]",
+            isAdmin ? "justify-start hover:scale-100" : "min-w-14"
+          )}
+        >
+          <LogOutIcon />
+          {isAdmin ? <p>Logout</p> : null}
         </Button>
       }
       title="Logout"

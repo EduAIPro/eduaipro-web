@@ -2,8 +2,14 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { Field } from "formik";
-import { ArrowDown2, ArrowUp2, Check, NotificationCircle } from "iconsax-react";
-import { HTMLInputTypeAttribute, ReactNode, useState } from "react";
+import { CheckIcon, ChevronDownIcon } from "lucide-react";
+import {
+  HTMLInputTypeAttribute,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Typography from "./Typography";
 
 interface FormInputProps {
@@ -16,7 +22,10 @@ interface FormInputProps {
   name: string;
   error?: string | null;
   className?: string;
+  inputClassName?: string;
   disabled?: boolean;
+  autoFocus?: boolean;
+  as?: string;
 }
 
 export default function FormInput({
@@ -27,9 +36,12 @@ export default function FormInput({
   type = "text",
   name,
   className,
+  inputClassName,
   error,
   note,
   disabled,
+  autoFocus,
+  as,
 }: FormInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   return (
@@ -43,7 +55,8 @@ export default function FormInput({
           error ? "border-red-400" : "border-grey-4/50",
           isFocused
             ? "border-brand-1001 transition-colors duration-300 border-[1.5px]"
-            : ""
+            : "",
+          inputClassName
         )}
       >
         {leftIcon ? (
@@ -57,10 +70,12 @@ export default function FormInput({
           </div>
         ) : null}
         <Field
+          as={as}
           name={name}
           type={type}
           disabled={disabled}
           placeholder={placeholder}
+          autoFocus={autoFocus}
           onFocus={() => {
             setIsFocused(true);
           }}
@@ -139,7 +154,6 @@ interface Option {
 }
 
 export function SelectInput({
-  rightIcon = <ArrowDown2 className="text-gray-700 w-5 h-5" />,
   leftIcon,
   placeholder = "Select an option",
   label,
@@ -159,13 +173,31 @@ export function SelectInput({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+        setIsFocused(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
   return (
-    <div className={`${className} relative`}>
+    <div className={`${className} relative`} ref={dropdownRef}>
       {label && (
-        <Typography.H4 className="mb-1" weight="medium" size="base">
-          {label}
-        </Typography.H4>
+        <p className="font-medium text-base mb-1 text-grey-650">{label}</p>
       )}
       <div
         className={cn(
@@ -190,58 +222,65 @@ export function SelectInput({
           </div>
         )}
         <Field name={name}>
-          {({ field, form }: any) => (
-            <>
-              <div className="flex-1 text-base text-grey-12">
-                {field.value ? (
-                  <span>
-                    {options.find((opt) => opt.value === field.value)?.label}
-                  </span>
-                ) : (
-                  <span className="text-gray-400">{placeholder}</span>
-                )}
-              </div>
-              <div
-                className="ml-2"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsOpen(!isOpen);
-                }}
-              >
-                {isOpen ? (
-                  <ArrowUp2 className="text-gray-700 w-5 h-5" />
-                ) : (
-                  rightIcon
-                )}
-              </div>
-              {isOpen && (
-                <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-grey-4/50 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50">
-                  {options.map((option) => (
-                    <div
-                      key={option.value}
-                      className={`px-4 py-2 hover:bg-primary-100 cursor-pointer ${
-                        field.value === option.value ? "bg-primary-100" : ""
-                      }`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        form.setFieldValue(name, option.value);
-                        setIsOpen(false);
-                      }}
-                    >
-                      <Typography.P
-                        size="base"
-                        className={
-                          field.value === option.value ? "text-primary-400" : ""
-                        }
-                      >
-                        {option.label}
-                      </Typography.P>
-                    </div>
-                  ))}
+          {({ field, form }: any) => {
+            return (
+              <>
+                <div className="flex-1 text-base text-grey-12">
+                  {field.value && field.value !== "" ? (
+                    <span>
+                      {options.find((opt) => opt.value === field.value)?.label}
+                    </span>
+                  ) : (
+                    <span className="text-grey-500/80">{placeholder}</span>
+                  )}
                 </div>
-              )}
-            </>
-          )}
+                <div
+                  className="ml-2"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsOpen(!isOpen);
+                  }}
+                >
+                  <ChevronDownIcon
+                    className={cn(
+                      "duration-300 transition-all",
+                      isOpen ? "rotate-180" : "rotate-0"
+                    )}
+                    size={18}
+                  />
+                </div>
+                {isOpen && (
+                  <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-grey-4/50 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50">
+                    {options.map((option) => (
+                      <div
+                        key={option.value}
+                        className={`px-4 py-2 hover:bg-primary-100 cursor-pointer ${
+                          field.value === option.value ? "bg-primary-100" : ""
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          form.setFieldValue(name, option.value);
+                          setIsOpen(false);
+                          setIsFocused(false);
+                        }}
+                      >
+                        <Typography.P
+                          size="base"
+                          className={
+                            field.value === option.value
+                              ? "text-primary-400"
+                              : ""
+                          }
+                        >
+                          {option.label}
+                        </Typography.P>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            );
+          }}
         </Field>
       </div>
       {error && (
@@ -306,9 +345,9 @@ export function RadioInput({
                           : "border-gray-300"
                       }`}
                   >
-                    {field.value === option.value && (
+                    {/* {field.value === option.value && (
                       <NotificationCircle className="w-2 h-2 text-white fill-current" />
-                    )}
+                    )} */}
                   </div>
                   <div className="ml-3">
                     <Typography.P
@@ -399,9 +438,7 @@ export function CheckboxInput({
   return (
     <div className={`${className}`}>
       {label && (
-        <Typography.H4 className="mb-1" weight="medium" size="base">
-          {label}
-        </Typography.H4>
+        <p className="font-medium text-base mb-1 text-grey-650">{label}</p>
       )}
       {description && (
         <Typography.P className="mb-3 text-gray-500" size="small">
@@ -421,29 +458,37 @@ export function CheckboxInput({
                   ? field.value.includes(option.value)
                   : false;
 
+                const isDisabled =
+                  field.value.includes("all") && option.value !== "all";
+
                 return (
                   <label
                     key={option.value}
-                    className={`flex items-center gap-x-3 p-3 cursor-pointer hover:bg-gray-50 transition-colors
-                      ${index === 0 ? "rounded-t-lg" : ""} 
-                      ${index === options.length - 1 ? "rounded-b-lg" : ""}`}
+                    className={cn(
+                      "flex items-center gap-x-3 p-3 hover:bg-gray-50 transition-colors",
+                      index === 0 ? "rounded-t-lg" : "",
+                      index === options.length - 1 ? "rounded-b-lg" : "",
+                      isDisabled ? "opacity-50" : "cursor-pointer"
+                    )}
                   >
                     <div className="flex items-center flex-1">
                       <div
                         className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors
                           ${
                             isChecked
-                              ? "border-blue-500 bg-blue-500"
+                              ? "border-primary bg-primary"
                               : "border-gray-300"
                           }`}
                       >
-                        {isChecked && <Check className="w-3 h-3 text-white" />}
+                        {isChecked && (
+                          <CheckIcon className="w-3 h-3 text-white" />
+                        )}
                       </div>
                       <div className="ml-3">
                         <Typography.P
                           size="base"
                           className={`${
-                            isChecked ? "text-blue-500 font-medium" : ""
+                            isChecked ? "text-primary-300 font-medium" : ""
                           }`}
                         >
                           {option.label}
@@ -453,6 +498,7 @@ export function CheckboxInput({
                     <input
                       type="checkbox"
                       className="hidden"
+                      disabled={isDisabled}
                       checked={isChecked}
                       onChange={(e) => {
                         const newValue = Array.isArray(field.value)
