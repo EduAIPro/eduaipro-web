@@ -13,7 +13,10 @@ export const EnrolledInCourseCard = ({
   isLoading,
 }: EnrolledInCourseCardProps) => {
   const totalEnrollment = useMemo(
-    () => enrolled?.totalEnrolledCount! + enrolled?.totalNotEnrolledCount! ?? 0,
+    () =>
+      enrolled
+        ? enrolled?.totalEnrolledCount + enrolled?.totalNotEnrolledCount
+        : 0,
     [enrolled]
   );
 

@@ -374,7 +374,14 @@ import ProgressIcon from "@/components/svgs/progress.svg";
 import SupportIcon from "@/components/svgs/support.svg";
 import TwinkleIcon from "@/components/svgs/twinkle.svg";
 import UIIcon from "@/components/svgs/ui.svg";
-import { ClockIcon } from "lucide-react";
+import {
+  ChartLineIcon,
+  ClockIcon,
+  Grid2X2XIcon,
+  StarIcon,
+  UserPlusIcon,
+  WalletIcon,
+} from "lucide-react";
 
 export const teacherBenefits = [
   {
@@ -521,7 +528,7 @@ export const institutionBenefits = [
     title: "Enhanced Educator Quality",
     description:
       "Provide educators with internationally accredited courses and AI-driven learning paths to improve teaching performance.",
-    // icon: Activity,
+    icon: UserPlusIcon,
   },
   {
     title: "Streamlined Certification Management",
@@ -539,7 +546,7 @@ export const institutionBenefits = [
     title: "Data-Driven Insights",
     description:
       "Generate actionable data on educator performance for strategic decision-making and institutional growth.",
-    // icon: Chart,
+    icon: ChartLineIcon,
   },
   {
     title: "Global Collaboration",
@@ -551,7 +558,7 @@ export const institutionBenefits = [
     title: "Cost-Effective Professional Development",
     description:
       "Optimize budgets with centralized, scalable training programs that deliver high-quality courses in a flexible, convenient online format.",
-    // icon: WalletMoney,
+    icon: WalletIcon,
   },
   {
     title: "Strengthened Institutional Reputation",
@@ -569,13 +576,13 @@ export const institutionBenefits = [
     title: "Institution Dashboard",
     description:
       "Track and monitor staff progress with a user-friendly dashboard offering real-time updates.",
-    // icon: Element4,
+    icon: Grid2X2XIcon,
   },
   {
     title: "Global Educational Standards",
     description:
       "Access the latest global trends and practices to maintain competitiveness in the education sector.",
-    // icon: Star1,
+    icon: StarIcon,
   },
   {
     title: "Quality Mark Plaque",

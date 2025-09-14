@@ -13,7 +13,9 @@ export const TotalTeachersCard = ({
 }: TotalTeachersCardProps) => {
   const totalTeachers = useMemo(
     () =>
-      teachers?.activeTeachersCount! + teachers?.inactiveTeachersCount! ?? 0,
+      teachers
+        ? teachers?.activeTeachersCount + teachers?.inactiveTeachersCount
+        : 0,
     [teachers]
   );
 

@@ -33,10 +33,9 @@ export const AdminLayoutHeader = () => {
         {AdminNavItems.map((i) => {
           const isActive = path === i.url;
           return (
-            <Link href={i.url}>
+            <Link key={i.name} href={i.url}>
               <Button
                 variant="ghost"
-                key={i.name}
                 className={cn(
                   "shadow-none max-md:flex-shrink-0 max-md:w-1/4 max-sm:flex-col max-sm:h-12 max-sm:gap-1",
                   path === i.url ? "border border-[#AFCAFC] !bg-[#EEF5FF]" : ""

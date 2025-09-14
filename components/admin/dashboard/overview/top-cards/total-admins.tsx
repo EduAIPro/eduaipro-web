@@ -12,7 +12,7 @@ export const TotalAdminsCard = ({
   admins,
 }: TotalAdminsCardProps) => {
   const totalAdmins = useMemo(
-    () => admins?.activeAdminsCount! + admins?.inactiveAdminsCount! ?? 0,
+    () => (admins ? admins.activeAdminsCount + admins.inactiveAdminsCount : 0),
     [admins]
   );
 

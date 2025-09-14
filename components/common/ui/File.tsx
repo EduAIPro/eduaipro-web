@@ -1,6 +1,13 @@
 import { cn } from "@/lib/utils"; // Assuming you have a cn utility
 import { useField, useFormikContext } from "formik";
-import { File, FileAudio, FileText, FileVideo, Image, X } from "lucide-react";
+import {
+  File,
+  FileAudio,
+  FileText,
+  FileVideo,
+  Image as ImageIcon,
+  X,
+} from "lucide-react";
 import React, { ReactNode, useRef, useState } from "react";
 
 interface FormFileInputProps {
@@ -40,7 +47,7 @@ export default function FormFileInput({
   const getFileIcon = (file: File) => {
     const type = file.type;
     if (type.startsWith("image/"))
-      return <Image className="w-4 h-4 text-grey-650" />;
+      return <ImageIcon className="w-4 h-4 text-grey-650" />;
     if (type.startsWith("video/"))
       return <FileVideo className="w-4 h-4 text-grey-650" />;
     if (type.startsWith("audio/"))
