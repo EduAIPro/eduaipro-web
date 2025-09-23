@@ -50,7 +50,7 @@ export const UnitFormField = () => {
                 )}
               </div>
               <div className="bg-white p-4">
-                <ModuleFormField
+                <ModuleFormField<CreateCourseFormValue>
                   unitItem={unit}
                   fieldName={`units.${unitIndex}.modules`}
                 />

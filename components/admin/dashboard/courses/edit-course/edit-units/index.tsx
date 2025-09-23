@@ -1,36 +1,42 @@
-import { adminCreateCourseKey, bulkUploadFilesKey } from "@/api/keys";
-import { bulkUploadFiles, createCourse } from "@/api/mutations";
+import { adminUpdateCourseUnitKey, bulkUploadFilesKey } from "@/api/keys";
+import { bulkUploadFiles, updateCourseUnits } from "@/api/mutations";
+import useGetUnit from "@/hooks/use-get-unit";
 import {
   CreateCourseModule,
   CreateCourseModuleItem,
-  CreateCoursePayload,
-  CreateCourseUnit,
+  UpdateUnitPayload,
 } from "@/types/admin/courses";
-import { ModuleType, TeacherLevelType } from "@/types/course";
+import { ModuleType } from "@/types/course";
 import {
-  CreateCourseFormValue,
   createCourseValidation,
+  UpdateUnitFormValue,
 } from "@/utils/validation/admin";
 import { Form, Formik } from "formik";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
-import { emptyUnit } from "../constants";
-import { CourseDetails } from "./course-details";
-import { CourseSchedule } from "./course-schedule";
+import { emptyModule } from "../../constants";
+import { UnitDetails } from "./unit-details";
 
-export const CreateCourse = () => {
+export const EditCourseUnits = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const unitId = searchParams.get("unit-id");
+
+  const { data: unitInfo, isLoading: unitLoading } = useGetUnit({
+    unitId,
+  });
 
   const { trigger, isMutating } = useSWRMutation(
-    adminCreateCourseKey,
-    createCourse
+    unitId ? adminUpdateCourseUnitKey(unitId) : null,
+    updateCourseUnits
   );
   const { trigger: triggerBulkUpload, isMutating: isFileMutating } =
     useSWRMutation(bulkUploadFilesKey, bulkUploadFiles);
 
   async function handleSubmit(
-    values: CreateCourseFormValue,
+    values: UpdateUnitFormValue,
     { resetForm }: { resetForm: VoidFunction }
   ) {
     try {
@@ -38,15 +44,14 @@ export const CreateCourse = () => {
       const result: { url: string; indexes: number[] }[] = [];
 
       // map out all pdf's(and their specific indexes) from form data
-      const allPdfs: { file: File; indexes: number[] }[] = values.units
-        .flatMap((u, uI) =>
-          u.modules.flatMap((m, moduleId) =>
-            m.moduleItems.map((mI, moduleItemIndex) => ({
-              file: mI.pdfFile as File,
-              indexes: [uI, moduleId, moduleItemIndex],
-            }))
-          )
+      const allPdfs: { file: File; indexes: number[] }[] = values.modules
+        .flatMap((m, moduleId) =>
+          m.moduleItems.map((mI, moduleItemIndex) => ({
+            file: mI.pdfFile as File,
+            indexes: [moduleId, moduleItemIndex],
+          }))
         )
+
         .filter((v) => v.file && v.file instanceof File);
 
       // group the pdf's into batches of 5
@@ -69,8 +74,8 @@ export const CreateCourse = () => {
       );
 
       // then organise the units, modules, module items and pages according to how the api expects them
-      const units: CreateCourseUnit[] = values.units.map((u, unitId) => {
-        const modules: CreateCourseModule[] = u.modules.map((m, moduleId) => {
+      const modules: CreateCourseModule[] = values.modules.map(
+        (m, moduleId) => {
           const moduleItems: CreateCourseModuleItem[] = m.moduleItems.map(
             (mItem, moduleItemId) => {
               // map out pages
@@ -82,9 +87,7 @@ export const CreateCourse = () => {
               // lcoate the pdf url for this particular module item
               const pdfUrl = result.find(
                 (r) =>
-                  r.indexes[0] === unitId &&
-                  r.indexes[1] === moduleId &&
-                  r.indexes[2] === moduleItemId
+                  r.indexes[0] === moduleId && r.indexes[1] === moduleItemId
               );
               // return module item object
               return {
@@ -102,27 +105,12 @@ export const CreateCourse = () => {
             index: moduleId + 1,
             moduleItems,
           };
-        });
-
-        // return unit object
-        return {
-          title: u.title,
-          index: unitId + 1,
-          modules,
-        };
-      });
+        }
+      );
 
       // prepare api payload
-      const payload: CreateCoursePayload = {
-        title: values.courseName,
-        description: values.description,
-        level: values.teachingLevel as TeacherLevelType,
-        certificateValidationDays: Number(values.validityPeriod),
-        completionDurationDays: Number(values.completionPeriod),
-        ...(values.introductoryVideo && {
-          introductoryVideoUrl: values.introductoryVideo,
-        }),
-        units,
+      const payload: UpdateUnitPayload = {
+        modules,
       };
 
       // send payload to api
@@ -130,7 +118,7 @@ export const CreateCourse = () => {
 
       // re-route and display success messages
       router.push("/admin/courses");
-      toast.success("Course created successfully!");
+      toast.success("Course units updated successfully!");
 
       // reset the form
       resetForm();
@@ -139,27 +127,42 @@ export const CreateCourse = () => {
     }
   }
 
-  const createCourseInitialValues: CreateCourseFormValue = {
-    courseName: "",
-    description: "",
-    teachingLevel: "",
-    completionPeriod: "",
-    validityPeriod: "",
-    units: [emptyUnit as any],
-  };
+  const updateUnitInitialValues: UpdateUnitFormValue = useMemo(() => {
+    if (unitInfo) {
+      const modules = unitInfo?.modules.flatMap((mod) => {
+        const moduleItems = mod.moduleItems?.map((modItem) => ({
+          pdfFile: modItem.signedPdfUrl,
+          type: modItem.type,
+          pages: modItem.pages.map((page) => ({
+            title: page.pageTitle,
+            number: page.pageNumber,
+          })),
+        }));
+
+        return {
+          title: mod.title,
+          moduleItems,
+        };
+      });
+
+      return { modules };
+    } else {
+      return {
+        modules: [emptyModule as any],
+      };
+    }
+  }, [unitInfo]);
   return (
     <div>
       <Formik
         validateOnMount
-        initialValues={createCourseInitialValues}
+        initialValues={updateUnitInitialValues}
         onSubmit={handleSubmit}
         validationSchema={createCourseValidation}
+        enableReinitialize
       >
-        <Form className="flex flex-col-reverse lg:grid lg:grid-cols-3 gap-4">
-          <CourseDetails loading={isFileMutating || isMutating} />
-          <div className="lg:col-span-2">
-            <CourseSchedule />
-          </div>
+        <Form className="max-w-3xl mx-auto">
+          <UnitDetails isLoading={unitLoading} />
         </Form>
       </Formik>
     </div>

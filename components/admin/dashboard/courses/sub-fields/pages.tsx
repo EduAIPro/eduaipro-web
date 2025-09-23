@@ -1,9 +1,6 @@
 import FormInput from "@/components/common/ui/FormInput";
 import { Button } from "@/components/ui/button";
-import {
-  CreateCourseFormValue,
-  ModuleItemFormValue,
-} from "@/utils/validation/admin";
+import { ModuleItemFormValue } from "@/utils/validation/admin";
 import { FieldArray, useFormikContext } from "formik";
 import { PlusIcon, Trash2Icon } from "lucide-react";
 import { emptyPage } from "../constants";
@@ -13,13 +10,13 @@ type PageFormFieldProps = {
 };
 
 // units.${unitIndex}.modules.${moduleIndex}.moduleItems.${moduleItemsIndex}.pages
-export const PageFormField = ({
+export const PageFormField = <T,>({
   fieldName,
   moduleItem,
 }: PageFormFieldProps) => {
-  const { touched, errors } = useFormikContext<CreateCourseFormValue>();
+  const { touched, errors } = useFormikContext<T>();
 
-  const fieldError = (fieldName: keyof CreateCourseFormValue) =>
+  const fieldError = (fieldName: keyof T) =>
     touched[fieldName] && errors[fieldName] ? errors[fieldName] : null;
 
   return (

@@ -1,23 +1,24 @@
 import FormInput from "@/components/common/ui/FormInput";
 import { Button } from "@/components/ui/button";
-import { CreateCourseFormValue, UnitFormValue } from "@/utils/validation/admin";
+import { UnitFormValue } from "@/utils/validation/admin";
 import { FieldArray, useFormikContext } from "formik";
 import { PlusIcon, Trash2Icon } from "lucide-react";
 import { emptyModule } from "../constants";
 import { ModuleItemFormField } from "./module-items";
+
 type ModuleFormFieldProps = {
   fieldName: string;
-  unitItem: UnitFormValue;
+  unitItem: Omit<UnitFormValue, "title">;
 };
 
 // units.${unitIndex}.modules
-export const ModuleFormField = ({
+export const ModuleFormField = <T,>({
   fieldName,
   unitItem,
 }: ModuleFormFieldProps) => {
-  const { touched, errors } = useFormikContext<CreateCourseFormValue>();
+  const { touched, errors } = useFormikContext<T>();
 
-  const fieldError = (fieldName: keyof CreateCourseFormValue) =>
+  const fieldError = (fieldName: keyof T) =>
     touched[fieldName] && errors[fieldName] ? errors[fieldName] : null;
 
   return (
@@ -62,7 +63,7 @@ export const ModuleFormField = ({
                       | null
                   }
                 />
-                <ModuleItemFormField
+                <ModuleItemFormField<T>
                   moduleObj={mod}
                   fieldName={`${fieldName}.${moduleIndex}.moduleItems`}
                 />

@@ -64,9 +64,17 @@ export const createCourseValidation = Yup.object().shape({
     .required("You must have at least one unit for every course"),
 });
 
+export const updateUnitValidation = Yup.object().shape({
+  modules: Yup.array()
+    .of(moduleValidation)
+    .required("You must have at least one module under every unit"),
+});
+
 export type CreateCourseFormValue = Yup.InferType<
   typeof createCourseValidation
 >;
 export type ModuleItemFormValue = Yup.InferType<typeof moduleItemValidation>;
 export type ModuleFormValue = Yup.InferType<typeof moduleValidation>;
 export type UnitFormValue = Yup.InferType<typeof unitValidation>;
+
+export type UpdateUnitFormValue = Yup.InferType<typeof updateUnitValidation>;

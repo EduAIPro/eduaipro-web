@@ -2,6 +2,8 @@ import { AdminSchool } from "@/types/admin";
 import {
   BulkFilesUploadResponse,
   CreateCoursePayload,
+  CreateCourseUnitPayload,
+  UpdateUnitPayload,
 } from "@/types/admin/courses";
 import { SendNotificationPayload } from "@/types/admin/notifications";
 import { CreateSurveyPayload, TableSurvey } from "@/types/admin/surveys";
@@ -386,6 +388,30 @@ export async function deleteCourse(
     );
 
     return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function updateCourseUnits(
+  url: string,
+  { arg }: { arg: UpdateUnitPayload | { title: string } }
+): Promise<boolean> {
+  try {
+    await apiClient(url, arg, "patch");
+
+    return true;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function createCourseUnit(
+  url: string,
+  { arg }: { arg: CreateCourseUnitPayload }
+): Promise<{ id: string }> {
+  try {
+    const response = await apiClient<{ data: { id: string } }>(url, arg);
+
+    return response.data.data;
   } catch (error) {
     throw error;
   }

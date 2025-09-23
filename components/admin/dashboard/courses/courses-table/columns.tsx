@@ -9,7 +9,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { EllipsisVerticalIcon, SquarePenIcon } from "lucide-react";
 import Link from "next/link";
-import { ConfirmDeleteCourseModal } from "../delete-course-confirmation";
+import { ConfirmDeleteCourseModal } from "../modals";
 
 export const CoursesListColumnsDef: ColumnDef<TableCourse>[] = [
   {
