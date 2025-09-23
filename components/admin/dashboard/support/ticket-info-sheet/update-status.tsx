@@ -2,7 +2,7 @@ import { ticketsKey } from "@/api/keys";
 import { updateTicket } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { TicketResolutionStatus } from "@/utils/validation/admin/support";
+import { TicketResolutionStatus } from "@/types/admin/support";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";

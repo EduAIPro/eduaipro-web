@@ -1,4 +1,4 @@
-import { UnitFormField } from "./sub-fields/units";
+import { UnitFormField } from "../sub-fields/units";
 
 export const CourseSchedule = () => {
   return (

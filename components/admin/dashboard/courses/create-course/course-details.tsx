@@ -6,7 +6,7 @@ import {
   courseDurationOptions,
   teachingLevelOptions,
   validityPeriodOptions,
-} from "./constants";
+} from "../constants";
 
 export const CourseDetails = ({ loading }: { loading: boolean }) => {
   const { touched, errors, isValid } =

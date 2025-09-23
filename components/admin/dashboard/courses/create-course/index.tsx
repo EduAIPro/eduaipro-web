@@ -15,7 +15,7 @@ import { Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
-import { emptyUnit } from "./constants";
+import { emptyUnit } from "../constants";
 import { CourseDetails } from "./course-details";
 import { CourseSchedule } from "./course-schedule";
 

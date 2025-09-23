@@ -2,8 +2,16 @@ import { AdminSchool } from "@/types/admin";
 import {
   BulkFilesUploadResponse,
   CreateCoursePayload,
+  CreateCourseUnitPayload,
+  UpdateCoursePayload,
+  UpdateUnitPayload,
 } from "@/types/admin/courses";
 import { SendNotificationPayload } from "@/types/admin/notifications";
+import {
+  CreateTicketPayload,
+  SupportTicket,
+  UpdateTicketPayload,
+} from "@/types/admin/support";
 import { CreateSurveyPayload, TableSurvey } from "@/types/admin/surveys";
 import { AssessmentSubmitResponse } from "@/types/assessment";
 import {
@@ -31,10 +39,6 @@ import {
 } from "@/types/school/auth";
 import { Staff } from "@/types/user";
 import { setAuthCookes } from "@/utils/auth";
-import {
-  SupportTicket,
-  UpdateTicketPayload,
-} from "@/utils/validation/admin/support";
 import { PersonalInfoFormValue } from "@/utils/validation/teacher-profile/settings";
 import { toast } from "sonner";
 import { apiClient } from "./request";
@@ -361,6 +365,35 @@ export async function sendMessageNotification(
   }
 }
 
+export async function adminDeactivateStaff(
+  url: string,
+  { arg }: { arg: { staffId: string; schoolId: string } }
+): Promise<Staff> {
+  try {
+    const apiUrl = url + `/${arg.schoolId}/${arg.staffId}/deactivate`;
+    const response = await apiClient<Staff>(apiUrl, undefined, "patch");
+
+    return response.data;
+  } catch (error) {
+    toast.error(error as string);
+    throw error;
+  }
+}
+export async function adminReactivateStaff(
+  url: string,
+  { arg }: { arg: { staffId: string; schoolId: string } }
+): Promise<Staff> {
+  try {
+    const apiUrl = url + `/${arg.schoolId}/${arg.staffId}/activate`;
+    const response = await apiClient<Staff>(apiUrl, undefined, "patch");
+
+    return response.data;
+  } catch (error) {
+    toast.error(error as string);
+    throw error;
+  }
+}
+
 // courses
 export async function createCourse(
   url: string,
@@ -386,6 +419,42 @@ export async function deleteCourse(
     );
 
     return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function updateCourseSummary(
+  url: string,
+  { arg }: { arg: UpdateCoursePayload }
+): Promise<Course> {
+  try {
+    const response = await apiClient<{ data: Course }>(url, arg, "patch");
+
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function updateCourseUnits(
+  url: string,
+  { arg }: { arg: UpdateUnitPayload | { title: string } }
+): Promise<boolean> {
+  try {
+    await apiClient(url, arg, "patch");
+
+    return true;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function createCourseUnit(
+  url: string,
+  { arg }: { arg: CreateCourseUnitPayload }
+): Promise<{ id: string }> {
+  try {
+    const response = await apiClient<{ data: { id: string } }>(url, arg);
+
+    return response.data.data;
   } catch (error) {
     throw error;
   }
@@ -456,6 +525,19 @@ export async function updateTicket(
       arg,
       "patch"
     );
+
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function createTicket(
+  url: string,
+  { arg }: { arg: CreateTicketPayload }
+): Promise<SupportTicket> {
+  try {
+    const response = await apiClient<{ data: SupportTicket }>(url, arg);
 
     return response.data.data;
   } catch (error) {

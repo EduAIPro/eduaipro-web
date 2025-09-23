@@ -64,3 +64,18 @@ export type BulkFilesUploadResponse = {
     public_id: string;
   }[];
 };
+
+export type UpdateUnitPayload = {
+  modules: CreateCourseModule[];
+};
+
+export type CreateCourseUnitPayload = { title: string; index: number };
+
+export type UpdateCoursePayload = {
+  title: string;
+  description: string;
+  level: TeacherLevelType;
+  certificateValidationDays: number;
+  introductoryVideoUrl?: string;
+  completionDurationDays: number;
+};

@@ -1,4 +1,5 @@
 import { Pagination } from ".";
+import { AdminSchool } from "../admin";
 import { UserRoles } from "../auth";
 import { Accreditation } from "../certificates";
 
@@ -63,4 +64,5 @@ export type StaffDetail = Omit<SchoolStaff, "school"> & {
     phoneCountryCode: string;
     profileImageUrl: null | string;
   };
+  school?: AdminSchool;
 };

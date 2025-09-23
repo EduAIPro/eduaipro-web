@@ -1,11 +1,11 @@
-import { getSchoolStaffsKey } from "@/api/keys";
+import { adminGetStaffKey, getSchoolStaffsKey } from "@/api/keys";
 import { reactivateStaff } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { CheckIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { mutate } from "swr";
+import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
 type ConfirmActivateTeacherModalProps = {
@@ -17,6 +17,7 @@ export const ConfirmActivateTeacherModal = ({
 }: ConfirmActivateTeacherModalProps) => {
   const [open, setOpen] = useState(false);
 
+  const { mutate } = useSWRConfig();
   const { trigger, isMutating } = useSWRMutation(
     getSchoolStaffsKey,
     reactivateStaff
@@ -27,7 +28,7 @@ export const ConfirmActivateTeacherModal = ({
       await trigger({ staffId });
       toast.success("Staff reactivated successfully");
       setOpen(false);
-      mutate(getSchoolStaffsKey);
+      mutate([`${getSchoolStaffsKey}/${staffId}`, adminGetStaffKey]);
     } catch (error) {
       toast.error(error as string);
     }

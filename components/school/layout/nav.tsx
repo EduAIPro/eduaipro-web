@@ -6,6 +6,7 @@ import SettingsActiveIcon from "@/components/svgs/school/settings-active.svg";
 import SettingsIcon from "@/components/svgs/school/settings.svg";
 import TeachersActiveIcon from "@/components/svgs/school/teachers-active.svg";
 import TeachersIcon from "@/components/svgs/school/teachers.svg";
+import { HeadsetIcon } from "lucide-react";
 
 export const NavItems = [
   {
@@ -20,12 +21,12 @@ export const NavItems = [
     icon: TeachersIcon,
     activeIcon: TeachersActiveIcon,
   },
-  // {
-  //   name: "Calendar",
-  //   url: "/school/calendar",
-  //   icon: CalenderIcon,
-  //   activeIcon: CalenderActiveIcon,
-  // },
+  {
+    name: "Support",
+    url: "/school/support",
+    icon: HeadsetIcon,
+    activeIcon: HeadsetIcon,
+  },
   {
     name: "Settings",
     url: "/school/settings",

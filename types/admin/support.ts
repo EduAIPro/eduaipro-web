@@ -48,3 +48,10 @@ export type UpdateTicketPayload = {
   resolutionStatus: TicketResolutionStatus;
   code: string;
 };
+
+export type CreateTicketPayload = {
+  category: TicketCategory;
+  message: string;
+  name?: string;
+  email?: string;
+};

@@ -64,9 +64,39 @@ export const createCourseValidation = Yup.object().shape({
     .required("You must have at least one unit for every course"),
 });
 
+export const updateUnitValidation = Yup.object().shape({
+  modules: Yup.array()
+    .of(moduleValidation)
+    .required("You must have at least one module under every unit"),
+});
+
+export const updateCourseSummaryValidation = Yup.object().shape({
+  courseName: Yup.string()
+    .required("Course name is a required value")
+    .min(2, "Course name must be at least two characters long"),
+  description: Yup.string()
+    .required("Course description is a required value")
+    .min(2, "Course description must be at least two characters long"),
+  completionPeriod: Yup.string()
+    .required("Course duration is a required value")
+    .min(2, "Course duration must be at least two characters long"),
+  introductoryVideo: Yup.string()
+    .url("Introductory video must be a valid URL")
+    .optional(),
+  teachingLevel: Yup.string().required("Teaching level is a required value"),
+  validityPeriod: Yup.string()
+    .required("Course validity period is a required value")
+    .min(2, "Course validity period must be at least two characters long"),
+});
+
 export type CreateCourseFormValue = Yup.InferType<
   typeof createCourseValidation
 >;
 export type ModuleItemFormValue = Yup.InferType<typeof moduleItemValidation>;
 export type ModuleFormValue = Yup.InferType<typeof moduleValidation>;
 export type UnitFormValue = Yup.InferType<typeof unitValidation>;
+
+export type UpdateUnitFormValue = Yup.InferType<typeof updateUnitValidation>;
+export type UpdateCourseSummaryFormValue = Yup.InferType<
+  typeof updateCourseSummaryValidation
+>;

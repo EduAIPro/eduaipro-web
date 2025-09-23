@@ -9,15 +9,16 @@ import useDebounce from "@/hooks/use-debounce";
 import { GetCoursesList, TableCourse } from "@/types/admin/courses";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
+import { ViewCourse } from "../view-course";
 
 export const CoursesTable = () => {
   const [searchValue, setSearchValue] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [courseId, setCourseId] = useState<null | string>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const { value } = useDebounce(searchValue, 500);
-  const router = useRouter();
 
   const { data, isLoading, error } = useSWR<GetCoursesList>(
     [getCoursesKey, currentPage, value],
@@ -54,7 +55,8 @@ export const CoursesTable = () => {
           setValue: (val: string) => setSearchValue(val),
         }}
         onRowClick={(row) => {
-          // router.push(`/admin/schools/${row.id}`);
+          setIsOpen(true);
+          setCourseId(row.id);
         }}
         otherFilters={
           <>
@@ -73,6 +75,14 @@ export const CoursesTable = () => {
           limit: 10,
         }}
       />
+
+      {courseId ? (
+        <ViewCourse
+          isOpen={isOpen}
+          courseId={courseId}
+          toggleOpen={(v) => setIsOpen(v)}
+        />
+      ) : null}
     </Fragment>
   );
 };

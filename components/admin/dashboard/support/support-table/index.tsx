@@ -5,10 +5,7 @@ import { getCoursesKey, ticketsKey } from "@/api/keys";
 import { fetchPaginatedSearchQuery } from "@/api/queries";
 import { DataTable } from "@/components/ui/data-table";
 import useDebounce from "@/hooks/use-debounce";
-import {
-  GetSupportTicketList,
-  TableTicket,
-} from "@/utils/validation/admin/support";
+import { GetSupportTicketList, TableTicket } from "@/types/admin/support";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { TicketInfoSheet } from "../ticket-info-sheet";

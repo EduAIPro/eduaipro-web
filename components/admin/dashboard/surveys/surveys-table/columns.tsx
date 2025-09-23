@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,8 +7,7 @@ import { cn } from "@/lib/utils";
 import { SurveyStatusEum, TableSurvey } from "@/types/admin/surveys";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { EllipsisVerticalIcon, SquarePenIcon } from "lucide-react";
-import Link from "next/link";
+import { EllipsisVerticalIcon } from "lucide-react";
 import { ConfirmDeleteSurveyModal } from "../delete-survey-confirmation";
 
 export const SurveysListColumnsDef: ColumnDef<TableSurvey>[] = [
@@ -94,7 +92,7 @@ const Actions = ({ id }: { id: string }) => {
         <EllipsisVerticalIcon size={18} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex flex-col min-w-40 p-0 rounded-xl">
-        <Link href={`/admin/survey/edit/${id}`}>
+        {/* <Link href={`/admin/survey/edit/${id}`}>
           <Button
             variant="ghost"
             className="text-primary rounded-b-0 hover:scale-100 w-full justify-start"
@@ -102,7 +100,7 @@ const Actions = ({ id }: { id: string }) => {
             <SquarePenIcon />
             <p>Edit</p>
           </Button>
-        </Link>
+        </Link> */}
         <ConfirmDeleteSurveyModal surveyId={id} />
       </DropdownMenuContent>
     </DropdownMenu>

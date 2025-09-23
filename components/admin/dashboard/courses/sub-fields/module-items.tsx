@@ -1,10 +1,7 @@
 import { SelectInput } from "@/components/common/ui/FormInput";
 import PdfIcon from "@/components/svgs/pdf.svg";
 import { Button } from "@/components/ui/button";
-import {
-  CreateCourseFormValue,
-  ModuleFormValue,
-} from "@/utils/validation/admin";
+import { ModuleFormValue } from "@/utils/validation/admin";
 import { FieldArray, useFormikContext } from "formik";
 import { PlusIcon, Trash2Icon, XIcon } from "lucide-react";
 import { useRef } from "react";
@@ -24,15 +21,14 @@ function extractIds(text: string) {
 }
 
 // units.${unitIndex}.modules.${moduleIndex}.moduleItems
-export const ModuleItemFormField = ({
+export const ModuleItemFormField = <T,>({
   fieldName,
   moduleObj,
 }: ModuleItemFormFieldProps) => {
-  const { touched, errors, setFieldValue, values } =
-    useFormikContext<CreateCourseFormValue>();
+  const { touched, errors, setFieldValue, values } = useFormikContext<T>();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const fieldError = (fieldName: keyof CreateCourseFormValue) =>
+  const fieldError = (fieldName: keyof T) =>
     touched[fieldName] && errors[fieldName] ? errors[fieldName] : null;
 
   function onFileSelect(file: File | null, moduleItemIndex: number) {
@@ -62,9 +58,12 @@ export const ModuleItemFormField = ({
       {({ remove, push }) => (
         <div className="mt-2 space-y-5">
           {moduleObj.moduleItems.map((modItem, moduleItemIndex) => {
-            const pdfFile = values.units[Number(unitId)].modules[
-              Number(moduleId)
-            ].moduleItems[moduleItemIndex].pdfFile as File;
+            const pdfFile = (
+              (values as any).units
+                ? (values as any).units[Number(unitId)]
+                : values
+            ).modules[Number(moduleId)]?.moduleItems[moduleItemIndex]
+              .pdfFile as File;
             return (
               <div key={moduleItemIndex}>
                 <div className="flex items-baseline gap-2 sm:gap-4 max-[500px]:flex-col">
@@ -128,7 +127,7 @@ export const ModuleItemFormField = ({
                   </div>
                 ) : null}
                 <div className="pl-5 mt-4">
-                  <PageFormField
+                  <PageFormField<T>
                     moduleItem={modItem}
                     fieldName={`${fieldName}.${moduleItemIndex}.pages`}
                   />

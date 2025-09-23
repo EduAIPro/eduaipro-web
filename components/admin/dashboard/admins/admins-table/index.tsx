@@ -6,15 +6,15 @@ import { fetchPaginatedSearchQuery } from "@/api/queries";
 import { DataTable } from "@/components/ui/data-table";
 import { GetSystemStaffs } from "@/types/admin/teachers";
 import { Staff } from "@/types/user";
-import { useRouter } from "next/navigation";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
+import { AdminProfile } from "../admin-profile";
 
 export const AdminsTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
-  const router = useRouter();
+  const [isOpen, setOpen] = useState(false);
+  const [adminId, setAdminId] = useState<null | string>(null);
 
   const { data, isLoading, error } = useSWR<GetSystemStaffs>(
     [getAllSystemAdmins, currentPage, searchValue],
@@ -50,9 +50,10 @@ export const AdminsTable = () => {
           value: searchValue,
           setValue: (val: string) => setSearchValue(val),
         }}
-        // onRowClick={(row) => {
-        //   router.push(`/admin/schools/${row.id}`);
-        // }}
+        onRowClick={(row) => {
+          setAdminId(row.id);
+          setOpen(true);
+        }}
         meta={{
           total: data?.pagination.total || 0,
           page: data?.pagination.current || 1,
@@ -60,6 +61,14 @@ export const AdminsTable = () => {
           limit: 10,
         }}
       />
+
+      {adminId ? (
+        <AdminProfile
+          open={isOpen}
+          toggleOpen={(v) => setOpen(v)}
+          adminId={adminId}
+        />
+      ) : null}
     </Fragment>
   );
 };

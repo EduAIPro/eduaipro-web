@@ -1,8 +1,5 @@
 import { cn } from "@/lib/utils";
-import {
-  TableTicket,
-  TicketResolutionStatus,
-} from "@/utils/validation/admin/support";
+import { TableTicket, TicketResolutionStatus } from "@/types/admin/support";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 

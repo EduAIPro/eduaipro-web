@@ -50,6 +50,12 @@ export const getOverdueRenewalsKey = "/school/accreditation-renewals";
 // mutations
 export const sendNotificationKey = "/admin/notification/send-message";
 export const adminCreateCourseKey = "/admin/course";
+export const adminCreateCourseUnitKey = (courseId: string) =>
+  `/admin/course/courses/${courseId}/units`;
+export const adminUpdateCourseSummaryUnitKey = (courseId: string) =>
+  `/admin/course/courses/${courseId}`;
+export const adminUpdateCourseUnitKey = (unitId: string) =>
+  `/admin/course/units/${unitId}`;
 export const adminDeactivateStaffKey = (schoolId: string, staffId: string) =>
   `/admin/school/staff/staffs/${schoolId}/${staffId}/deactivate`;
 export const adminActivateStaffKey = (schoolId: string, staffId: string) =>
@@ -79,6 +85,8 @@ export const getSurveysAggregatesKey = "/admin/surveys/aggregates";
 
 // tickets
 export const ticketsKey = "/admin/support-ticket/tickets";
+export const createTicketKey = "/support-ticket";
+export const getTicketsKey = "/support-ticket/tickets";
 
 // school
 export const adminGetSchoolStaffsKey = (id: string) =>

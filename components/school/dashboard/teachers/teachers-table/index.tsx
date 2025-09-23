@@ -3,11 +3,14 @@ import { TeachersListColumnsDef } from "./columns";
 
 import { getSchoolStaffsKey } from "@/api/keys";
 import { fetchPaginatedData } from "@/api/queries";
+import { SendMessageModal } from "@/components/admin/modals";
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { SchoolStaff, SchoolStaffsData } from "@/types/school/teachers";
+import { MegaphoneIcon } from "lucide-react";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
-import { InviteTeacherModal, SendMessageModal } from "../modals";
+import { InviteTeacherModal } from "../modals";
 import { TeacherProfile } from "../profile";
 import { Empty } from "./empty";
 
@@ -58,7 +61,14 @@ export const TeachersTable = () => {
         }}
         otherFilters={
           <>
-            <SendMessageModal />
+            <SendMessageModal
+              type="school"
+              modalTrigger={
+                <Button>
+                  <MegaphoneIcon /> <p>Send message</p>
+                </Button>
+              }
+            />
             <InviteTeacherModal />
           </>
         }
