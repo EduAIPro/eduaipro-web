@@ -1,4 +1,8 @@
-export { createCourseValidation, updateUnitValidation } from "./course";
+export {
+  createCourseValidation,
+  updateCourseSummaryValidation,
+  updateUnitValidation,
+} from "./course";
 export { sendMessageValidation } from "./send-message";
 export { createSurveyValidation } from "./survey";
 export { editSchoolInfoValidation } from "./update-school-info";
@@ -8,6 +12,7 @@ export type {
   ModuleFormValue,
   ModuleItemFormValue,
   UnitFormValue,
+  UpdateCourseSummaryFormValue,
   UpdateUnitFormValue,
 } from "./course";
 export type { SendMessageFormValue } from "./send-message";

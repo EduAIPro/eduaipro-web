@@ -18,8 +18,10 @@ import { surveyVisibilityOptions } from "../constants";
 export const SurveyDetails = ({
   loading,
   onSelect,
+  status,
 }: {
   loading: boolean;
+  status: string;
   onSelect: (v: SurveyStatus) => void;
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,7 +36,7 @@ export const SurveyDetails = ({
 
   const fieldError = (fieldName: keyof CreateSurveyFormValue) =>
     touched[fieldName] && errors[fieldName] ? errors[fieldName] : null;
-  console.log({ errors });
+
   const schoolsArr = useMemo(() => {
     const defaultValues = { label: "All schools", value: "all" };
     if (schools) {
@@ -45,6 +47,7 @@ export const SurveyDetails = ({
       return [defaultValues, ...options];
     } else return [defaultValues];
   }, [schools]);
+
   return (
     <div className="bg-white p-3 md:p-5 border border-grey-400 rounded-xl flex flex-col justify-between gap-10 md:gap-20">
       <div>
@@ -111,7 +114,7 @@ export const SurveyDetails = ({
 
       <div className="flex items-center gap-3 justify-between">
         <Button
-          loading={loading}
+          loading={loading && status === "DRAFT"}
           disabled={!isValid}
           onClick={() => onSelect("DRAFT")}
           type="submit"
@@ -121,7 +124,7 @@ export const SurveyDetails = ({
           <p>Save as draft</p>
         </Button>
         <Button
-          loading={loading}
+          loading={loading && status === "ACTIVE"}
           disabled={!isValid}
           onClick={() => onSelect("ACTIVE")}
           type="submit"

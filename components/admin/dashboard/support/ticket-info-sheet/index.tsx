@@ -7,10 +7,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  SupportTicket,
-  TicketResolutionStatus,
-} from "@/utils/validation/admin/support";
+import { SupportTicket, TicketResolutionStatus } from "@/types/admin/support";
 import { format } from "date-fns";
 import { useMemo } from "react";
 import useSWR from "swr";

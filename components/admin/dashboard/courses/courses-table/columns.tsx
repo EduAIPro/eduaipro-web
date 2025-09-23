@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,8 +6,7 @@ import {
 import { TableCourse } from "@/types/admin/courses";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { EllipsisVerticalIcon, SquarePenIcon } from "lucide-react";
-import Link from "next/link";
+import { EllipsisVerticalIcon } from "lucide-react";
 import { ConfirmDeleteCourseModal } from "../modals";
 
 export const CoursesListColumnsDef: ColumnDef<TableCourse>[] = [
@@ -82,7 +80,7 @@ export const CoursesListColumnsDef: ColumnDef<TableCourse>[] = [
     accessorKey: "",
     header: "Actions",
     cell: ({ row }) => {
-      return <Actions id={row.original.id} />;
+      return <ConfirmDeleteCourseModal courseId={row.original.id} />;
     },
   },
 ];
@@ -94,7 +92,7 @@ const Actions = ({ id }: { id: string }) => {
         <EllipsisVerticalIcon size={18} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex flex-col min-w-40 p-0 rounded-xl">
-        <Link href={`/admin/courses/edit${id}`}>
+        {/* <Link href={`/admin/courses/edit${id}`}>
           <Button
             variant="ghost"
             className="text-primary rounded-b-0 hover:scale-100 w-full justify-start"
@@ -102,7 +100,7 @@ const Actions = ({ id }: { id: string }) => {
             <SquarePenIcon />
             <p>Edit</p>
           </Button>
-        </Link>
+        </Link> */}
         <ConfirmDeleteCourseModal courseId={id} />
       </DropdownMenuContent>
     </DropdownMenu>

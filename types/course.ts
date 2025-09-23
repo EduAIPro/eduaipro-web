@@ -33,6 +33,7 @@ export type Course = {
   introductoryVideoUrl?: string;
   certificateValidationDays: number;
   validityPeriodDays: number;
+  completionPeriod: number;
   createdAt: string;
   updatedAt: string;
   level: TeacherLevelType;

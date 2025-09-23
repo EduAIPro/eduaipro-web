@@ -26,14 +26,23 @@ import {
   sendMessageValidation,
 } from "@/utils/validation/admin";
 import { Form, Formik } from "formik";
-import { useMemo, useState } from "react";
+import { ReactNode, useMemo, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
+import { messageTypes, recipientTypes, teachersList } from "./constants";
 
-export const SendMessageModal = () => {
+export const SendMessageModal = ({
+  modalTrigger,
+  type = "admin",
+}: {
+  modalTrigger?: ReactNode;
+  type?: "school" | "admin";
+}) => {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const isSchool = type === "school";
 
   const { data: schools, isLoading: schoolsLoading } =
     useSWR<SchoolslistResponse>(
@@ -134,10 +143,12 @@ export const SendMessageModal = () => {
       toggleModal={setOpen}
       containerClassName="min-h-[80hv]"
       trigger={
-        <Button variant="ghost" className="hover:scale-100 justify-start">
-          <MicrophoneIcon />
-          <p className="font-medium">Send message</p>
-        </Button>
+        modalTrigger ?? (
+          <Button variant="ghost" className="hover:scale-100 justify-start">
+            <MicrophoneIcon />
+            <p className="font-medium">Send message</p>
+          </Button>
+        )
       }
     >
       <div>
@@ -170,16 +181,18 @@ export const SendMessageModal = () => {
                   options={messageTypes}
                   error={touched.type && errors.type ? errors.type : null}
                 />
-                <SelectInput
-                  name="recipient"
-                  label="Recipient"
-                  options={recipientTypes}
-                  error={
-                    touched.recipient && errors.recipient
-                      ? errors.recipient
-                      : null
-                  }
-                />
+                {!isSchool ? (
+                  <SelectInput
+                    name="recipient"
+                    label="Recipient"
+                    options={recipientTypes}
+                    error={
+                      touched.recipient && errors.recipient
+                        ? errors.recipient
+                        : null
+                    }
+                  />
+                ) : null}
                 {values.recipient === NotificationRecipient.TEACHER ? (
                   <CheckboxInput
                     name="teacherLevels"
@@ -236,64 +249,3 @@ export const SendMessageModal = () => {
     </Modal>
   );
 };
-
-const messageTypes = [
-  {
-    label: "Info",
-    value: NotificationTypes.INFO,
-  },
-  {
-    label: "Alert",
-    value: NotificationTypes.ALERT,
-  },
-  {
-    label: "Reminder",
-    value: NotificationTypes.REMINDER,
-  },
-  {
-    label: "Warning",
-    value: NotificationTypes.WARNING,
-  },
-];
-
-const recipientTypes = [
-  {
-    label: "Teacher",
-    value: NotificationRecipient.TEACHER,
-  },
-  {
-    label: "School",
-    value: NotificationRecipient.SCHOOL,
-  },
-  {
-    label: "Country",
-    value: NotificationRecipient.COUNTRY,
-  },
-];
-
-const teachersList = [
-  {
-    label: "All Teachers",
-    value: "all",
-  },
-  {
-    label: "Primary School Teachers",
-    value: "PRIMARY",
-  },
-  {
-    label: "Secondary School Teachers",
-    value: "SECONDARY",
-  },
-  {
-    label: "Higher Institution Teachers",
-    value: "TERTIARY",
-  },
-  {
-    label: "Mentors",
-    value: "MENTOR",
-  },
-  {
-    label: "Teaching Assistants",
-    value: "TEACHER_ASSISTANT",
-  },
-];

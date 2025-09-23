@@ -10,11 +10,12 @@ import { Sheet, SheetContent, SheetHeader } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import useGetUnit from "@/hooks/use-get-unit";
 import { Course } from "@/types/course";
+import { UpdateCourseSummaryFormValue } from "@/utils/validation/admin";
 import { format } from "date-fns";
 import { Loader2Icon } from "lucide-react";
 import { useMemo, useState } from "react";
 import useSWR from "swr";
-import { NewUnitModal } from "../modals";
+import { NewUnitModal, UpdateCourseSummary } from "../modals";
 
 export const ViewCourse = ({
   isOpen,
@@ -34,7 +35,6 @@ export const ViewCourse = ({
   const { data: unitInfo, isLoading: unitLoading } = useGetUnit({
     unitId: activeUnitId,
   });
-  console.log({ data, isLoading });
 
   const courseSummary = useMemo(
     () => [
@@ -48,7 +48,9 @@ export const ViewCourse = ({
       },
       {
         label: "Access period",
-        value: `${data?.validityPeriodDays} days` ?? "",
+        value: data?.validityPeriodDays
+          ? `${data?.validityPeriodDays} days`
+          : "",
       },
       {
         label: "Teaching level",
@@ -61,21 +63,45 @@ export const ViewCourse = ({
     ],
     [data]
   );
+
+  const updatePayload: UpdateCourseSummaryFormValue = useMemo(() => {
+    return {
+      courseName: data?.title ?? "",
+      introductoryVideo: data?.introductoryVideoUrl ?? "",
+      description: data?.description ?? "",
+      completionPeriod: data?.completionPeriod?.toString() ?? "90",
+      teachingLevel: data?.level ?? "",
+      validityPeriod: data?.validityPeriodDays?.toString() ?? "360",
+    };
+  }, [data]);
+
   return (
-    <Sheet open={isOpen ?? true} onOpenChange={toggleOpen}>
-      <SheetContent className="min-w-[600px]">
+    <Sheet open={isOpen} onOpenChange={toggleOpen}>
+      <SheetContent className="w-full md:min-w-[60vw] xl:min-w-[40vw] max-sm:p-3">
         <SheetHeader>
           <h2 className="font-semibold text-lg text-left">
             Course Information
           </h2>
         </SheetHeader>
 
-        <div className="min-w-[600px] pr-5 space-y-6">
+        <div className="pr-5 space-y-6">
           <div className="mt-5">
-            <h3 className="font-semibold text-base">Course summary</h3>
+            <div className="flex items-center justify-between pr-5">
+              <h3 className="font-semibold text-base">Course summary</h3>
+
+              {data ? (
+                <UpdateCourseSummary
+                  courseId={courseId}
+                  defaultValues={updatePayload}
+                />
+              ) : null}
+            </div>
             <ul className="space-y-2 mt-3">
               {courseSummary.map((section) => (
-                <li key={section.label} className="flex items-start">
+                <li
+                  key={section.label}
+                  className="flex items-start max-sm:flex-col"
+                >
                   <p className="font-medium text-grey-500 min-w-44 text-[15px]">
                     {section.label}:
                   </p>

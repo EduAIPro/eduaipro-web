@@ -22,7 +22,7 @@ export const SurveyAggregatesCards = () => {
       },
       {
         title: "Surveys response rate",
-        value: data?.responseRate ?? "0%",
+        value: data?.responseRate ? `${data?.responseRate}%` : "0%",
       },
       {
         title: "Completed surveys",

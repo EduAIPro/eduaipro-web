@@ -10,8 +10,8 @@ export default function EditUnitPage() {
     <section className="space-y-6">
       <Suspense>
         <TopNav />
+        <EditCourseUnits />
       </Suspense>
-      <EditCourseUnits />
     </section>
   );
 }

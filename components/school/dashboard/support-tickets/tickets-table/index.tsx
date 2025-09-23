@@ -1,23 +1,21 @@
 "use client";
-import { AdminsListColumnsDef } from "./columns";
+import { TicketsListColumnsDef } from "./columns";
 
-import { getAllSystemAdmins } from "@/api/keys";
+import { getCoursesKey, getTicketsKey } from "@/api/keys";
 import { fetchPaginatedSearchQuery } from "@/api/queries";
 import { DataTable } from "@/components/ui/data-table";
-import { GetSystemStaffs } from "@/types/admin/teachers";
-import { Staff } from "@/types/user";
+import useDebounce from "@/hooks/use-debounce";
+import { GetSupportTicketList, TableTicket } from "@/types/admin/support";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
-import { AdminProfile } from "../admin-profile";
 
-export const AdminsTable = () => {
+export const TicketsTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isOpen, setOpen] = useState(false);
-  const [adminId, setAdminId] = useState<null | string>(null);
+  const { value } = useDebounce(searchValue, 500);
 
-  const { data, isLoading, error } = useSWR<GetSystemStaffs>(
-    [getAllSystemAdmins, currentPage, searchValue],
+  const { data, isLoading, error } = useSWR<GetSupportTicketList>(
+    [getTicketsKey, currentPage, value],
     fetchPaginatedSearchQuery
   );
 
@@ -36,23 +34,19 @@ export const AdminsTable = () => {
 
   return (
     <Fragment>
-      <DataTable<Staff, unknown>
+      <DataTable<TableTicket, unknown>
         canSearch
         hasError={!!error}
         isLoading={isLoading}
         data={data?.data ?? []}
-        columns={AdminsListColumnsDef}
+        columns={TicketsListColumnsDef}
         filterOptions={filterOptions}
         onPageChange={(page) => setCurrentPage(page)}
-        onRefresh={() => mutate(getAllSystemAdmins)}
+        onRefresh={() => mutate(getCoursesKey)}
         searchInput={{
-          placeholder: "Search admins",
+          placeholder: "Search tickets",
           value: searchValue,
           setValue: (val: string) => setSearchValue(val),
-        }}
-        onRowClick={(row) => {
-          setAdminId(row.id);
-          setOpen(true);
         }}
         meta={{
           total: data?.pagination.total || 0,
@@ -61,14 +55,6 @@ export const AdminsTable = () => {
           limit: 10,
         }}
       />
-
-      {adminId ? (
-        <AdminProfile
-          open={isOpen}
-          toggleOpen={(v) => setOpen(v)}
-          adminId={adminId}
-        />
-      ) : null}
     </Fragment>
   );
 };

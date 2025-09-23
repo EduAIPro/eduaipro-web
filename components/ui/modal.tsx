@@ -53,6 +53,12 @@ export const Modal = ({
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
 
       <DialogContent
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        onFocusOutside={(e) => {
+          e.stopPropagation();
+        }}
         // disableOutsideClick={!autoClose}
         onEscapeKeyDown={fullScreen ? (e) => e.preventDefault() : undefined}
         // showCloseButton={!hideCloseButton}
@@ -78,7 +84,7 @@ export const Modal = ({
 
         <div
           className={cn(
-            "min-h-[30vh] flex-1 overflow-auto px-5 py-3 sm:min-h-0",
+            "min-h-[20vh] flex-1 overflow-auto px-5 py-3 sm:min-h-0",
             className
           )}
         >

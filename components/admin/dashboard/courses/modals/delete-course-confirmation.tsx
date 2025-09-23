@@ -37,7 +37,10 @@ export const ConfirmDeleteCourseModal = ({
       trigger={
         <Button
           variant="destructive"
-          className="max-md:w-full text-error-600 bg-error-surface rounded-t-none hover:scale-100 hover:text-white justify-start"
+          className="max-md:w-full text-error-600 bg-error-surface hover:scale-100 hover:text-white justify-start"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
         >
           <Trash2Icon />
           Delete
@@ -46,7 +49,10 @@ export const ConfirmDeleteCourseModal = ({
       footer={
         <>
           <Button
-            onClick={() => setOpen(false)}
+            onClick={(e) => {
+              setOpen(false);
+              e.stopPropagation();
+            }}
             variant="outline"
             className="max-sm:w-full"
           >
@@ -55,7 +61,10 @@ export const ConfirmDeleteCourseModal = ({
           <Button
             className="max-sm:w-full"
             loading={isMutating}
-            onClick={handleDeleteCourse}
+            onClick={async (e) => {
+              e.stopPropagation();
+              await handleDeleteCourse();
+            }}
             variant="destructive"
           >
             Yes, delete

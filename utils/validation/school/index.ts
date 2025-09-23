@@ -11,3 +11,6 @@ export type {
   PersonalInfoFormValue,
   SchoolInfoFormValue,
 } from "./settings.schema";
+
+export { createTicketValidation } from "./support.schema";
+export type { CreateTicketFormValue } from "./support.schema";

@@ -63,7 +63,7 @@ export const AdminLayoutHeader = () => {
         })}
       </ul>
       <div className="flex-shrink-0 flex items-center gap-4">
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger className="border p-2 rounded-lg">
             <EllipsisVerticalIcon size={18} className="text-grey-650" />
           </DropdownMenuTrigger>

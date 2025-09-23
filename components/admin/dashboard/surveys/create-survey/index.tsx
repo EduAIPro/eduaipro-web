@@ -104,6 +104,7 @@ export const CreateSurvey = () => {
         <Form className="flex flex-col-reverse lg:grid lg:grid-cols-3 gap-4">
           <SurveyDetails
             onSelect={(status: SurveyStatus) => setStatus(status)}
+            status={status}
             loading={isMutating}
           />
           <div className="lg:col-span-2">

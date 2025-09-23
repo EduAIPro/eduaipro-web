@@ -1,5 +1,9 @@
-import { adminGetStaffKey, getSchoolStaffsKey } from "@/api/keys";
-import { deactivateStaff } from "@/api/mutations";
+import {
+  adminGetStaffKey,
+  getAllSystemAdmins,
+  getSchoolStaffsKey,
+} from "@/api/keys";
+import { adminDeactivateStaff } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { BanIcon } from "lucide-react";
@@ -8,27 +12,29 @@ import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
-type ConfirmDeactivateTeacherModalProps = {
+type ConfirmDeactivateAdminModalProps = {
   staffId: string;
+  schoolId: string;
 };
 
-export const ConfirmDeactivateTeacherModal = ({
+export const ConfirmDeactivateAdminModal = ({
   staffId,
-}: ConfirmDeactivateTeacherModalProps) => {
+  schoolId,
+}: ConfirmDeactivateAdminModalProps) => {
   const [open, setOpen] = useState(false);
-  const { mutate } = useSWRConfig();
 
+  const { mutate } = useSWRConfig();
   const { trigger, isMutating } = useSWRMutation(
-    getSchoolStaffsKey,
-    deactivateStaff
+    `/admin${getSchoolStaffsKey}`,
+    adminDeactivateStaff
   );
 
   async function handleDeactivateStaff() {
     try {
-      await trigger({ staffId });
-      toast.success("Staff deactivated successfully");
+      await trigger({ staffId, schoolId });
+      toast.success("School admin deactivated successfully");
       setOpen(false);
-      mutate([`${getSchoolStaffsKey}/${staffId}`, adminGetStaffKey]);
+      mutate([getAllSystemAdmins, `${adminGetStaffKey}/${staffId}`]);
     } catch (error) {
       toast.error(error as string);
     }
@@ -40,7 +46,7 @@ export const ConfirmDeactivateTeacherModal = ({
       trigger={
         <Button variant="outline" className="max-md:w-full">
           <BanIcon />
-          Deactivate user
+          Deactivate admin
         </Button>
       }
       footer={
@@ -53,12 +59,12 @@ export const ConfirmDeactivateTeacherModal = ({
           </Button>
         </>
       }
-      title="Deactivate user"
+      title="Deactivate admin"
     >
       <p className="text-[15px] text-grey-500">
-        Are you sure you want to deactivate this teacher? This will restrict the
-        teacher from accessing their dashboard and completing their professional
-        development course. You can reactive this account at any time
+        Are you sure you want to deactivate this admin? This will restrict the
+        admin from accessing their dashboard as well as their school and
+        teachers. You can reactive this account at any time
       </p>
     </Modal>
   );

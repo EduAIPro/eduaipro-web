@@ -120,7 +120,7 @@ const TeacherContent = ({ staff, onSelectCert }: TeacherContentProps) => {
     },
     {
       label: "Status",
-      value: "Active",
+      value: staff?.isActive ? "Active" : "Inactive",
     },
     {
       label: "Last login",

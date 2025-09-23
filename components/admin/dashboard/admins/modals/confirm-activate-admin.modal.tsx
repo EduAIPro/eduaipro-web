@@ -1,5 +1,9 @@
-import { adminGetStaffKey, getSchoolStaffsKey } from "@/api/keys";
-import { reactivateStaff } from "@/api/mutations";
+import {
+  adminGetStaffKey,
+  getAllSystemAdmins,
+  getSchoolStaffsKey,
+} from "@/api/keys";
+import { adminReactivateStaff } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { CheckIcon } from "lucide-react";
@@ -8,27 +12,29 @@ import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
-type ConfirmActivateTeacherModalProps = {
+type ConfirmActivateAdminModalProps = {
   staffId: string;
+  schoolId: string;
 };
 
-export const ConfirmActivateTeacherModal = ({
+export const ConfirmActivateAdminModal = ({
   staffId,
-}: ConfirmActivateTeacherModalProps) => {
+  schoolId,
+}: ConfirmActivateAdminModalProps) => {
   const [open, setOpen] = useState(false);
 
   const { mutate } = useSWRConfig();
   const { trigger, isMutating } = useSWRMutation(
-    getSchoolStaffsKey,
-    reactivateStaff
+    `/admin${getSchoolStaffsKey}`,
+    adminReactivateStaff
   );
 
   async function handleReactivateStaff() {
     try {
-      await trigger({ staffId });
+      await trigger({ staffId, schoolId });
       toast.success("Staff reactivated successfully");
       setOpen(false);
-      mutate([`${getSchoolStaffsKey}/${staffId}`, adminGetStaffKey]);
+      mutate([getAllSystemAdmins, `${adminGetStaffKey}/${staffId}`]);
     } catch (error) {
       toast.error(error as string);
     }
@@ -40,7 +46,7 @@ export const ConfirmActivateTeacherModal = ({
       trigger={
         <Button className="max-md:w-full">
           <CheckIcon />
-          Activate user
+          Activate admin
         </Button>
       }
       footer={
@@ -61,12 +67,12 @@ export const ConfirmActivateTeacherModal = ({
           </Button>
         </>
       }
-      title="Activate user"
+      title="Activate admin"
     >
       <p className="text-[15px] text-grey-500">
-        Are you sure you want to activate this teacher? This will grant the
-        teacher access to their dashboard and their professional development
-        course. You can deactivate this account at any time
+        Are you sure you want to activate this admin? This will grant the admin
+        access to their dashboard and their {"school's"} information. You can
+        deactivate this account at any time
       </p>
     </Modal>
   );

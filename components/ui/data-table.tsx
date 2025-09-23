@@ -397,11 +397,11 @@ export function DataTable<TData, TValue>({
                               : "", // Only disable clicks during loading or filtering
                             isFiltering && !isLoading ? "opacity-60" : "" // Only grey out during filtering, not search
                           )}
-                          onClick={() =>
-                            !isLoading &&
-                            !isFiltering &&
-                            onRowClick?.(row.original as TData)
-                          } // Only disable during loading or filtering
+                          onClick={(e) => {
+                            if (!isLoading && !isFiltering) {
+                              onRowClick?.(row.original as TData);
+                            }
+                          }} // Only disable during loading or filtering
                         >
                           {row.getVisibleCells().map((cell) => (
                             <TableCell key={cell.id}>

@@ -26,18 +26,6 @@ export const TicketsListColumnsDef: ColumnDef<TableTicket>[] = [
       );
     },
   },
-
-  {
-    accessorKey: "user",
-    header: "User",
-    cell: ({ row }) => {
-      return (
-        <p className="text-grey-500 truncate text-sm font-semibold">
-          {row.original?.name}
-        </p>
-      );
-    },
-  },
   {
     accessorKey: "Status",
     header: "Status",
