@@ -56,7 +56,7 @@ export const TicketInfoSheet = ({ id, open, toggleOpen }: Props) => {
     ],
     [data]
   );
-  console.log({ data, isLoading });
+
   return (
     <Sheet open={open} onOpenChange={toggleOpen}>
       <SheetContent>

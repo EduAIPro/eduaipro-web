@@ -16,6 +16,7 @@ import {
 import { CourseProgress, CourseUnit } from "@/types/course";
 import { useEffect, useState } from "react";
 import useSWRMutation from "swr/mutation";
+import Chatbot from "../chat";
 import { Assessment } from "./assessment";
 import { AssessmentCompletedModal } from "./assessment/completed-modal";
 import { AssessmentResults } from "./assessment/results";
@@ -32,6 +33,7 @@ type PersonalDevPlanProps = {
 const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isQuizOn, setIsQuizOn] = useState(false);
+  const [moduleId, setModuleId] = useState<null | string>(null);
   const [introHasPlayed, setIntroHasPlayed] = useState(false);
   const [isViewingResults, setIsViewingResults] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,25 +70,47 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
   });
 
   useEffect(() => {
-    if (window && !introHasPlayed) {
-      const hasIntroPlayed = window.localStorage.getItem("hasIntroPlayed");
-      if (hasIntroPlayed || !!unitInfo) {
-        setIntroHasPlayed(true);
+    if (window) {
+      if (!introHasPlayed) {
+        const hasIntroPlayed = window.localStorage.getItem("hasIntroPlayed");
+        if (hasIntroPlayed) {
+          setIntroHasPlayed(true);
+        }
+      } else if (unitInfo) {
+        if (!pdfUrl) {
+          const lastPdf = window.localStorage.getItem("lastPdf");
+          const items = unitInfo.modules.flatMap((mod, i) =>
+            mod.moduleItems.map((modI) => [i, modI.id, modI.signedPdfUrl])
+          );
+
+          if (lastPdf) {
+            setPdfUrl(lastPdf);
+            const activeModule = items.find((item) => item[2] === lastPdf);
+            if (activeModule) {
+              setModuleId(activeModule[1] as string);
+            }
+          } else if (unitInfo) {
+            const mostRecentModule = unitInfo.modules[0].moduleItems[0];
+            setModuleId(mostRecentModule.id);
+            setPdfUrl(mostRecentModule.signedPdfUrl);
+          }
+        }
       }
     }
   }, [unitInfo]);
 
-  useEffect(() => {
-    if (window && !pdfUrl) {
-      const lastPdf = window.localStorage.getItem("lastPdf");
-      if (lastPdf) {
-        setPdfUrl(lastPdf);
-      } else if (unitInfo) {
-        const mostRecentPdf = unitInfo.modules[0].moduleItems[0].signedPdfUrl;
-        setPdfUrl(mostRecentPdf);
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (window && !pdfUrl) {
+  //     const lastPdf = window.localStorage.getItem("lastPdf");
+  //     if (lastPdf) {
+  //       setPdfUrl(lastPdf);
+  //     } else if (unitInfo) {
+  //       const mostRecentModule = unitInfo.modules[0].moduleItems[0];
+  //       setModuleId(mostRecentModule.id);
+  //       setPdfUrl(mostRecentModule.signedPdfUrl);
+  //     }
+  //   }
+  // }, [unitInfo]);
 
   function startAssessment() {
     setIsQuizOn(true);
@@ -116,6 +140,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
         introHasPlayed={introHasPlayed}
         pdfUrl={pdfUrl}
         setPdfUrl={setPdfUrl}
+        setModuleId={setModuleId}
         unitInfo={unitInfo}
         refetchUnitDetails={() => mutate(unitInfo)}
         startAssessment={startAssessment}
@@ -128,6 +153,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
     return (
       <UnitsContent
         setCurrentPage={setCurrentPage}
+        setModuleId={setModuleId}
         setIntroHasPlayed={setIntroHasPlayed}
         introHasPlayed={introHasPlayed}
         units={units}
@@ -182,6 +208,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
       />
+      {moduleId ? <Chatbot moduleItemId={moduleId} /> : null}
     </>
   );
 };

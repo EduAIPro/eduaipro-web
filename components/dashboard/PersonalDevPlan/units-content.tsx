@@ -43,6 +43,7 @@ type UnitsContentProps = {
   setModuleValues: Dispatch<SetStateAction<string[][]>>;
   setIntroHasPlayed: Dispatch<SetStateAction<boolean>>;
   setPdfUrl: Dispatch<SetStateAction<string | null>>;
+  setModuleId: Dispatch<SetStateAction<string | null>>;
   setActiveUnitId: Dispatch<SetStateAction<string | null>>;
   courseProgress: CourseProgress;
   units: CourseUnit[];
@@ -62,6 +63,7 @@ export function UnitsContent({
   setIntroHasPlayed,
   setPdfUrl,
   pdfUrl,
+  setModuleId,
   units,
   courseProgress,
   generateQuestions,
@@ -136,7 +138,7 @@ export function UnitsContent({
       ).catch(console.error);
     }
   }, [pdfUrl, unitInfo?.modules, courseProgress.module?.index]);
-  console.log({ unitInfo });
+
   // Memoized handlers to prevent unnecessary re-renders
   const handleUnitClick = useCallback(
     (unit: CourseUnit, index: number) => {
@@ -161,6 +163,8 @@ export function UnitsContent({
     if (pdfUrl === contentItem.signedPdfUrl) {
       setCurrentPage(item.pageNumber);
     } else {
+      console.log({ item });
+      setModuleId(item.moduleItemId);
       setPdfUrl(contentItem.signedPdfUrl);
       setCurrentPage(item.pageNumber);
     }

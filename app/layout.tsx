@@ -1,5 +1,6 @@
 "use client";
 
+import { generalFetcher } from "@/api/queries";
 import AppLayoutBase from "@/components/layout/app";
 import { Toaster } from "@/components/ui/sonner";
 import "@radix-ui/themes/styles.css";
@@ -71,6 +72,8 @@ export default function RootLayout({
         <SWRConfig
           value={{
             revalidateOnFocus: false,
+            provider: () => new Map(),
+            fetcher: generalFetcher,
           }}
         >
           <AppLayoutBase>{children}</AppLayoutBase>

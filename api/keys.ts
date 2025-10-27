@@ -93,3 +93,6 @@ export const adminGetSchoolStaffsKey = (id: string) =>
   `/admin/school/schools/${id}/staffs`;
 export const adminGetSchoolCertificationsKey = (id: string) =>
   `/admin/school/schools/${id}/certifications`;
+
+// chat
+export const sendChatKey = "/chat/";

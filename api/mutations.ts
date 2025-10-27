@@ -26,6 +26,7 @@ import {
   TeacherSignupResponse,
   TeacherSurveyPayload,
 } from "@/types/auth";
+import { ChatResponse } from "@/types/chat";
 import {
   Course,
   UpdateModulePayload,
@@ -538,6 +539,19 @@ export async function createTicket(
 ): Promise<SupportTicket> {
   try {
     const response = await apiClient<{ data: SupportTicket }>(url, arg);
+
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function sendChatMessage(
+  url: string,
+  { arg }: { arg: { message: string; moduleItemId: string } }
+): Promise<ChatResponse> {
+  try {
+    const response = await apiClient<{ data: ChatResponse }>(url, arg);
 
     return response.data.data;
   } catch (error) {

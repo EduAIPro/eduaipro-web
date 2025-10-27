@@ -27,6 +27,7 @@ type CourseMediaProps = {
   pdfUrl: string | null;
   introHasPlayed: boolean;
   setPdfUrl: Dispatch<SetStateAction<string | null>>;
+  setModuleId: Dispatch<SetStateAction<string | null>>;
   introVideoUrl?: string;
   courseProgress: CourseProgress;
   refetchCourse: VoidFunction;
@@ -43,6 +44,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
   pdfUrl,
   introVideoUrl,
   setPdfUrl,
+  setModuleId,
   courseProgress,
   introHasPlayed,
   refetchCourse,
@@ -191,6 +193,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
 
       // If moving to a new PDF, update PDF URL
       if (nextPageData.signedPdfUrl && nextPageData.signedPdfUrl !== pdfUrl) {
+        setModuleId(nextPageData.id);
         setPdfUrl(nextPageData.signedPdfUrl);
       }
     } catch (error) {
@@ -220,6 +223,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
     if (processedUpdatesRef.current.has(updateKey)) return;
 
     try {
+      setModuleId(prevPageData.id);
       setPdfUrl(prevPageData.signedPdfUrl);
     } catch (error) {
       console.error("Error in handlePrev:", error);
@@ -275,15 +279,24 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
             )}
           >
             {pdfUrl && (
-              <iframe
-                src={pdfUrl}
-                title="PDF Preview"
+              <embed
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
                 className={cn(
                   "w-full object-cover",
                   isFullscreen ? "min-h-[90vh]" : "min-h-[700px]"
                 )}
-                style={{ border: "none" }}
+                type="application/pdf"
+                src={pdfUrl}
               />
+              // <iframe
+              //   src={pdfUrl}
+              //   title="PDF Preview"
+
+              //   style={{ border: "none" }}
+              // />
             )}
 
             <button

@@ -16,6 +16,6 @@ export const AdminProfile = ({ adminId, ...props }: TeacherProfileProps) => {
     [adminGetStaffKey, adminId],
     fetchWithSingleParam
   );
-  console.log({ adminId });
+
   return <ProfileSheet loading={isLoading} staff={data} {...props} />;
 };
