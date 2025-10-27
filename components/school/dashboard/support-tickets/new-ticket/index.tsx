@@ -26,7 +26,7 @@ export const CreateTicketModal = () => {
 
   async function handleSubmit(values: CreateTicketFormValue) {
     try {
-      const userName = user?.firstName ?? "" + " " + user?.lastName ?? "";
+      const userName = (user?.firstName ?? "") + " " + (user?.lastName ?? "");
       const payload: CreateTicketPayload = {
         name: userName,
         email: user?.email,

@@ -109,5 +109,3 @@ export default function OverviewPage() {
     )
   );
 }
-
-// background: linear-gradient(180deg, #FFFFFF 0%, #EBEBEB 100%);

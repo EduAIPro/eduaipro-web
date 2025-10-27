@@ -99,7 +99,6 @@ export const SchoolOverview = ({ data, isLoading }: SchoolInfoProps) => {
     [data]
   );
 
-  console.log({ data, isEditSchoolInfoOpen });
   return (
     <>
       <div className="space-y-6 mt-6">

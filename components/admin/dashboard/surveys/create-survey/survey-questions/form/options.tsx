@@ -22,14 +22,13 @@ export const QuestionOptionFormField = ({
 
   const fieldError = (fieldName: keyof CreateCourseFormValue) =>
     touched[fieldName] && errors[fieldName] ? errors[fieldName] : null;
-  console.log({ fieldName });
+
   return (
     <FieldArray name={fieldName}>
       {({ remove, push }) => (
         <div className="space-y-2 mt-4">
           <h3 className="text-sm font-semibold text-grey-650 mb-3">Options</h3>
           {questionItem.options?.map((option, optionIndex) => {
-            console.log({ key: `${fieldName}.${optionIndex}.label` });
             return (
               <div key={optionIndex} className="space-y-3">
                 <div className="flex items-center justify-between gap-3">
