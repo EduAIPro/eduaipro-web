@@ -36,6 +36,7 @@ import {
   useRef,
 } from "react";
 import useSWRMutation from "swr/mutation";
+import Chatbot from "../chat";
 
 type UnitsContentProps = {
   setCurrentPage: Dispatch<SetStateAction<number>>;
@@ -56,6 +57,7 @@ type UnitsContentProps = {
   introHasPlayed: boolean;
   values: string[];
   moduleValues: string[][];
+  moduleId: string | null;
 };
 
 export function UnitsContent({
@@ -77,6 +79,7 @@ export function UnitsContent({
   introHasPlayed,
   moduleValues,
   setModuleValues,
+  moduleId,
 }: UnitsContentProps) {
   const { trigger } = useSWRMutation(updateModuleKey, updateModule);
   const processedModulesRef = useRef(new Set<string>());
@@ -163,7 +166,6 @@ export function UnitsContent({
     if (pdfUrl === contentItem.signedPdfUrl) {
       setCurrentPage(item.pageNumber);
     } else {
-      console.log({ item });
       setModuleId(item.moduleItemId);
       setPdfUrl(contentItem.signedPdfUrl);
       setCurrentPage(item.pageNumber);
@@ -172,13 +174,15 @@ export function UnitsContent({
 
   return (
     <div className="max-lg:mt-6 min-[1600px]:col-span-2 bg-white rounded-xl border border-[#DBDBDB] p-5">
-      <h4 className="font-semibold !text-base">Course content</h4>
+      <div className="flex items-center justify-between">
+        <h4 className="font-semibold !text-base">Course content</h4>
+        {moduleId ? <Chatbot moduleItemId={moduleId} /> : null}
+      </div>
       <ScrollArea className="h-full mt-6 max-h-screen overflow-y-auto no-scrollbar">
         <Accordion
           value={values}
           onValueChange={(v) => {
             setValues(v);
-            console.log({ v });
           }}
           type="multiple"
           className="border rounded-lg p-2.5 pt-0"
@@ -228,7 +232,6 @@ export function UnitsContent({
                           mi === i ? v : m
                         );
                         setModuleValues(newModule);
-                        console.log({ newModule });
                       }}
                       type="multiple"
                       className="w-full"

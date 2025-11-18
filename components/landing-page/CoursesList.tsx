@@ -1,12 +1,21 @@
+"use client";
+import { getCoursesPublicKey } from "@/api/keys";
+import { generalFetcher } from "@/api/queries";
+import { GetPublicCourseList } from "@/types/course";
 import { generateKey } from "@/utils/key";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
+import useSWR from "swr";
 import Pill from "../common/ui/Pill";
-import courses from "../courses/data.json";
+import { CourseLoader } from "../courses/Loader";
 import { Button } from "../ui/button";
 import { Course } from "./CourseCard";
 
 export default function CoursesList() {
+  const { data, isLoading } = useSWR<GetPublicCourseList>(
+    getCoursesPublicKey,
+    generalFetcher
+  );
   return (
     <>
       <section className="py-20">
@@ -19,15 +28,17 @@ export default function CoursesList() {
           </div>
           <div className="space-y-5">
             <div className="grid md:grid-cols-3 gap-5">
-              {courses.slice(0, 3).map((item) => (
-                <Course
-                  course={{
-                    ...item,
-                    duration: item.overview.duration.totalHours,
-                  }}
-                  key={generateKey()}
-                />
-              ))}
+              {isLoading ? (
+                <CourseLoader />
+              ) : data?.data?.length ? (
+                data?.data
+                  ?.slice(0, 3)
+                  .map((item) => <Course course={item} key={generateKey()} />)
+              ) : (
+                <div className="col-span-full text-center py-40">
+                  <p>There are no available courses at this time</p>
+                </div>
+              )}
             </div>
             <div className="md:w-fit mx-auto">
               <Link href="/courses">

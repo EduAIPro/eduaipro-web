@@ -60,17 +60,17 @@ export const TeachersTable = () => {
           setOpen(true);
         }}
         otherFilters={
-          <>
+          <div className="flex-1 flex sm:items-center gap-1.5 sm:gap-3 max-sm:flex-col">
             <SendMessageModal
               type="school"
               modalTrigger={
-                <Button>
+                <Button className="flex-1">
                   <MegaphoneIcon /> <p>Send message</p>
                 </Button>
               }
             />
             <InviteTeacherModal />
-          </>
+          </div>
         }
         meta={{
           total: data?.pagination.total || 0,

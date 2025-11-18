@@ -35,6 +35,7 @@ export const ConfirmLogoutModal = ({
         await deleteRefreshToken();
       }
       deleteAccessToken();
+      sessionStorage.clear();
       router.push("/login");
     } catch (error: any) {
       toast.error(error.toString());

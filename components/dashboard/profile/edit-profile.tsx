@@ -4,25 +4,28 @@ import FormInput from "@/components/common/ui/FormInput";
 import { Button } from "@/components/ui/button";
 import { trimObj } from "@/utils/key";
 import {
-  PersonalInfoFormValue,
-  personalInfoValidation,
+  EditUserFormValue,
+  editUserValidation,
 } from "@/utils/validation/teacher-profile/settings";
 import { Form, Formik } from "formik";
 import useSWRMutation from "swr/mutation";
 
 type EditProfileProps = {
-  user: PersonalInfoFormValue;
+  user: EditUserFormValue;
+  refetch: VoidFunction;
 };
 
-export const EditProfile = ({ user }: EditProfileProps) => {
+export const EditProfile = ({ user, refetch }: EditProfileProps) => {
   const { trigger, isMutating } = useSWRMutation(
     editProfileKey,
     updateTeacherProfile
   );
 
-  function onSubmit(values: PersonalInfoFormValue) {
+  async function onSubmit(values: EditUserFormValue) {
     if (values) {
-      trigger(trimObj(values));
+      const { email, ...rest } = values;
+      await trigger(trimObj(rest));
+      refetch();
     }
   }
   return (
@@ -32,19 +35,33 @@ export const EditProfile = ({ user }: EditProfileProps) => {
       </div>
       <Formik
         initialValues={user}
-        validationSchema={personalInfoValidation}
+        validationSchema={editUserValidation}
+        enableReinitialize
         onSubmit={onSubmit}
         validateOnMount
       >
         {({ touched, errors, isValid, initialTouched }) => (
           <Form className="space-y-4 mt-4">
             <FormInput
-              label="Full name"
-              placeholder={user?.fullName}
+              label="First name"
+              placeholder={user?.userFirstName}
               className="w-full"
-              name="fullName"
+              name="userFirstName"
               error={
-                touched.fullName && errors.fullName ? errors.fullName : null
+                touched.userFirstName && errors.userFirstName
+                  ? errors.userFirstName
+                  : null
+              }
+            />
+            <FormInput
+              label="Last name"
+              placeholder={user?.userLastName}
+              className="w-full"
+              name="userLastName"
+              error={
+                touched.userLastName && errors.userLastName
+                  ? errors.userLastName
+                  : null
               }
             />
             <FormInput
@@ -53,13 +70,18 @@ export const EditProfile = ({ user }: EditProfileProps) => {
               placeholder="name@example.com"
               type="email"
               disabled
+              className="opacity-50"
               error={touched.email && errors.email ? errors.email : null}
             />
             <FormInput
               label="Phone number"
               name="phoneNumber"
-              placeholder="name@example.com"
-              error={touched.email && errors.email ? errors.email : null}
+              placeholder="806 902 5433"
+              error={
+                touched.phoneNumber && errors.phoneNumber
+                  ? errors.phoneNumber
+                  : null
+              }
             />
             <div className="mt-4 w-full flex items-center justify-end">
               <Button
@@ -68,7 +90,8 @@ export const EditProfile = ({ user }: EditProfileProps) => {
                 disabled={
                   (!isValid &&
                     (touched.email ||
-                      touched.fullName ||
+                      touched.userFirstName ||
+                      touched.userLastName ||
                       touched.phoneNumber)) ||
                   !initialTouched
                 }

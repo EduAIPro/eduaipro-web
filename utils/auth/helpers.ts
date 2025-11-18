@@ -1,4 +1,5 @@
 import { CONFIG } from "@/constants/config";
+import { UserRoles } from "@/types/auth";
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { authRefreshAction } from ".";
 
@@ -21,6 +22,14 @@ export function isValidToken(token: string, tokenType?: string) {
 
   // If the token is expired, it's not valid
   return !isExpired && isValidType;
+}
+
+export function getTokenRole(token: string) {
+  const decoded = jwtDecode(token.trim()) as JwtPayload & {
+    role: UserRoles;
+  };
+
+  return decoded.role;
 }
 
 export function storeAccessToken(token: string) {

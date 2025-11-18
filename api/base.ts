@@ -1,3 +1,4 @@
+import { deleteRefreshToken } from "@/utils/auth";
 import { access_token_retrieve } from "@/utils/auth/helpers";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
@@ -45,7 +46,8 @@ api.interceptors.response.use(
     const axiosError = error;
 
     if (error.status && error.status === 401) {
-      window.location.href = "/login";
+      sessionStorage.clear();
+      deleteRefreshToken().then(() => (window.location.href = "/login"));
     }
     if (
       axiosError.response &&

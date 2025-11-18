@@ -38,7 +38,7 @@ export type Login = {
   password: string;
 };
 
-export type UserRoles = "TEACHER" | "OWNER" | "ADMIN";
+export type UserRoles = "TEACHER" | "OWNER" | "ADMIN" | "USER";
 
 export type APIBaseResponse = {
   statusCode: number;

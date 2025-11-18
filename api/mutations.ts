@@ -40,7 +40,7 @@ import {
 } from "@/types/school/auth";
 import { Staff } from "@/types/user";
 import { setAuthCookes } from "@/utils/auth";
-import { PersonalInfoFormValue } from "@/utils/validation/teacher-profile/settings";
+import { EditUserFormValue } from "@/utils/validation/teacher-profile/settings";
 import { toast } from "sonner";
 import { apiClient } from "./request";
 
@@ -172,7 +172,7 @@ export async function refreshToken(
 
 export async function updateTeacherProfile(
   url: string,
-  { arg }: { arg: PersonalInfoFormValue }
+  { arg }: { arg: Omit<EditUserFormValue, "email"> }
 ): Promise<APIBaseResponse> {
   try {
     const response = await apiClient<APIBaseResponse>(url, arg, "patch");

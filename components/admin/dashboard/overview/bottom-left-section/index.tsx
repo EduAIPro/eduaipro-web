@@ -4,7 +4,7 @@ import { MostEngagedTeachers } from "./most-engaged-teachers";
 
 export const BottomLeftSection = () => {
   return (
-    <div className="grid grid-cols-2 gap-3 xl:gap-5">
+    <div className="grid lg:grid-cols-2 gap-3 xl:gap-5">
       <MostEngagedTeachers />
       <div className="space-y-3 xl:space-y-5">
         <CountriesBreakdown />

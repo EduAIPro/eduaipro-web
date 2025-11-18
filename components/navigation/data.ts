@@ -44,20 +44,19 @@ export const footerLinks = [
     links: [
       {
         title: "My dashboard",
-        href: "/login",
-        // href: "/dashboard",
+        href: "/dashboard",
       },
       {
         title: "View Courses",
-        href: "/login",
+        href: "/courses",
       },
       {
         title: "Go to Resources",
-        href: "/login",
+        href: "/dashboard",
       },
       {
         title: "Accreditation and Verification",
-        href: "/login",
+        href: "/dashboard/certificated",
       },
     ],
   },
@@ -66,19 +65,19 @@ export const footerLinks = [
     links: [
       {
         title: "View Metrics",
-        href: "/register",
+        href: "/school",
       },
       {
         title: "Track your staff",
-        href: "/register",
+        href: "/school/teachers",
       },
       {
         title: "Go to Resources",
-        href: "/register",
+        href: "/school",
       },
       {
         title: "Accreditation and Verification",
-        href: "/register",
+        href: "/school/teachers",
       },
     ],
   },

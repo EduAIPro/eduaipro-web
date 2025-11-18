@@ -1,13 +1,14 @@
 import { GroupedModuleItems, ModuleItem, ModuleType } from "@/types/course";
 
-export function predictCourseDuration(totalHours: number, hoursPerWeek = 3) {
+export function predictCourseDuration(totalDays: number, hoursPerWeek = 3) {
+  const totalHours = totalDays * 8;
+
   const noOfWeeks = Math.round(totalHours / hoursPerWeek);
 
   const noOfMonths = Math.round(noOfWeeks / 4);
 
   return noOfMonths;
 }
-
 export function predictUnitDuration(totalHours: number, hoursPerDay = 1) {
   const noOfDays = Math.round(totalHours / hoursPerDay);
 
