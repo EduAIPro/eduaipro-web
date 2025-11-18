@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 // Import Shadcn UI components (adjust the import paths based on your project structure)
 import {
   Select,
@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { Field } from "formik";
+import { Field, useFormikContext } from "formik";
 import Typography from "./Typography";
 
 interface Country {
@@ -27,6 +27,7 @@ const countries: Country[] = [
 
 type PhoneInputProps = {
   name: string;
+  dialCodeName?: string;
   label?: string;
   className?: string;
   error: string | null;
@@ -36,19 +37,39 @@ type PhoneInputProps = {
 export default function PhoneInput({
   name,
   setFieldValue,
+  dialCodeName,
   error,
   label,
   className,
 }: PhoneInputProps) {
+  const { values } = useFormikContext<any>();
+
+  const phoneField =
+    values["phoneNumber"] || values["phone"] || values["contactPhone"];
+
+  const defaultCountry = useMemo(() => {
+    if (phoneField && phoneField.dialCode) {
+      return (
+        countries.find((c) => c.dialCode === phoneField.dialCode) ??
+        countries[0]
+      );
+    } else {
+      return countries[0];
+    }
+  }, [phoneField]);
+
   const [isFocused, setIsFocused] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
-  const [rawPhone, setRawPhone] = useState<string>("");
+  const [selectedCountry, setSelectedCountry] =
+    useState<Country>(defaultCountry);
+
+  const [rawPhone, setRawPhone] = useState<string>(phoneField.digits ?? "");
 
   // Updates the selected country and re-formats the phone number
   const handleCountryChange = (code: string) => {
     const newCountry = countries.find((c) => c.code === code);
     if (newCountry) {
       setSelectedCountry(newCountry);
+      setFieldValue(dialCodeName ?? "dialCode", newCountry.dialCode);
       formatPhone(rawPhone, newCountry.dialCode);
     }
   };
@@ -65,11 +86,16 @@ export default function PhoneInput({
   // Formats the phone number by appending the dial code
   const formatPhone = (phone: string, dialCode: string) => {
     if (phone.length > 0) {
-      setFieldValue(name, `${dialCode}${phone}`);
+      setFieldValue(name, phone);
     } else {
       setFieldValue(name, "");
     }
   };
+
+  useEffect(() => {
+    setFieldValue(dialCodeName ?? "dialCode", selectedCountry.dialCode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dialCodeName, selectedCountry]);
 
   return (
     <div className={className}>
@@ -129,6 +155,7 @@ export default function PhoneInput({
           }}
         />
       </div>
+      {error ? <p className="text-sm text-error mt-2">{error}</p> : null}
     </div>
   );
 }

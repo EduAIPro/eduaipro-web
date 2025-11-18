@@ -1,51 +1,90 @@
 "use client";
-import { useMutationApi } from "@/api/hooks/useMutationApi";
-import { SIGNUP_EDUCATOR_MUTATION_KEY } from "@/api/keys";
+import { signupTeacherKey } from "@/api/keys";
 import { signup } from "@/api/mutations";
-import { useToast } from "@/hooks/use-toast";
+import { CONFIG } from "@/constants/config";
+import { TeacherSignup as TeacherSignupType } from "@/types/auth";
+import { storeAccessToken } from "@/utils/auth/helpers";
 import { trimObj } from "@/utils/key";
-import { signupValidation } from "@/utils/validation/auth";
-import { Button } from "@radix-ui/themes";
+import { SignupFormValue, signupValidation } from "@/utils/validation/auth";
 import { Form, Formik } from "formik";
-import { Eye, EyeSlash } from "iconsax-react";
-import { useRouter } from "next/navigation";
+import { EyeClosedIcon, EyeIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
+import useSWRMutation from "swr/mutation";
 import FormInput from "../common/ui/FormInput";
 import PhoneInput from "../common/ui/PhoneInput";
 import Typography from "../common/ui/Typography";
-import { LoginComp } from "./LoginComp";
+import { Button } from "../ui/button";
 
 export default function TeacherSignup() {
   const [showPassword, setShowPassword] = useState(false);
-  const { toast } = useToast();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const invitationCode = searchParams.get("token");
+  const userEmail = searchParams.get("email");
 
-  const signupMutation = useMutationApi(SIGNUP_EDUCATOR_MUTATION_KEY, signup, {
-    onSuccess: (data) => {
-      const _res = data.data;
-      window.localStorage.setItem("user", JSON.stringify(_res.user));
-      window.localStorage.setItem(
-        "access_token",
-        JSON.stringify(_res.tokens.token)
-      );
-      window.localStorage.setItem(
-        "refresh_token",
-        JSON.stringify(_res.tokens.refreshToken)
-      );
+  const { trigger, isMutating } = useSWRMutation(signupTeacherKey, signup);
 
-      toast({
-        title: "Registration successful 🎉",
-      });
+  async function onSubmit(data: SignupFormValue) {
+    if (data.password !== data.confirmPassword) {
+      toast.error("Your password must match");
+      return;
+    }
+    try {
+      const payload: TeacherSignupType = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        username: data.username,
+        email: data.email,
+        phoneNumber: data.phoneNumber.digits,
+        phoneCountryCode: data.phoneNumber.dialCode.slice(1),
+        password: data.password,
+        ...(invitationCode && { invitationCode }),
+      };
 
-      router.push("/dashboard/personal-development-plan?type=teacher");
+      const res = await trigger(trimObj(payload));
+      const { user, tokens } = res.data;
+
+      if (tokens.access) {
+        storeAccessToken(tokens.access);
+        sessionStorage.setItem(CONFIG.USER_IDENTIFIER, user.id);
+      }
+
+      if (invitationCode) {
+        router.push("/dashboard");
+      } else {
+        router.push(
+          `/verify-email?email=${encodeURIComponent(data.email)}&role=TEACHER`
+        );
+      }
+    } catch (error: any) {
+      toast.error(error);
+    }
+  }
+  const defaultValues: SignupFormValue = {
+    firstName: "",
+    lastName: "",
+    email: userEmail ? decodeURIComponent(userEmail) : "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    phoneNumber: {
+      dialCode: "",
+      digits: "",
     },
-    onError(err) {
-      toast({
-        title: err as string,
-        variant: "destructive",
-      });
-    },
-  });
+  };
+
+  const PasswordIcon = () => (
+    <Button
+      size="icon"
+      variant="ghost"
+      onClick={() => setShowPassword(!showPassword)}
+    >
+      {showPassword ? <EyeIcon /> : <EyeClosedIcon />}
+    </Button>
+  );
 
   return (
     <div className="flex-col flex gap-y-6">
@@ -58,28 +97,12 @@ export default function TeacherSignup() {
         </Typography.P>
       </div>
       <Formik
-        initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          username: "",
-          phoneNumber: "",
-          password: "",
-          confirmPassword: "",
-        }}
-        onSubmit={(values) => {
-          if (values.password !== values.confirmPassword) {
-            toast({
-              title: "Your password must match",
-              variant: "destructive",
-            });
-          } else {
-            signupMutation.mutate(trimObj(values));
-          }
-        }}
+        initialValues={defaultValues}
         validationSchema={signupValidation}
+        onSubmit={onSubmit}
+        validateOnBlur
       >
-        {({ touched, errors, setFieldValue }) => (
+        {({ touched, errors, setFieldValue, isValid }) => (
           <Form className="flex-col flex gap-y-4">
             <div className="flex items-center justify-between gap-x-3">
               <FormInput
@@ -92,7 +115,6 @@ export default function TeacherSignup() {
                     ? errors.firstName
                     : null
                 }
-                // leftIcon={<ProfileCircle />}
               />
               <FormInput
                 label="Last name"
@@ -102,7 +124,6 @@ export default function TeacherSignup() {
                 error={
                   touched.lastName && errors.lastName ? errors.lastName : null
                 }
-                // leftIcon={<ProfileCircle />}
               />
             </div>
             <FormInput
@@ -113,7 +134,6 @@ export default function TeacherSignup() {
               error={
                 touched.username && errors.username ? errors.username : null
               }
-              // leftIcon={<ProfileCircle />}
             />
             <FormInput
               label="Email address"
@@ -121,15 +141,15 @@ export default function TeacherSignup() {
               placeholder="name@example.com"
               type="email"
               error={touched.email && errors.email ? errors.email : null}
-              // leftIcon={<Sms />}
             />
             <PhoneInput
               label="Phone number"
-              name="phoneNumber"
+              name="phoneNumber.digits"
               setFieldValue={setFieldValue}
+              dialCodeName="phoneNumber.dialCode"
               error={
-                touched.phoneNumber && errors.phoneNumber
-                  ? errors.phoneNumber
+                touched.phoneNumber?.digits && errors.phoneNumber?.digits
+                  ? errors.phoneNumber.digits
                   : null
               }
             />
@@ -137,52 +157,48 @@ export default function TeacherSignup() {
               label="Password"
               name="password"
               placeholder="Enter your password"
+              type={showPassword ? "text" : "password"}
+              rightIcon={<PasswordIcon />}
               error={
                 touched.password && errors.password ? errors.password : null
               }
-              type={showPassword ? "text" : "password"}
-              // leftIcon={<KeySquare />}
-              rightIcon={
-                <div
-                  className="cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <Eye /> : <EyeSlash />}
-                </div>
-              }
             />
-            <FormInput
-              name="confirmPassword"
-              label="Confirm password"
-              placeholder="Enter your password again"
-              error={
-                touched.confirmPassword && errors.confirmPassword
-                  ? errors.confirmPassword
-                  : null
-              }
-              type={showPassword ? "text" : "password"}
-              // leftIcon={<KeySquare />}
-              rightIcon={
-                <div
-                  className="cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <Eye /> : <EyeSlash />}
-                </div>
-              }
-            />
+            <div>
+              <FormInput
+                name="confirmPassword"
+                label="Confirm password"
+                placeholder="Enter your password again"
+                error={
+                  touched.confirmPassword && errors.confirmPassword
+                    ? errors.confirmPassword
+                    : null
+                }
+                type={showPassword ? "text" : "password"}
+                rightIcon={<PasswordIcon />}
+              />
+              <p className="text-grey-500 text-sm mt-2">
+                Your password must contain at least 8 characters including at
+                least one digit, symbol, uppercase and lowercase letter
+              </p>
+            </div>
             <div className="mt-4 w-full">
               <Button
-                loading={signupMutation.isLoading}
-                disabled={signupMutation.isLoading}
                 type="submit"
-                className="primary__btn btn !w-full"
+                loading={isMutating}
+                disabled={!isValid}
+                className="w-full"
               >
-                <Typography.P fontColor="white">Register</Typography.P>
+                <p className="white">Register</p>
               </Button>
             </div>
-            <div className="sm:hidden flex items-center justify-center">
-              <LoginComp />
+
+            <div>
+              <p className="text-center">
+                Already have an account?{" "}
+                <span className="text-primary-300 hover:scale-95 duration-300 underline font-medium">
+                  <Link href="/login">Login</Link>
+                </span>
+              </p>
             </div>
           </Form>
         )}
@@ -190,3 +206,5 @@ export default function TeacherSignup() {
     </div>
   );
 }
+
+// deevyn.edeh+90@gmail.com

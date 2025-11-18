@@ -1,5 +1,3 @@
-import { Add } from "iconsax-react";
-import React from "react";
 import Typography from "../ui/Typography";
 
 interface AccordionProps {

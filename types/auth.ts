@@ -1,4 +1,6 @@
-export type CreateEducatorAccountPayload = {
+import { SchoolStaff } from "./school/teachers";
+
+export type CreateTeacherAccountPayload = {
   teachingLevel: string;
   subjectsTaught: string[];
   specialSkills: string[];
@@ -20,14 +22,15 @@ export type CreateEducatorAccountPayload = {
   role: "Teacher" | "Mentor" | "Teaching Assistant";
 };
 
-export type EducatorSignup = {
+export type TeacherSignup = {
   firstName: string;
   lastName: string;
-  email: string;
   username: string;
-  phoneNumber?: string;
+  email: string;
+  phoneCountryCode: string;
+  phoneNumber: string;
   password: string;
-  confirmPassword: string;
+  invitationCode?: string;
 };
 
 export type Login = {
@@ -35,31 +38,122 @@ export type Login = {
   password: string;
 };
 
-export type EducatorLoginResponse = {
+export type UserRoles = "TEACHER" | "OWNER" | "ADMIN" | "USER";
+
+export type APIBaseResponse = {
   statusCode: number;
   message: string;
-  data: {
-    userId: string;
-    role: null | string;
-    tokens: {
-      token: string;
-      refreshToken: string;
-    };
-  };
-  error: null | string;
 };
 
-export type EducatorSignupResponse = {
-  statusCode: number;
-  message: string;
+export type TeacherLoginResponse = APIBaseResponse & {
   data: {
+    tokens: {
+      access: string;
+      refresh: string;
+    };
     user: {
       id: string;
       name: string;
-      email: string;
-      role: null | string;
+      emailVerifiedAt: string;
+      role: UserRoles;
     };
-    role: null | string;
+    staff: Omit<SchoolStaff, "user">;
+  };
+};
+
+export type TeacherSignupResponse = {
+  statusCode: number;
+  message: string;
+  data: {
+    tokens: {
+      access: string;
+      refresh: string;
+    };
+    user: {
+      id: string;
+      name: string;
+      emailVerifiedAt: boolean;
+    };
+  };
+};
+
+export type TeacherSurveyPayload = {
+  personal: {
+    dateOfBirth: string;
+    schoolName?: string;
+    location: string;
+    phoneNumber?: string;
+  };
+  professional: {
+    teacherLevel: string;
+    educationalLevel: string;
+    experienceRange: string;
+    areaOfSpecialization: string;
+    interestedSkills: string[];
+    primaryLearningGoal: string;
+    altLearningGoal: string;
+    acceptedTermsAndConditions: boolean;
+  };
+};
+
+export type ConfirmPasswordReset = {
+  email: string;
+  password: string;
+  token: string;
+};
+
+export type ChangePasswordPayload = {
+  currentPassword: string;
+  newPassword: string;
+};
+
+export type RefreshTokenPayload = {
+  refreshToken: string;
+};
+
+export type RefreshTokenResponse = APIBaseResponse & {
+  data: {
+    tokens: {
+      access: string;
+      refresh: string;
+    };
+  };
+};
+
+export type User = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  phoneCountryCode: string;
+  phoneNumber: string;
+  profileImageUrl: null | string;
+  dateOfBirth: null | string;
+  location: null | string;
+  emailVerifiedAt: null | string;
+  isActive: boolean;
+  lastLoggedInAt: string;
+  createdAt: string;
+  updatedAt: string;
+  role: UserRoles;
+};
+
+export type SchoolLogin = {
+  officialEmail: string;
+  password: string;
+};
+
+export type SchoolLoginResponse = {
+  statusCode: number;
+  message: string;
+  data: {
+    school: {
+      id: string;
+      name: string;
+      email: string;
+      type: string;
+    };
     tokens: {
       token: string;
       refreshToken: string;

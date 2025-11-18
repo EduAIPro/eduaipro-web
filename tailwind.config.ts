@@ -71,9 +71,14 @@ const config: Config = {
         },
         error: {
           DEFAULT: "#d6132a",
+          surface: "#FFEAEA",
+          600: "#DD0000",
         },
         success: {
           DEFAULT: "#00dd66",
+          surface: "#EDFFED",
+          400: "#6CD76C",
+          600: "#008000",
         },
         accent: {
           "100": "#EBEFF9",
@@ -103,10 +108,20 @@ const config: Config = {
           "50": "#F4F8FF",
           "100": "#F5F8FF",
           "150": "#D9E3F8",
+          "180": "#F9FBFC",
+          "190": "#E6E8EA",
           "200": "#AFCAFC",
+          "250": "#8FC7F5",
+          "260": "#008CFF",
           "300": "#2E6BCE",
           "400": "#0043BE",
           foreground: "hsl(var(--primary-foreground))",
+        },
+        purple: {
+          800: "#800080",
+          750: "#CB36CB",
+          700: "#CC6FCC",
+          600: "#FABEE8",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -137,7 +152,7 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "boost-career-pattern": "url('/assets/images/shape-bg.png')",
         "auth-bg":
-          "url('/assets/images/img14.jpg'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
+          "url('/assets/images/auth-bg.webp'), linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5))",
         "gradient-45": "linear-gradient(205deg, var(--tw-gradient-stops))",
       },
       animation: {

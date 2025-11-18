@@ -4,13 +4,16 @@ import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
-
-const queryClient = new QueryClient();
 
 export default function AppLayoutBase({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const AUTH_PATHS = ["/login", "/register"];
+  const AUTH_PATHS = [
+    "/login",
+    "/register",
+    "/verify-email",
+    "/forgot-password",
+    "/forgot-password/reset",
+  ];
   const LANDING_PATHS = ["/", "/faq", "/courses"];
   const DefaultLayout = ({ children }: { children: ReactNode }) => (
     <main>{children}</main>
@@ -27,15 +30,17 @@ export default function AppLayoutBase({ children }: { children: ReactNode }) {
     DefaultLayout.displayName = "LoginLayout";
     AppLayout = DefaultLayout;
   }
-  if (pathname.includes("/dashboard")) {
+  if (
+    pathname.includes("/dashboard") ||
+    pathname.includes("/school") ||
+    pathname.includes("/admin")
+  ) {
     DefaultLayout.displayName = "DashboardLayout";
     AppLayout = DefaultLayout;
   }
   return (
-    <QueryClientProvider client={queryClient}>
-      <Theme>
-        <AppLayout>{children}</AppLayout>
-      </Theme>
-    </QueryClientProvider>
+    <Theme>
+      <AppLayout>{children}</AppLayout>
+    </Theme>
   );
 }

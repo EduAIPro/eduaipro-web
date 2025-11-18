@@ -1,135 +1,87 @@
-"use client";
-import Typography from "@/components/common/ui/Typography";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { ChevronDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const ProgressTracker = () => {
-  const [progress, setProgress] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
+interface CircularProgressProps {
+  progress: number; // 0-100
+  size?: number; // diameter in pixels
+  strokeWidth?: number;
+  className?: string;
+  duration?: number; // animation duration in ms
+}
 
-  // Configuration
-  const size = 55;
-  const strokeWidth = 4;
-  const targetProgress = 75; // Change this value to set your target percentage
-  const animationDuration = 2000; // Duration in milliseconds
+export const CircularProgress: React.FC<CircularProgressProps> = ({
+  progress,
+  size = 120,
+  strokeWidth = 8,
+  className = "",
+  duration = 1500,
+}) => {
+  const [animatedProgress, setAnimatedProgress] = useState(0);
+
+  // Calculate circle properties
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
-  const strokeDashoffset = circumference - (progress / 100) * circumference;
+  const center = size / 2;
 
-  // Handle animation
+  // Calculate stroke dash offset based on animated progress
+  const strokeDashoffset =
+    circumference - (animatedProgress / 100) * circumference;
+
   useEffect(() => {
-    if (!isAnimating) return;
+    // Reset animation when progress prop changes
+    setAnimatedProgress(0);
 
     const startTime = Date.now();
+    const startProgress = 0;
+    const endProgress = Math.min(Math.max(progress, 0), 100); // Clamp between 0-100
 
-    const animateProgress = () => {
-      const currentTime = Date.now();
-      const elapsed = currentTime - startTime;
-      const nextProgress = Math.min(
-        (elapsed / animationDuration) * targetProgress,
-        targetProgress
-      );
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progressRatio = Math.min(elapsed / duration, 1);
 
-      setProgress(nextProgress);
+      // Easing function (ease-out)
+      const easeOut = 1 - Math.pow(1 - progressRatio, 3);
 
-      if (nextProgress < targetProgress) {
-        requestAnimationFrame(animateProgress);
-      } else {
-        setIsAnimating(false);
+      const currentProgress =
+        startProgress + (endProgress - startProgress) * easeOut;
+      setAnimatedProgress(currentProgress);
+
+      if (progressRatio < 1) {
+        requestAnimationFrame(animate);
       }
     };
 
-    requestAnimationFrame(animateProgress);
-
-    return () => setIsAnimating(false);
-  }, [isAnimating, targetProgress]);
+    requestAnimationFrame(animate);
+  }, [progress, duration]);
 
   return (
-    <div className="flex items-center gap-2">
-      <div className="relative" style={{ width: size, height: size }}>
+    <div
+      className={`relative inline-flex items-center justify-center ${className}`}
+    >
+      <svg width={size} height={size} className="transform -rotate-90">
         {/* Background circle */}
-        <svg className="w-full h-full" viewBox={`0 0 ${size} ${size}`}>
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            fill="none"
-            stroke="#e6e6e6"
-            strokeWidth={strokeWidth}
-          />
-          {/* Progress circle with animation */}
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            fill="none"
-            stroke="#4f46e5"
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
-            transform={`rotate(-90 ${size / 2} ${size / 2})`}
-            className="transition-all duration-500 ease-out"
-          />
-        </svg>
+        <circle
+          cx={center}
+          cy={center}
+          r={radius}
+          stroke="#D9E3F8"
+          strokeWidth={strokeWidth}
+          fill="transparent"
+        />
 
-        {/* Medal in center */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative w-full h-full">
-            {/* Percentage text */}
-            <div className="absolute bottom-1 inset-x-0 flex justify-center mb-2">
-              <div className="">
-                <p className="text-lg font-black text-grey-9/80">
-                  {Math.round(progress)}%
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
-        <PopoverTrigger asChild>
-          <button
-            className="flex items-center gap-2  bg-transparent border-none cursor-pointer"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <Typography.P fontColor="grey" weight="medium">
-              Your progress
-            </Typography.P>
-            <ChevronDown
-              size={20}
-              className={` transition-transform ${isOpen ? "rotate-180" : ""}`}
-            />
-          </button>
-        </PopoverTrigger>
-
-        <PopoverContent
-          className="bg-white p-3 border border-grey-5/50 rounded-lg shadow-lg shadow-black/10"
-          align="center"
-        >
-          <div className="relative">
-            {/* Triangle pointer */}
-            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-[9px] h-[9px] bg-white border-t border-l border-grey-5/50 rotate-45"></div>
-
-            <div className="space-y-2">
-              <Typography.H4 size="small" weight="medium">
-                15 of 25 complete.
-              </Typography.H4>
-              <p className="text-grey-9 text-sm">
-                Finish course to get your certificate
-              </p>
-            </div>
-          </div>
-        </PopoverContent>
-      </Popover>
+        {/* Progress circle */}
+        <circle
+          cx={center}
+          cy={center}
+          r={radius}
+          stroke="#0043BE"
+          strokeWidth={strokeWidth}
+          fill="transparent"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          className="transition-all duration-75 ease-out"
+        />
+      </svg>
     </div>
   );
 };
-
-export default ProgressTracker;

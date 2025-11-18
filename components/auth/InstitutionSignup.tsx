@@ -1,5 +1,9 @@
 "use client";
 
+import { schoolFocusAreas, schoolType } from "@/utils/data";
+import { institutionSignupValidation } from "@/utils/validation/old";
+import { Button } from "@radix-ui/themes";
+import { Form, Formik } from "formik";
 import {
   Building3,
   Call,
@@ -10,19 +14,12 @@ import {
   Sms,
 } from "iconsax-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import Typography from "../common/ui/Typography";
-import { Form, Formik } from "formik";
-import FormInput, { CheckboxInput, SelectInput } from "../common/ui/FormInput";
-import {
-  institutionSignupValidation,
-  signupValidation,
-} from "@/utils/validation/auth";
-import { Button } from "@radix-ui/themes";
-import { LoginComp } from "./LoginComp";
-import { schoolFocusAreas, schoolType } from "@/utils/data";
+import { useState } from "react";
 import { LuGraduationCap, LuMapPin } from "react-icons/lu";
 import { TbTargetArrow } from "react-icons/tb";
+import FormInput, { CheckboxInput, SelectInput } from "../common/ui/FormInput";
+import Typography from "../common/ui/Typography";
+import { LoginComp } from "./LoginComp";
 
 export default function InstitutionSignup() {
   const [showPassword, setShowPassword] = useState(false);

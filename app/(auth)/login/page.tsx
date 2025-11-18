@@ -1,53 +1,20 @@
 "use client";
 
-import { ComingSoon } from "@/components/auth/ComingSoon";
-import Typography from "@/components/common/ui/Typography";
-import { Button } from "@radix-ui/themes";
-import Image from "next/image";
-import Link from "next/link";
+import LoginForm from "@/components/auth/LoginForm";
 
 export default function LoginPage() {
   return (
-    <main className="lg:flex flex-row justify-between">
-      <section className="w-full p-4 xs:p-6 max-lg:min-h-screen">
-        <div className="flex items-center justify-between">
-          <Link href="/">
-            <Image
-              src="/assets/images/logo-outline.png"
-              width={120}
-              height={70}
-              alt=""
-            />
-          </Link>
-          <div className="flex items-center gap-x-3 max-sm:hidden">
-            <Typography.H3 className="text-center" weight="medium" size="base">
-              {"Don't"} have an account?{" "}
-            </Typography.H3>
-            <Link href="/register">
-              <Button className="btn" size="2">
-                <h3 className="font-medium">Sign up</h3>
-              </Button>
-            </Link>
-          </div>
+    <div className="max-xs:mt-10 max-lg:mt-20 sm:justify-center flex flex-col h-full">
+      <div className="w-full space-y-6">
+        <div>
+          <h2 className="font-semibold text-grey-800 text-2xl">Welcome back</h2>
+          <p className="text-base font-medium text-grey-650">
+            Fill in your details
+          </p>
         </div>
-        <ComingSoon />
 
-        {/* <div className="lg:h-[70vh] max-xs:mt-10  max-lg:mt-20 sm:justify-center flex flex-col">
-          <div className="w-full sm:w-2/3 mx-auto flex-col flex gap-y-6">
-            <div className="text-left">
-              <Typography.H2 size="basePro" weight="semibold">
-                Welcome back
-              </Typography.H2>
-              <Typography.P weight="medium" size="large" fontColor="medium">
-                Fill in your details
-              </Typography.P>
-            </div>
-
-            {/* <LoginForm /> 
-          </div>
-        </div> */}
-      </section>
-      <section className="w-full h-screen bg-auth-bg bg-cover max-lg:hidden"></section>
-    </main>
+        <LoginForm />
+      </div>
+    </div>
   );
 }

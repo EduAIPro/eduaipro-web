@@ -46,7 +46,7 @@ export default function BoostCareer() {
                   style={{ borderRadius: "12px" }}
                   width="100%"
                   height={403}
-                  url="https://res.cloudinary.com/dccxqee2z/video/upload/v1744391203/intro_qe9vih.mp4"
+                  url="https://res.cloudinary.com/dd97lvbi0/video/upload/v1762877842/Introduction_to_Edu_Ai_Pro_vmw2ur.mp4"
                   fallback={
                     <div className="w-full h-full rounded-lg animate-pulse bg-gray-200/60"></div>
                   }

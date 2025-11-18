@@ -20,7 +20,8 @@ input:-webkit-autofill:focus {
 p,
 input,
 span,
-textarea {
+textarea,
+li {
   font-family: "Work Sans", sans-serif;
 }
 p {
@@ -36,7 +37,11 @@ h6,
 .montserrat {
   font-family: "Montserrat", sans-serif;
 }
-
+a:hover {
+  scale: 1.02;
+  animation-duration: 600ms;
+  transition: all;
+}
 .radix-themes {
   --default-font-family: var(--font-montserrat) !important;
 }
@@ -55,6 +60,11 @@ h6,
   border-radius: 16px;
   transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
   cursor: pointer;
+}
+
+.list ul li {
+  list-style: disc;
+  margin-bottom: 8px;
 }
 
 .light_shadow {
@@ -342,9 +352,6 @@ article {
   font-size: 1.2em;
 }
 
-.holder {
-}
-
 /* Whatever you like */
 
 .holder__head {
@@ -390,6 +397,9 @@ article {
   box-shadow: 1px 2px 10px 6px rgb(249 249 251 / 0.9);
 }
 
+.school_card {
+  @apply bg-white rounded-xl p-5 border hover:scale-[1.02] duration-300 border-grey-400;
+}
 @layer base {
   :root {
     --radius: 0.5rem;

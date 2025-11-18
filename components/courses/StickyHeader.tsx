@@ -70,7 +70,7 @@ const StickyHeader = ({
                 className="w-[140px] h-[36px] max-sm:hidden"
                 alt=""
               />
-              <Typography.H2 className="text-base md:!text-lg">
+              <Typography.H2 className="text-base md:!text-lg capitalize">
                 {courseName}
               </Typography.H2>
             </div>

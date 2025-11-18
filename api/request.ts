@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import api from "./base";
 
 interface ApiResponse<T> {
@@ -6,12 +6,39 @@ interface ApiResponse<T> {
   status: number;
 }
 
-export async function apiPostRequest<T>(
+type ErrorResponse = { statusCode: number; message: string };
+
+export async function apiClient<T>(
   url: string,
-  data: any
+  data?: any,
+  method: "post" | "patch" | "delete" = "post",
+  isFormData = false
 ): Promise<ApiResponse<T>> {
   try {
-    const response: AxiosResponse<T> = await api.post(url, data);
+    let response: AxiosResponse<T>;
+    const formDataHeaders = {
+      headers: {
+        "Content-Type": "multipart/formdata",
+      },
+    };
+    const headers = isFormData ? formDataHeaders : undefined;
+
+    switch (method.toLowerCase()) {
+      case "post":
+        response = await api.post(url, data, headers);
+        break;
+      case "put":
+        response = await api.put(url, data);
+        break;
+      case "patch":
+        response = await api.patch(url, data);
+        break;
+      case "delete":
+        response = await api.delete(url, data);
+        break;
+      default:
+        throw new Error(`Unsupported HTTP method: ${method}`);
+    }
 
     // Validate the response data if needed
     if (!response.data) {
@@ -23,20 +50,7 @@ export async function apiPostRequest<T>(
       status: response.status,
     };
   } catch (error) {
-    const axiosError = error as AxiosError;
-
-    if (
-      axiosError.response &&
-      (axiosError.response.data as any)?.error?.message
-    ) {
-      // Handle HTTP errors (4xx, 5xx)
-      throw (axiosError.response.data as any)?.error?.message;
-    } else if (axiosError.request) {
-      // Handle network errors (no response received)
-      throw new Error("Network Error: No response received from the server");
-    } else {
-      // Handle other errors
-      throw new Error(`Error: ${axiosError.message}`);
-    }
+    console.log({ error });
+    throw error;
   }
 }

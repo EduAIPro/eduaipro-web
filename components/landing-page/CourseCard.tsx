@@ -3,26 +3,21 @@ import CertificateIcon from "@/components/svgs/cert.svg";
 // import CpdIcon from "@/components/svgs/cpd.svg";
 import { generateKey } from "@/utils/key";
 
+import { PublicCourse } from "@/types/course";
 import { ArrowRightIcon, ClockIcon, UsersRoundIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 
 type CourseProps = {
-  course: {
-    name: string;
-    img: string;
-    description: string;
-    students: string;
-    duration: number;
-  };
+  course: PublicCourse;
 };
 export const Course = ({ course }: CourseProps) => {
   const router = useRouter();
 
   const list = [
     {
-      title: `${course.duration} hours`,
+      title: `${course.completionDurationDays} days`,
       icon: <ClockIcon className="text-primary size-4" />,
     },
     {
@@ -30,7 +25,7 @@ export const Course = ({ course }: CourseProps) => {
       icon: <CertificateIcon />,
     },
     {
-      title: `${course.students} enrolled`,
+      title: `${course._count?.CourseProgress} enrolled`,
       icon: (
         <UsersRoundIcon
           strokeWidth={2}
@@ -46,7 +41,7 @@ export const Course = ({ course }: CourseProps) => {
       <div className="space-y-4">
         <div>
           <Image
-            src={course.img}
+            src={course.imageUrl || ""} // TODO: update course image urls
             width={370}
             height={250}
             alt="course img"
@@ -54,9 +49,11 @@ export const Course = ({ course }: CourseProps) => {
           />
         </div>
         <div className="space-y-2">
-          <h3 className="text-lg text-grey-800 font-semibold">{course.name}</h3>
+          <h3 className="text-lg text-grey-800 font-semibold capitalize">
+            {course.title?.replaceAll("_", " ").toLowerCase()}
+          </h3>
           <p className="text-grey-650 text-base">
-            {course.description.slice(0, 120) + "...."}
+            {course.description?.slice(0, 120) + "...."}
           </p>
         </div>
         <ul className="flex items-center flex-wrap gap-2.5">
@@ -73,10 +70,10 @@ export const Course = ({ course }: CourseProps) => {
         </ul>
       </div>
       <Button
-        onClick={() => router.push(`/courses/${encodeURI(course.name)}`)}
+        onClick={() => router.push(`/courses/${course?.slug}`)}
         className="w-full"
       >
-        <p className="text-base font-semibold">Enroll now</p>
+        <p className="text-base font-semibold">More info</p>
         <ArrowRightIcon />
       </Button>
     </div>

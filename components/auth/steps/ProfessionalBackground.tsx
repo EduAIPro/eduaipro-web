@@ -1,32 +1,25 @@
 import FormInput, { SelectInput } from "@/components/common/ui/FormInput";
-import { FormikErrors, FormikTouched } from "formik";
-import React from "react";
-import { PostRegistrationFormValues } from "../PostRegistrationForm";
-import {
-  ArchiveBook,
-  Book,
-  Briefcase,
-  PenAdd,
-  ProfileTick,
-  Star1,
-} from "iconsax-react";
-import ModalTitleAndDesc from "../ModalTitleAndDesc";
 import {
   educationalLevels,
-  interestedSkills,
   teachingLevels,
   yearsOfExperienceData,
 } from "@/utils/data";
+import { ProfessionalBackgroundFormValue } from "@/utils/validation/auth";
+import { FormikErrors, FormikTouched } from "formik";
+import { Briefcase } from "iconsax-react";
+import ModalTitleAndDesc from "../ModalTitleAndDesc";
+
+type ProfessionalBackgroundProps = {
+  touched: FormikTouched<ProfessionalBackgroundFormValue>;
+  errors: FormikErrors<ProfessionalBackgroundFormValue>;
+  values: ProfessionalBackgroundFormValue;
+};
 
 export default function ProfessionalBackground({
   touched,
   errors,
   values,
-}: {
-  touched: FormikTouched<PostRegistrationFormValues>;
-  errors: FormikErrors<PostRegistrationFormValues>;
-  values: PostRegistrationFormValues;
-}) {
+}: ProfessionalBackgroundProps) {
   return (
     <div>
       <ModalTitleAndDesc
@@ -36,7 +29,7 @@ export default function ProfessionalBackground({
       />
 
       <div className="mt-6 flex-col flex gap-y-4">
-        {values.teachingLevel === "other" ? (
+        {/* {values.teachingLevel === "other" ? (
           <FormInput
             label="Professional Level"
             placeholder="Enter your professional level"
@@ -47,23 +40,21 @@ export default function ProfessionalBackground({
                 ? errors.teachingLevel
                 : null
             }
-            leftIcon={<ArchiveBook />}
           />
-        ) : (
-          <SelectInput
-            name="teachingLevel"
-            label="Professional Level"
-            options={teachingLevels}
-            error={
-              touched.teachingLevel && errors.teachingLevel
-                ? errors.teachingLevel
-                : null
-            }
-            leftIcon={<ArchiveBook />}
-          />
-        )}
+        ) : ( */}
+        <SelectInput
+          name="teachingLevel"
+          label="Professional Level"
+          options={teachingLevels}
+          error={
+            touched.teachingLevel && errors.teachingLevel
+              ? errors.teachingLevel
+              : null
+          }
+        />
+        {/* )} */}
 
-        {values.educationLevel === "other" ? (
+        {/* {values.educationLevel === "other" ? (
           <FormInput
             label="Educational Level"
             placeholder="Enter your educational level"
@@ -74,21 +65,19 @@ export default function ProfessionalBackground({
                 ? errors.educationLevel
                 : null
             }
-            leftIcon={<Book />}
           />
-        ) : (
-          <SelectInput
-            name="educationLevel"
-            label="Educational Level"
-            options={educationalLevels}
-            error={
-              touched.educationLevel && errors.educationLevel
-                ? errors.educationLevel
-                : null
-            }
-            leftIcon={<Book />}
-          />
-        )}
+        ) : ( */}
+        <SelectInput
+          name="educationLevel"
+          label="Educational Level"
+          options={educationalLevels}
+          error={
+            touched.educationLevel && errors.educationLevel
+              ? errors.educationLevel
+              : null
+          }
+        />
+        {/* )} */}
 
         <FormInput
           label="Area of specialization"
@@ -100,7 +89,6 @@ export default function ProfessionalBackground({
               ? errors.areaOfSpecialization
               : null
           }
-          leftIcon={<Star1 />}
         />
 
         <FormInput
@@ -114,7 +102,6 @@ export default function ProfessionalBackground({
               ? errors.interestInSkills
               : null
           }
-          leftIcon={<PenAdd />}
         />
 
         {/* <SelectInput
@@ -137,7 +124,6 @@ export default function ProfessionalBackground({
               ? errors.yearsOfExperience
               : null
           }
-          leftIcon={<ProfileTick />}
         />
       </div>
     </div>

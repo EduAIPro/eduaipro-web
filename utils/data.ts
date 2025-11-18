@@ -6,43 +6,43 @@ import { SlBookOpen } from "react-icons/sl";
 
 export const educationalLevels = [
   {
+    label: "Senior Secondary Certificate Examination (SSCE)",
+    value: "SSCE",
+  },
+  {
     label: "Bachelor of Science (BSc)",
-    value: "BSc",
+    value: "BSC",
   },
   {
     label: "Master of Science (MSc)",
-    value: "MSc",
+    value: "MSC",
   },
   {
     label: "Doctor of Philosophy (PhD)",
-    value: "PhD",
+    value: "PHD",
   },
 ];
 
 export const teachingLevels = [
   {
     label: "Primary",
-    value: "Primary",
+    value: "PRIMARY",
   },
   {
     label: "Secondary",
-    value: "Secondary",
+    value: "SECONDARY",
   },
   {
     label: "Tertiary",
-    value: "Tertiary",
+    value: "TERTIARY",
   },
   {
     label: "Mentor",
-    value: "Mentor",
+    value: "MENTOR",
   },
   {
     label: "Teaching Assistant (TA)",
-    value: "Teaching assistant",
-  },
-  {
-    label: "Other",
-    value: "Other",
+    value: "TEACHER_ASSISTANT",
   },
 ];
 
@@ -64,19 +64,19 @@ export const interestedSkills = [
 export const yearsOfExperienceData = [
   {
     label: "0-2",
-    value: "0-2",
+    value: "ZERO_TO_TWO",
   },
   {
     label: "2-4",
-    value: "2-4",
+    value: "TWO_TO_FOUR",
   },
   {
     label: "4-6",
-    value: "4-6",
+    value: "FOUR_TO_SIX",
   },
   {
     label: "6+",
-    value: "6+",
+    value: "SIX_PLUS",
   },
 ];
 

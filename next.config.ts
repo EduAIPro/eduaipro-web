@@ -1,4 +1,5 @@
 import { NextConfig } from "next";
+const { withSentryConfig } = require("@sentry/nextjs");
 
 /** @type {import('next').NextConfig} */
 
@@ -47,9 +48,9 @@ const nextConfig: NextConfig = {
       ...config,
       externals: [
         ...config.externals,
-        // {
-        //   sharp: 'commonjs sharp'
-        // }
+        {
+          sharp: "commonjs sharp",
+        },
       ],
     };
 
@@ -75,4 +76,12 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
 };
 
-module.exports = nextConfig;
+module.exports = withSentryConfig(nextConfig, {
+  org: "divinefavour-edeh",
+  project: "eduaipro",
+  // Only print logs for uploading source maps in CI
+  // Set to `true` to suppress logs
+  silent: !process.env.CI,
+  // Automatically tree-shake Sentry logger statements to reduce bundle size
+  disableLogger: true,
+});

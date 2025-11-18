@@ -1,17 +1,18 @@
 import Typography from "@/components/common/ui/Typography";
 import CourseContentAccordion from "@/components/courses/Accordion";
 import ExpandableText from "@/components/courses/ExpandableText";
+import { Module, UnitDetails } from "@/types/course";
 import { generateKey } from "@/utils/key";
 import { capitalizeFirstLetter } from "@/utils/text";
 import { TabNav } from "@radix-ui/themes";
-import { Icon, TickCircle, Video } from "iconsax-react";
+import { Icon, Video } from "iconsax-react";
 import { IconType } from "react-icons";
 import { CgFileDocument } from "react-icons/cg";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { VscBook } from "react-icons/vsc";
 
 type UnitBodyProps = {
-  unitInfo: any;
+  unitInfo: UnitDetails;
 };
 
 const details = [
@@ -88,17 +89,17 @@ export const UnitBody = ({ unitInfo }: UnitBodyProps) => {
         </TabNav.Root>
       </div>
       <div id="objectives" className="py-8 flex flex-col gap-8">
-        <div>
+        {/* <div>
           <Typography.H3 weight="semibold">Learning objectives</Typography.H3>
           <ul className="flex flex-col gap-2 mt-4">
-            {unitInfo?.objectives.map((item: string, i: number) => (
+            {unitInfo?.objectives?.map((item: string, i: number) => (
               <li key={i} className="flex items-start gap-2">
                 <TickCircle className="text-green-600" size={20} />
                 <Typography.P>{item}</Typography.P>
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
         <div>
           <Typography.H3 weight="semibold">Extra details</Typography.H3>
           <ul className="grid grid-cols-3 gap-6 mt-4">
@@ -133,14 +134,16 @@ export const UnitBody = ({ unitInfo }: UnitBodyProps) => {
           <Typography.H3 size="xl" className="mb-2" weight="semibold">
             There are {unitInfo?.modules.length} modules in this unit
           </Typography.H3>
-          <ExpandableText text={unitInfo?.introduction!} />
+          {unitInfo?.description ? (
+            <ExpandableText text={unitInfo?.description} />
+          ) : null}
         </div>
         <div>
-          {unitInfo?.modules.map((module: any, index: number) => (
+          {unitInfo?.modules.map((unitModule: Module, index: number) => (
             <CourseContentAccordion
-              unitId={index + 1}
-              unitLength={module.duration}
-              title={module.title}
+              unitId={unitInfo.id}
+              unitLength={10 / unitInfo?.modules.length}
+              title={unitModule.title}
               key={generateKey()}
               isModule={true}
             >
