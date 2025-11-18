@@ -1,44 +1,39 @@
 "use client";
-import data from "@/components/common/data/courses.json";
+import { retrieveCourseUnitPublicKey } from "@/api/keys";
+import { generalFetcher } from "@/api/queries";
 import Typography from "@/components/common/ui/Typography";
+import { UnitBody } from "@/components/course-page/units/unit-body";
 import StickyHeader from "@/components/courses/StickyHeader";
 import { CourseIcon } from "@/components/svgs";
 import { Button } from "@/components/ui/button";
+import { UnitDetails } from "@/types/course";
 import { predictUnitDuration } from "@/utils/helpers";
-import { useEffect, useState } from "react";
-import { UnitBody } from "./unit-body";
+import { Loader2Icon } from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import useSWR from "swr";
 
-type UnitHeaderProps = {
-  params: { courseName: string; unitId: string };
-};
+export default function CourseUnitPage() {
+  const { slug, unitId }: { slug: string; unitId: string } = useParams();
+  const { data: unitInfo, isLoading } = useSWR<UnitDetails>(
+    unitId ? retrieveCourseUnitPublicKey(unitId! as string) : null,
+    generalFetcher
+  );
 
-export const UnitHeader = ({ params }: UnitHeaderProps) => {
-  const [unitInfo, setUnitInfo] = useState<null | any>(null);
-  // const { unitId, courseName } = useParams();
+  const weekDuration = predictUnitDuration(10);
 
-  useEffect(() => {
-    const courseInfo = data.find(
-      (course) => course.name === decodeURI(params.courseName as string)
-    );
-
-    if (courseInfo) {
-      setUnitInfo(
-        courseInfo.units.find(
-          (unit) => params.unitId === unit.number.toString()
-        ) || null
-      );
-    }
-  }, []);
-
-  const weekDuration = predictUnitDuration(unitInfo?.totalDuration!);
-  return (
+  return isLoading ? (
+    <div className="min-h-screen flex items-center justify-center">
+      <Loader2Icon size={24} className="animate-spin text-primary" />
+    </div>
+  ) : unitInfo ? (
     <>
       <StickyHeader
+        courseName={slug.toLowerCase()}
         sectionsData={[
           { title: "Objectives", id: "objectives" },
           { title: "Modules", id: "modules" },
         ]}
-        courseName={unitInfo?.title!}
       />
 
       <section className="">
@@ -48,24 +43,33 @@ export const UnitHeader = ({ params }: UnitHeaderProps) => {
               <div className="flex items-center justify-center">
                 <div className="w-full flex flex-col gap-6">
                   <div className="flex flex-col gap-3">
-                    <Typography.H2 fontColor="dark" weight="semibold">
+                    <Typography.H2
+                      fontColor="dark"
+                      weight="semibold"
+                      className="capitalize"
+                    >
+                      {slug.toLowerCase().replaceAll("-", " ")} -{" "}
                       {unitInfo?.title}
                     </Typography.H2>
-                    <Typography.P
-                      fontColor="dark"
-                      weight="medium"
-                      className="line-clamp-3"
-                    >
-                      {unitInfo?.introduction}
-                    </Typography.P>
+                    {unitInfo?.description ? (
+                      <Typography.P
+                        fontColor="dark"
+                        weight="medium"
+                        className="line-clamp-3"
+                      >
+                        {unitInfo?.description}
+                      </Typography.P>
+                    ) : null}
 
                     <Typography.H4 size="base" fontColor="dark" weight="medium">
                       Instructor: <strong>AI</strong>
                     </Typography.H4>
                   </div>
-                  <Button className="primary__btn btn !w-fit">
-                    Enroll now
-                  </Button>
+                  <Link href="/register">
+                    <Button className="!bg-brand">
+                      <p>Enroll now</p>
+                    </Button>
+                  </Link>
                 </div>
                 <div className="max-lg:hidden w-full flex flex-col items-center">
                   <CourseIcon width={350} height={350} />
@@ -105,5 +109,12 @@ export const UnitHeader = ({ params }: UnitHeaderProps) => {
         </div>
       </section>
     </>
+  ) : (
+    <div className="min-h-screen flex items-center justify-center text-center">
+      <p className="text-lg">An error occured, please try again later</p>
+      <Link href="/">
+        <p className="text-primary underline">Go home</p>
+      </Link>
+    </div>
   );
-};
+}

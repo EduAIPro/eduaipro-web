@@ -362,7 +362,6 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
           <div className="rounded-lg overflow-hidden">
             <ReactPlayer
               ref={playerRef}
-              playing={!hasIntroPlayed}
               controls
               width="100%"
               height="400px"

@@ -60,8 +60,6 @@ export const CourseProgressChart = ({ progress }: CourseProgressChartProps) => {
     }
   }, [progress]);
 
-  console.log({ chartData });
-
   return (
     <ChartContainer
       config={chartConfig}

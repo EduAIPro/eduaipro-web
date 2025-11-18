@@ -1,3 +1,5 @@
+import { Pagination } from "./school";
+
 enum TeacherLevel {
   primary = "PRIMARY",
   secondary = "SECONDARY",
@@ -34,6 +36,8 @@ export type Course = {
   certificateValidationDays: number;
   validityPeriodDays: number;
   completionPeriod: number;
+  completionDurationDays: number;
+  learningObjectives: string;
   createdAt: string;
   updatedAt: string;
   level: TeacherLevelType;
@@ -136,4 +140,29 @@ export type UpdateModulePayload = {
 export type GroupedModuleItems = {
   title: ModuleType;
   items: ModuleItem[];
+};
+
+export type GetPublicCourseList = {
+  pagination: Pagination;
+  data: PublicCourse[];
+};
+
+export type PublicCourse = {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  imageUrl: null | string;
+  introductoryVideoUrl: string;
+  certificateValidationDays: number;
+  validityPeriodDays: number;
+  completionDurationDays: number;
+  createdAt: string;
+  updatedAt: string;
+  level: TeacherLevelType;
+  isMain: boolean;
+  createdById: string;
+  _count: {
+    CourseProgress: number;
+  };
 };

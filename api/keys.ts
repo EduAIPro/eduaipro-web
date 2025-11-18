@@ -96,3 +96,10 @@ export const adminGetSchoolCertificationsKey = (id: string) =>
 
 // chat
 export const sendChatKey = "/chat/";
+
+// public
+export const getCoursesPublicKey = "/course/public";
+export const retrieveCoursePublicKey = (slug: string) =>
+  `/course/public/courses/${slug}`;
+export const retrieveCourseUnitPublicKey = (id: string) =>
+  `/course/public/units/${id}`;

@@ -36,9 +36,7 @@ export const InviteTeacherModal = ({}: InviteTeacherModalProps) => {
     const file = event.target.files?.[0];
 
     if (file) {
-      console.log({ file });
       const fields = await extractCsvMetadataFromFile(file);
-      console.log({ fields });
     }
   }
 
@@ -67,7 +65,10 @@ export const InviteTeacherModal = ({}: InviteTeacherModalProps) => {
           : "Import csv Summary"
       }
       trigger={
-        <Button onClick={() => setIsOpen(!isOpen)} className="max-sm:w-full">
+        <Button
+          onClick={() => setIsOpen(!isOpen)}
+          className="max-sm:w-full flex-1"
+        >
           <PlusIcon strokeWidth={2} />
           <p className="font-medium">Invite teacher</p>
         </Button>

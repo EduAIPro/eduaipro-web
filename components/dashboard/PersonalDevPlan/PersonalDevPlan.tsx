@@ -16,7 +16,6 @@ import {
 import { CourseProgress, CourseUnit } from "@/types/course";
 import { useEffect, useState } from "react";
 import useSWRMutation from "swr/mutation";
-import Chatbot from "../chat";
 import { Assessment } from "./assessment";
 import { AssessmentCompletedModal } from "./assessment/completed-modal";
 import { AssessmentResults } from "./assessment/results";
@@ -154,6 +153,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
       <UnitsContent
         setCurrentPage={setCurrentPage}
         setModuleId={setModuleId}
+        moduleId={moduleId}
         setIntroHasPlayed={setIntroHasPlayed}
         introHasPlayed={introHasPlayed}
         units={units}
@@ -208,7 +208,6 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
       />
-      {moduleId ? <Chatbot moduleItemId={moduleId} /> : null}
     </>
   );
 };

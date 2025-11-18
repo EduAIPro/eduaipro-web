@@ -9,10 +9,11 @@ import useUser from "@/hooks/use-user";
 import { useMemo } from "react";
 
 const ProfilePage = () => {
-  const { user } = useUser();
+  const { user, refetch } = useUser();
   const userDetails = useMemo(
     () => ({
-      fullName: user ? `${user?.firstName} ${user?.lastName}` : "",
+      userFirstName: user?.firstName ?? "",
+      userLastName: user?.lastName ?? "",
       email: user?.email ?? "",
       phoneNumber: user?.phoneNumber ?? "",
     }),
@@ -35,12 +36,13 @@ const ProfilePage = () => {
           <UserInfo
             user={{
               ...userDetails,
+              fullName: user ? `${user?.firstName} ${user?.lastName}` : "",
               lastLoggedInAt: user?.lastLoggedInAt ?? "",
             }}
           />
         </div>
         <div className="xl:col-span-2 border border-grey-400 bg-white rounded-lg p-5 space-y-5">
-          <EditProfile user={userDetails} />
+          <EditProfile refetch={refetch} user={userDetails} />
           <ChangePassword />
         </div>
       </section>

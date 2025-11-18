@@ -34,7 +34,6 @@ export const ModuleItemFormField = <T,>({
   function onFileSelect(file: File | null, moduleItemIndex: number) {
     if (file) {
       setFieldValue(`${fieldName}.${moduleItemIndex}.pdfFile`, file, true);
-      console.log("value done");
     } else {
       setFieldValue(`${fieldName}.${moduleItemIndex}.pdfFile`, null, true);
     }

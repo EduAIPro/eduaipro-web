@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, Send, X } from "lucide-react";
+import { BotMessageSquareIcon, Send, X } from "lucide-react";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
@@ -183,16 +183,17 @@ export default function Chatbot({ moduleItemId }: ChatbotProps) {
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50"
-          size="icon"
+          className="text-primary"
+          variant="outline"
         >
-          <MessageCircle className="h-6 w-6" />
+          <BotMessageSquareIcon className="" />
+          <p>Chatbot</p>
         </Button>
       )}
 
       {/* Chat Window */}
       {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-[400px] h-[66vh] flex flex-col shadow-2xl z-50 mx-4 md:mx-0">
+        <Card className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 md:w-[400px] md:h-[66vh] flex flex-col shadow-2xl z-[999999999999999] md:mx-0 rounded-none md:rounded-lg">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b">
             <div className="flex items-center gap-2">

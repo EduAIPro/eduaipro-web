@@ -15,7 +15,7 @@ export default function CourseContentAccordion({
   children: ReactNode;
   title: string;
   courseName?: string;
-  unitId?: number;
+  unitId?: string;
   // unitCount: number;
   unitLength: number;
   isModule?: boolean;
@@ -53,7 +53,7 @@ export default function CourseContentAccordion({
               weight="semibold"
               className="!text-base lg:!text-[20px] hover:underline hover:!text-black"
             >
-              {isModule ? "Module" : "Unit"} {unitId} - {title}
+              {title}
             </Typography.H2>
           </Link>
           <div>
