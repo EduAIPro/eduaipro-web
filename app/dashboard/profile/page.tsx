@@ -30,7 +30,7 @@ const ProfilePage = () => {
   );
   return (
     <>
-      <ProfileHeader user={userImageInfo} />
+      <ProfileHeader user={userImageInfo} refetch={refetch} />
       <section className="mt-5 grid md:grid-cols-2 xl:grid-cols-3 gap-5">
         <div className="border border-grey-400 bg-white rounded-lg p-5">
           <UserInfo

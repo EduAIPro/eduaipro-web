@@ -26,6 +26,7 @@ export type UpdatePersonalInfoPayload = {
   phoneCountryCode: string;
   phoneNumber: string;
   positionDescription: string;
+  userProfileImage?: string;
 };
 
 export type UpdateSchoolInfoPayload = {

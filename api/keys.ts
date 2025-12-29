@@ -64,6 +64,7 @@ export const updateSchoolStatusKey = (schoolId: string) =>
   `/admin/school/schools/${schoolId}/active-status`;
 export const updateSchoolKey = (schoolId: string) =>
   `/admin/school/schools/${schoolId}`;
+export const singleUploadFileKey = "/file/upload";
 export const bulkUploadFilesKey = "/file/upload-multiple";
 
 // queries

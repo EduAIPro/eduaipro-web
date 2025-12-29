@@ -66,12 +66,40 @@ const TypewriterText: React.FC<{ text: string; onComplete: () => void }> = ({
 export default function Chatbot({ moduleItemId }: ChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [showGreeting, setShowGreeting] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const storageKey = useMemo(
     () => `chatbot-messages-${moduleItemId}`,
     [moduleItemId]
   );
+  const greetingKey = "chatbot-greeting-shown";
+
+  // Check for greeting on mount
+  useEffect(() => {
+    // Small delay to ensure it feels like it "pops" in after page load
+    const timer = setTimeout(() => {
+      if (typeof window !== "undefined") {
+        const hasGreeted = sessionStorage.getItem(greetingKey);
+        if (!hasGreeted && !isOpen) {
+          setShowGreeting(true);
+        }
+      }
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
+
+  const handleDismissGreeting = () => {
+    setShowGreeting(false);
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(greetingKey, "true");
+    }
+  };
+
+  const handleOpenChat = () => {
+    setIsOpen(true);
+    handleDismissGreeting();
+  };
 
   // Initialize messages from sessionStorage or use default intro message
   const [messages, setMessages] = useState<Message[]>(() => {
@@ -179,35 +207,72 @@ export default function Chatbot({ moduleItemId }: ChatbotProps) {
 
   return (
     <>
-      {/* Floating Button */}
+      {/* Floating Action Button & Greeting */}
       {!isOpen && (
-        <Button
-          onClick={() => setIsOpen(true)}
-          className="text-primary"
-          variant="outline"
-        >
-          <BotMessageSquareIcon className="" />
-          <p>Chatbot</p>
-        </Button>
+        <div className="fixed bottom-6 right-6 z-[50] flex flex-col items-end gap-2">
+          {showGreeting && (
+            <div className="bg-white text-foreground p-3 rounded-lg shadow-lg border border-border animate-in fade-in slide-in-from-bottom-2 max-w-[250px] relative mb-2">
+              <button
+                onClick={handleDismissGreeting}
+                className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-sm border hover:bg-muted"
+                type="button"
+              >
+                <X className="h-3 w-3 text-muted-foreground" />
+              </button>
+              <div
+                className="flex gap-2 cursor-pointer"
+                onClick={handleOpenChat}
+              >
+                <div className="h-8 w-8 shrink-0 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold text-xs">
+                  G
+                </div>
+                <div>
+                  <p className="text-sm font-medium">Hi! I&apos;m George.</p>
+                  <p className="text-xs text-muted-foreground">
+                    Need help? Click here to chat!
+                  </p>
+                </div>
+              </div>
+              {/* Arrow pointing down */}
+              <div className="absolute -bottom-2 right-6 h-4 w-4 rotate-45 bg-white border-b border-r border-border" />
+            </div>
+          )}
+
+          <Button
+            onClick={handleOpenChat}
+            className="h-14 w-14 rounded-full shadow-xl bg-primary hover:bg-primary/90 transition-transform hover:scale-105"
+            size="icon"
+          >
+            <BotMessageSquareIcon className="h-8 w-8" />
+            <span className="sr-only">Chatbot</span>
+          </Button>
+        </div>
       )}
 
       {/* Chat Window */}
       {isOpen && (
-        <Card className="fixed inset-0 md:inset-auto md:bottom-6 md:right-6 md:w-[400px] md:h-[66vh] flex flex-col shadow-2xl z-[999999999999999] md:mx-0 rounded-none md:rounded-lg">
+        <Card className="fixed bottom-6 right-6 w-full md:w-[400px] h-[600px] max-h-[80vh] flex flex-col shadow-2xl z-[50] rounded-xl border-border animate-in fade-in slide-in-from-bottom-5">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold">
+          <div className="flex items-center justify-between p-4 border-b bg-primary/5 rounded-t-xl">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold text-lg shadow-sm">
                 G
               </div>
               <div>
-                <h3 className="font-semibold">George</h3>
-                <p className="text-xs text-muted-foreground">AI Assistant</p>
+                <h3 className="font-semibold text-base">George</h3>
+                <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                  </span>
+                  Online Assistant
+                </p>
               </div>
             </div>
             <Button
               variant="ghost"
               size="icon"
+              className="hover:bg-primary/10 rounded-full"
               onClick={() => setIsOpen(false)}
             >
               <X className="h-5 w-5" />
@@ -215,7 +280,7 @@ export default function Chatbot({ moduleItemId }: ChatbotProps) {
           </div>
 
           {/* Messages */}
-          <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
+          <ScrollArea className="flex-1 p-4 bg-gray-50/50" ref={scrollAreaRef}>
             <div className="space-y-4">
               {messages.map((message) => (
                 <div
@@ -225,16 +290,16 @@ export default function Chatbot({ moduleItemId }: ChatbotProps) {
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-lg px-4 py-2 text-sm ${
+                    className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm shadow-sm ${
                       message.isUser
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted"
+                        ? "bg-primary text-primary-foreground rounded-br-none"
+                        : "bg-white border border-gray-100 rounded-bl-none"
                     }`}
                   >
                     {message.isLoading ? (
                       <LoadingDots />
                     ) : message.isUser || !message.isTyping ? (
-                      <p>{message.content}</p>
+                      <p className="leading-relaxed">{message.content}</p>
                     ) : (
                       <TypewriterText
                         text={message.content}
@@ -249,25 +314,28 @@ export default function Chatbot({ moduleItemId }: ChatbotProps) {
           </ScrollArea>
 
           {/* Input */}
-          <div className="p-4 border-t">
-            <div className="flex gap-2">
+          <div className="p-4 border-t bg-white rounded-b-xl">
+            <div className="flex gap-2 items-center">
               <Input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
+                placeholder="Ask George anything..."
                 disabled={isMutating}
-                className="flex-1"
+                className="flex-1 bg-gray-50 border-gray-200 focus-visible:ring-primary/20"
               />
               <Button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() || isMutating}
                 size="icon"
-                className="!size-10"
+                className="h-10 w-10 shrink-0 rounded-full"
               >
                 <Send className="h-4 w-4" />
               </Button>
             </div>
+            <p className="text-[10px] text-center text-muted-foreground mt-2">
+              George can make mistakes. Please verify important information.
+            </p>
           </div>
         </Card>
       )}

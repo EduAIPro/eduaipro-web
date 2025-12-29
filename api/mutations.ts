@@ -485,6 +485,27 @@ export async function bulkUploadFiles(
   }
 }
 
+export async function singleUploadFile(
+  url: string,
+  { arg }: { arg: { file: File } }
+): Promise<{ url: string }> {
+  try {
+    const formData = new FormData();
+    formData.append("file", arg.file);
+
+    const response = await apiClient<{ data: { url: string } }>(
+      url,
+      formData,
+      "post",
+      true
+    );
+
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // surveys
 export async function createSurvey(
   url: string,

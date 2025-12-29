@@ -56,7 +56,7 @@ export default function OverviewPage() {
       <>
         <div className="flex flex-col gap-8">
           <div className="space-y-3">
-            <h2 className="text-xl font-semibold">{course.title}</h2>
+            <h2 className="text-xl font-semibold capitalize">{course.title}</h2>
             <div className="flex items-start gap-10">
               <div>
                 <h3 className="font-medium text-sm">Content</h3>

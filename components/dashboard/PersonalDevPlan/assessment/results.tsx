@@ -85,7 +85,7 @@ export const AssessmentResults = ({
       </div>
       <div className="col-span-2 space-y-5">
         <div className="p-5 border border-grey-400 rounded-xl bg-white pb-20">
-          <div className="flex items-center justify-between">
+          <div className="flex sm:items-center justify-between max-sm:flex-col max-sm:gap-4">
             <h2 className="text-lg font-semibold">
               Answers to Quiz: Assessment for Learning
             </h2>
