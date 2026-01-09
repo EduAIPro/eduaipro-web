@@ -11,6 +11,8 @@ export type User = {
   phoneCountryCode: string;
   profileImageUrl: null | string;
   lastLoggedInAt: string;
+  role: UserRoles;
+  emailVerifiedAt: null | string
 };
 
 export type Staff = {

@@ -30,10 +30,10 @@ export const SchoolLayoutHeader = ({}: SchoolLayoutHeaderProps) => {
         {NavItems.map((i) => {
           const Icon = path === i.url ? i.activeIcon : i.icon;
           return (
+            <Link key={i.name} href={i.url}>
             <Button
               variant="ghost"
-              key={i.name}
-              onClick={() => router.push(i.url)}
+              // onClick={() => router.push(i.url)}
               className={cn(
                 "shadow-none max-md:flex-shrink-0 max-md:w-1/4 max-sm:flex-col max-sm:h-12 max-sm:gap-1",
                 path === i.url ? "border border-[#AFCAFC] !bg-[#EEF5FF]" : ""
@@ -50,6 +50,8 @@ export const SchoolLayoutHeader = ({}: SchoolLayoutHeaderProps) => {
                 {i.name}
               </h2>
             </Button>
+
+            </Link>
           );
         })}
       </ul>
