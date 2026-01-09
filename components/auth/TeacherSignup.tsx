@@ -101,6 +101,7 @@ export default function TeacherSignup() {
         validationSchema={signupValidation}
         onSubmit={onSubmit}
         validateOnBlur
+        validateOnMount
       >
         {({ touched, errors, setFieldValue, isValid }) => (
           <Form className="flex-col flex gap-y-4">
@@ -110,6 +111,7 @@ export default function TeacherSignup() {
                 placeholder="John"
                 className="w-full"
                 name="firstName"
+                disabled={isMutating}
                 error={
                   touched.firstName && errors.firstName
                     ? errors.firstName
@@ -121,6 +123,7 @@ export default function TeacherSignup() {
                 placeholder="Okoye"
                 className="w-full"
                 name="lastName"
+                disabled={isMutating}
                 error={
                   touched.lastName && errors.lastName ? errors.lastName : null
                 }
@@ -131,6 +134,7 @@ export default function TeacherSignup() {
               placeholder="Enter your preferred username"
               className="w-full"
               name="username"
+              disabled={isMutating}
               error={
                 touched.username && errors.username ? errors.username : null
               }
@@ -140,6 +144,7 @@ export default function TeacherSignup() {
               name="email"
               placeholder="name@example.com"
               type="email"
+              disabled={!!userEmail || isMutating}
               error={touched.email && errors.email ? errors.email : null}
             />
             <PhoneInput
@@ -159,6 +164,7 @@ export default function TeacherSignup() {
               placeholder="Enter your password"
               type={showPassword ? "text" : "password"}
               rightIcon={<PasswordIcon />}
+              disabled={isMutating}
               error={
                 touched.password && errors.password ? errors.password : null
               }
@@ -168,6 +174,7 @@ export default function TeacherSignup() {
                 name="confirmPassword"
                 label="Confirm password"
                 placeholder="Enter your password again"
+                disabled={isMutating}
                 error={
                   touched.confirmPassword && errors.confirmPassword
                     ? errors.confirmPassword

@@ -1,14 +1,19 @@
 "use client";
 export const dynamic = "force-static";
+import { getMe } from "@/api/keys";
+import { generalFetcher } from "@/api/queries";
 import { ConfirmLogoutModal } from "@/components/dashboard/common";
 import CertIcon from "@/components/svgs/cert-two.svg";
 import PDPIcon from "@/components/svgs/pdp.svg";
+import useUser from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
+import { UserRoles } from "@/types/auth";
 import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import useSWR from "swr";
 
 type DefaultLayoutProps = {
   children: React.ReactNode;
@@ -22,11 +27,25 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
 
+  const { user: userData, isLoading } = useUser();
+
   useEffect(() => {
     if (window && typeof window !== undefined) {
       setDocumentWindow(window);
     }
   }, []);
+
+  useEffect(() => {
+    if (!isLoading && userData) {
+      if (!userData?.emailVerifiedAt) {
+        router.push(
+          `/verify-email?email=${encodeURIComponent(
+            userData.email
+          )}&role=${userData.role}`
+        );
+      }
+    }
+  }, [userData, isLoading, router]);
 
   const menuItems = [
     {
@@ -62,8 +81,8 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
     // { name: "Logout", path: "/logout" },
   ];
 
-  const handleNavigation = (path: string) => {
-    router.push(path);
+  const handleNavigation = () => {
+    // router.push(path);
     setSidebarOpen(false); // Close the sidebar on mobile after navigation
   };
 
@@ -92,29 +111,29 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
             {menuItems.map((item, index) => {
               const isActive = pathname === item.path;
               return (
-                <button
-                  key={item.name}
-                  id={item.id}
-                  onClick={() => handleNavigation(item.path)}
-                  className={cn(
-                    "w-full duration-300 flex max-sm:flex-col items-center px-3 gap-2 rounded-md py-2 text-left transition-all hover:bg-primary-100 hover:border hover:border-primary-200",
-                    isActive
-                      ? "border-primary-200  bg-primary-300/20 !text-primary-400"
-                      : ""
-                  )}
-                >
-                  <item.icon
-                    color={isActive ? "#0043BE" : "#656565"}
-                    size={18}
-                  />
-                  <p className="font-medium whitespace-nowrap max-sm:!text-sm max-sm:text-grey-650">
-                    {index === 0 &&
-                    documentWindow &&
-                    documentWindow.screen.width < 640
-                      ? "PDP"
-                      : item.name}
-                  </p>
-                </button>
+                <Link key={item.id} href={item.path}>
+                  <button
+                    onClick={() => handleNavigation()}
+                    className={cn(
+                      "w-full duration-300 flex max-sm:flex-col items-center px-3 gap-2 rounded-md py-2 text-left transition-all hover:bg-primary-100 hover:border hover:border-primary-200",
+                      isActive
+                        ? "border-primary-200  bg-primary-300/20 !text-primary-400"
+                        : ""
+                    )}
+                  >
+                    <item.icon
+                      color={isActive ? "#0043BE" : "#656565"}
+                      size={18}
+                    />
+                    <p className="font-medium whitespace-nowrap max-sm:!text-sm max-sm:text-grey-650">
+                      {index === 0 &&
+                      documentWindow &&
+                      documentWindow.screen.width < 640
+                        ? "PDP"
+                        : item.name}
+                    </p>
+                  </button>
+                </Link>
               );
             })}
           </nav>
@@ -140,7 +159,7 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="p-2 border rounded-lg"
-            >
+              >
               <RxHamburgerMenu className="w-4 h-4 text-gray-600" />
             </button>
           ) : null} */}

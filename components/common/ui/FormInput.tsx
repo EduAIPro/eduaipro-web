@@ -44,6 +44,7 @@ export default function FormInput({
   as,
 }: FormInputProps) {
   const [isFocused, setIsFocused] = useState(false);
+
   return (
     <div className={`${className}`}>
       {label && (
@@ -69,27 +70,34 @@ export default function FormInput({
             {leftIcon ?? null}
           </div>
         ) : null}
-        <Field
-          as={as}
-          name={name}
-          type={type}
-          disabled={disabled}
-          placeholder={placeholder}
-          autoFocus={autoFocus}
-          onFocus={() => {
-            setIsFocused(true);
+        <Field name={name}>
+          {({ field }: any) => {
+            const Component = as || "input";
+            return (
+              <Component
+                {...field}
+                type={type}
+                disabled={disabled}
+                placeholder={placeholder}
+                autoFocus={autoFocus}
+                onFocus={() => {
+                  setIsFocused(true);
+                }}
+                onBlur={(e: any) => {
+                  field.onBlur(e);
+                  setIsFocused(false);
+                }}
+                className="outline-none text-base text-grey-12 w-full"
+              />
+            );
           }}
-          onBlur={() => {
-            setIsFocused(false);
-          }}
-          className="outline-none text-base text-grey-12 w-full"
-        />
+        </Field>
         {rightIcon}
       </div>
       {note ? <span className="text-sm text-grey-9">{note}</span> : null}
       {error ? (
         <div className="mt-2">
-          <Typography.P size="small" fontColor="error">
+          <Typography.P size="small" fontColor="error" className="capitalize">
             {error}
           </Typography.P>
         </div>
@@ -123,18 +131,23 @@ export function DateInput({
             : ""
         )}
       >
-        <Field
-          name={name}
-          type="date"
-          placeholder={placeholder}
-          onFocus={() => {
-            setIsFocused(true);
-          }}
-          onBlur={() => {
-            setIsFocused(false);
-          }}
-          className="outline-none text-base text-grey-12 w-full [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-60"
-        />
+        <Field name={name}>
+          {({ field }: any) => (
+            <input
+              {...field}
+              type="date"
+              placeholder={placeholder}
+              onFocus={() => {
+                setIsFocused(true);
+              }}
+              onBlur={(e: any) => {
+                field.onBlur(e);
+                setIsFocused(false);
+              }}
+              className="outline-none text-base text-grey-12 w-full [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-60"
+            />
+          )}
+        </Field>
         {rightIcon}
       </div>
       {error && (
