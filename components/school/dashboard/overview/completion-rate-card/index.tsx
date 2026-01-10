@@ -13,7 +13,7 @@ export const CompletionRateCard = ({ data }: CompletionRateCardProps) => {
       const lastMonth = data[-2];
       const thisMonth = data[-1];
 
-      return thisMonth.rate - lastMonth.rate;
+      return thisMonth?.rate - lastMonth?.rate || 0;
     }
     return 0;
   }, [data]);

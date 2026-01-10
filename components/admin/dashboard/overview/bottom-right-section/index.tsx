@@ -16,7 +16,7 @@ export const BottomRightSection = ({
   isLoading: boolean;
 }) => {
   return (
-    <div className="grid grid-cols-2 gap-3 xl:gap-5">
+    <div className="grid lg:grid-cols-2 gap-3 xl:gap-5">
       <CompletionRateCard isLoading={isLoading} data={courseCompletionRate} />
       <AccreditationCard
         isLoading={isLoading}

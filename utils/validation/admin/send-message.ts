@@ -53,4 +53,32 @@ export const sendMessageValidation = Yup.object().shape({
     }),
 });
 
+
+export const notifyTeachersValidation = Yup.object().shape({
+  title: Yup.string()
+    .required("Message title is a required value")
+    .min(2, "Message title must be at least two characters long"),
+  body: Yup.string()
+    .required("Message body is a required value")
+    .min(2, "Message body must be at least two characters long"),
+  type: Yup.string()
+    .oneOf(
+      ["INFO", "ALERT", "WARNING", "REMINDER"],
+      "Message type must be INFO, ALERT, WARNING, or REMINDER"
+    )
+    .required("Message type is a required value"),
+ 
+ recipientIds: Yup.array()
+    .of(Yup.string()) .when("recipient", {
+      is: "TEACHER",
+      then: (schema) =>
+        schema
+          .min(1, "At least one teacher must be selected")
+          .required("Teacher selection is required"),
+      otherwise: (schema) => schema.optional(),
+    }),
+
+});
+
 export type SendMessageFormValue = Yup.InferType<typeof sendMessageValidation>;
+export type NotifyTeachersFormValue = Yup.InferType<typeof notifyTeachersValidation>;

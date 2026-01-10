@@ -37,6 +37,7 @@ export const bulkSchoolInviteKey = "/school/invite/bulk";
 export const schoolInviteKey = "/school/invite";
 export const updateSchoolInfoKey = "/school";
 export const updatePersonalInfoKey = "/school/staff";
+export const sendSchoolNotificationKey = "/notification/notify-staff";
 // export const updateSchoolInfoKey = "/school/staff/staffs/:id/deactivate";
 
 // queries
