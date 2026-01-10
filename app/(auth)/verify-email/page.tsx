@@ -126,7 +126,7 @@ function VerifyEmail() {
         </div>
         <div className={cn("flex items-center gap-3 mt-6")}>
           <p className="">
-            {canResend ? "" : `Didn't get the code? resend in ${counter}s`}
+            {canResend ? "Didn't get the code?" : `Didn't get the code? resend in ${counter}s`}
           </p>
 
           <Button
