@@ -3,11 +3,12 @@ import { TeacherLevelType } from "../course";
 export type SendNotificationPayload = {
   title: string;
   message: string;
-  recipientType: NotificationRecipientType;
+  recipientType?: NotificationRecipientType;
   type: NotificationType;
   teacherLevels?: TeacherLevelType[];
   schoolIds?: string[];
   countryIds?: string[];
+  recipientIds?:string[]
 };
 
 export enum NotificationRecipient {

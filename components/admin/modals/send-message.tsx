@@ -1,7 +1,9 @@
 import {
   getSchoolsKey,
+  getSchoolStaffsKey,
   getSupportedCountries,
   sendNotificationKey,
+  sendSchoolNotificationKey,
 } from "@/api/keys";
 import { sendMessageNotification } from "@/api/mutations";
 import { fetchWithSearchQuery, generalFetcher } from "@/api/queries";
@@ -22,6 +24,8 @@ import { SchoolslistResponse } from "@/types/admin/schools";
 import { TeacherLevelType } from "@/types/course";
 import { CountriesList } from "@/types/school";
 import {
+  NotifyTeachersFormValue,
+  notifyTeachersValidation,
   SendMessageFormValue,
   sendMessageValidation,
 } from "@/utils/validation/admin";
@@ -31,6 +35,7 @@ import { toast } from "sonner";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import { messageTypes, recipientTypes, teachersList } from "./constants";
+import { SchoolStaffsData } from "@/types/school/teachers";
 
 export const SendMessageModal = ({
   modalTrigger,
@@ -41,8 +46,15 @@ export const SendMessageModal = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [teacherSearchTerm, setTeacherSearchTerm] = useState("");
 
   const isSchool = type === "school";
+
+
+  const { data: teachers, isLoading } = useSWR<SchoolStaffsData>(
+    isSchool?[getSchoolStaffsKey, teacherSearchTerm]:null,
+    fetchWithSearchQuery
+  );
 
   const { data: schools, isLoading: schoolsLoading } =
     useSWR<SchoolslistResponse>(
@@ -52,7 +64,7 @@ export const SendMessageModal = ({
   const { data } = useSWR<CountriesList>(getSupportedCountries, generalFetcher);
 
   const { trigger, isMutating } = useSWRMutation(
-    sendNotificationKey,
+    isSchool ? sendSchoolNotificationKey : sendNotificationKey,
     sendMessageNotification
   );
 
@@ -60,7 +72,21 @@ export const SendMessageModal = ({
     try {
       const recipientType = values.recipient;
       let optionalPayloads: Partial<SendNotificationPayload> = {};
-      if (
+
+      if(isSchool){
+        if (
+          recipientType === "TEACHER" &&
+          (values as NotifyTeachersFormValue).recipientIds 
+          
+        ) {
+          optionalPayloads = {
+            recipientIds: (values as NotifyTeachersFormValue)?.recipientIds?.includes("all") ? [] : (values as NotifyTeachersFormValue).recipientIds?.filter(
+              (i) => i !== undefined
+            ),
+          };
+        }
+      } else {
+        if (
         recipientType === "TEACHER" &&
         values.teacherLevels &&
         !values.teacherLevels.includes("all")
@@ -87,11 +113,12 @@ export const SendMessageModal = ({
           schoolIds: values.countryIds.filter((i) => i !== undefined),
         };
       }
+      }
 
       const payload: SendNotificationPayload = {
         title: values.title,
         message: values.body,
-        recipientType: values.recipient,
+        ...(!isSchool&&{recipientType: values.recipient}),
         type: values.type,
         ...optionalPayloads,
       };
@@ -111,6 +138,7 @@ export const SendMessageModal = ({
     countryIds: [],
     teacherLevels: [],
     schoolIds: [],
+    recipientIds: [],
   };
 
   const countries = useMemo(() => {
@@ -136,6 +164,17 @@ export const SendMessageModal = ({
     } else return [defaultValues];
   }, [schools]);
 
+  const teachersArr = useMemo(() => {
+    const defaultValues = { label: "All teachers", value: "all" };
+    if (teachers) {
+      const options = teachers.data.map((s) => ({
+        label: s.user.firstName + " " + s.user.lastName,
+        value: s.id,
+      }));
+      return [defaultValues, ...options];
+    } else return [defaultValues];
+  }, [teachers]);
+
   return (
     <Modal
       title="Send message"
@@ -156,7 +195,7 @@ export const SendMessageModal = ({
           validateOnMount
           initialValues={initialData}
           onSubmit={handleSubmit}
-          validationSchema={sendMessageValidation}
+          validationSchema={isSchool ? notifyTeachersValidation :sendMessageValidation}
         >
           {({ errors, touched, isValid, values }) => (
             <Form>
@@ -173,6 +212,7 @@ export const SendMessageModal = ({
                   name="body"
                   label="Message Body"
                   placeholder="e.g, 'Your certification is overdue as of 03/12/2025. Please renew soon'"
+                  as="textarea"
                   error={touched.body && errors.body ? errors.body : null}
                 />
                 <SelectInput
@@ -181,7 +221,18 @@ export const SendMessageModal = ({
                   options={messageTypes}
                   error={touched.type && errors.type ? errors.type : null}
                 />
-                {!isSchool ? (
+                {isSchool ?  <MultiSearchSelectInput
+                    label="Select teachers"
+                    name="recipientIds"
+                    placeholder="Choose teachers"
+                    searchPlaceholder="Search teachers..."
+                    options={teachersArr}
+                    searchTerm={teacherSearchTerm}
+                    setSearchTerm={setTeacherSearchTerm}
+                    error={errors.recipientIds as string}
+                    showSelectedCount={false}
+                    isLoading={isLoading}
+                  />: <>
                   <SelectInput
                     name="recipient"
                     label="Recipient"
@@ -192,8 +243,7 @@ export const SendMessageModal = ({
                         : null
                     }
                   />
-                ) : null}
-                {values.recipient === NotificationRecipient.TEACHER ? (
+                  {values.recipient === NotificationRecipient.TEACHER ? (
                   <CheckboxInput
                     name="teacherLevels"
                     label="Select Category of Teachers"
@@ -224,11 +274,14 @@ export const SendMessageModal = ({
                     options={schoolsArr}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
-                    error={errors.countryIds as string}
+                    error={errors.schoolIds as string}
                     showSelectedCount={false}
                     isLoading={schoolsLoading}
                   />
                 )}
+                  </>
+                }
+                
               </div>
               <div className="flex items-center justify-end gap-3 pt-3 border-t border-grey-500/10 mt-5">
                 <Button

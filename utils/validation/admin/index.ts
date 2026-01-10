@@ -3,7 +3,7 @@ export {
   updateCourseSummaryValidation,
   updateUnitValidation,
 } from "./course";
-export { sendMessageValidation } from "./send-message";
+export { sendMessageValidation, notifyTeachersValidation } from "./send-message";
 export { createSurveyValidation } from "./survey";
 export { editSchoolInfoValidation } from "./update-school-info";
 
@@ -15,7 +15,7 @@ export type {
   UpdateCourseSummaryFormValue,
   UpdateUnitFormValue,
 } from "./course";
-export type { SendMessageFormValue } from "./send-message";
+export type { SendMessageFormValue, NotifyTeachersFormValue } from "./send-message";
 export type { EditSchoolInfoFormValue } from "./update-school-info";
 
 export type {

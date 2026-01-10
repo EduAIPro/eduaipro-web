@@ -12,7 +12,7 @@ export const CompletionRateCard = ({
   isLoading,
 }: CompletionRateCardProps) => {
   return (
-    <div className="school_card relative flex flex-col justify-between space-y-14 sm:max-h-[200px]">
+    <div className="school_card relative flex flex-col justify-between space-y-14 max-lg:min-h-[180px] sm:max-h-[200px]">
       <div className="space-y-1">
         <p className="text-grey-500 text-base font-medium">
           Overall Course Completion Rate
