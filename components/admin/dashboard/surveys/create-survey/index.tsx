@@ -67,6 +67,7 @@ export const CreateSurvey = () => {
         allowMultipleSubmissions: false,
         startsAt: values.startsAt,
         endsAt: values.endsAt,
+        ...(values.courseId && { courseId: values.courseId }),
         ...(values.triggerType && { triggerType: values.triggerType as any }),
         ...(values.courseId &&
           values.triggerType !== TriggerType.MANUAL && {

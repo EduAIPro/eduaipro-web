@@ -32,7 +32,7 @@ export const changePasswordKey = "/auth/password/change";
 // survey
 export const startSurveyKey = "/surveys/survey-responses/start";
 export const submitSurveyKey = "/surveys/survey-responses/submit";
-export const declineSurveyKey = "/surveys/survey-responses/:responseId/decline";
+export const declineSurveyKey = "/surveys/survey-responses/:surveyId/decline";
 
 // SCHOOL
 // mutations

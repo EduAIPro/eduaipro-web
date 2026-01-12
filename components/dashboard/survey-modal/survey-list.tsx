@@ -7,17 +7,21 @@ import useUser from "@/hooks/use-user";
 type SurveyListProps = {
   surveys: Survey[];
   onStart: (survey: Survey) => void;
-  onDecline: (survey: Survey) => void;
+  onContinue: (survey: Survey) => void;
+  onDecline: (surveyId: string) => void;
   isStarting: boolean;
+  isContinuing: boolean;
   isDeclining: boolean;
 };
 
 export const SurveyList: React.FC<SurveyListProps> = ({
   surveys,
   onStart,
+  onContinue,
   onDecline,
   isStarting,
   isDeclining,
+  isContinuing,
 }) => {
   const [declinedSurveyId, setDeclinedSurveyId] = React.useState<string | null>(
     null
@@ -35,7 +39,9 @@ export const SurveyList: React.FC<SurveyListProps> = ({
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="">
-        <h2 className="font-semibold text-lg">Hello {user?.firstName},</h2>
+        <h2 className="font-semibold text-base md:text-lg text-black">
+          Hello {user?.firstName},
+        </h2>
         <p className="text-grey-11 text-[15px]">
           We value your feedback. Please take a moment to answer existing
           surveys.
@@ -46,42 +52,56 @@ export const SurveyList: React.FC<SurveyListProps> = ({
         {surveys.map((survey) => (
           <div
             key={survey.id}
-            className="flex items-center justify-between w-full p-4 border rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow gap-6"
+            className="flex lg:items-center justify-between max-lg:flex-col w-full p-4 border rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow gap-3 lg:gap-6"
           >
             <div className="flex items-center gap-3">
-              <div className="bg-primary-50 p-2 rounded-full">
-                <FileTextIcon className="w-5 h-5 text-primary-500" />
+              <div className="bg-primary-50 size-12 flex items-center justify-center shrink-0 p-0 rounded-full">
+                <FileTextIcon className="size-5 shrink-0 text-grey-11" />
               </div>
               <div className="flex flex-col">
                 <h4 className="font-semibold text-zinc-800 text-sm">
                   {survey.title}
                 </h4>
-                <p className="text-sm text-zinc-500 line-clamp-1">
+                <p className="text-sm text-zinc-500 lg:line-clamp-1">
                   {survey.description || "No description provided"}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="text-red-500 hover:text-red-600 hover:bg-red-50 border-red-200"
-                onClick={() => {
-                  setDeclinedSurveyId(survey.id);
-                  onDecline(survey);
-                }}
-                disabled={isStarting || isDeclining}
-                loading={isDeclining && declinedSurveyId === survey.id}
-              >
-                Decline
-              </Button>
-              <Button
-                size="sm"
-                onClick={() => onStart(survey)}
-                loading={isStarting}
-              >
-                Answer
-              </Button>
+              {survey.responses.length > 0 ? (
+                <Button
+                  size="sm"
+                  className="max-lg:flex-1"
+                  onClick={() => onContinue(survey)}
+                  loading={isContinuing}
+                >
+                  Continue
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-red-500 hover:text-red-600 hover:bg-red-50 border-red-200 max-lg:flex-1"
+                    onClick={() => {
+                      setDeclinedSurveyId(survey.id);
+                      onDecline(survey.id);
+                    }}
+                    disabled={isDeclining}
+                    loading={isDeclining && declinedSurveyId === survey.id}
+                  >
+                    Decline
+                  </Button>
+                  <Button
+                    size="sm"
+                    className="max-lg:flex-1"
+                    onClick={() => onStart(survey)}
+                    loading={isStarting}
+                  >
+                    Answer
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         ))}

@@ -100,7 +100,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({
       case "RATING_SCALE": // Treating rating roughly as single choice for now unless specific UI
         return (
           <RadioGroup
-            value={(answers[question.id] as string) || ""}
+            // value={(answers[question.id] as string) || ""}
             className="space-y-2"
             onValueChange={(val) => {
               const [value, optionId] = val.split("~");
@@ -113,7 +113,10 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({
                   value={`${option.value}~${option.id}`}
                   id={`${question.id}-${option.id}`}
                 />
-                <Label htmlFor={`${question.id}-${option.id}`}>
+                <Label
+                  htmlFor={`${question.id}-${option.id}`}
+                  className="text-grey-11"
+                >
                   {option.label}
                 </Label>
               </div>

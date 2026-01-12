@@ -14,7 +14,7 @@ export const SurveySuccess: React.FC<SurveySuccessProps> = ({ onClose }) => {
       </div>
       <div className="space-y-2">
         <h2 className="text-2xl font-bold text-zinc-800">Thank You!</h2>
-        <p className="text-zinc-500 max-w-xs mx-auto">
+        <p className="text-zinc-500 max-w-xs mx-auto text-sm">
           Your feedback has been successfully submitted. We appreciate your
           time.
         </p>

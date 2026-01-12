@@ -41,6 +41,7 @@ export const SurveyProvider = ({ children }: { children: React.ReactNode }) => {
   const [view, setView] = useState<"list" | "form" | "success">("list");
   const [activeSurvey, setActiveSurvey] = useState<Survey | null>(null);
   const [responseId, setResponseId] = useState<string | null>(null);
+  const [isContinuing, setIsContinuing] = useState<boolean>(false);
 
   // Fetch surveys
   // Only fetch if on dashboard and user is logged in (handled by layout usually)
@@ -55,14 +56,13 @@ export const SurveyProvider = ({ children }: { children: React.ReactNode }) => {
         // Prompt: "lazy load surveys from my api (GET /surveys) and if a user hasn't submitted a response, show a modal"
         // Assumption: GET /surveys returns only pending surveys or we check a property.
         // If the array is not empty, we assume they are pending.
-        if (data && data.data.length > 0) {
+        const hasClosedModal = sessionStorage.getItem("survey_modal_closed");
+        if (data && data.data.length > 0 && !hasClosedModal) {
           setIsOpen(true);
         }
       },
     }
   );
-
-  console.log({ surveys });
 
   const { trigger: startTrigger, isMutating: isStarting } = useSWRMutation(
     startSurveyKey,
@@ -97,6 +97,26 @@ export const SurveyProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const handleContinue = async (survey: Survey) => {
+    try {
+      setIsContinuing(true);
+      setActiveSurvey(survey);
+
+      const detailedSurvey = await generalFetcher(`/surveys/${survey.id}`);
+      setActiveSurvey(detailedSurvey || survey);
+
+      if (survey?.responses?.length > 0) {
+        setResponseId(survey?.responses[0]?.id);
+        setView("form");
+      }
+    } catch (e) {
+      toast.error("Failed to start survey");
+      console.error(e);
+    } finally {
+      setIsContinuing(false);
+    }
+  };
+
   const handleSubmit = async (answers: SurveyAnswer[]) => {
     if (!responseId) return;
     try {
@@ -107,24 +127,22 @@ export const SurveyProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const handleDecline = async (survey: Survey) => {
+  const handleDecline = async (surveyId: string) => {
     // "declining will show a confirmation"
     if (!confirm("Are you sure you want to decline this survey?")) return;
 
     try {
-      const res = await startTrigger({ surveyId: survey.id });
-      if (res?.id) {
-        await declineTrigger({ responseId: res.id });
-        toast.success("Survey declined");
-        // Refresh list
-        mutate();
-      }
+      await declineTrigger({ surveyId });
+      toast.success("Survey declined");
+      // Refresh list
+      mutate();
     } catch (e) {
       toast.error("Failed to decline survey");
     }
   };
 
   const handleClose = () => {
+    sessionStorage.setItem("survey_modal_closed", "true");
     setIsOpen(false);
     setTimeout(() => {
       setView("list");
@@ -146,8 +164,10 @@ export const SurveyProvider = ({ children }: { children: React.ReactNode }) => {
           surveys={surveys?.data || []}
           activeSurvey={activeSurvey}
           onStart={handleStart}
+          onContinue={handleContinue}
           onSubmit={handleSubmit}
           onDecline={handleDecline}
+          isContinuing={isContinuing}
           isStarting={isStarting}
           isSubmitting={isSubmitting}
           isDeclining={isDeclining}

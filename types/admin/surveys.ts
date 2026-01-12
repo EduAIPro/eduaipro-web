@@ -15,6 +15,12 @@ export enum SurveyStatusEum {
   ACTIVE = "ACTIVE",
 }
 
+export type SurveyResponse = {
+  id: string;
+  status: "IN_PROGRESS" | "COMPLETED" | "ABANDONED" | "DECLINED";
+  createdAt: string;
+};
+
 export type Survey = {
   id: string;
   title: string;
@@ -24,6 +30,7 @@ export type Survey = {
   allowMultipleSubmissions: boolean;
   startsAt: string;
   endsAt: string;
+  responses: SurveyResponse[];
   timeLimit: number;
   showProgress: boolean;
   showQuestionNumbers: boolean;
@@ -131,6 +138,7 @@ export type CreateSurveyPayload = {
   allowMultipleSubmissions: boolean;
   triggerType?: TriggerType;
   triggerMetadata?: any;
+  courseId?: string;
   startsAt: string;
   endsAt: string;
   schoolId?: string;

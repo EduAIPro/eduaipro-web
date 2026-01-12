@@ -619,12 +619,12 @@ export async function submitSurveyResponse(
 
 export async function declineSurveyResponse(
   url: string,
-  { arg }: { arg: { responseId: string } }
+  { arg }: { arg: { surveyId: string } }
 ): Promise<boolean> {
   try {
-    const { responseId } = arg;
+    const { surveyId } = arg;
 
-    await apiClient(url.replace(":responseId", responseId), {}, "post");
+    await apiClient(url.replace(":surveyId", surveyId), {}, "post");
     return true;
   } catch (error) {
     throw error;

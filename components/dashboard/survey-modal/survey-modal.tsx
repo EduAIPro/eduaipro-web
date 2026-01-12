@@ -12,9 +12,11 @@ type SurveyModalProps = {
   surveys: Survey[];
   activeSurvey: Survey | null;
   onStart: (survey: Survey) => void;
+  onContinue: (survey: Survey) => void;
   onSubmit: (answers: SurveyAnswer[]) => void;
-  onDecline: (survey: Survey) => void;
+  onDecline: (surveyId: string) => void;
   isStarting: boolean;
+  isContinuing: boolean;
   isSubmitting: boolean;
   isDeclining: boolean;
 };
@@ -26,11 +28,13 @@ export const SurveyModal: React.FC<SurveyModalProps> = ({
   surveys,
   activeSurvey,
   onStart,
+  onContinue,
   onSubmit,
   onDecline,
   isStarting,
   isSubmitting,
   isDeclining,
+  isContinuing,
 }) => {
   return (
     <Modal
@@ -47,16 +51,20 @@ export const SurveyModal: React.FC<SurveyModalProps> = ({
       autoClose={false}
       modal={true}
       containerClassName={
-        view === "form" ? "min-w-[600px] max-w-2xl" : "max-w-xl"
+        view === "form"
+          ? "w-full md:min-w-[600px] md:max-w-2xl"
+          : "w-full md:max-w-xl"
       }
     >
       {view === "list" && (
         <SurveyList
           surveys={surveys}
           onStart={onStart}
+          onContinue={onContinue}
           onDecline={onDecline}
           isStarting={isStarting}
           isDeclining={isDeclining}
+          isContinuing={isContinuing}
         />
       )}
       {view === "form" && activeSurvey && (
