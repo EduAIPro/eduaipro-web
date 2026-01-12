@@ -48,6 +48,11 @@ export type Survey = {
   };
 };
 
+export type UserSurveyList = {
+  data: Survey[];
+  pagination: Pagination;
+};
+
 export enum SurveyQuestionTypeEnum {
   MULTIPLE_CHOICE_SINGLE = "MULTIPLE_CHOICE_SINGLE",
   MULTIPLE_CHOICE_MULTIPLE = "MULTIPLE_CHOICE_MULTIPLE",
@@ -100,12 +105,32 @@ export type GetSurveysList = {
   data: TableSurvey[];
 };
 
+export type SurveyAnswer = {
+  questionId: string;
+  textValue?: string;
+  numericValue?: number;
+  dateValue?: string;
+  booleanValue?: boolean;
+  jsonValue?: any;
+  selectedOptions?: string[];
+  optionId?: string;
+};
+
+export enum TriggerType {
+  UNIT_COMPLETE = "UNIT_COMPLETE",
+  MODULE_COMPLETE = "MODULE_COMPLETE",
+  PAGE_VISIT = "PAGE_VISIT",
+  MANUAL = "MANUAL",
+}
+
 export type CreateSurveyPayload = {
   title: string;
   description?: string;
   status: "DRAFT" | "ACTIVE";
   visibility: "SCHOOL" | "ADMIN_ONLY" | "TEACHER_ONLY";
   allowMultipleSubmissions: boolean;
+  triggerType?: TriggerType;
+  triggerMetadata?: any;
   startsAt: string;
   endsAt: string;
   schoolId?: string;

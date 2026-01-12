@@ -29,6 +29,11 @@ export const listCertificates = "/school/staff/certificates";
 export const editProfileKey = "/school/staff";
 export const changePasswordKey = "/auth/password/change";
 
+// survey
+export const startSurveyKey = "/surveys/survey-responses/start";
+export const submitSurveyKey = "/surveys/survey-responses/submit";
+export const declineSurveyKey = "/surveys/survey-responses/:responseId/decline";
+
 // SCHOOL
 // mutations
 export const signupSchoolKey = "/auth/register/school";

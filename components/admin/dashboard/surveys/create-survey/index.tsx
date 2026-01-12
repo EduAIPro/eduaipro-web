@@ -5,6 +5,7 @@ import {
   CreateSurveyPayload,
   CreateSurveyQueston,
   SurveyVisibilityEum,
+  TriggerType,
 } from "@/types/admin/surveys";
 import {
   CreateSurveyFormValue,
@@ -66,6 +67,14 @@ export const CreateSurvey = () => {
         allowMultipleSubmissions: false,
         startsAt: values.startsAt,
         endsAt: values.endsAt,
+        ...(values.triggerType && { triggerType: values.triggerType as any }),
+        ...(values.courseId &&
+          values.triggerType !== TriggerType.MANUAL && {
+            triggerMetadata: {
+              ...(values.unitId && { unitId: values.unitId }),
+              ...(values.moduleId && { moduleId: values.moduleId }),
+            },
+          }),
         ...(values.schoolId?.length && { schoolId: values.schoolId[0] }),
         ...(values.thankyouMessage && {
           thankyouMessage: values.thankyouMessage,
@@ -91,6 +100,10 @@ export const CreateSurvey = () => {
     startsAt: "",
     endsAt: "",
     thankyouMessage: "",
+    triggerType: TriggerType.MANUAL,
+    courseId: "",
+    unitId: "",
+    moduleId: "",
     questions: [emptyQuestion],
   };
   return (

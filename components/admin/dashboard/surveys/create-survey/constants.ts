@@ -1,6 +1,7 @@
 import {
   SurveyQuestionTypeEnum,
   SurveyVisibilityEum,
+  TriggerType,
 } from "@/types/admin/surveys";
 import {
   SurveyQuestionOptionFormValue,
@@ -60,5 +61,24 @@ export const questionTypesOptions = [
   {
     label: "Single Choice",
     value: SurveyQuestionTypeEnum.MULTIPLE_CHOICE_SINGLE,
+  },
+];
+
+export const triggerTypeOptions = [
+  {
+    label: "Unit Complete",
+    value: TriggerType.UNIT_COMPLETE,
+  },
+  {
+    label: "Module Complete",
+    value: TriggerType.MODULE_COMPLETE,
+  },
+  // {
+  //   label: "Page Visit",
+  //   value: TriggerType.PAGE_VISIT,
+  // },
+  {
+    label: "Manual",
+    value: TriggerType.MANUAL,
   },
 ];

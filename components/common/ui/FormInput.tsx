@@ -2,7 +2,12 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { Field } from "formik";
-import { CheckIcon, ChevronDownIcon } from "lucide-react";
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  LoaderIcon,
+  SearchIcon,
+} from "lucide-react";
 import {
   HTMLInputTypeAttribute,
   ReactNode,
@@ -529,6 +534,216 @@ export function CheckboxInput({
               })}
             </>
           )}
+        </Field>
+      </div>
+      {error && (
+        <div className="mt-2">
+          <Typography.P size="small" fontColor="error">
+            {error}
+          </Typography.P>
+        </div>
+      )}
+    </div>
+  );
+}
+interface SearchSelectInputProps {
+  rightIcon?: ReactNode;
+  leftIcon?: ReactNode;
+  label?: string;
+  placeholder?: string;
+  searchPlaceholder?: string;
+  name: string;
+  error?: string | null;
+  className?: string;
+  options: Option[];
+  searchTerm?: string;
+  setSearchTerm?: (term: string) => void;
+  isLoading?: boolean;
+  disabled?: boolean;
+}
+
+export function SearchSelectInput({
+  leftIcon,
+  placeholder = "Select an option",
+  searchPlaceholder = "Search...",
+  label,
+  name,
+  className,
+  error,
+  options = [],
+  searchTerm: controlledSearchTerm,
+  setSearchTerm: setControlledSearchTerm,
+  isLoading = false,
+  disabled = false,
+}: SearchSelectInputProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [internalSearchTerm, setInternalSearchTerm] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const isControlled =
+    controlledSearchTerm !== undefined && setControlledSearchTerm !== undefined;
+  const searchTerm = isControlled ? controlledSearchTerm : internalSearchTerm;
+  const setSearchTerm = isControlled
+    ? setControlledSearchTerm
+    : setInternalSearchTerm;
+
+  const filteredOptions = options.filter((option) =>
+    option.label.toLowerCase().includes((searchTerm || "").toLowerCase())
+  );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+        setIsFocused(false);
+        if (!isControlled) {
+          setSearchTerm("");
+        }
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      // Focus search input
+      setTimeout(() => searchInputRef.current?.focus(), 0);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  return (
+    <div className={`${className} relative`} ref={dropdownRef}>
+      {label && (
+        <p className="font-medium text-base mb-1 text-grey-650">{label}</p>
+      )}
+      <div
+        className={cn(
+          "shadow-lg !shadow-grey-2 flex items-center gap-x-3 py-2 px-2 w-full border rounded-lg cursor-pointer relative",
+          error ? "border-red-400" : "border-grey-4/50",
+          isFocused
+            ? "border-brand-1001 transition-colors duration-300 border-[1.5px]"
+            : "",
+          disabled ? "opacity-50 pointer-events-none" : ""
+        )}
+        onClick={() => {
+          if (!disabled) {
+            setIsOpen(!isOpen);
+            setIsFocused(!isFocused);
+          }
+        }}
+      >
+        {leftIcon && (
+          <div
+            className={`py-1 px-[6px] rounded-lg ${
+              error ? "bg-red-100/50" : "bg-blue-500/10"
+            }`}
+          >
+            {leftIcon}
+          </div>
+        )}
+        <Field name={name}>
+          {({ field, form }: any) => {
+            return (
+              <>
+                <div className="flex-1 text-base text-grey-12">
+                  {field.value && field.value !== "" ? (
+                    <span>
+                      {options.find((opt) => opt.value === field.value)
+                        ?.label ||
+                        options.find((opt) => opt.value === field.value)?.label}
+                    </span>
+                  ) : (
+                    <span className="text-grey-500/80">{placeholder}</span>
+                  )}
+                </div>
+                <div
+                  className="ml-2"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (!disabled) setIsOpen(!isOpen);
+                  }}
+                >
+                  <ChevronDownIcon
+                    className={cn(
+                      "duration-300 transition-all",
+                      isOpen ? "rotate-180" : "rotate-0"
+                    )}
+                    size={18}
+                  />
+                </div>
+                {isOpen && (
+                  <div className="absolute left-0 right-0 top-full mt-1 bg-white border border-grey-4/50 rounded-lg shadow-lg max-h-64 overflow-y-auto z-50">
+                    <div
+                      className="p-2 border-b border-grey-4/50 sticky top-0 bg-white"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="relative">
+                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                          {isLoading ? (
+                            <LoaderIcon className="animate-spin" size={16} />
+                          ) : (
+                            <SearchIcon size={16} />
+                          )}
+                        </div>
+                        <input
+                          ref={searchInputRef}
+                          type="text"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          placeholder={searchPlaceholder}
+                          className="w-full pl-9 pr-3 py-2 text-sm border border-grey-4/50 rounded-md focus:outline-none focus:border-brand-1001 focus:ring-1 focus:ring-brand-1001"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="max-h-48 overflow-y-auto">
+                      {filteredOptions.length > 0 ? (
+                        filteredOptions.map((option) => (
+                          <div
+                            key={option.value}
+                            className={`px-4 py-2 hover:bg-primary-100 cursor-pointer ${
+                              field.value === option.value
+                                ? "bg-primary-100"
+                                : ""
+                            }`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              form.setFieldValue(name, option.value);
+                              setIsOpen(false);
+                              setIsFocused(false);
+                              if (!isControlled) setSearchTerm("");
+                            }}
+                          >
+                            <Typography.P
+                              size="base"
+                              className={
+                                field.value === option.value
+                                  ? "text-primary-400"
+                                  : ""
+                              }
+                            >
+                              {option.label}
+                            </Typography.P>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="px-4 py-3 text-center text-gray-500">
+                          <p className="text-sm">No options found</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
+            );
+          }}
         </Field>
       </div>
       {error && (

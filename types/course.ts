@@ -1,3 +1,4 @@
+import { TriggerType } from "./admin/surveys";
 import { Pagination } from "./school";
 
 enum TeacherLevel {
@@ -18,6 +19,11 @@ export type TeacherLevelType =
 export type CourseWithProgress = {
   course: Course;
   courseProgress: CourseProgress;
+  survey: {
+    id: string;
+    triggerType: TriggerType;
+    triggerMetadata: any;
+  };
 };
 
 export type CourseUnit = {
@@ -26,7 +32,7 @@ export type CourseUnit = {
   index: number;
 };
 
-export type Course = {
+export type BaseCourse = {
   id: string;
   title: string;
   slug: string;
@@ -43,7 +49,14 @@ export type Course = {
   level: TeacherLevelType;
   isMain: boolean;
   createdById: string;
+};
+
+export type Course = BaseCourse & {
   units: CourseUnit[];
+};
+
+export type AdminCourse = BaseCourse & {
+  units: { id: string; title: string; index: number; modules: Module[] }[];
 };
 
 export type ActiveStep = {
