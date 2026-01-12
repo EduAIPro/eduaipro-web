@@ -27,8 +27,8 @@ export const SurveysListColumnsDef: ColumnDef<TableSurvey>[] = [
     header: "Target audience",
     cell: ({ row }) => {
       return (
-        <p className="text-grey-500 truncate text-sm font-semibold">
-          {row.original?.visibility}
+        <p className="text-grey-500 truncate text-sm font-semibold capitalize">
+          {row.original?.visibility.replaceAll("_", " ").toLowerCase()}
         </p>
       );
     },

@@ -45,7 +45,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
   );
   const { courseProgress } = props;
   const [activeUnitId, setActiveUnitId] = useState<null | string>(
-    courseProgress.unit.id
+    courseProgress?.unit?.id ?? null
   );
 
   const isMobile = useIsMobile();

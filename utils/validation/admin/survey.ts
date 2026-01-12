@@ -21,17 +21,16 @@ const surveyQuestionsValidation = Yup.object().shape({
   isRequired: Yup.boolean().required(
     "You must indicate whether this question is required or not"
   ),
-  options: Yup.array()
-    .of(surveyQuestionOptionValidation)
-    .when("type", {
-      is: (type: string) =>
-        ["MULTIPLE_CHOICE_MULTIPLE", "MULTIPLE_CHOICE_SINGLE"].includes(type),
-      then: (schema) =>
-        schema
-          .required("Options are required for multiple choice questions")
-          .min(2, "Multiple choice questions must have at least 2 options"),
-      otherwise: (schema) => schema.optional(),
-    }),
+  options: Yup.array().of(surveyQuestionOptionValidation).optional(),
+  // .when("type", {
+  //   is: (type: string) =>
+  //     ["MULTIPLE_CHOICE_MULTIPLE", "MULTIPLE_CHOICE_SINGLE"].includes(type),
+  //   then: (schema) =>
+  //     schema
+  //       .required("Options are required for multiple choice questions")
+  //       .min(2, "Multiple choice questions must have at least 2 options"),
+  //   otherwise: (schema) => schema.optional(),
+  // }),
 });
 
 export const createSurveyValidation = Yup.object().shape({
@@ -54,7 +53,13 @@ export const createSurveyValidation = Yup.object().shape({
       "Survey visibility must be SCHOOL_ONLY, ADMIN_ONLY, TEACHER_ONLY"
     )
     .required("Survey visibility is a required value"),
-
+  triggerType: Yup.string()
+    .required("Trigger type is a required value")
+    .min(2, "Trigger type must be at least two characters long"),
+  // triggerMetadata: Yup.object().optional(),
+  courseId: Yup.string().optional(),
+  unitId: Yup.string().optional(),
+  moduleId: Yup.string().optional(),
   startsAt: Yup.string().required("Survey start date is a required value"),
   endsAt: Yup.string().required("Survey end date is a required value"),
   thankyouMessage: Yup.string().optional(),

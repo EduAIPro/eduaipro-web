@@ -29,6 +29,11 @@ export const listCertificates = "/school/staff/certificates";
 export const editProfileKey = "/school/staff";
 export const changePasswordKey = "/auth/password/change";
 
+// survey
+export const startSurveyKey = "/surveys/survey-responses/start";
+export const submitSurveyKey = "/surveys/survey-responses/submit";
+export const declineSurveyKey = "/surveys/survey-responses/:surveyId/decline";
+
 // SCHOOL
 // mutations
 export const signupSchoolKey = "/auth/register/school";
@@ -84,6 +89,8 @@ export const getAllSystemAdmins = "/admin/school/staff/owners";
 // survey
 export const getSurveysKey = "/admin/surveys";
 export const getSurveysAggregatesKey = "/admin/surveys/aggregates";
+export const getSurveyResponsesKey = (surveyId: string) =>
+  `/admin/surveys/${surveyId}/responses`;
 
 // tickets
 export const ticketsKey = "/admin/support-ticket/tickets";

@@ -12,7 +12,11 @@ import {
   SupportTicket,
   UpdateTicketPayload,
 } from "@/types/admin/support";
-import { CreateSurveyPayload, TableSurvey } from "@/types/admin/surveys";
+import {
+  CreateSurveyPayload,
+  SurveyAnswer,
+  TableSurvey,
+} from "@/types/admin/surveys";
 import { AssessmentSubmitResponse } from "@/types/assessment";
 import {
   APIBaseResponse,
@@ -575,6 +579,53 @@ export async function sendChatMessage(
     const response = await apiClient<{ data: ChatResponse }>(url, arg);
 
     return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+// SURVEY RESPONSES
+export async function startSurveyResponse(
+  url: string,
+  { arg }: { arg: { surveyId: string } }
+): Promise<{ id: string }> {
+  try {
+    const response = await apiClient<{ data: { id: string } }>(url, arg);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function submitSurveyResponse(
+  url: string,
+  {
+    arg,
+  }: {
+    arg: {
+      responseId: string;
+      answers: SurveyAnswer[];
+    };
+  }
+): Promise<boolean> {
+  try {
+    const { responseId, answers } = arg;
+
+    await apiClient(url, { responseId, answers });
+    return true;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function declineSurveyResponse(
+  url: string,
+  { arg }: { arg: { surveyId: string } }
+): Promise<boolean> {
+  try {
+    const { surveyId } = arg;
+
+    await apiClient(url.replace(":surveyId", surveyId), {}, "post");
+    return true;
   } catch (error) {
     throw error;
   }

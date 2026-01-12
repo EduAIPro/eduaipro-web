@@ -15,6 +15,12 @@ export enum SurveyStatusEum {
   ACTIVE = "ACTIVE",
 }
 
+export type SurveyResponse = {
+  id: string;
+  status: "IN_PROGRESS" | "COMPLETED" | "ABANDONED" | "DECLINED";
+  createdAt: string;
+};
+
 export type Survey = {
   id: string;
   title: string;
@@ -24,6 +30,7 @@ export type Survey = {
   allowMultipleSubmissions: boolean;
   startsAt: string;
   endsAt: string;
+  responses: SurveyResponse[];
   timeLimit: number;
   showProgress: boolean;
   showQuestionNumbers: boolean;
@@ -46,6 +53,11 @@ export type Survey = {
   _count: {
     responses: number;
   };
+};
+
+export type UserSurveyList = {
+  data: Survey[];
+  pagination: Pagination;
 };
 
 export enum SurveyQuestionTypeEnum {
@@ -100,12 +112,33 @@ export type GetSurveysList = {
   data: TableSurvey[];
 };
 
+export type SurveyAnswer = {
+  questionId: string;
+  textValue?: string;
+  numericValue?: number;
+  dateValue?: string;
+  booleanValue?: boolean;
+  jsonValue?: any;
+  selectedOptions?: string[];
+  optionId?: string;
+};
+
+export enum TriggerType {
+  UNIT_COMPLETE = "UNIT_COMPLETE",
+  MODULE_COMPLETE = "MODULE_COMPLETE",
+  PAGE_VISIT = "PAGE_VISIT",
+  MANUAL = "MANUAL",
+}
+
 export type CreateSurveyPayload = {
   title: string;
   description?: string;
   status: "DRAFT" | "ACTIVE";
   visibility: "SCHOOL" | "ADMIN_ONLY" | "TEACHER_ONLY";
   allowMultipleSubmissions: boolean;
+  triggerType?: TriggerType;
+  triggerMetadata?: any;
+  courseId?: string;
   startsAt: string;
   endsAt: string;
   schoolId?: string;
@@ -136,4 +169,58 @@ export type SurveyAggregates = {
   totalResponses: number;
   completedResponses: number;
   responseRate: number;
+};
+
+export type RetrieveSurveyResponse = {
+  id: string;
+  surveyId: string;
+  status: "IN_PROGRESS" | "COMPLETED" | "ABANDONED" | "DECLINED";
+  ipAddress: string | null;
+  userAgent: string | null;
+  sessionId: string | null;
+  startedAt: string;
+  completedAt: string;
+  duration: number;
+  currentQuestionIndex: number;
+  totalQuestions: number;
+  createdAt: string;
+  updatedAt: string;
+  respondentId: string;
+  respondent: {
+    id: string;
+    user: {
+      firstName: string;
+      lastName: string;
+      email: string;
+    };
+  };
+  answers: {
+    id: string;
+    responseId: null | string;
+    questionId: string;
+    textValue: null | string;
+    numericValue: null | number;
+    dateValue: null | string;
+    booleanValue: null | boolean;
+    jsonValue: null | any;
+    selectedOptions: string[] | null;
+    createdAt: string;
+    updatedAt: string;
+    optionId: string;
+    question: {
+      id: string;
+      title: string;
+      type: string;
+    };
+    option: {
+      id: string;
+      value: string;
+      label: string;
+    };
+  }[];
+};
+
+export type RetrieveSurveyResponseList = {
+  data: RetrieveSurveyResponse[];
+  pagination: Pagination;
 };
