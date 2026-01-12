@@ -14,7 +14,6 @@ import {
 } from "@/types/admin/surveys";
 import { Loader2 } from "lucide-react";
 import useSWR from "swr";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMemo } from "react";
 
 type SurveyDetailsSheetProps = {
