@@ -11,11 +11,16 @@ import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
+import { SurveyDetailsSheet } from "./survey-details-sheet";
 
 export const SurveysTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const { value } = useDebounce(searchValue, 500);
+  const [selectedSurvey, setSelectedSurvey] = useState<TableSurvey | null>(
+    null
+  );
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const { data, isLoading, error } = useSWR<GetSurveysList>(
     [getSurveysKey, currentPage, value],
@@ -52,7 +57,8 @@ export const SurveysTable = () => {
           setValue: (val: string) => setSearchValue(val),
         }}
         onRowClick={(row) => {
-          // router.push(`/admin/schools/${row.id}`);
+          setSelectedSurvey(row);
+          setIsSheetOpen(true);
         }}
         otherFilters={
           <>
@@ -70,6 +76,11 @@ export const SurveysTable = () => {
           totalPages: data?.pagination.totalPages || 10,
           limit: 10,
         }}
+      />
+      <SurveyDetailsSheet
+        open={isSheetOpen}
+        toggleOpen={setIsSheetOpen}
+        survey={selectedSurvey}
       />
     </Fragment>
   );

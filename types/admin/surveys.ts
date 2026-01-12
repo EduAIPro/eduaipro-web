@@ -170,3 +170,57 @@ export type SurveyAggregates = {
   completedResponses: number;
   responseRate: number;
 };
+
+export type RetrieveSurveyResponse = {
+  id: string;
+  surveyId: string;
+  status: "IN_PROGRESS" | "COMPLETED" | "ABANDONED" | "DECLINED";
+  ipAddress: string | null;
+  userAgent: string | null;
+  sessionId: string | null;
+  startedAt: string;
+  completedAt: string;
+  duration: number;
+  currentQuestionIndex: number;
+  totalQuestions: number;
+  createdAt: string;
+  updatedAt: string;
+  respondentId: string;
+  respondent: {
+    id: string;
+    user: {
+      firstName: string;
+      lastName: string;
+      email: string;
+    };
+  };
+  answers: {
+    id: string;
+    responseId: null | string;
+    questionId: string;
+    textValue: null | string;
+    numericValue: null | number;
+    dateValue: null | string;
+    booleanValue: null | boolean;
+    jsonValue: null | any;
+    selectedOptions: string[] | null;
+    createdAt: string;
+    updatedAt: string;
+    optionId: string;
+    question: {
+      id: string;
+      title: string;
+      type: string;
+    };
+    option: {
+      id: string;
+      value: string;
+      label: string;
+    };
+  }[];
+};
+
+export type RetrieveSurveyResponseList = {
+  data: RetrieveSurveyResponse[];
+  pagination: Pagination;
+};
