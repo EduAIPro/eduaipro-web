@@ -21,16 +21,16 @@ const surveyQuestionsValidation = Yup.object().shape({
   isRequired: Yup.boolean().required(
     "You must indicate whether this question is required or not"
   ),
-  options: Yup.array().of(surveyQuestionOptionValidation).optional(),
-  // .when("type", {
-  //   is: (type: string) =>
-  //     ["MULTIPLE_CHOICE_MULTIPLE", "MULTIPLE_CHOICE_SINGLE"].includes(type),
-  //   then: (schema) =>
-  //     schema
-  //       .required("Options are required for multiple choice questions")
-  //       .min(2, "Multiple choice questions must have at least 2 options"),
-  //   otherwise: (schema) => schema.optional(),
-  // }),
+  options: Yup.array().when("type", {
+    is: (type: string) =>
+      ["MULTIPLE_CHOICE_MULTIPLE", "MULTIPLE_CHOICE_SINGLE"].includes(type),
+    then: (schema) =>
+      schema
+        .of(surveyQuestionOptionValidation)
+        .required("Options are required for multiple choice questions")
+        .min(2, "Multiple choice questions must have at least 2 options"),
+    otherwise: (schema) => schema.optional(),
+  }),
 });
 
 export const createSurveyValidation = Yup.object().shape({

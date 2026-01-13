@@ -26,6 +26,9 @@ export const SurveyList: React.FC<SurveyListProps> = ({
   const [declinedSurveyId, setDeclinedSurveyId] = React.useState<string | null>(
     null
   );
+  const [continueSurveyId, setContinueSurveyId] = React.useState<string | null>(
+    null
+  );
 
   const { user } = useUser();
   if (surveys.length === 0) {
@@ -72,8 +75,11 @@ export const SurveyList: React.FC<SurveyListProps> = ({
                 <Button
                   size="sm"
                   className="max-lg:flex-1"
-                  onClick={() => onContinue(survey)}
-                  loading={isContinuing}
+                  onClick={() => {
+                    setContinueSurveyId(survey.id);
+                    onContinue(survey);
+                  }}
+                  loading={isContinuing && continueSurveyId === survey.id}
                 >
                   Continue
                 </Button>

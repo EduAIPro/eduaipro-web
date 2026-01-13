@@ -132,6 +132,39 @@ const TeacherContent = ({ staff, onSelectCert }: TeacherContentProps) => {
     },
   ];
 
+  const professionalInfo = [
+    {
+      label: "Professional level",
+      value: staff?.professionalLevel ?? "Not provided",
+    },
+    {
+      label: "Educational level",
+      value: staff?.educationalLevel ?? "Not provided",
+    },
+    {
+      label: "Experience",
+      value:
+        staff?.experienceRange?.replaceAll("_", " ").toLowerCase() ??
+        "Not provided",
+    },
+    {
+      label: "Area of specialisation",
+      value: staff?.areaOfSpecialization ?? "Not provided",
+    },
+    {
+      label: "Interested skills",
+      value: staff?.interestedSkills?.join(", ") ?? "Not provided",
+    },
+    {
+      label: "Primary learning goal",
+      value: staff?.primaryLearningGoal ?? "Not provided",
+    },
+    {
+      label: "Secondary learning goal",
+      value: staff?.altLearningGoal ?? "Not provided",
+    },
+  ];
+
   return (
     <Fragment>
       <div className="space-y-4 -mt-10 animate-in">
@@ -156,13 +189,33 @@ const TeacherContent = ({ staff, onSelectCert }: TeacherContentProps) => {
       <div className="pt-6 space-y-5">
         <div className="space-y-3">
           <h2 className="text-grey-800 text-base font-medium">
-            {"Teacher's"} profile
+            Personal profile
           </h2>
           <ul className="space-y-2">
             {profileInfo.map((p) => (
               <li key={p.label} className="flex items-center justify-between">
                 <h3 className="text-sm font-medium text-grey-500">{p.label}</h3>
                 <p className="text-sm font-medium text-grey-800 text-left">
+                  {p.value}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="space-y-3">
+          <h2 className="text-grey-800 text-base font-medium">
+            Professional profile
+          </h2>
+          <ul className="space-y-2">
+            {professionalInfo.map((p) => (
+              <li key={p.label} className="flex items-center justify-between">
+                <h3 className="text-sm font-medium text-grey-500">{p.label}</h3>
+                <p
+                  className={cn(
+                    "text-sm font-medium text-grey-800 text-left capitalize",
+                    p.value === "Not provided" && "text-grey-500 italic"
+                  )}
+                >
                   {p.value}
                 </p>
               </li>
