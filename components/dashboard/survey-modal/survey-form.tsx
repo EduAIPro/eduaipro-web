@@ -78,7 +78,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({
         return (
           <Input
             placeholder={question.placeholder || "Your answer"}
-            value={(answers[question.id] as string) || ""}
+            value={answers[question.id]?.textValue || ""}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
             required={question.isRequired}
             className="w-full"
@@ -90,7 +90,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({
           <textarea
             className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             placeholder={question.placeholder || "Your answer"}
-            value={(answers[question.id] as string) || ""}
+            value={answers[question.id]?.textValue || ""}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
             required={question.isRequired}
           />
@@ -100,7 +100,6 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({
       case "RATING_SCALE": // Treating rating roughly as single choice for now unless specific UI
         return (
           <RadioGroup
-            // value={(answers[question.id] as string) || ""}
             className="space-y-2"
             onValueChange={(val) => {
               const [value, optionId] = val.split("~");
@@ -152,7 +151,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({
         return (
           <Input
             placeholder={question.placeholder || "Your answer"}
-            value={(answers[question.id] as string) || ""}
+            value={answers[question.id]?.textValue || ""}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
             className="w-full"
           />
