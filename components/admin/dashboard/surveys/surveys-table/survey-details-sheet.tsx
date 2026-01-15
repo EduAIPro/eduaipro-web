@@ -165,57 +165,60 @@ export const SurveyDetailsSheet = ({
                       </h3>
 
                       <div className="space-y-4">
-                        {question.options?.map((option) => {
-                          const count = stat.options[option.id] || 0;
-                          const percentage =
-                            stat.totalAnswers > 0
-                              ? Math.round((count / stat.totalAnswers) * 100)
-                              : 0;
-
-                          return (
-                            <div key={option.id} className="space-y-1">
-                              <div className="flex justify-between text-sm">
-                                <span className="text-grey-11">
-                                  {option.label}
-                                </span>
-                                <span className="font-medium">
-                                  {percentage}%
-                                </span>
-                              </div>
-                              <div className="h-2 w-full rounded-full bg-secondary">
-                                <div
-                                  className="h-full rounded-full bg-[#246BFD] transition-all duration-500 ease-in-out"
-                                  style={{ width: `${percentage}%` }}
-                                />
-                              </div>
-                            </div>
-                          );
-                        })}
-
-                        {(!question.options ||
-                          question.options.length === 0) && (
-                          <div className="space-y-4 pt-2">
-                            {stat.textAnswers.length > 0 ? (
-                              stat.textAnswers.map((ans, idx) => (
-                                <div
-                                  key={idx}
-                                  className="bg-gray-50 p-3 rounded-md border border-gray-100"
-                                >
-                                  <p className="text-sm text-gray-800">
-                                    {ans.value}
+                        {question.type === "SHORT_TEXT"
+                          ? (!question.options ||
+                              question.options.length === 0 ||
+                              question.type === "SHORT_TEXT") && (
+                              <div className="space-y-4 pt-2">
+                                {stat.textAnswers.length > 0 ? (
+                                  stat.textAnswers.map((ans, idx) => (
+                                    <div
+                                      key={idx}
+                                      className="bg-gray-50 p-3 rounded-md border border-gray-100"
+                                    >
+                                      <p className="text-sm text-gray-800">
+                                        {ans.value}
+                                      </p>
+                                      <p className="text-xs text-grey-500 mt-1 font-medium">
+                                        - {ans.user}
+                                      </p>
+                                    </div>
+                                  ))
+                                ) : (
+                                  <p className="text-sm text-muted-foreground italic">
+                                    No text responses yet.
                                   </p>
-                                  <p className="text-xs text-grey-500 mt-1 font-medium">
-                                    - {ans.user}
-                                  </p>
+                                )}
+                              </div>
+                            )
+                          : question.options?.map((option) => {
+                              const count = stat.options[option.id] || 0;
+                              const percentage =
+                                stat.totalAnswers > 0
+                                  ? Math.round(
+                                      (count / stat.totalAnswers) * 100
+                                    )
+                                  : 0;
+
+                              return (
+                                <div key={option.id} className="space-y-1">
+                                  <div className="flex justify-between text-sm">
+                                    <span className="text-grey-11">
+                                      {option.label}
+                                    </span>
+                                    <span className="font-medium">
+                                      {percentage}%
+                                    </span>
+                                  </div>
+                                  <div className="h-2 w-full rounded-full bg-secondary">
+                                    <div
+                                      className="h-full rounded-full bg-[#246BFD] transition-all duration-500 ease-in-out"
+                                      style={{ width: `${percentage}%` }}
+                                    />
+                                  </div>
                                 </div>
-                              ))
-                            ) : (
-                              <p className="text-sm text-muted-foreground italic">
-                                No text responses yet.
-                              </p>
-                            )}
-                          </div>
-                        )}
+                              );
+                            })}
                       </div>
                     </div>
                   );

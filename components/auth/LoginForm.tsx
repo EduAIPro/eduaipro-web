@@ -55,7 +55,7 @@ export default function LoginForm() {
   return (
     <Formik
       initialValues={defaultValues}
-      validationSchema={loginValidation}
+      // validationSchema={loginValidation}
       onSubmit={onSubmit}
     >
       {({ errors, touched, isValid }) => (
