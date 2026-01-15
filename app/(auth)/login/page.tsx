@@ -1,6 +1,7 @@
 "use client";
 
 import LoginForm from "@/components/auth/LoginForm";
+import { Suspense } from "react";
 
 export default function LoginPage() {
   return (
@@ -12,8 +13,9 @@ export default function LoginPage() {
             Fill in your details
           </p>
         </div>
-
-        <LoginForm />
+        <Suspense>
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   );

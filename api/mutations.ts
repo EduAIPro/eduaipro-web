@@ -176,7 +176,7 @@ export async function refreshToken(
 
 export async function updateTeacherProfile(
   url: string,
-  { arg }: { arg: Omit<EditUserFormValue, "email"> }
+  { arg }: { arg: Partial<Omit<EditUserFormValue, "email">> }
 ): Promise<APIBaseResponse> {
   try {
     const response = await apiClient<APIBaseResponse>(url, arg, "patch");

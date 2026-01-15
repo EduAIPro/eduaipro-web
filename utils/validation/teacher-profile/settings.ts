@@ -32,10 +32,9 @@ export const editUserValidation = Yup.object().shape({
   //     .min(4, "Your username must be at least 4 characters long"),
   email: Yup.string().email().required("Email address is a required value"),
   phoneNumber: Yup.string().required("Your phone number is a required value"),
-  //   phoneNumber: Yup.object().shape({
-  //     dialCode: Yup.string().required("Your country dialcode"),
   //     digits: Yup.string().required("Your phone number is a required value"),
   //   }),
+  hasSeenOnboarding: Yup.boolean().optional(),
 });
 
 export type EditUserFormValue = InferType<typeof editUserValidation>;

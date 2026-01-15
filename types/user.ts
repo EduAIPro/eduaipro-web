@@ -12,7 +12,8 @@ export type User = {
   profileImageUrl: null | string;
   lastLoggedInAt: string;
   role: UserRoles;
-  emailVerifiedAt: null | string
+  emailVerifiedAt: null | string;
+  hasSeenOnboarding: boolean;
 };
 
 export type Staff = {

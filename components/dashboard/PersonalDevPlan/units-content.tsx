@@ -173,7 +173,10 @@ export function UnitsContent({
   };
 
   return (
-    <div className="max-lg:mt-6 min-[1600px]:col-span-2 bg-white rounded-xl border border-[#DBDBDB] p-5">
+    <div
+      id="units-sidebar"
+      className="max-lg:mt-6 min-[1600px]:col-span-2 bg-white rounded-xl border border-[#DBDBDB] p-5"
+    >
       <div className="flex items-center justify-between">
         <h4 className="font-semibold !text-base">Course content</h4>
         {moduleId && !isQuizOn ? <Chatbot moduleItemId={moduleId} /> : null}
@@ -345,6 +348,7 @@ export function UnitsContent({
                         </div>
                       ) : (
                         <Button
+                          id="start-assessment-btn"
                           loading={isGeneratingQuestions}
                           onClick={generateQuestions}
                           disabled={isQuizOn || isGeneratingQuestions}

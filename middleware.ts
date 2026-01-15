@@ -16,7 +16,7 @@ export function middleware(request: NextRequest) {
 
   if (isProtectedRoute && !refreshToken) {
     // Redirect to login if not authenticated
-    const loginUrl = new URL("/login", request.url);
+    const loginUrl = new URL("/login?redirect=" + pathname, request.url);
     return NextResponse.redirect(loginUrl);
   }
 
