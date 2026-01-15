@@ -57,6 +57,7 @@ export const SurveyProvider = ({ children }: { children: React.ReactNode }) => {
         // Assumption: GET /surveys returns only pending surveys or we check a property.
         // If the array is not empty, we assume they are pending.
         const hasClosedModal = sessionStorage.getItem("survey_modal_closed");
+        console.log({ data, hasClosedModal });
         if (data && data.data.length > 0 && !hasClosedModal) {
           setIsOpen(true);
         }
