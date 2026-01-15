@@ -5,7 +5,7 @@ import FormInput from "@/components/common/ui/FormInput";
 import { CONFIG } from "@/constants/config";
 import { storeAccessToken } from "@/utils/auth/helpers";
 import { trimObj } from "@/utils/key";
-import { LoginFormValue } from "@/utils/validation/auth";
+import { LoginFormValue, loginValidation } from "@/utils/validation/auth";
 import { Form, Formik } from "formik";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
@@ -55,7 +55,7 @@ export default function LoginForm() {
   return (
     <Formik
       initialValues={defaultValues}
-      // validationSchema={loginValidation}
+      validationSchema={loginValidation}
       onSubmit={onSubmit}
     >
       {({ errors, touched, isValid }) => (
