@@ -27,6 +27,7 @@ export type UpdatePersonalInfoPayload = {
   phoneNumber: string;
   positionDescription: string;
   userProfileImage?: string;
+  userHasSeenOnboarding?: boolean;
 };
 
 export type UpdateSchoolInfoPayload = {

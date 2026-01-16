@@ -1,7 +1,7 @@
 "use client";
 
-import { editProfileKey } from "@/api/keys";
-import { updateTeacherProfile } from "@/api/mutations";
+import { editProfileKey, updatePersonalInfoKey } from "@/api/keys";
+import { updatePersonalInfo, updateTeacherProfile } from "@/api/mutations";
 import MultiStepFormModal from "@/components/auth/PostRegistrationForm";
 // import { ChatBot } from "@/components/chatbot";
 import { CircularProgress } from "@/components/dashboard/common/ProgressTracker";
@@ -42,16 +42,15 @@ export default function OverviewPage() {
   const isMobile = useIsMobile(768);
 
   const { trigger: updateProfile } = useSWRMutation(
-    editProfileKey,
-    updateTeacherProfile
+    updatePersonalInfoKey,
+    updatePersonalInfo
   );
 
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
     // Only show if user is loaded, valid, and hasn't seen onboarding
-    if (user && !isLoading && !user.hasSeenOnboarding) {
-      // if (user && !isLoading && user.hasSeenOnboarding === false) {
+    if (user && !isLoading && user.hasSeenOnboarding === false) {
       // Small delay to ensure UI is ready
       const timer = setTimeout(() => {
         setShowOnboarding(true);
@@ -80,7 +79,7 @@ export default function OverviewPage() {
         );
 
         await updateProfile({
-          hasSeenOnboarding: true,
+          userHasSeenOnboarding: true,
         });
         mutateUser(); // Revalidate to be sure
       }

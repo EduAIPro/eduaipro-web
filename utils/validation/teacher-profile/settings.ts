@@ -34,7 +34,6 @@ export const editUserValidation = Yup.object().shape({
   phoneNumber: Yup.string().required("Your phone number is a required value"),
   //     digits: Yup.string().required("Your phone number is a required value"),
   //   }),
-  hasSeenOnboarding: Yup.boolean().optional(),
 });
 
 export type EditUserFormValue = InferType<typeof editUserValidation>;
