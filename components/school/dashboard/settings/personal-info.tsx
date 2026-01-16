@@ -54,19 +54,27 @@ export const PersonalInfoSettings = ({
       return;
     }
     try {
-      const payload: UpdatePersonalInfoPayload = {
-        userFirstName: firstName,
-        userLastName: lastName.join(" "),
-        phoneCountryCode: data.phone.dialCode,
-        phoneNumber: data.phone.digits,
-        positionDescription: data.position,
-      };
+      const payload: Omit<UpdatePersonalInfoPayload, "userHasSeenOnboarding"> =
+        {
+          userFirstName: firstName,
+          userLastName: lastName.join(" "),
+          phoneCountryCode: data.phone.dialCode,
+          phoneNumber: data.phone.digits,
+          positionDescription: data.position,
+        };
 
-      const values: Partial<UpdatePersonalInfoPayload> = {};
+      const values: Partial<
+        Omit<UpdatePersonalInfoPayload, "userHasSeenOnboarding">
+      > = {};
 
       Object.entries(payload).forEach(([key, value]) => {
         if (value && value !== "") {
-          values[key as keyof UpdatePersonalInfoPayload] = value;
+          values[
+            key as keyof Omit<
+              UpdatePersonalInfoPayload,
+              "userHasSeenOnboarding"
+            >
+          ] = value;
         }
       });
 
