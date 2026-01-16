@@ -349,6 +349,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
             >
               <div className="absolute top-4 left-4 z-50 md:hidden flex gap-2">
                 <button
+                  id="mobile-rotate-hint"
                   onClick={toggleMobileLandscape}
                   className="bg-white/80 hover:bg-white backdrop-blur-sm p-2 rounded-md transition-colors shadow-sm border text-primary"
                   type="button"
@@ -458,6 +459,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
             {/* Navigation Controls */}
             <div className={cn("flex justify-between items-center")}>
               <Button
+                id="nav-prev"
                 onClick={handlePrev}
                 variant="outline"
                 className={cn(
@@ -491,6 +493,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
               </span>
 
               <Button
+                id="nav-next"
                 onClick={handleNext}
                 className={cn(
                   "gap-2",

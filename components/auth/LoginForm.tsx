@@ -9,7 +9,7 @@ import { LoginFormValue, loginValidation } from "@/utils/validation/auth";
 import { Form, Formik } from "formik";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
@@ -21,6 +21,8 @@ export default function LoginForm() {
   const { trigger, isMutating } = useSWRMutation(loginTeacherKey, login);
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   async function onSubmit(data: LoginFormValue) {
     try {
@@ -30,6 +32,11 @@ export default function LoginForm() {
       if (tokens.access) {
         storeAccessToken(tokens.access);
         sessionStorage.setItem(CONFIG.USER_IDENTIFIER, user.id);
+      }
+
+      if (redirect) {
+        router.push(redirect);
+        return;
       }
 
       if (user && user?.role && user.role === "ADMIN") {

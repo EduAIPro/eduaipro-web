@@ -81,7 +81,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({
             value={answers[question.id]?.textValue || ""}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
             required={question.isRequired}
-            className="w-full"
+            className="w-full text-black"
           />
         );
       case "LONG_TEXT":
@@ -153,7 +153,7 @@ export const SurveyForm: React.FC<SurveyFormProps> = ({
             placeholder={question.placeholder || "Your answer"}
             value={answers[question.id]?.textValue || ""}
             onChange={(e) => handleAnswerChange(question.id, e.target.value)}
-            className="w-full"
+            className="w-full text-black"
           />
         );
     }
