@@ -1,6 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { generateUnitQuestions } from "@/api/keys";
+import {
+  generateUnitQuestions,
+  getUnitDetails,
+  updatePersonalInfoKey,
+} from "@/api/keys";
 import { fetchUnitQuestions } from "@/api/queries";
 import {
   ResizableHandle,
@@ -14,13 +18,16 @@ import {
   GeneratedQuestions,
 } from "@/types/assessment";
 import { CourseProgress, CourseUnit } from "@/types/course";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { Assessment } from "./assessment";
 import { AssessmentCompletedModal } from "./assessment/completed-modal";
 import { AssessmentResults } from "./assessment/results";
 import CourseMedia from "./course-media";
 import { UnitsContent } from "./units-content";
+import useUser from "@/hooks/use-user";
+import { updatePersonalInfo } from "@/api/mutations";
+import useSWR, { useSWRConfig } from "swr";
 
 type PersonalDevPlanProps = {
   introVideoUrl?: string;
@@ -30,25 +37,39 @@ type PersonalDevPlanProps = {
 };
 
 const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
+  const { courseProgress } = props;
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isQuizOn, setIsQuizOn] = useState(false);
   const [moduleId, setModuleId] = useState<null | string>(null);
-  const [introHasPlayed, setIntroHasPlayed] = useState(false);
   const [isViewingResults, setIsViewingResults] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [assessmentResults, setAssessmentResults] =
     useState<null | AssessmentSubmitResponse>(null);
   const [pdfUrl, setPdfUrl] = useState<null | string>(null);
-  const [accordionValues, setAccordionValues] = useState<string[]>(["1"]);
-  const [moduleAccValues, setModuleAccValues] = useState<string[][]>(
-    units.map((_, i) => (i === 0 ? ["1"] : []))
+  const [accordionValues, setAccordionValues] = useState<string>(
+    courseProgress?.unit?.id ?? "",
   );
-  const { courseProgress } = props;
-  const [activeUnitId, setActiveUnitId] = useState<null | string>(
-    courseProgress?.unit?.id ?? null
+  const [moduleAccValues, setModuleAccValues] = useState<string[][]>(
+    units.map((_, i) => (i === 0 ? ["1"] : [])),
   );
 
   const isMobile = useIsMobile();
+  const { mutate: globalMutate } = useSWRConfig();
+  const { user, mutate: mutateUser } = useUser();
+
+  const [activeUnitId, setActiveUnitId] = useState<null | string>(
+    courseProgress?.unit?.id ?? null,
+  );
+
+  const [introHasPlayed, setIntroHasPlayed] = useState(
+    user?.hasIntroPlayed ?? true,
+  );
+
+  const { trigger: updateProfile } = useSWRMutation(
+    updatePersonalInfoKey,
+    updatePersonalInfo,
+  );
 
   const {
     trigger: triggerQuestions,
@@ -57,7 +78,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
     isMutating,
   } = useSWRMutation<GeneratedQuestions>(
     generateUnitQuestions,
-    fetchUnitQuestions
+    fetchUnitQuestions,
   );
 
   const {
@@ -68,18 +89,43 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
     unitId: activeUnitId,
   });
 
+  const handleIntroPlayed = async () => {
+    setIntroHasPlayed(true);
+    window.localStorage.setItem("hasIntroPlayed", "true");
+    try {
+      if (user) {
+        // Optimistic update
+        mutateUser(
+          (currentData) => {
+            if (!currentData) return undefined;
+            return {
+              ...currentData,
+              user: {
+                ...currentData.user,
+                hasIntroPlayed: true,
+              },
+            };
+          },
+          { revalidate: false },
+        );
+
+        await updateProfile({
+          userHasIntroPlayed: true,
+        });
+        mutateUser(); // Revalidate to be sure
+      }
+    } catch (error) {
+      console.error("Failed to update intro status", error);
+    }
+  };
+
   useEffect(() => {
     if (window) {
-      if (!introHasPlayed) {
-        const hasIntroPlayed = window.localStorage.getItem("hasIntroPlayed");
-        if (hasIntroPlayed) {
-          setIntroHasPlayed(true);
-        }
-      } else if (unitInfo) {
+      if (unitInfo) {
         if (!pdfUrl) {
           const lastPdf = window.localStorage.getItem("lastPdf");
           const items = unitInfo.modules.flatMap((mod, i) =>
-            mod.moduleItems.map((modI) => [i, modI.id, modI.signedPdfUrl])
+            mod.moduleItems.map((modI) => [i, modI.id, modI.signedPdfUrl]),
           );
 
           if (lastPdf) {
@@ -132,11 +178,15 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
         data={questions}
         error={error}
         removeAssessmentScreen={removeAssessmentScreen}
-        onSubmisson={(v: AssessmentSubmitResponse) => setAssessmentResults(v)}
+        onSubmisson={(v: AssessmentSubmitResponse) => {
+          globalMutate(`${getUnitDetails}/${activeUnitId}`);
+          setAssessmentResults(v);
+        }}
       />
     ) : (
       <CourseMedia
         introHasPlayed={introHasPlayed}
+        handleIntroPlayed={handleIntroPlayed}
         pdfUrl={pdfUrl}
         setPdfUrl={setPdfUrl}
         setModuleId={setModuleId}
@@ -154,7 +204,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
         setCurrentPage={setCurrentPage}
         setModuleId={setModuleId}
         moduleId={moduleId}
-        setIntroHasPlayed={setIntroHasPlayed}
+        handleIntroPlayed={handleIntroPlayed}
         introHasPlayed={introHasPlayed}
         units={units}
         pdfUrl={pdfUrl}

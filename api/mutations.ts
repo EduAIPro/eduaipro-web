@@ -29,6 +29,7 @@ import {
   TeacherSignup,
   TeacherSignupResponse,
   TeacherSurveyPayload,
+  AcceptInvitePayload,
 } from "@/types/auth";
 import { ChatResponse } from "@/types/chat";
 import {
@@ -53,7 +54,7 @@ import { apiClient } from "./request";
 // AUTHENTICATION
 export async function signup(
   url: string,
-  { arg }: { arg: TeacherSignup }
+  { arg }: { arg: TeacherSignup },
 ): Promise<TeacherSignupResponse> {
   try {
     const response = await apiClient<TeacherSignupResponse>(url, arg);
@@ -68,7 +69,7 @@ export async function signup(
 
 export async function schoolSignup(
   url: string,
-  { arg }: { arg: SchoolSignupPayload }
+  { arg }: { arg: SchoolSignupPayload },
 ): Promise<TeacherSignupResponse> {
   try {
     const response = await apiClient<TeacherSignupResponse>(url, arg);
@@ -83,7 +84,7 @@ export async function schoolSignup(
 
 export async function login(
   url: string,
-  { arg }: { arg: Login }
+  { arg }: { arg: Login },
 ): Promise<TeacherLoginResponse> {
   try {
     const response = await apiClient<TeacherLoginResponse>(url, arg);
@@ -98,7 +99,7 @@ export async function login(
 
 export async function requestVerifyEmail(
   url: string,
-  { arg }: { arg: { email: string } }
+  { arg }: { arg: { email: string } },
 ): Promise<APIBaseResponse> {
   try {
     const response = await apiClient<APIBaseResponse>(url, arg);
@@ -111,7 +112,7 @@ export async function requestVerifyEmail(
 
 export async function confirmEmailVerification(
   url: string,
-  { arg }: { arg: { token: string } }
+  { arg }: { arg: { token: string } },
 ): Promise<APIBaseResponse> {
   try {
     const response = await apiClient<APIBaseResponse>(url, arg);
@@ -124,7 +125,7 @@ export async function confirmEmailVerification(
 
 export async function requestPasswordReset(
   url: string,
-  { arg }: { arg: { email: string } }
+  { arg }: { arg: { email: string } },
 ): Promise<APIBaseResponse> {
   try {
     const response = await apiClient<APIBaseResponse>(url, arg);
@@ -137,7 +138,7 @@ export async function requestPasswordReset(
 
 export async function confirmPasswordReset(
   url: string,
-  { arg }: { arg: ConfirmPasswordReset }
+  { arg }: { arg: ConfirmPasswordReset },
 ): Promise<APIBaseResponse> {
   try {
     const response = await apiClient<APIBaseResponse>(url, arg);
@@ -150,7 +151,7 @@ export async function confirmPasswordReset(
 
 export async function changePassword(
   url: string,
-  { arg }: { arg: ChangePasswordPayload }
+  { arg }: { arg: ChangePasswordPayload },
 ): Promise<APIBaseResponse> {
   try {
     const response = await apiClient<APIBaseResponse>(url, arg, "patch");
@@ -162,7 +163,7 @@ export async function changePassword(
 }
 
 export async function refreshToken(
-  data: RefreshTokenPayload
+  data: RefreshTokenPayload,
 ): Promise<RefreshTokenResponse> {
   try {
     const url = "/auth/refresh";
@@ -176,7 +177,7 @@ export async function refreshToken(
 
 export async function updateTeacherProfile(
   url: string,
-  { arg }: { arg: Omit<EditUserFormValue, "email"> }
+  { arg }: { arg: Omit<EditUserFormValue, "email"> },
 ): Promise<APIBaseResponse> {
   try {
     const response = await apiClient<APIBaseResponse>(url, arg, "patch");
@@ -189,7 +190,7 @@ export async function updateTeacherProfile(
 
 export async function logOut(
   url: string,
-  { arg }: { arg: RefreshTokenPayload }
+  { arg }: { arg: RefreshTokenPayload },
 ): Promise<APIBaseResponse> {
   try {
     const response = await apiClient<APIBaseResponse>(url, arg);
@@ -202,7 +203,7 @@ export async function logOut(
 
 export async function completeSurvey(
   url: string,
-  { arg }: { arg: TeacherSurveyPayload }
+  { arg }: { arg: TeacherSurveyPayload },
 ): Promise<APIBaseResponse> {
   try {
     const response = await apiClient<TeacherLoginResponse>(url, arg);
@@ -216,7 +217,7 @@ export async function completeSurvey(
 // COURSES
 export async function updateModule(
   url: string,
-  { arg }: { arg: UpdateModulePayload }
+  { arg }: { arg: UpdateModulePayload },
 ): Promise<UpdateModuleResponse> {
   try {
     const response = await apiClient<UpdateModuleResponse>(url, arg, "patch");
@@ -229,7 +230,7 @@ export async function updateModule(
 
 export async function submitAssessment(
   url: string,
-  { arg }: { arg: { [q: number]: string } }
+  { arg }: { arg: { [q: number]: string } },
 ): Promise<AssessmentSubmitResponse> {
   try {
     const answers = Object.entries(arg).map(([key, value]) => ({
@@ -250,7 +251,7 @@ export async function submitAssessment(
 // SCHOOL
 export async function sendInvitation(
   url: string,
-  { arg }: { arg: { email: string } }
+  { arg }: { arg: { email: string } },
 ): Promise<boolean> {
   try {
     await apiClient(url, arg);
@@ -261,9 +262,22 @@ export async function sendInvitation(
   }
 }
 
+export async function acceptInvite(
+  url: string,
+  { arg }: { arg: AcceptInvitePayload },
+): Promise<boolean> {
+  try {
+    await apiClient(url, arg, "post");
+
+    return true;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function updatePersonalInfo(
   url: string,
-  { arg }: { arg: Partial<UpdatePersonalInfoPayload> }
+  { arg }: { arg: Partial<UpdatePersonalInfoPayload> },
 ): Promise<boolean> {
   try {
     await apiClient(url, arg, "patch");
@@ -277,13 +291,13 @@ export async function updatePersonalInfo(
 
 export async function updateSchoolInfo(
   url: string,
-  { arg }: { arg: Partial<UpdateSchoolInfoPayload> }
+  { arg }: { arg: Partial<UpdateSchoolInfoPayload> },
 ): Promise<UpdateSchoolInfoResponse> {
   try {
     const response = await apiClient<UpdateSchoolInfoResponse>(
       url,
       arg,
-      "patch"
+      "patch",
     );
 
     return response.data;
@@ -295,7 +309,7 @@ export async function updateSchoolInfo(
 
 export async function deactivateStaff(
   url: string,
-  { arg }: { arg: { staffId: string } }
+  { arg }: { arg: { staffId: string } },
 ): Promise<Staff> {
   try {
     const apiUrl = url + `/${arg.staffId}/deactivate`;
@@ -310,7 +324,7 @@ export async function deactivateStaff(
 
 export async function reactivateStaff(
   url: string,
-  { arg }: { arg: { staffId: string } }
+  { arg }: { arg: { staffId: string } },
 ): Promise<Staff> {
   try {
     const apiUrl = url + `/${arg.staffId}/activate`;
@@ -326,13 +340,13 @@ export async function reactivateStaff(
 // ADMIN
 export async function editSchoolInfo(
   url: string,
-  { arg }: { arg: Partial<UpdateSchoolInfoPayload> }
+  { arg }: { arg: Partial<UpdateSchoolInfoPayload> },
 ): Promise<UpdateSchoolInfoResponse> {
   try {
     const response = await apiClient<UpdateSchoolInfoResponse>(
       url,
       arg,
-      "patch"
+      "patch",
     );
 
     return response.data;
@@ -344,7 +358,7 @@ export async function editSchoolInfo(
 
 export async function updateSchoolStatus(
   url: string,
-  { arg }: { arg: { active: boolean } }
+  { arg }: { arg: { active: boolean } },
 ): Promise<AdminSchool> {
   try {
     const response = await apiClient<AdminSchool>(url, arg, "patch");
@@ -358,7 +372,7 @@ export async function updateSchoolStatus(
 
 export async function sendMessageNotification(
   url: string,
-  { arg }: { arg: SendNotificationPayload }
+  { arg }: { arg: SendNotificationPayload },
 ): Promise<{ success: boolean }> {
   try {
     const response = await apiClient<{ success: boolean }>(url, arg);
@@ -372,7 +386,7 @@ export async function sendMessageNotification(
 
 export async function adminDeactivateStaff(
   url: string,
-  { arg }: { arg: { staffId: string; schoolId: string } }
+  { arg }: { arg: { staffId: string; schoolId: string } },
 ): Promise<Staff> {
   try {
     const apiUrl = url + `/${arg.schoolId}/${arg.staffId}/deactivate`;
@@ -386,7 +400,7 @@ export async function adminDeactivateStaff(
 }
 export async function adminReactivateStaff(
   url: string,
-  { arg }: { arg: { staffId: string; schoolId: string } }
+  { arg }: { arg: { staffId: string; schoolId: string } },
 ): Promise<Staff> {
   try {
     const apiUrl = url + `/${arg.schoolId}/${arg.staffId}/activate`;
@@ -402,7 +416,7 @@ export async function adminReactivateStaff(
 // courses
 export async function createCourse(
   url: string,
-  { arg }: { arg: CreateCoursePayload }
+  { arg }: { arg: CreateCoursePayload },
 ): Promise<Course> {
   try {
     const response = await apiClient<Course>(url, arg);
@@ -414,13 +428,13 @@ export async function createCourse(
 }
 export async function deleteCourse(
   url: string,
-  { arg }: { arg: { id: string } }
+  { arg }: { arg: { id: string } },
 ): Promise<{ message: string }> {
   try {
     const response = await apiClient<{ message: string }>(
       `${url}/${arg.id}`,
       undefined,
-      "delete"
+      "delete",
     );
 
     return response.data;
@@ -430,7 +444,7 @@ export async function deleteCourse(
 }
 export async function updateCourseSummary(
   url: string,
-  { arg }: { arg: UpdateCoursePayload }
+  { arg }: { arg: UpdateCoursePayload },
 ): Promise<Course> {
   try {
     const response = await apiClient<{ data: Course }>(url, arg, "patch");
@@ -442,7 +456,7 @@ export async function updateCourseSummary(
 }
 export async function updateCourseUnits(
   url: string,
-  { arg }: { arg: UpdateUnitPayload | { title: string } }
+  { arg }: { arg: UpdateUnitPayload | { title: string } },
 ): Promise<boolean> {
   try {
     await apiClient(url, arg, "patch");
@@ -454,7 +468,7 @@ export async function updateCourseUnits(
 }
 export async function createCourseUnit(
   url: string,
-  { arg }: { arg: CreateCourseUnitPayload }
+  { arg }: { arg: CreateCourseUnitPayload },
 ): Promise<{ id: string }> {
   try {
     const response = await apiClient<{ data: { id: string } }>(url, arg);
@@ -468,7 +482,7 @@ export async function createCourseUnit(
 // files
 export async function bulkUploadFiles(
   url: string,
-  { arg }: { arg: { files: File[] } }
+  { arg }: { arg: { files: File[] } },
 ): Promise<BulkFilesUploadResponse> {
   try {
     const formData = new FormData();
@@ -480,7 +494,7 @@ export async function bulkUploadFiles(
       url,
       formData,
       "post",
-      true
+      true,
     );
 
     return response.data.data;
@@ -491,7 +505,7 @@ export async function bulkUploadFiles(
 
 export async function singleUploadFile(
   url: string,
-  { arg }: { arg: { file: File } }
+  { arg }: { arg: { file: File } },
 ): Promise<{ url: string }> {
   try {
     const formData = new FormData();
@@ -501,7 +515,7 @@ export async function singleUploadFile(
       url,
       formData,
       "post",
-      true
+      true,
     );
 
     return response.data.data;
@@ -513,7 +527,7 @@ export async function singleUploadFile(
 // surveys
 export async function createSurvey(
   url: string,
-  { arg }: { arg: CreateSurveyPayload }
+  { arg }: { arg: CreateSurveyPayload },
 ): Promise<TableSurvey> {
   try {
     const response = await apiClient<{ data: TableSurvey }>(url, arg);
@@ -525,13 +539,13 @@ export async function createSurvey(
 }
 export async function deleteSurvey(
   url: string,
-  { arg }: { arg: { id: string } }
+  { arg }: { arg: { id: string } },
 ): Promise<{ message: string }> {
   try {
     const response = await apiClient<{ message: string }>(
       `${url}/${arg.id}`,
       undefined,
-      "delete"
+      "delete",
     );
 
     return response.data;
@@ -543,13 +557,13 @@ export async function deleteSurvey(
 // tickets
 export async function updateTicket(
   url: string,
-  { arg }: { arg: UpdateTicketPayload }
+  { arg }: { arg: UpdateTicketPayload },
 ): Promise<SupportTicket> {
   try {
     const response = await apiClient<{ data: SupportTicket }>(
       url,
       arg,
-      "patch"
+      "patch",
     );
 
     return response.data.data;
@@ -560,7 +574,7 @@ export async function updateTicket(
 
 export async function createTicket(
   url: string,
-  { arg }: { arg: CreateTicketPayload }
+  { arg }: { arg: CreateTicketPayload },
 ): Promise<SupportTicket> {
   try {
     const response = await apiClient<{ data: SupportTicket }>(url, arg);
@@ -573,7 +587,7 @@ export async function createTicket(
 
 export async function sendChatMessage(
   url: string,
-  { arg }: { arg: { message: string; moduleItemId: string } }
+  { arg }: { arg: { message: string; moduleItemId: string } },
 ): Promise<ChatResponse> {
   try {
     const response = await apiClient<{ data: ChatResponse }>(url, arg);
@@ -586,7 +600,7 @@ export async function sendChatMessage(
 // SURVEY RESPONSES
 export async function startSurveyResponse(
   url: string,
-  { arg }: { arg: { surveyId: string } }
+  { arg }: { arg: { surveyId: string } },
 ): Promise<{ id: string }> {
   try {
     const response = await apiClient<{ data: { id: string } }>(url, arg);
@@ -605,7 +619,7 @@ export async function submitSurveyResponse(
       responseId: string;
       answers: SurveyAnswer[];
     };
-  }
+  },
 ): Promise<boolean> {
   try {
     const { responseId, answers } = arg;
@@ -619,7 +633,7 @@ export async function submitSurveyResponse(
 
 export async function declineSurveyResponse(
   url: string,
-  { arg }: { arg: { surveyId: string } }
+  { arg }: { arg: { surveyId: string } },
 ): Promise<boolean> {
   try {
     const { surveyId } = arg;

@@ -43,7 +43,7 @@ export default function OverviewPage() {
 
   const { trigger: updateProfile } = useSWRMutation(
     updatePersonalInfoKey,
-    updatePersonalInfo
+    updatePersonalInfo,
   );
 
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -75,7 +75,7 @@ export default function OverviewPage() {
               },
             };
           },
-          { revalidate: false }
+          { revalidate: false },
         );
 
         await updateProfile({
@@ -136,7 +136,7 @@ export default function OverviewPage() {
         position: "left",
       },
     ],
-    [isMobile]
+    [isMobile],
   );
 
   const percentage = useMemo(() => {
@@ -168,7 +168,7 @@ export default function OverviewPage() {
         <div className="flex flex-col gap-8">
           <div className="space-y-3">
             <h2 id="course-title" className="text-xl font-semibold capitalize">
-              {course.title}
+              {course.title.replaceAll("_", " ").toLowerCase()}
             </h2>
             <div className="flex items-start gap-10">
               <div id="course-content-stats">

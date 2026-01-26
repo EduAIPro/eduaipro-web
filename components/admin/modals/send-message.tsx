@@ -32,7 +32,7 @@ import {
 import { Form, Formik } from "formik";
 import { ReactNode, useMemo, useState } from "react";
 import { toast } from "sonner";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 import { messageTypes, recipientTypes, teachersList } from "./constants";
 import { SchoolStaffsData } from "@/types/school/teachers";
@@ -50,22 +50,21 @@ export const SendMessageModal = ({
 
   const isSchool = type === "school";
 
-
   const { data: teachers, isLoading } = useSWR<SchoolStaffsData>(
-    isSchool?[getSchoolStaffsKey, teacherSearchTerm]:null,
-    fetchWithSearchQuery
+    isSchool ? [getSchoolStaffsKey, teacherSearchTerm] : null,
+    fetchWithSearchQuery,
   );
 
   const { data: schools, isLoading: schoolsLoading } =
     useSWR<SchoolslistResponse>(
       [getSchoolsKey, searchTerm],
-      fetchWithSearchQuery
+      fetchWithSearchQuery,
     );
   const { data } = useSWR<CountriesList>(getSupportedCountries, generalFetcher);
 
   const { trigger, isMutating } = useSWRMutation(
     isSchool ? sendSchoolNotificationKey : sendNotificationKey,
-    sendMessageNotification
+    sendMessageNotification,
   );
 
   async function handleSubmit(values: SendMessageFormValue) {
@@ -73,52 +72,55 @@ export const SendMessageModal = ({
       const recipientType = values.recipient;
       let optionalPayloads: Partial<SendNotificationPayload> = {};
 
-      if(isSchool){
+      if (isSchool) {
         if (
           recipientType === "TEACHER" &&
-          (values as NotifyTeachersFormValue).recipientIds 
-          
+          (values as NotifyTeachersFormValue).recipientIds
         ) {
           optionalPayloads = {
-            recipientIds: (values as NotifyTeachersFormValue)?.recipientIds?.includes("all") ? [] : (values as NotifyTeachersFormValue).recipientIds?.filter(
-              (i) => i !== undefined
-            ),
+            recipientIds: (
+              values as NotifyTeachersFormValue
+            )?.recipientIds?.includes("all")
+              ? []
+              : (values as NotifyTeachersFormValue).recipientIds?.filter(
+                  (i) => i !== undefined,
+                ),
           };
         }
       } else {
         if (
-        recipientType === "TEACHER" &&
-        values.teacherLevels &&
-        !values.teacherLevels.includes("all")
-      ) {
-        optionalPayloads = {
-          teacherLevels: values.teacherLevels.filter(
-            (i) => i !== undefined
-          ) as TeacherLevelType[],
-        };
-      } else if (
-        recipientType === "SCHOOL" &&
-        values.schoolIds &&
-        !values.schoolIds.includes("all")
-      ) {
-        optionalPayloads = {
-          schoolIds: values.schoolIds.filter((i) => i !== undefined),
-        };
-      } else if (
-        recipientType === "COUNTRY" &&
-        values.countryIds &&
-        !values.countryIds.includes("all")
-      ) {
-        optionalPayloads = {
-          schoolIds: values.countryIds.filter((i) => i !== undefined),
-        };
-      }
+          recipientType === "TEACHER" &&
+          values.teacherLevels &&
+          !values.teacherLevels.includes("all")
+        ) {
+          optionalPayloads = {
+            teacherLevels: values.teacherLevels.filter(
+              (i) => i !== undefined,
+            ) as TeacherLevelType[],
+          };
+        } else if (
+          recipientType === "SCHOOL" &&
+          values.schoolIds &&
+          !values.schoolIds.includes("all")
+        ) {
+          optionalPayloads = {
+            schoolIds: values.schoolIds.filter((i) => i !== undefined),
+          };
+        } else if (
+          recipientType === "COUNTRY" &&
+          values.countryIds &&
+          !values.countryIds.includes("all")
+        ) {
+          optionalPayloads = {
+            schoolIds: values.countryIds.filter((i) => i !== undefined),
+          };
+        }
       }
 
       const payload: SendNotificationPayload = {
         title: values.title,
         message: values.body,
-        ...(!isSchool&&{recipientType: values.recipient}),
+        ...(!isSchool && { recipientType: values.recipient }),
         type: values.type,
         ...optionalPayloads,
       };
@@ -195,7 +197,9 @@ export const SendMessageModal = ({
           validateOnMount
           initialValues={initialData}
           onSubmit={handleSubmit}
-          validationSchema={isSchool ? notifyTeachersValidation :sendMessageValidation}
+          validationSchema={
+            isSchool ? notifyTeachersValidation : sendMessageValidation
+          }
         >
           {({ errors, touched, isValid, values }) => (
             <Form>
@@ -221,7 +225,8 @@ export const SendMessageModal = ({
                   options={messageTypes}
                   error={touched.type && errors.type ? errors.type : null}
                 />
-                {isSchool ?  <MultiSearchSelectInput
+                {isSchool ? (
+                  <MultiSearchSelectInput
                     label="Select teachers"
                     name="recipientIds"
                     placeholder="Choose teachers"
@@ -232,56 +237,57 @@ export const SendMessageModal = ({
                     error={errors.recipientIds as string}
                     showSelectedCount={false}
                     isLoading={isLoading}
-                  />: <>
-                  <SelectInput
-                    name="recipient"
-                    label="Recipient"
-                    options={recipientTypes}
-                    error={
-                      touched.recipient && errors.recipient
-                        ? errors.recipient
-                        : null
-                    }
-                  />
-                  {values.recipient === NotificationRecipient.TEACHER ? (
-                  <CheckboxInput
-                    name="teacherLevels"
-                    label="Select Category of Teachers"
-                    options={teachersList}
-                    error={
-                      touched.teacherLevels && errors.teacherLevels
-                        ? (errors.teacherLevels as string)
-                        : null
-                    }
-                  />
-                ) : values.recipient === NotificationRecipient.COUNTRY ? (
-                  <CheckboxInput
-                    name="countryIds"
-                    label="Select Countries"
-                    options={countries}
-                    error={
-                      touched.countryIds && errors.countryIds
-                        ? (errors.countryIds as string)
-                        : null
-                    }
                   />
                 ) : (
-                  <MultiSearchSelectInput
-                    label="Select schools"
-                    name="schoolIds"
-                    placeholder="Choose schools"
-                    searchPlaceholder="Search schools..."
-                    options={schoolsArr}
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
-                    error={errors.schoolIds as string}
-                    showSelectedCount={false}
-                    isLoading={schoolsLoading}
-                  />
-                )}
+                  <>
+                    <SelectInput
+                      name="recipient"
+                      label="Recipient"
+                      options={recipientTypes}
+                      error={
+                        touched.recipient && errors.recipient
+                          ? errors.recipient
+                          : null
+                      }
+                    />
+                    {values.recipient === NotificationRecipient.TEACHER ? (
+                      <CheckboxInput
+                        name="teacherLevels"
+                        label="Select Category of Teachers"
+                        options={teachersList}
+                        error={
+                          touched.teacherLevels && errors.teacherLevels
+                            ? (errors.teacherLevels as string)
+                            : null
+                        }
+                      />
+                    ) : values.recipient === NotificationRecipient.COUNTRY ? (
+                      <CheckboxInput
+                        name="countryIds"
+                        label="Select Countries"
+                        options={countries}
+                        error={
+                          touched.countryIds && errors.countryIds
+                            ? (errors.countryIds as string)
+                            : null
+                        }
+                      />
+                    ) : (
+                      <MultiSearchSelectInput
+                        label="Select schools"
+                        name="schoolIds"
+                        placeholder="Choose schools"
+                        searchPlaceholder="Search schools..."
+                        options={schoolsArr}
+                        searchTerm={searchTerm}
+                        setSearchTerm={setSearchTerm}
+                        error={errors.schoolIds as string}
+                        showSelectedCount={false}
+                        isLoading={schoolsLoading}
+                      />
+                    )}
                   </>
-                }
-                
+                )}
               </div>
               <div className="flex items-center justify-end gap-3 pt-3 border-t border-grey-500/10 mt-5">
                 <Button

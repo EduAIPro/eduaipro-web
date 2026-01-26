@@ -2,6 +2,7 @@
 import { updateModuleKey } from "@/api/keys";
 import { updateModule } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
+import useUser from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
 import { CourseProgress, UnitDetails } from "@/types/course";
 import { extractPublicId } from "@/utils/link";
@@ -38,6 +39,7 @@ type CourseMediaProps = {
   refetchCourse: VoidFunction;
   unitInfo?: UnitDetails;
   refetchUnitDetails: VoidFunction;
+  handleIntroPlayed: VoidFunction;
   startAssessment: VoidFunction;
   navigateToPreviousUnit?: () => Promise<string | null>; // Returns the last module's PDF URL of previous unit
 };
@@ -56,9 +58,9 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
   unitInfo,
   refetchUnitDetails,
   startAssessment,
+  handleIntroPlayed,
   navigateToPreviousUnit,
 }) => {
-  const [hasIntroPlayed, setHasIntroPlayed] = useState<boolean>(introHasPlayed);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [containerWidth, setContainerWidth] = useState(600);
   const [numPages, setNumPages] = useState<number>(0);
@@ -72,7 +74,6 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
   const processedUpdatesRef = useRef(new Set<string>());
 
   const { trigger } = useSWRMutation(updateModuleKey, updateModule);
-
   const isMobile = containerWidth <= 500;
 
   const isUnitAccessible = useMemo(() => {
@@ -101,9 +102,8 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
 
   // Sync intro video state with localStorage
   useEffect(() => {
-    const introPlayed = window.localStorage.getItem("hasIntroPlayed");
-    if (introPlayed || courseProgress.unit?.id) {
-      setHasIntroPlayed(true);
+    if (introHasPlayed || courseProgress.unit?.id) {
+      handleIntroPlayed();
     }
   }, [introHasPlayed, courseProgress]);
 
@@ -118,7 +118,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
       }
       return { module: undefined };
     },
-    [unitInfo]
+    [unitInfo],
   );
 
   const allModules = useMemo(() => {
@@ -127,7 +127,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
       mod.moduleItems.map((item) => ({
         ...item,
         moduleId: mod.id,
-      }))
+      })),
     );
     return modules.map((m, i) => ({ ...m, idx: i }));
   }, [unitInfo]);
@@ -136,7 +136,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
   const currentModuleData = useMemo(() => {
     if (!pdfUrl) return;
     const current = allModules.find(
-      (p) => extractPublicId(p.signedPdfUrl) === extractPublicId(pdfUrl)
+      (p) => extractPublicId(p.signedPdfUrl) === extractPublicId(pdfUrl),
     );
     return current;
   }, [allModules, pdfUrl]);
@@ -306,12 +306,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
 
   // Handle intro video completion
   const handleStartCourse = useCallback(() => {
-    setHasIntroPlayed(true);
-    try {
-      window.localStorage.setItem("hasIntroPlayed", "true");
-    } catch (error) {
-      console.warn("Failed to save intro state:", error);
-    }
+    handleIntroPlayed();
   }, []);
 
   return (
@@ -322,9 +317,9 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
         isFullscreen
           ? "max-h-screen overflow-y-scroll xs:p-4 bg-white"
           : isMobileLandscape
-          ? "fixed inset-0 z-[100] bg-white w-full h-full p-0 overflow-hidden"
-          : "min-h-[70vh]",
-        isMobileLandscape ? "" : "col-span-3 h-fit space-y-3"
+            ? "fixed inset-0 z-[100] bg-white w-full h-full p-0 overflow-hidden"
+            : "min-h-[70vh]",
+        isMobileLandscape ? "" : "col-span-3 h-fit space-y-3",
       )}
     >
       <div
@@ -332,10 +327,10 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
           "w-full h-full flex flex-col transition-all duration-300",
           isMobileLandscape
             ? "origin-top-left rotate-90 absolute top-0 left-[100vw] w-[100vh] h-[100vw] bg-white p-4"
-            : ""
+            : "",
         )}
       >
-        {hasIntroPlayed || !introVideoUrl ? (
+        {introHasPlayed || !introVideoUrl ? (
           <>
             {/* Main PDF Viewer */}
             <div
@@ -344,7 +339,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                 "relative rounded overflow-hidden bg-white flex flex-col items-center justify-center border border-gray-100",
                 isFullscreen || isMobileLandscape
                   ? "flex-1 min-h-0"
-                  : "min-h-[500px]"
+                  : "min-h-[500px]",
               )}
             >
               <div className="absolute top-4 left-4 z-50 md:hidden flex gap-2">
@@ -437,7 +432,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                         "cursor-pointer transition-all duration-200 border-2 rounded overflow-hidden hover:opacity-100 relative group shrink-0",
                         pageNumber === index + 1
                           ? "border-primary ring-2 ring-primary/20 opacity-100 scale-105"
-                          : "border-transparent opacity-60 hover:border-gray-300"
+                          : "border-transparent opacity-60 hover:border-gray-300",
                       )}
                       onClick={() => setPageNumber(index + 1)}
                     >
@@ -466,7 +461,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                   "gap-2",
                   isFullscreen
                     ? "max-xs:fixed max-xs:top-3 max-xs:z-20 max-xs:left-2"
-                    : ""
+                    : "",
                 )}
                 disabled={
                   (isOnFirstUnit && isOnFirstModule && pageNumber === 1) ||
@@ -499,7 +494,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                   "gap-2",
                   isFullscreen
                     ? "max-xs:fixed max-xs:bottom-3 max-xs:z-20 max-xs:left-2"
-                    : ""
+                    : "",
                 )}
                 disabled={
                   !isOnLastModule && !nextModuleData && pageNumber === numPages
@@ -513,8 +508,8 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                     {isOnLastModule && pageNumber === numPages
                       ? "Start Assessment"
                       : pageNumber === numPages
-                      ? "Next Module"
-                      : "Next"}
+                        ? "Next Module"
+                        : "Next"}
                     <ChevronRightIcon size={16} />
                   </>
                 )}

@@ -22,7 +22,7 @@ export const TeachersTable = () => {
 
   const { data, isLoading, error } = useSWR<SchoolStaffsData>(
     [getSchoolStaffsKey, currentPage],
-    fetchPaginatedData
+    fetchPaginatedData,
   );
 
   const filterOptions = useMemo(
@@ -35,7 +35,7 @@ export const TeachersTable = () => {
         setSearchValue: (val: string) => setSearchValue(val),
       },
     ],
-    [searchValue]
+    [searchValue],
   );
 
   return (
@@ -69,7 +69,7 @@ export const TeachersTable = () => {
                 </Button>
               }
             />
-            <InviteTeacherModal />
+            <InviteTeacherModal key={getSchoolStaffsKey} />
           </div>
         }
         meta={{

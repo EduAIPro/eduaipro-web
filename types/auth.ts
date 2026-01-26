@@ -161,3 +161,8 @@ export type SchoolLoginResponse = {
   };
   error: null | string;
 };
+export type AcceptInvitePayload = {
+  token: string;
+  email: string;
+  schoolId: string;
+};

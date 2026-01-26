@@ -11,25 +11,29 @@ import { SchoolInviteToken } from "@/types/school/invites";
 import { extractCsvMetadataFromFile } from "@/utils/helpers";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
-type InviteTeacherModalProps = {};
+type InviteTeacherModalProps = {
+  key?: string;
+};
 
-export const InviteTeacherModal = ({}: InviteTeacherModalProps) => {
+export const InviteTeacherModal = ({ key }: InviteTeacherModalProps) => {
   const [email, setEmail] = useState("");
   const [step, setStep] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const fileRef = useRef<HTMLInputElement | null>(null);
 
+  const { mutate } = useSWRConfig();
+
   const { data, isLoading } = useSWR<SchoolInviteToken>(
     getSchoolInviteLinkKey,
-    generalFetcher
+    generalFetcher,
   );
 
   const { trigger, isMutating } = useSWRMutation(
     schoolInviteKey,
-    sendInvitation
+    sendInvitation,
   );
 
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -44,6 +48,9 @@ export const InviteTeacherModal = ({}: InviteTeacherModalProps) => {
     try {
       if (email) {
         await trigger({ email });
+        if (key) {
+          mutate(key);
+        }
         toast.success("Invitation email sent successfully");
         setEmail("");
         setIsOpen(false);
@@ -61,8 +68,8 @@ export const InviteTeacherModal = ({}: InviteTeacherModalProps) => {
         step === 1
           ? "Invite teacher"
           : step === 2
-          ? "Map Properties"
-          : "Import csv Summary"
+            ? "Map Properties"
+            : "Import csv Summary"
       }
       trigger={
         <Button
@@ -100,7 +107,7 @@ export const InviteTeacherModal = ({}: InviteTeacherModalProps) => {
             loading={isLoading}
             onClick={() => {
               navigator.clipboard.writeText(
-                `${process.env.NEXT_PUBLIC_TEACHER_SIGNUP_LINK}&token=${data?.token}`
+                `${process.env.NEXT_PUBLIC_TEACHER_SIGNUP_LINK}&token=${data?.token}`,
               );
               toast.success("Invite link copied successfully");
             }}

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { submitAssessmentKey } from "@/api/keys";
+import { getCourseWithProgress, submitAssessmentKey } from "@/api/keys";
 import { submitAssessment } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +13,7 @@ import {
 } from "@/types/assessment";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
+import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
 type AssessmentProps = {
@@ -45,8 +46,10 @@ export const Assessment: React.FC<AssessmentProps> = ({
   const isOnLastStep = useMemo(() => current === total - 1, [current, total]);
   const isSubmitDisabled = useMemo(
     () => isOnLastStep && Object.entries(selected).length < total,
-    [isOnLastStep, selected]
+    [isOnLastStep, selected],
   );
+
+  const { mutate } = useSWRConfig();
 
   const {
     trigger,
@@ -57,6 +60,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
   const submitAssessments = () => {
     trigger(selected).then((v) => {
       if (v) {
+        mutate(getCourseWithProgress);
         onSubmisson(v);
         removeAssessmentScreen();
       }
@@ -88,7 +92,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
 
   useEffect(() => {
     if (data) {
-      toast.info(
+      toast.warning(
         <div>
           <h3 className="font-semibold text-sm mb-1">
             Warning: Do not leave this tab!
@@ -97,7 +101,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
             If you navigate away from this page, your quiz will be automatically
             submitted with your current answers.
           </p>
-        </div>
+        </div>,
       );
     }
   }, [data]);
@@ -184,7 +188,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
         <div
           className={cn(
             "transition-all duration-500",
-            getAnimationClass(direction)
+            getAnimationClass(direction),
           )}
           key={q?.index}
         >
@@ -197,7 +201,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
                   "w-full text-left px-4 py-3 rounded-lg border transition-colors flex items-center",
                   selected[current] === opt.identifier
                     ? "border-primary-300 bg-primary-300 text-primary-foreground"
-                    : "bg-[#F9FBFC] hover:bg-muted border-[#E6E8EA]"
+                    : "bg-[#F9FBFC] hover:bg-muted border-[#E6E8EA]",
                 )}
                 onClick={() => {
                   setSelected((prev) => ({

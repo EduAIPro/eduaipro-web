@@ -28,6 +28,7 @@ export type UpdatePersonalInfoPayload = {
   positionDescription: string;
   userProfileImage?: string;
   userHasSeenOnboarding?: boolean;
+  userHasIntroPlayed?: boolean;
 };
 
 export type UpdateSchoolInfoPayload = {

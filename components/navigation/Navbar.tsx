@@ -13,13 +13,17 @@ import { useHasScrolled } from "@/hooks/use-has-scrolled";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Typography from "../common/ui/Typography";
 import { Button } from "../ui/button";
 import { navLinks } from "./data";
+import { getRefreshToken } from "@/utils/auth";
+import { getTokenRole } from "@/utils/auth/helpers";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dashboardUrl, setDashboardUrl] = useState<null | string>(null);
+
   const router = useRouter();
   const { hasScrolled } = useHasScrolled();
 
@@ -27,13 +31,33 @@ export default function Navbar() {
     setMenuOpen(!menuOpen);
   };
 
+  useEffect(() => {
+    async function checkAuth() {
+      const refreshToken = await getRefreshToken();
+
+      if (refreshToken) {
+        const role = getTokenRole(refreshToken);
+        const dashboardUrl =
+          role === "TEACHER" || role === "USER"
+            ? "/dashboard"
+            : role === "ADMIN"
+              ? "/admin"
+              : "/school";
+
+        setDashboardUrl(dashboardUrl);
+      }
+    }
+
+    checkAuth();
+  }, []);
+
   return (
     <nav
       className={cn(
         "fixed w-full inset-x-0 top-0 z-50",
         hasScrolled
           ? "backdrop-blur-lg bg-[#E1EAFF]/5 shadow-lg shadow-black/5"
-          : ""
+          : "",
       )}
     >
       <div className="max-sm:px-4 max-md:px-6 max-lg:px-[56px] xl:px-0 xl:max-w-[1350px] xl:mx-auto py-3 md:py-6 flex justify-between items-center">
@@ -90,22 +114,34 @@ export default function Navbar() {
             ))}
           </div>
           <div className="gap-4 items-center flex max-lg:hidden">
-            <div className="max-lg:w-full">
-              <Button
-                variant="ghost"
-                className="hover:bg-primary-200/20 transition-all hover:border border-primary-200"
-                onClick={() => router.push("/login")}
-              >
-                <Typography.P weight="semibold">Login</Typography.P>
-              </Button>
-            </div>
-            <div className="max-lg:w-full">
-              <Button onClick={() => router.push("/register")}>
-                <Typography.P weight="semibold" fontColor="white">
-                  Get started
-                </Typography.P>
-              </Button>
-            </div>
+            {dashboardUrl && dashboardUrl !== null ? (
+              <>
+                <Button onClick={() => router.push(dashboardUrl)}>
+                  <Typography.P weight="semibold" fontColor="white">
+                    Dashboard
+                  </Typography.P>
+                </Button>
+              </>
+            ) : (
+              <>
+                <div className="max-lg:w-full">
+                  <Button
+                    variant="ghost"
+                    className="hover:bg-primary-200/20 transition-all hover:border border-primary-200"
+                    onClick={() => router.push("/login")}
+                  >
+                    <Typography.P weight="semibold">Login</Typography.P>
+                  </Button>
+                </div>
+                <div className="max-lg:w-full">
+                  <Button onClick={() => router.push("/register")}>
+                    <Typography.P weight="semibold" fontColor="white">
+                      Get started
+                    </Typography.P>
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </>
         <div
