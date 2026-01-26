@@ -50,6 +50,10 @@ export type Survey = {
   };
   school: null | AdminSchool;
   questions: SurveyQuestion[];
+  triggerMetadata?: {
+    unitId?: string;
+    moduleId?: string;
+  };
   _count: {
     responses: number;
   };

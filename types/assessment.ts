@@ -1,3 +1,5 @@
+import { Survey } from "./admin/surveys";
+
 export type GeneratedQuestions = {
   id: string;
   unitId: string;
@@ -57,6 +59,7 @@ export type AssessmentSubmitResponse = {
   };
   accredited: boolean;
   result: Result[];
+  surveys: Survey[];
 };
 
 export type Result = {

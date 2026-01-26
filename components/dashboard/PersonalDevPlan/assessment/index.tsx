@@ -15,6 +15,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
+import { useSurvey } from "../../survey-modal/survey-context";
 
 type AssessmentProps = {
   data?: GeneratedQuestions;
@@ -50,6 +51,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
   );
 
   const { mutate } = useSWRConfig();
+  const { toggleOpen } = useSurvey();
 
   const {
     trigger,
@@ -58,11 +60,14 @@ export const Assessment: React.FC<AssessmentProps> = ({
   } = useSWRMutation(submitAssessmentKey, submitAssessment);
 
   const submitAssessments = () => {
-    trigger(selected).then((v) => {
-      if (v) {
+    trigger(selected).then((res) => {
+      if (res) {
+        // refetch course progress
         mutate(getCourseWithProgress);
-        onSubmisson(v);
+        onSubmisson(res);
         removeAssessmentScreen();
+        // open surveys if the surveys array exists
+        toggleOpen(!!res.surveys.length, { surveys: res.surveys });
       }
     });
   };
