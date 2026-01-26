@@ -37,7 +37,7 @@ export const declineSurveyKey = "/surveys/survey-responses/:surveyId/decline";
 // SCHOOL
 // mutations
 export const signupSchoolKey = "/auth/register/school";
-export const acceptBulkInviteKey = "/school/invite/accept";
+export const acceptInviteKey = "/school/invite/accept";
 export const bulkSchoolInviteKey = "/school/invite/bulk";
 export const schoolInviteKey = "/school/invite";
 export const updateSchoolInfoKey = "/school";

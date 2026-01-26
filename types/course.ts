@@ -129,6 +129,15 @@ export type UnitDetails = {
   createdAt: string;
   courseId: string;
   modules: Module[];
+  assessmentRecord: null | {
+    id: string;
+    unitId: string;
+    staffId: string;
+    verdict: string;
+    createdAt: string;
+    updatedAt: string;
+    gradePercentage: number;
+  };
 };
 
 export type UpdateModuleResponse = {

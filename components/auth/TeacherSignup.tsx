@@ -18,12 +18,22 @@ import PhoneInput from "../common/ui/PhoneInput";
 import Typography from "../common/ui/Typography";
 import { Button } from "../ui/button";
 
-export default function TeacherSignup() {
+type TeacherSignupProps = {
+  invitationCode?: string;
+  email?: string;
+  isNested?: boolean;
+};
+
+export default function TeacherSignup({
+  invitationCode: propToken,
+  email: propEmail,
+  isNested,
+}: TeacherSignupProps) {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const invitationCode = searchParams.get("token");
-  const userEmail = searchParams.get("email");
+  const invitationCode = propToken || searchParams.get("token");
+  const userEmail = propEmail || searchParams.get("email");
 
   const { trigger, isMutating } = useSWRMutation(signupTeacherKey, signup);
 
@@ -56,7 +66,7 @@ export default function TeacherSignup() {
         router.push("/dashboard");
       } else {
         router.push(
-          `/verify-email?email=${encodeURIComponent(data.email)}&role=TEACHER`
+          `/verify-email?email=${encodeURIComponent(data.email)}&role=TEACHER`,
         );
       }
     } catch (error: any) {
@@ -88,14 +98,17 @@ export default function TeacherSignup() {
 
   return (
     <div className="flex-col flex gap-y-6">
-      <div className="text-left">
-        <Typography.H2 size="basePro" weight="semibold">
-          Sign up
-        </Typography.H2>
-        <Typography.P weight="medium" size="large" fontColor="medium">
-          Enter your details to create your account
-        </Typography.P>
-      </div>
+      {isNested ? null : (
+        <div className="text-left">
+          <Typography.H2 size="basePro" weight="semibold">
+            Sign up
+          </Typography.H2>
+          <Typography.P weight="medium" size="large" fontColor="medium">
+            Enter your details to create your account
+          </Typography.P>
+        </div>
+      )}
+
       <Formik
         initialValues={defaultValues}
         validationSchema={signupValidation}

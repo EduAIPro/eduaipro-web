@@ -40,9 +40,8 @@ import Chatbot from "../chat";
 
 type UnitsContentProps = {
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  setValues: Dispatch<SetStateAction<string[]>>;
+  setValues: Dispatch<SetStateAction<string>>;
   setModuleValues: Dispatch<SetStateAction<string[][]>>;
-  setIntroHasPlayed: Dispatch<SetStateAction<boolean>>;
   setPdfUrl: Dispatch<SetStateAction<string | null>>;
   setModuleId: Dispatch<SetStateAction<string | null>>;
   setActiveUnitId: Dispatch<SetStateAction<string | null>>;
@@ -50,25 +49,26 @@ type UnitsContentProps = {
   units: CourseUnit[];
   pdfUrl: string | null;
   generateQuestions: VoidFunction;
+  handleIntroPlayed: VoidFunction;
   isGeneratingQuestions: boolean;
   isQuizOn: boolean;
   unitInfo?: UnitDetails;
   isLoading: boolean;
   introHasPlayed: boolean;
-  values: string[];
+  values: string;
   moduleValues: string[][];
   moduleId: string | null;
 };
 
 export function UnitsContent({
   setCurrentPage,
-  setIntroHasPlayed,
   setPdfUrl,
   pdfUrl,
   setModuleId,
   units,
   courseProgress,
   generateQuestions,
+  handleIntroPlayed,
   isGeneratingQuestions,
   isQuizOn,
   setActiveUnitId,
@@ -122,7 +122,7 @@ export function UnitsContent({
       if (processedModulesRef.current.has(`${m.id}-${pdfUrl}`)) return;
 
       const activeModule = m.moduleItems.find(
-        (item) => item.signedPdfUrl === pdfUrl
+        (item) => item.signedPdfUrl === pdfUrl,
       );
 
       if (
@@ -137,7 +137,7 @@ export function UnitsContent({
     // Batch update modules
     if (modulesToUpdate.length > 0) {
       Promise.all(
-        modulesToUpdate.map((moduleId) => trigger({ moduleId }))
+        modulesToUpdate.map((moduleId) => trigger({ moduleId })),
       ).catch(console.error);
     }
   }, [pdfUrl, unitInfo?.modules, courseProgress.module?.index]);
@@ -147,18 +147,11 @@ export function UnitsContent({
     (unit: CourseUnit, index: number) => {
       if (unit.index > courseProgress.unit.index) return;
 
-      setActiveUnitId(unit.id);
-
       if (index === 0 && !introHasPlayed) {
-        setIntroHasPlayed(true);
-        try {
-          window.localStorage.setItem("hasIntroPlayed", "true");
-        } catch (error) {
-          console.warn("Failed to save intro state:", error);
-        }
+        handleIntroPlayed();
       }
     },
-    [courseProgress.unit.index, introHasPlayed]
+    [courseProgress.unit.index, introHasPlayed],
   );
 
   const handlePageClick = (item: ContentPage, contentItem: ModuleItem) => {
@@ -186,14 +179,16 @@ export function UnitsContent({
           value={values}
           onValueChange={(v) => {
             setValues(v);
+            if (v) setActiveUnitId(v);
           }}
-          type="multiple"
+          type="single"
+          collapsible
           className="border rounded-lg p-2.5 pt-0"
         >
           {memoizedUnits.map((unit, i) => (
             <AccordionItem
               disabled={!unit.isUnitAccessible}
-              value={unit.index.toString()}
+              value={unit.id}
               key={unit.id} // Use ID instead of index for better key stability
             >
               <AccordionTrigger
@@ -212,7 +207,7 @@ export function UnitsContent({
                     <h5 className="font-semibold text-sm text-grey-12/90">
                       Unit {unit.index}
                     </h5>
-                    {unitInfo && (
+                    {unitInfo && unit.id === values && (
                       <span className="text-xs lg:text-sm line-clamp-1 text-grey-10 w-full">
                         {unitInfo.modules.length}{" "}
                         {unitInfo.modules.length === 1 ? "module" : "modules"}
@@ -226,13 +221,13 @@ export function UnitsContent({
                   <div className="flex justify-center py-4">
                     <Loader2Icon className="animate-spin" size={24} />
                   </div>
-                ) : unitInfo ? (
+                ) : unitInfo && unit.id === values ? (
                   <div className="space-y-2">
                     <Accordion
                       value={moduleValues[i]}
                       onValueChange={(v) => {
                         const newModule = moduleValues.map((m, mi) =>
-                          mi === i ? v : m
+                          mi === i ? v : m,
                         );
                         setModuleValues(newModule);
                       }}
@@ -241,7 +236,7 @@ export function UnitsContent({
                     >
                       {memoizedModules.map((unitModule) => {
                         const pages = unitModule.moduleItems.map(
-                          (m) => m.items.length
+                          (m) => m.items.length,
                         );
                         const totalSlides = pages.reduce((p, c) => p + c, 0);
                         return (
@@ -267,7 +262,7 @@ export function UnitsContent({
                                     "text-left",
                                     unitModule.isCompleted
                                       ? "text-primary-300"
-                                      : "text-grey-500"
+                                      : "text-grey-500",
                                   )}
                                 >
                                   <h4 className="text-sm font-semibold">
@@ -301,7 +296,7 @@ export function UnitsContent({
                                               onClick={() =>
                                                 handlePageClick(
                                                   item,
-                                                  contentItem
+                                                  contentItem,
                                                 )
                                               }
                                               disabled={isQuizOn}
@@ -314,12 +309,12 @@ export function UnitsContent({
                                                   courseProgress.module?.id ===
                                                     contentItem.id
                                                     ? "text-primary-400"
-                                                    : ""
+                                                    : "",
                                                 )}
                                               >
                                                 -
                                                 {removeUnitModulePatternsExtended(
-                                                  item.pageTitle
+                                                  item.pageTitle,
                                                 )}
                                               </p>
                                             </button>
@@ -337,12 +332,15 @@ export function UnitsContent({
                     </Accordion>
 
                     <div className="mt-4 pt-3">
-                      {unit.isUnitCompleted ? (
-                        <div className="bg-green-50 p-3 rounded-lg border-green-600 border">
+                      {unit.isUnitCompleted && unitInfo?.assessmentRecord ? (
+                        <div className="bg-green-50/60 p-3 rounded-lg border-green-600/60 border">
                           <p className="text-sm font-medium flex items-center justify-between">
-                            <span>Unit Completed</span>
-                            <span className="text-green-600 font-semibold">
-                              Score: 50%
+                            <span className="text-green-800">
+                              Unit Completed
+                            </span>
+                            <span className="text-green-700 font-medium">
+                              Score:{" "}
+                              {unitInfo?.assessmentRecord?.gradePercentage}%
                             </span>
                           </p>
                         </div>

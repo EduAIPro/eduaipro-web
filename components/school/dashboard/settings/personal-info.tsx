@@ -20,13 +20,18 @@ type PersonalInfoSettingsProps = {
   refetch: VoidFunction;
 };
 
+type PersonalSettingsPayload = Omit<
+  UpdatePersonalInfoPayload,
+  "userHasSeenOnboarding" | "userHasIntroPlayed"
+>;
+
 export const PersonalInfoSettings = ({
   user,
   refetch,
 }: PersonalInfoSettingsProps) => {
   const { trigger, isMutating } = useSWRMutation(
     updatePersonalInfoKey,
-    updatePersonalInfo
+    updatePersonalInfo,
   );
 
   const initialData = useMemo(() => {
@@ -46,7 +51,7 @@ export const PersonalInfoSettings = ({
 
   async function handleSubmit(
     data: PersonalInfoFormValue,
-    { resetForm }: { resetForm: VoidFunction }
+    { resetForm }: { resetForm: VoidFunction },
   ) {
     const [firstName, ...lastName] = data.name.trim().split(" ");
     if (!firstName.length || !lastName.length) {
@@ -54,27 +59,19 @@ export const PersonalInfoSettings = ({
       return;
     }
     try {
-      const payload: Omit<UpdatePersonalInfoPayload, "userHasSeenOnboarding"> =
-        {
-          userFirstName: firstName,
-          userLastName: lastName.join(" "),
-          phoneCountryCode: data.phone.dialCode,
-          phoneNumber: data.phone.digits,
-          positionDescription: data.position,
-        };
+      const payload: PersonalSettingsPayload = {
+        userFirstName: firstName,
+        userLastName: lastName.join(" "),
+        phoneCountryCode: data.phone.dialCode,
+        phoneNumber: data.phone.digits,
+        positionDescription: data.position,
+      };
 
-      const values: Partial<
-        Omit<UpdatePersonalInfoPayload, "userHasSeenOnboarding">
-      > = {};
+      const values: Partial<PersonalSettingsPayload> = {};
 
       Object.entries(payload).forEach(([key, value]) => {
         if (value && value !== "") {
-          values[
-            key as keyof Omit<
-              UpdatePersonalInfoPayload,
-              "userHasSeenOnboarding"
-            >
-          ] = value;
+          values[key as keyof PersonalSettingsPayload] = value;
         }
       });
 

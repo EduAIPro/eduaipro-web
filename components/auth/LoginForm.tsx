@@ -1,6 +1,6 @@
 "use client";
-import { loginTeacherKey } from "@/api/keys";
-import { login } from "@/api/mutations";
+import { acceptInviteKey, loginTeacherKey } from "@/api/keys";
+import { acceptInvite, login } from "@/api/mutations";
 import FormInput from "@/components/common/ui/FormInput";
 import { CONFIG } from "@/constants/config";
 import { storeAccessToken } from "@/utils/auth/helpers";
@@ -14,11 +14,18 @@ import { useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
 import { Button } from "../ui/button";
+import { AcceptInvitePayload } from "@/types/auth";
 
-export default function LoginForm() {
+type LoginFormProps = {
+  invitationData?: AcceptInvitePayload;
+};
+
+export default function LoginForm({ invitationData }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const { trigger, isMutating } = useSWRMutation(loginTeacherKey, login);
+  const { trigger: acceptInviteTrigger, isMutating: isAcceptingInvite } =
+    useSWRMutation(acceptInviteKey, acceptInvite);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -32,6 +39,15 @@ export default function LoginForm() {
       if (tokens.access) {
         storeAccessToken(tokens.access);
         sessionStorage.setItem(CONFIG.USER_IDENTIFIER, user.id);
+      }
+
+      if (invitationData) {
+        try {
+          await acceptInviteTrigger({ ...invitationData, email: data.email });
+          toast.success("Invitation accepted successfully");
+        } catch (error) {
+          toast.error("Failed to accept invitation");
+        }
       }
 
       if (redirect) {
@@ -55,7 +71,7 @@ export default function LoginForm() {
   }
 
   const defaultValues = {
-    email: "",
+    email: invitationData?.email || "",
     password: "",
   };
 
@@ -64,6 +80,7 @@ export default function LoginForm() {
       initialValues={defaultValues}
       validationSchema={loginValidation}
       onSubmit={onSubmit}
+      enableReinitialize
     >
       {({ errors, touched, isValid }) => (
         <Form className="flex-col flex gap-y-4">
@@ -71,6 +88,9 @@ export default function LoginForm() {
             name="email"
             label="Email address"
             placeholder="name@example.com"
+            disabled={
+              !!invitationData?.email || isAcceptingInvite || isMutating
+            }
             type="email"
             error={touched.email && errors.email ? errors.email : null}
           />
@@ -78,6 +98,7 @@ export default function LoginForm() {
             name="password"
             label="Password"
             placeholder="Enter your password"
+            disabled={isAcceptingInvite || isMutating}
             error={touched.password && errors.password ? errors.password : null}
             type={showPassword ? "text" : "password"}
             rightIcon={
@@ -98,7 +119,11 @@ export default function LoginForm() {
               </p>
             </Link>
           </div>
-          <Button type="submit" loading={isMutating} disabled={!isValid}>
+          <Button
+            type="submit"
+            loading={isMutating || isAcceptingInvite}
+            disabled={!isValid}
+          >
             <p>Login</p>
           </Button>
           <div>

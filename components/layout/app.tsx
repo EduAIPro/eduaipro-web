@@ -10,6 +10,7 @@ export default function AppLayoutBase({ children }: { children: ReactNode }) {
   const AUTH_PATHS = [
     "/login",
     "/register",
+    "/accept-invite",
     "/verify-email",
     "/forgot-password",
     "/forgot-password/reset",

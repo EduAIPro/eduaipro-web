@@ -14,6 +14,7 @@ export type User = {
   role: UserRoles;
   emailVerifiedAt: null | string;
   hasSeenOnboarding: boolean;
+  hasIntroPlayed: boolean;
 };
 
 export type Staff = {

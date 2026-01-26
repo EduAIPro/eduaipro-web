@@ -30,11 +30,11 @@ export const AssessmentResults = ({
 
   const activeQuestion = useMemo(
     () => result?.[questionIndex],
-    [questionIndex, result]
+    [questionIndex, result],
   );
   const isLastQuestion = useMemo(
     () => activeQuestion?.index === result?.length - 1,
-    [activeQuestion]
+    [activeQuestion],
   );
 
   return (
@@ -47,9 +47,9 @@ export const AssessmentResults = ({
               "font-medium",
               assessmentRecord.gradePercentage <= 25
                 ? "text-error-600"
-                : assessmentRecord.gradePercentage < 70
-                ? "text-warning-500"
-                : "text-success-600"
+                : assessmentRecord.gradePercentage < 50
+                  ? "text-warning-500"
+                  : "text-success-600",
             )}
           >
             {assessmentRecord.gradePercentage}%
@@ -68,7 +68,7 @@ export const AssessmentResults = ({
                   onClick={() => setQuestionIndex(res.index)}
                   className={cn(
                     "rounded-md w-full cursor-pointer hover:bg-grey-400/20 px-3 py-2 flex items-center gap-2",
-                    isActive ? "bg-[#F9FBFC] border border-[#E6E8EA]" : ""
+                    isActive ? "bg-[#F9FBFC] border border-[#E6E8EA]" : "",
                   )}
                 >
                   <div className="shrink-0 size-5">
@@ -110,7 +110,7 @@ export const AssessmentResults = ({
                 const userAnswerExists = !!activeQuestion.userAnswer;
                 const isCorrect =
                   activeQuestion.correctOptionIdentifiers.includes(
-                    option.identifier
+                    option.identifier,
                   );
                 const isUserSelected =
                   userAnswerExists &&

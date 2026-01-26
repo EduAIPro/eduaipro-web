@@ -18,8 +18,13 @@ import { declineSurveyKey, startSurveyKey, submitSurveyKey } from "@/api/keys";
 
 type SurveyContextType = {
   isOpen: boolean;
-  toggleOpen: (open: boolean) => void;
+  toggleOpen: (open: boolean, props?: ModalProps | undefined) => void;
   isLoading: boolean;
+  modalProps: ModalProps | null;
+};
+
+type ModalProps = {
+  surveys?: Survey[];
 };
 
 const SurveyContext = createContext<SurveyContextType | undefined>(undefined);
@@ -42,6 +47,7 @@ export const SurveyProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeSurvey, setActiveSurvey] = useState<Survey | null>(null);
   const [responseId, setResponseId] = useState<string | null>(null);
   const [isContinuing, setIsContinuing] = useState<boolean>(false);
+  const [modalProps, setModalProps] = useState<ModalProps | null>(null);
 
   // Fetch surveys
   // Only fetch if on dashboard and user is logged in (handled by layout usually)
@@ -57,28 +63,38 @@ export const SurveyProvider = ({ children }: { children: React.ReactNode }) => {
         // Assumption: GET /surveys returns only pending surveys or we check a property.
         // If the array is not empty, we assume they are pending.
         const hasClosedModal = sessionStorage.getItem("survey_modal_closed");
-        console.log({ data, hasClosedModal });
+
         if (data && data.data.length > 0 && !hasClosedModal) {
           setIsOpen(true);
         }
       },
-    }
+    },
   );
 
   const { trigger: startTrigger, isMutating: isStarting } = useSWRMutation(
     startSurveyKey,
-    startSurveyResponse
+    startSurveyResponse,
   );
 
   const { trigger: submitTrigger, isMutating: isSubmitting } = useSWRMutation(
     submitSurveyKey,
-    submitSurveyResponse
+    submitSurveyResponse,
   );
 
   const { trigger: declineTrigger, isMutating: isDeclining } = useSWRMutation(
     declineSurveyKey,
-    declineSurveyResponse
+    declineSurveyResponse,
   );
+
+  const toggleOpen = (open: boolean, props?: ModalProps) => {
+    setIsOpen(open);
+    if (props) {
+      setModalProps(props);
+    } else if (!open) {
+      // Clear props when closing
+      setModalProps(null);
+    }
+  };
 
   const handleStart = async (survey: Survey) => {
     try {
@@ -154,7 +170,7 @@ export const SurveyProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SurveyContext.Provider
-      value={{ isOpen, toggleOpen: setIsOpen, isLoading: false }}
+      value={{ isOpen, toggleOpen, isLoading: false, modalProps }}
     >
       {children}
       {isOpen && (
@@ -162,7 +178,14 @@ export const SurveyProvider = ({ children }: { children: React.ReactNode }) => {
           open={isOpen}
           onClose={handleClose}
           view={view}
-          surveys={surveys?.data || []}
+          surveys={
+            modalProps?.surveys ||
+            surveys?.data?.filter(
+              (s) => !s.triggerMetadata?.unitId && !s.triggerMetadata?.moduleId,
+            ) ||
+            []
+          }
+          // surveys={modalProps?.survey || surveys?.data || []}
           activeSurvey={activeSurvey}
           onStart={handleStart}
           onContinue={handleContinue}
