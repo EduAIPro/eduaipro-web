@@ -47,7 +47,7 @@ export const AssessmentResults = ({
               "font-medium",
               assessmentRecord.gradePercentage <= 25
                 ? "text-error-600"
-                : assessmentRecord.gradePercentage < 50
+                : assessmentRecord.gradePercentage < 70
                   ? "text-warning-500"
                   : "text-success-600",
             )}
