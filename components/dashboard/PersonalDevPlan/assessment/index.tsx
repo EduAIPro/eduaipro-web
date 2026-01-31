@@ -1,10 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import {
-  getCourseWithProgress,
-  getUnitDetails,
-  submitAssessmentKey,
-} from "@/api/keys";
+import { getCourseWithProgress, submitAssessmentKey } from "@/api/keys";
 import { submitAssessment } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
