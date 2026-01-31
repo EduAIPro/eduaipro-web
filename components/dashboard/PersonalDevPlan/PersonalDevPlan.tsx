@@ -179,7 +179,9 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
         error={error}
         removeAssessmentScreen={removeAssessmentScreen}
         onSubmisson={(v: AssessmentSubmitResponse) => {
-          globalMutate(`${getUnitDetails}/${activeUnitId}`);
+          if (activeUnitId) {
+            globalMutate([getUnitDetails, activeUnitId]);
+          }
           setAssessmentResults(v);
         }}
       />

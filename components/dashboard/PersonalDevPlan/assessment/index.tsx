@@ -1,6 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { getCourseWithProgress, submitAssessmentKey } from "@/api/keys";
+import {
+  getCourseWithProgress,
+  getUnitDetails,
+  submitAssessmentKey,
+} from "@/api/keys";
 import { submitAssessment } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -64,6 +68,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
       if (res) {
         // refetch course progress
         mutate(getCourseWithProgress);
+
         onSubmisson(res);
         removeAssessmentScreen();
         // open surveys if the surveys array exists
