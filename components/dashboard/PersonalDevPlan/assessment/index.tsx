@@ -64,6 +64,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
       if (res) {
         // refetch course progress
         mutate(getCourseWithProgress);
+
         onSubmisson(res);
         removeAssessmentScreen();
         // open surveys if the surveys array exists
