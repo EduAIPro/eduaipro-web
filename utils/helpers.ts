@@ -39,12 +39,13 @@ interface CsvMetadata {
   totalRows: number;
   totalColumns: number;
   duplicatedRows: number;
+  data: string[][];
 }
 
 export function extractCsvMetadataAdvanced(
   csvContent: string,
   delimiter: string = ",",
-  hasHeader: boolean = true
+  hasHeader: boolean = true,
 ): CsvMetadata {
   if (!csvContent.trim()) {
     return {
@@ -53,6 +54,7 @@ export function extractCsvMetadataAdvanced(
       totalRows: 0,
       totalColumns: 0,
       duplicatedRows: 0,
+      data: [],
     };
   }
 
@@ -103,6 +105,7 @@ export function extractCsvMetadataAdvanced(
       totalRows: 0,
       totalColumns: 0,
       duplicatedRows: 0,
+      data: [],
     };
   }
 
@@ -121,7 +124,7 @@ export function extractCsvMetadataAdvanced(
     const numColumns = rows.length > 0 ? rows[0].length : 0;
     columnNames = Array.from(
       { length: numColumns },
-      (_, i) => `Column_${i + 1}`
+      (_, i) => `Column_${i + 1}`,
     );
   }
 
@@ -140,13 +143,14 @@ export function extractCsvMetadataAdvanced(
     totalRows,
     totalColumns,
     duplicatedRows,
+    data: dataRows,
   };
 }
 
 export async function extractCsvMetadataFromFile(
   file: File,
   delimiter: string = ",",
-  hasHeader: boolean = true
+  hasHeader: boolean = true,
 ): Promise<CsvMetadata> {
   let csvContent: string;
 

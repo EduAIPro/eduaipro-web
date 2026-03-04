@@ -249,9 +249,18 @@ export async function submitAssessment(
 }
 
 // SCHOOL
+export type StaffInvite = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneCountryCode: string;
+  phoneNumber: string;
+  level: string;
+};
+
 export async function sendInvitation(
   url: string,
-  { arg }: { arg: { email: string } },
+  { arg }: { arg: { email?: string; staffs?: StaffInvite[] } },
 ): Promise<boolean> {
   try {
     await apiClient(url, arg);

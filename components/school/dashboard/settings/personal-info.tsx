@@ -138,7 +138,7 @@ export const PersonalInfoSettings = ({
                       Email address
                     </h2>
                     <div className="py-2 rounded-lg sm:max-w-[60%] w-full border bg-muted/50 px-3">
-                      <p>{user?.email ?? "hello world"}</p>
+                      <p>{user?.email ?? ""}</p>
                     </div>
                   </div>
 
