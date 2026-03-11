@@ -52,7 +52,18 @@ export default function GoalsAndSecurity({
         <CheckboxInput
           single
           name="termsAccepted"
-          label="I accept the terms and conditions"
+          label={
+            <p>
+              I accept the{" "}
+              <a
+                target="_blank"
+                className="underline text-primary"
+                href="/terms-and-conditions"
+              >
+                terms and conditions
+              </a>
+            </p>
+          }
           error={
             touched.termsAccepted && errors.termsAccepted
               ? errors.termsAccepted

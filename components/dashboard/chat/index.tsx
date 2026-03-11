@@ -71,7 +71,7 @@ export default function Chatbot({ moduleItemId }: ChatbotProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const storageKey = useMemo(
     () => `chatbot-messages-${moduleItemId}`,
-    [moduleItemId]
+    [moduleItemId],
   );
   const greetingKey = "chatbot-greeting-shown";
 
@@ -193,8 +193,8 @@ export default function Chatbot({ moduleItemId }: ChatbotProps) {
   const handleTypingComplete = (messageId: string) => {
     setMessages((prev) =>
       prev.map((msg) =>
-        msg.id === messageId ? { ...msg, isTyping: false } : msg
-      )
+        msg.id === messageId ? { ...msg, isTyping: false } : msg,
+      ),
     );
   };
 
@@ -209,7 +209,7 @@ export default function Chatbot({ moduleItemId }: ChatbotProps) {
     <>
       {/* Floating Action Button & Greeting */}
       {!isOpen && (
-        <div className="fixed bottom-6 right-6 z-[50] flex flex-col items-end gap-2">
+        <div className="fixed bottom-[90px] md:bottom-6 right-6 z-[50] flex flex-col items-end gap-2">
           {showGreeting && (
             <div className="bg-white text-foreground p-3 rounded-lg shadow-lg border border-border animate-in fade-in slide-in-from-bottom-2 max-w-[250px] relative mb-2">
               <button
@@ -251,7 +251,7 @@ export default function Chatbot({ moduleItemId }: ChatbotProps) {
 
       {/* Chat Window */}
       {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-full md:w-[400px] h-[600px] max-h-[80vh] flex flex-col shadow-2xl z-[50] rounded-xl border-border animate-in fade-in slide-in-from-bottom-5">
+        <Card className="fixed bottom-[90px] md:bottom-6 right-0 md:right-6 left-0 md:left-auto mx-auto w-[calc(100%-2rem)] md:w-[400px] h-[600px] max-h-[80vh] flex flex-col shadow-2xl z-[50] rounded-xl border-border animate-in fade-in slide-in-from-bottom-5">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b bg-primary/5 rounded-t-xl">
             <div className="flex items-center gap-3">

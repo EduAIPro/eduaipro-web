@@ -42,6 +42,8 @@ type CourseMediaProps = {
   handleIntroPlayed: VoidFunction;
   startAssessment: VoidFunction;
   navigateToPreviousUnit?: () => Promise<string | null>; // Returns the last module's PDF URL of previous unit
+  isMobileLandscape?: boolean;
+  setIsMobileLandscape?: Dispatch<SetStateAction<boolean>>;
 };
 
 // Setup pdfjs worker for react-pdf
@@ -60,13 +62,14 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
   startAssessment,
   handleIntroPlayed,
   navigateToPreviousUnit,
+  isMobileLandscape = false,
+  setIsMobileLandscape,
 }) => {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [containerWidth, setContainerWidth] = useState(600);
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [shouldLoadToLastPage, setShouldLoadToLastPage] = useState(false);
-  const [isMobileLandscape, setIsMobileLandscape] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<HTMLDivElement | null>(null);
@@ -90,7 +93,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
   }, [isMobileLandscape]);
 
   const toggleMobileLandscape = () => {
-    setIsMobileLandscape((prev) => !prev);
+    setIsMobileLandscape?.((prev) => !prev);
     setTimeout(updateWidth, 100);
   };
 
@@ -205,7 +208,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
         setIsFullscreen(false);
       }
       if (isMobileLandscape) {
-        setIsMobileLandscape(false);
+        setIsMobileLandscape?.(false);
       }
       startAssessment();
       return;

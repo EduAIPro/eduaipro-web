@@ -52,7 +52,9 @@ a:hover {
 }
 .course_card:hover {
   transform: scale3d(1.03, 1.03, 1.08) translate3d(0.1rem, -0.25rem, 20rem);
-  box-shadow: 0 0 40px -8px rgb(0 0 0 / 16%), 0 0 24px -16px rgb(0 0 0 / 16%);
+  box-shadow:
+    0 0 40px -8px rgb(0 0 0 / 16%),
+    0 0 24px -16px rgb(0 0 0 / 16%);
   animation-duration: 500ms;
 }
 .course_card {
@@ -68,7 +70,9 @@ a:hover {
 }
 
 .light_shadow {
-  box-shadow: 0 0 30px -16px rgb(0 0 0 / 16%), 0 0 12px -8px rgb(0 0 0 /16%);
+  box-shadow:
+    0 0 30px -16px rgb(0 0 0 / 16%),
+    0 0 12px -8px rgb(0 0 0 /16%);
 }
 
 .gradient__text {
@@ -330,7 +334,9 @@ a:hover {
   padding: 2rem;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.1s ease, opacity 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    opacity 0.1s ease;
 }
 
 html,
@@ -462,5 +468,13 @@ article {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Override Chatwoot widget position on mobile to avoid tab bar */
+@media (max-width: 768px) {
+  .cw-widget-container,
+  #chatwoot-widget {
+    bottom: 90px !important;
   }
 }

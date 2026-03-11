@@ -3,6 +3,7 @@ import { Link2Icon, PlusIcon } from "lucide-react";
 import {
   bulkSchoolInviteKey,
   getSchoolInviteLinkKey,
+  getSchoolStaffsKey,
   schoolInviteKey,
 } from "@/api/keys";
 import { sendInvitation, StaffInvite } from "@/api/mutations";
@@ -107,7 +108,7 @@ export const InviteTeacherModal = ({ key }: InviteTeacherModalProps) => {
       if (email) {
         await trigger({ email });
         if (key) {
-          mutate(key);
+          mutate([key, 1]);
         }
         toast.success("Invitation email sent successfully");
         setEmail("");
@@ -124,7 +125,7 @@ export const InviteTeacherModal = ({ key }: InviteTeacherModalProps) => {
     try {
       await triggerBulk({ staffs });
       if (key) {
-        mutate(key);
+        mutate([key, 1]);
       }
       toast.success(`${staffs.length} invitations sent successfully`);
       setStaffs([]);

@@ -58,6 +58,7 @@ type UnitsContentProps = {
   values: string;
   moduleValues: string[][];
   moduleId: string | null;
+  isMobileLandscape?: boolean;
 };
 
 export function UnitsContent({
@@ -80,6 +81,7 @@ export function UnitsContent({
   moduleValues,
   setModuleValues,
   moduleId,
+  isMobileLandscape,
 }: UnitsContentProps) {
   const { trigger } = useSWRMutation(updateModuleKey, updateModule);
   const processedModulesRef = useRef(new Set<string>());
@@ -172,7 +174,9 @@ export function UnitsContent({
     >
       <div className="flex items-center justify-between">
         <h4 className="font-semibold !text-base">Course content</h4>
-        {moduleId && !isQuizOn ? <Chatbot moduleItemId={moduleId} /> : null}
+        {moduleId && !isQuizOn && !isMobileLandscape ? (
+          <Chatbot moduleItemId={moduleId} />
+        ) : null}
       </div>
       <ScrollArea className="h-full mt-6 max-h-screen overflow-y-auto no-scrollbar">
         <Accordion
