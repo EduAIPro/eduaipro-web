@@ -62,14 +62,14 @@ export default function FormInput({
           isFocused
             ? "border-brand-1001 transition-colors duration-300 border-[1.5px]"
             : "",
-          inputClassName
+          inputClassName,
         )}
       >
         {leftIcon ? (
           <div
             className={cn(
               "py-1 px-[6px] rounded-lg",
-              error ? "bg-red-100/50" : "bg-blue-500/10"
+              error ? "bg-red-100/50" : "bg-blue-500/10",
             )}
           >
             {leftIcon ?? null}
@@ -133,7 +133,7 @@ export function DateInput({
           error ? "border-red-400" : "border-grey-4/50",
           isFocused
             ? "border-brand-1001 transition-colors duration-300 border-[1.5px]"
-            : ""
+            : "",
         )}
       >
         <Field name={name}>
@@ -223,7 +223,7 @@ export function SelectInput({
           error ? "border-red-400" : "border-grey-4/50",
           isFocused
             ? "border-brand-1001 transition-colors duration-300 border-[1.5px]"
-            : ""
+            : "",
         )}
         onClick={() => {
           setIsOpen(!isOpen);
@@ -262,7 +262,7 @@ export function SelectInput({
                   <ChevronDownIcon
                     className={cn(
                       "duration-300 transition-all",
-                      isOpen ? "rotate-180" : "rotate-0"
+                      isOpen ? "rotate-180" : "rotate-0",
                     )}
                     size={18}
                   />
@@ -415,7 +415,7 @@ export function CheckboxInput({
   single = false, // For single checkbox use case
 }: {
   leftIcon?: ReactNode;
-  label?: string;
+  label?: string | ReactNode;
   name: string;
   error?: string | null;
   className?: string;
@@ -437,7 +437,7 @@ export function CheckboxInput({
                     form.setFieldValue(name, checked)
                   }
                 />
-                {label && <p>{label}</p>}
+                {label && typeof label === "string" ? <p>{label}</p> : label}
               </label>
               {error && (
                 <div className="mt-2">
@@ -486,7 +486,7 @@ export function CheckboxInput({
                       "flex items-center gap-x-3 p-3 hover:bg-gray-50 transition-colors",
                       index === 0 ? "rounded-t-lg" : "",
                       index === options.length - 1 ? "rounded-b-lg" : "",
-                      isDisabled ? "opacity-50" : "cursor-pointer"
+                      isDisabled ? "opacity-50" : "cursor-pointer",
                     )}
                   >
                     <div className="flex items-center flex-1">
@@ -523,7 +523,7 @@ export function CheckboxInput({
                           ? e.target.checked
                             ? [...field.value, option.value]
                             : field.value.filter(
-                                (v: string) => v !== option.value
+                                (v: string) => v !== option.value,
                               )
                           : [option.value];
                         form.setFieldValue(name, newValue);
@@ -590,7 +590,7 @@ export function SearchSelectInput({
     : setInternalSearchTerm;
 
   const filteredOptions = options.filter((option) =>
-    option.label.toLowerCase().includes((searchTerm || "").toLowerCase())
+    option.label.toLowerCase().includes((searchTerm || "").toLowerCase()),
   );
 
   useEffect(() => {
@@ -630,7 +630,7 @@ export function SearchSelectInput({
           isFocused
             ? "border-brand-1001 transition-colors duration-300 border-[1.5px]"
             : "",
-          disabled ? "opacity-50 pointer-events-none" : ""
+          disabled ? "opacity-50 pointer-events-none" : "",
         )}
         onClick={() => {
           if (!disabled) {
@@ -673,7 +673,7 @@ export function SearchSelectInput({
                   <ChevronDownIcon
                     className={cn(
                       "duration-300 transition-all",
-                      isOpen ? "rotate-180" : "rotate-0"
+                      isOpen ? "rotate-180" : "rotate-0",
                     )}
                     size={18}
                   />

@@ -15,7 +15,13 @@ export default function AppLayoutBase({ children }: { children: ReactNode }) {
     "/forgot-password",
     "/forgot-password/reset",
   ];
-  const LANDING_PATHS = ["/", "/faq", "/courses"];
+  const LANDING_PATHS = [
+    "/",
+    "/faq",
+    "/courses",
+    "/terms-and-conditions",
+    "/privacy-policy",
+  ];
   const DefaultLayout = ({ children }: { children: ReactNode }) => (
     <main>{children}</main>
   );

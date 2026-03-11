@@ -88,10 +88,17 @@ export const footerLinks = [
         title: "FAQs",
         href: "/faq",
       },
-
       {
         title: "Send us an email",
         href: "mailto:support@eduaipro.ng",
+      },
+      {
+        title: "Terms and conditions",
+        href: "/terms-and-conditions",
+      },
+      {
+        title: "Privacy policy",
+        href: "/privacy-policy",
       },
     ],
   },

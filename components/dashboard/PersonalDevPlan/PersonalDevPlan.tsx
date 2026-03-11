@@ -53,6 +53,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
   const [moduleAccValues, setModuleAccValues] = useState<string[][]>(
     units.map((_, i) => (i === 0 ? ["1"] : [])),
   );
+  const [isMobileLandscape, setIsMobileLandscape] = useState(false);
 
   const isMobile = useIsMobile();
   const { mutate: globalMutate } = useSWRConfig();
@@ -118,6 +119,35 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
       console.error("Failed to update intro status", error);
     }
   };
+
+  useEffect(() => {
+    if (unitInfo && moduleId && activeUnitId) {
+      const unitIndex = units.findIndex((u) => u.id === activeUnitId);
+      if (unitIndex !== -1) {
+        const activeModule = unitInfo.modules.find((mod) =>
+          mod.moduleItems.some((item) => item.id === moduleId),
+        );
+        if (activeModule) {
+          const accValue = `${units[unitIndex].index}-${activeModule.index}`;
+          setModuleAccValues((prev) => {
+            const next = [...prev];
+            if (!next[unitIndex]) {
+              next[unitIndex] = [];
+            }
+            if (!next[unitIndex].includes(accValue)) {
+              next[unitIndex] = [...next[unitIndex], accValue];
+            }
+            return next;
+          });
+        }
+      }
+    }
+  }, [unitInfo, moduleId, activeUnitId, units]);
+
+  useEffect(() => {
+    setIsQuizOn(false);
+    setIsViewingResults(false);
+  }, [activeUnitId]);
 
   useEffect(() => {
     if (window) {
@@ -195,6 +225,8 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
         unitInfo={unitInfo}
         refetchUnitDetails={() => mutate(unitInfo)}
         startAssessment={startAssessment}
+        isMobileLandscape={isMobileLandscape}
+        setIsMobileLandscape={setIsMobileLandscape}
         {...props}
       />
     );
@@ -222,6 +254,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
         setActiveUnitId={setActiveUnitId}
         unitInfo={unitInfo}
         isLoading={isLoading}
+        isMobileLandscape={isMobileLandscape}
       />
     );
   };
