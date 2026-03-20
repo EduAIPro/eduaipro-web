@@ -18,7 +18,7 @@ import {
   GeneratedQuestions,
 } from "@/types/assessment";
 import { CourseProgress, CourseUnit } from "@/types/course";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { Assessment } from "./assessment";
 import { AssessmentCompletedModal } from "./assessment/completed-modal";
@@ -27,7 +27,7 @@ import CourseMedia from "./course-media";
 import { UnitsContent } from "./units-content";
 import useUser from "@/hooks/use-user";
 import { updatePersonalInfo } from "@/api/mutations";
-import useSWR, { useSWRConfig } from "swr";
+import { useSWRConfig } from "swr";
 
 type PersonalDevPlanProps = {
   introVideoUrl?: string;
@@ -174,90 +174,75 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
     }
   }, [unitInfo]);
 
-  // useEffect(() => {
-  //   if (window && !pdfUrl) {
-  //     const lastPdf = window.localStorage.getItem("lastPdf");
-  //     if (lastPdf) {
-  //       setPdfUrl(lastPdf);
-  //     } else if (unitInfo) {
-  //       const mostRecentModule = unitInfo.modules[0].moduleItems[0];
-  //       setModuleId(mostRecentModule.id);
-  //       setPdfUrl(mostRecentModule.signedPdfUrl);
-  //     }
-  //   }
-  // }, [unitInfo]);
-
-  function startAssessment() {
+  const startAssessment = useCallback(() => {
     setIsQuizOn(true);
     triggerQuestions().then(() => {
       setIsViewingResults(false);
       setAssessmentResults(null);
     });
-  }
+  }, []);
 
-  function removeAssessmentScreen() {
+  const removeAssessmentScreen = useCallback(() => {
     setIsQuizOn(false);
     setIsModalOpen(true);
     setIsViewingResults(true);
-  }
+  }, []);
 
-  const LeftPanel = () => {
-    return isQuizOn ? (
-      <Assessment
-        isLoading={isMutating}
-        data={questions}
-        error={error}
-        removeAssessmentScreen={removeAssessmentScreen}
-        onSubmisson={(v: AssessmentSubmitResponse) => {
-          if (activeUnitId) {
-            globalMutate([getUnitDetails, activeUnitId]);
-          }
-          setAssessmentResults(v);
-        }}
-      />
-    ) : (
-      <CourseMedia
-        introHasPlayed={introHasPlayed}
-        handleIntroPlayed={handleIntroPlayed}
-        pdfUrl={pdfUrl}
-        setPdfUrl={setPdfUrl}
-        setModuleId={setModuleId}
-        unitInfo={unitInfo}
-        refetchUnitDetails={() => mutate(unitInfo)}
-        startAssessment={startAssessment}
-        isMobileLandscape={isMobileLandscape}
-        setIsMobileLandscape={setIsMobileLandscape}
-        {...props}
-      />
-    );
-  };
+  const refetchUnitDetails = useCallback(() => mutate(unitInfo), [unitInfo]);
 
-  const RightPanel = () => {
-    return (
-      <UnitsContent
-        setCurrentPage={setCurrentPage}
-        setModuleId={setModuleId}
-        moduleId={moduleId}
-        handleIntroPlayed={handleIntroPlayed}
-        introHasPlayed={introHasPlayed}
-        units={units}
-        pdfUrl={pdfUrl}
-        setPdfUrl={setPdfUrl}
-        values={accordionValues}
-        moduleValues={moduleAccValues}
-        setModuleValues={setModuleAccValues}
-        setValues={setAccordionValues}
-        courseProgress={props.courseProgress}
-        generateQuestions={startAssessment}
-        isGeneratingQuestions={isMutating}
-        isQuizOn={isQuizOn}
-        setActiveUnitId={setActiveUnitId}
-        unitInfo={unitInfo}
-        isLoading={isLoading}
-        isMobileLandscape={isMobileLandscape}
-      />
-    );
-  };
+  const leftPanel = isQuizOn ? (
+    <Assessment
+      isLoading={isMutating}
+      data={questions}
+      error={error}
+      removeAssessmentScreen={removeAssessmentScreen}
+      onSubmisson={(v: AssessmentSubmitResponse) => {
+        if (activeUnitId) {
+          globalMutate([getUnitDetails, activeUnitId]);
+        }
+        setAssessmentResults(v);
+      }}
+    />
+  ) : (
+    <CourseMedia
+      introHasPlayed={introHasPlayed}
+      handleIntroPlayed={handleIntroPlayed}
+      pdfUrl={pdfUrl}
+      setPdfUrl={setPdfUrl}
+      setModuleId={setModuleId}
+      unitInfo={unitInfo}
+      refetchUnitDetails={refetchUnitDetails}
+      startAssessment={startAssessment}
+      isMobileLandscape={isMobileLandscape}
+      setIsMobileLandscape={setIsMobileLandscape}
+      {...props}
+    />
+  );
+
+  const rightPanel = (
+    <UnitsContent
+      setCurrentPage={setCurrentPage}
+      setModuleId={setModuleId}
+      moduleId={moduleId}
+      handleIntroPlayed={handleIntroPlayed}
+      introHasPlayed={introHasPlayed}
+      units={units}
+      pdfUrl={pdfUrl}
+      setPdfUrl={setPdfUrl}
+      values={accordionValues}
+      moduleValues={moduleAccValues}
+      setModuleValues={setModuleAccValues}
+      setValues={setAccordionValues}
+      courseProgress={props.courseProgress}
+      generateQuestions={startAssessment}
+      isGeneratingQuestions={isMutating}
+      isQuizOn={isQuizOn}
+      setActiveUnitId={setActiveUnitId}
+      unitInfo={unitInfo}
+      isLoading={isLoading}
+      isMobileLandscape={isMobileLandscape}
+    />
+  );
 
   return (
     <>
@@ -272,18 +257,14 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
         <div>
           {isMobile ? (
             <div className="lg:grid grid-cols-4 min-[1600px]:grid-cols-5 gap-6 w-full justify-between">
-              <LeftPanel />
-              <RightPanel />
+              {leftPanel}
+              {rightPanel}
             </div>
           ) : (
             <ResizablePanelGroup direction="horizontal" className="space-x-3">
-              <ResizablePanel defaultSize={65}>
-                <LeftPanel />
-              </ResizablePanel>
+              <ResizablePanel defaultSize={65}>{leftPanel}</ResizablePanel>
               <ResizableHandle withHandle />
-              <ResizablePanel defaultSize={35}>
-                <RightPanel />
-              </ResizablePanel>
+              <ResizablePanel defaultSize={35}>{rightPanel}</ResizablePanel>
             </ResizablePanelGroup>
           )}
         </div>

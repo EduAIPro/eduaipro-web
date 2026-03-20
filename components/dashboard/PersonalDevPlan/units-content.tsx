@@ -20,6 +20,7 @@ import {
 } from "@/types/course";
 import { groupByType } from "@/utils/helpers";
 import { removeUnitModulePatternsExtended } from "@/utils/text";
+import { extractPublicId } from "@/utils/link";
 import {
   CircleCheckIcon,
   Loader2Icon,
@@ -243,19 +244,33 @@ export function UnitsContent({
                           (m) => m.items.length,
                         );
                         const totalSlides = pages.reduce((p, c) => p + c, 0);
+                        const moduleSlides = unitModule.moduleItems?.flatMap(
+                          (mI) => mI.items.map((i) => i.signedPdfUrl),
+                        );
+                        const isActiveModule = pdfUrl
+                          ? moduleSlides.some(
+                              (s) =>
+                                extractPublicId(s) === extractPublicId(pdfUrl),
+                            )
+                          : false;
                         return (
                           <AccordionItem
                             value={`${unit.index}-${unitModule.index}`}
                             key={unitModule.id}
                             className="w-full"
                           >
-                            <AccordionTrigger className="hover:no-underline">
+                            <AccordionTrigger
+                              className={cn(
+                                "hover:no-underline",
+                                isActiveModule ? "bg-primary-100 px-3" : "",
+                              )}
+                            >
                               <div className="text-sm lg:text-base cursor-pointer flex items-start gap-2">
                                 <div className="shrink-0 w-4 h-4 flex items-center justify-center mt-0.5">
                                   {unitModule.isCompleted ? (
                                     <CircleCheckIcon
                                       size={17}
-                                      className="text-primary-300"
+                                      className="text-green-700"
                                     />
                                   ) : (
                                     <ModuleDoc width={16} height={16} />
@@ -265,7 +280,7 @@ export function UnitsContent({
                                   className={cn(
                                     "text-left",
                                     unitModule.isCompleted
-                                      ? "text-primary-300"
+                                      ? "text-green-700/80"
                                       : "text-grey-500",
                                   )}
                                 >
@@ -289,43 +304,49 @@ export function UnitsContent({
                                         .replace("_", " ")
                                         .toLowerCase()}
                                     </h2>
-                                    {moduleItem.items.map((contentItem) => (
-                                      <ul
-                                        key={contentItem.id}
-                                        className="space-y-1"
-                                      >
-                                        {contentItem.pages.map((item) => (
-                                          <li key={item.id}>
-                                            <button
-                                              onClick={() =>
-                                                handlePageClick(
-                                                  item,
-                                                  contentItem,
-                                                )
-                                              }
-                                              disabled={isQuizOn}
-                                              className="cursor-pointer pl-6 w-full text-left disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 py-1 px-2 rounded transition-colors"
-                                              type="button"
-                                            >
-                                              <p
-                                                className={cn(
-                                                  "hover:underline hover:text-black text-sm",
-                                                  courseProgress.module?.id ===
-                                                    contentItem.id
-                                                    ? "text-primary-400"
-                                                    : "",
-                                                )}
+                                    {moduleItem.items.map((contentItem) => {
+                                      const isActiveSlide = pdfUrl
+                                        ? extractPublicId(
+                                            contentItem.signedPdfUrl,
+                                          ) === extractPublicId(pdfUrl)
+                                        : false;
+                                      return (
+                                        <ul
+                                          key={contentItem.id}
+                                          className="space-y-1"
+                                        >
+                                          {contentItem.pages.map((item) => (
+                                            <li key={item.id}>
+                                              <button
+                                                onClick={() =>
+                                                  handlePageClick(
+                                                    item,
+                                                    contentItem,
+                                                  )
+                                                }
+                                                disabled={isQuizOn}
+                                                className="cursor-pointer pl-6 w-full text-left disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 py-1 px-2 rounded transition-colors"
+                                                type="button"
                                               >
-                                                -
-                                                {removeUnitModulePatternsExtended(
-                                                  item.pageTitle,
-                                                )}
-                                              </p>
-                                            </button>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    ))}
+                                                <p
+                                                  className={cn(
+                                                    "hover:underline hover:text-black text-sm",
+                                                    isActiveSlide
+                                                      ? "text-primary-400 font-medium"
+                                                      : "",
+                                                  )}
+                                                >
+                                                  -{" "}
+                                                  {removeUnitModulePatternsExtended(
+                                                    item.pageTitle,
+                                                  )}
+                                                </p>
+                                              </button>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      );
+                                    })}
                                   </li>
                                 ))}
                               </ul>

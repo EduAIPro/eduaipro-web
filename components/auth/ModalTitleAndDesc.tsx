@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import Typography from "../common/ui/Typography";
-import { Icon } from "iconsax-react";
+import { Icon, LucideIcon } from "lucide-react";
 
 export default function ModalTitleAndDesc({
   Icon,
@@ -9,7 +9,7 @@ export default function ModalTitleAndDesc({
 }: {
   title: string;
   description: string;
-  Icon: Icon;
+  Icon: LucideIcon;
 }) {
   return (
     <div className="border-b pb-3 border-b-grey-3">

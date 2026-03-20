@@ -103,12 +103,12 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
     return () => window.removeEventListener("resize", updateWidth);
   }, [updateWidth]);
 
-  // Sync intro video state with localStorage
+  // Sync intro video state: if the user already has unit progress, mark intro as played
   useEffect(() => {
-    if (introHasPlayed || courseProgress.unit?.id) {
+    if (!introHasPlayed && courseProgress.unit?.id) {
       handleIntroPlayed();
     }
-  }, [introHasPlayed, courseProgress]);
+  }, [courseProgress.unit?.id]);
 
   // Find the module and moduleItem for a given page number - memoized
   const getModuleAndItemForPage = useCallback(
@@ -310,7 +310,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
   // Handle intro video completion
   const handleStartCourse = useCallback(() => {
     handleIntroPlayed();
-  }, []);
+  }, [handleIntroPlayed]);
 
   return (
     <div
@@ -508,10 +508,16 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                   <ChevronRightIcon className="rotate-90" size={20} />
                 ) : (
                   <>
-                    {isOnLastModule && pageNumber === numPages
+                    {isOnLastModule &&
+                    pageNumber === numPages &&
+                    (!unitInfo?.assessmentRecord ||
+                      unitInfo?.assessmentRecord?.gradePercentage <
+                        parseInt(
+                          process.env.NEXT_PUBLIC_ASSESSMENT_PASS_MARK || "70",
+                        ))
                       ? "Start Assessment"
                       : pageNumber === numPages
-                        ? "Next Module"
+                        ? "Next Slide"
                         : "Next"}
                     <ChevronRightIcon size={16} />
                   </>

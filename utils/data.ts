@@ -47,18 +47,21 @@ export const teachingLevels = [
 ];
 
 export const interestedSkills = [
-  {
-    label: "EdTech",
-    value: "edtech",
-  },
-  {
-    label: "Classroom management",
-    value: "Classroom management",
-  },
-  {
-    label: "Student Management",
-    value: "Student Management",
-  },
+  { label: "EdTech", value: "EdTech" },
+  { label: "Classroom Management", value: "Classroom Management" },
+  { label: "Student Management", value: "Student Management" },
+  { label: "Curriculum Development", value: "Curriculum Development" },
+  { label: "Digital Literacy", value: "Digital Literacy" },
+  { label: "Differentiated Instruction", value: "Differentiated Instruction" },
+  { label: "Assessment & Evaluation", value: "Assessment & Evaluation" },
+  { label: "Inclusive Teaching", value: "Inclusive Teaching" },
+  { label: "Project-Based Learning", value: "Project-Based Learning" },
+  { label: "STEM Education", value: "STEM Education" },
+  { label: "Social-Emotional Learning", value: "Social-Emotional Learning" },
+  { label: "E-Learning & Course Design", value: "E-Learning & Course Design" },
+  { label: "Leadership in Education", value: "Leadership in Education" },
+  { label: "Special Needs Education", value: "Special Needs Education" },
+  { label: "Others", value: "others" },
 ];
 
 export const yearsOfExperienceData = [
