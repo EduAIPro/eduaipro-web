@@ -37,7 +37,7 @@ export default function MultiStepFormModal({
   const router = useRouter();
   const { trigger, isMutating } = useSWRMutation(
     completeSurveyKey,
-    completeSurvey
+    completeSurvey,
   );
 
   const validationSchemas = [
@@ -60,7 +60,9 @@ export default function MultiStepFormModal({
           educationalLevel: values.educationLevel,
           experienceRange: values.yearsOfExperience,
           areaOfSpecialization: values.areaOfSpecialization,
-          interestedSkills: values.interestInSkills.split(","),
+          interestedSkills: values.interestInSkills
+            .split(",")
+            .map((skill) => skill.trim()),
           primaryLearningGoal: values.learningGoals,
           altLearningGoal: values.otherLearningGoals ?? "",
           acceptedTermsAndConditions: !!values.termsAccepted,

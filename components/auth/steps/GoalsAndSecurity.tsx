@@ -7,6 +7,7 @@ import { GoalsFormValue } from "@/utils/validation/auth";
 import { FormikErrors, FormikTouched } from "formik";
 import { Cup } from "iconsax-react";
 import ModalTitleAndDesc from "../ModalTitleAndDesc";
+import { TrophyIcon } from "lucide-react";
 
 type GoalsAndSecurityProps = {
   touched: FormikTouched<GoalsFormValue>;
@@ -22,7 +23,7 @@ export default function GoalsAndSecurity({
       <ModalTitleAndDesc
         title="Professional Goals and Security"
         description="Tell us about your goals and background to personalize your learning experience."
-        Icon={Cup}
+        Icon={TrophyIcon}
       />
 
       <div className="mt-6 flex-col flex gap-y-4">

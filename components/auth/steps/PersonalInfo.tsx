@@ -3,6 +3,7 @@ import { PersonalInfoFormValue } from "@/utils/validation/auth";
 import { FormikErrors, FormikTouched } from "formik";
 import { UserAdd } from "iconsax-react";
 import ModalTitleAndDesc from "../ModalTitleAndDesc";
+import { UserPlusIcon } from "lucide-react";
 
 type PersonalInfoProps = {
   touched: FormikTouched<PersonalInfoFormValue>;
@@ -23,7 +24,7 @@ export default function PersonalInfo({
         title="Personal information"
         description="Please provide your basic details to help us personalize your
             experience."
-        Icon={UserAdd}
+        Icon={UserPlusIcon}
       />
 
       <div className="mt-6 flex-col flex gap-y-4">
