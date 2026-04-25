@@ -49,11 +49,11 @@ export const CertificateSheet = ({
   const progressInfo = [
     {
       label: "Accreditation status",
-      value: progress === 100 ? "Accredited" : "Not accredited",
+      value: "Accredited",
     },
     {
       label: "Compeletion status",
-      value: progress,
+      value: 100,
     },
   ];
 
@@ -128,9 +128,7 @@ export const CertificateSheet = ({
               <li key={p.label} className="flex items-center justify-between">
                 <h3 className="text-sm font-medium text-grey-500">{p.label}</h3>
                 <p className="text-sm font-medium text-grey-800 text-left">
-                  {typeof p.value !== "string"
-                    ? format(p.value, "do MMMM, yyyy")
-                    : p.value}
+                  {format(p.value, "do MMMM, yyyy")}
                 </p>
               </li>
             ))}
@@ -147,8 +145,7 @@ export const CertificateSheet = ({
                 {i === 0 ? (
                   <p
                     className={cn(
-                      "text-sm font-medium text-left",
-                      progress === 100 ? "text-green-700" : "text-amber-500"
+                      "text-sm font-medium text-left text-green-700",
                     )}
                   >
                     {p.value}
@@ -157,21 +154,14 @@ export const CertificateSheet = ({
                   <div className="flex items-center gap-3 max-sm:w-1/2">
                     <div className="relative w-full sm:w-[220px] h-2 bg-grey-4 rounded-full">
                       <div
-                        style={{ width: `${progress}%` }}
+                        style={{ width: `100%` }}
                         className={cn(
-                          "absolute h-full rounded-full",
-                          progress <= 50
-                            ? "bg-amber-600"
-                            : progress < 80
-                            ? "bg-amber-400"
-                            : "bg-green-700"
+                          "absolute h-full rounded-full bg-green-700",
                         )}
                       ></div>
                     </div>
 
-                    <p className="font-medium text-sm text-grey-500">
-                      {progress}%
-                    </p>
+                    <p className="font-medium text-sm text-grey-500">100%</p>
                   </div>
                 )}
               </li>
