@@ -9,6 +9,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
 import { ChatResponse } from "@/types/chat";
+import { toast } from "sonner";
 
 interface Message {
   id: string;
@@ -19,7 +20,7 @@ interface Message {
 }
 
 interface ChatbotProps {
-  moduleItemId: string;
+  moduleItemId?: string | null;
 }
 
 const LoadingDots: React.FC = () => {
@@ -141,6 +142,11 @@ export default function Chatbot({ moduleItemId }: ChatbotProps) {
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isMutating) return;
+
+    if (!moduleItemId) {
+      toast.error("Please select a module first");
+      return;
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),

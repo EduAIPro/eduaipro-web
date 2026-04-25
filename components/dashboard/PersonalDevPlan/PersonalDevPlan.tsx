@@ -244,6 +244,12 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
     />
   );
 
+  const isLastUnit = useMemo(() => {
+    if (!activeUnitId || !units.length) return false;
+    const lastUnit = units[units.length - 1];
+    return lastUnit.id === activeUnitId;
+  }, [activeUnitId, units]);
+
   return (
     <>
       {isViewingResults && assessmentResults ? (
@@ -252,6 +258,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
           retakeAssessment={startAssessment}
           questionsLoading={isMutating}
           closeModal={() => setIsViewingResults(false)}
+          isLastUnit={isLastUnit}
         />
       ) : (
         <div>

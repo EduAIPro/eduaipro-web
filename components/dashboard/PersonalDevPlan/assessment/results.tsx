@@ -8,13 +8,15 @@ import { cn } from "@/lib/utils";
 import { AssessmentSubmitResponse } from "@/types/assessment";
 import { SquareIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import confetti from "canvas-confetti";
 
 type AssessmentResultsProps = {
   response: AssessmentSubmitResponse;
   retakeAssessment: VoidFunction;
   questionsLoading: boolean;
   closeModal: VoidFunction;
+  isLastUnit?: boolean;
 };
 
 export const AssessmentResults = ({
@@ -22,11 +24,12 @@ export const AssessmentResults = ({
   retakeAssessment,
   questionsLoading,
   closeModal,
+  isLastUnit = false,
 }: AssessmentResultsProps) => {
   const router = useRouter();
 
   const { result, assessmentPassed, assessmentRecord } = response;
-  const [questionIndex, setQuestionIndex] = useState(result?.[0].index);
+  const [questionIndex, setQuestionIndex] = useState(result?.[0]?.index);
 
   const activeQuestion = useMemo(
     () => result?.[questionIndex],
@@ -36,6 +39,40 @@ export const AssessmentResults = ({
     () => activeQuestion?.index === result?.length - 1,
     [activeQuestion],
   );
+
+  // Determine if we should show the celebration / certificate CTA
+  const showCertificateCTA = isLastUnit && assessmentPassed;
+
+  // Fire confetti on mount when the user passed the last unit
+  useEffect(() => {
+    if (!showCertificateCTA) return;
+
+    const duration = 4000;
+    const end = Date.now() + duration;
+
+    const colors = ["#4F46E5", "#7C3AED", "#F59E0B", "#10B981", "#EF4444"];
+
+    const frame = () => {
+      confetti({
+        particleCount: 6,
+        angle: 60,
+        spread: 70,
+        origin: { x: 0, y: 0.6 },
+        colors,
+      });
+      confetti({
+        particleCount: 6,
+        angle: 120,
+        spread: 70,
+        origin: { x: 1, y: 0.6 },
+        colors,
+      });
+
+      if (Date.now() < end) requestAnimationFrame(frame);
+    };
+
+    frame();
+  }, []);
 
   return (
     <section className="flex flex-col-reverse md:grid grid-cols-3 gap-5">
@@ -89,7 +126,9 @@ export const AssessmentResults = ({
             <h2 className="text-lg font-semibold">
               Answers to Quiz: Assessment for Learning
             </h2>
-            <Button onClick={closeModal}>Go back to learning</Button>
+            {showCertificateCTA ? null : (
+              <Button onClick={closeModal}>Go back to learning</Button>
+            )}
           </div>
           <div className="mt-8">
             <div className="space-y-1 relative">
@@ -175,26 +214,34 @@ export const AssessmentResults = ({
           >
             Previous
           </Button>
-          <Button
-            loading={questionsLoading}
-            onClick={() => {
-              if (isLastQuestion) {
-                if (assessmentPassed) {
-                  router.refresh();
+
+          {/* When the user passed the last unit, only show the certificate CTA */}
+          {showCertificateCTA ? (
+            <Button onClick={() => router.push("/dashboard/certificates")}>
+              🎉 View my certificate
+            </Button>
+          ) : (
+            <Button
+              loading={questionsLoading}
+              onClick={() => {
+                if (isLastQuestion) {
+                  if (assessmentPassed) {
+                    router.refresh();
+                  } else {
+                    retakeAssessment();
+                  }
                 } else {
-                  retakeAssessment();
+                  setQuestionIndex((prev) => prev + 1);
                 }
-              } else {
-                setQuestionIndex((prev) => prev + 1);
-              }
-            }}
-          >
-            {isLastQuestion
-              ? assessmentPassed
-                ? "Next unit"
-                : "Retake assessment"
-              : "Next"}
-          </Button>
+              }}
+            >
+              {isLastQuestion
+                ? assessmentPassed
+                  ? "Next unit"
+                  : "Retake assessment"
+                : "Next"}
+            </Button>
+          )}
         </div>
       </div>
     </section>

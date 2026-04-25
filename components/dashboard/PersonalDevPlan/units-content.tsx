@@ -91,7 +91,9 @@ export function UnitsContent({
   const memoizedUnits = useMemo(() => {
     return units.map((unit) => ({
       ...unit,
-      isUnitCompleted: unit.index < courseProgress.unit.index,
+      isUnitCompleted:
+        unit.index < courseProgress.unit.index ||
+        courseProgress.isCompleted === true,
       isUnitAccessible: unit.index <= courseProgress.unit.index,
     }));
   }, [units, courseProgress.unit.index]);
@@ -175,7 +177,8 @@ export function UnitsContent({
     >
       <div className="flex items-center justify-between">
         <h4 className="font-semibold !text-base">Course content</h4>
-        {moduleId && !isQuizOn && !isMobileLandscape ? (
+        {!isQuizOn && !isMobileLandscape ? (
+          // {moduleId && !isQuizOn && !isMobileLandscape ? (
           <Chatbot moduleItemId={moduleId} />
         ) : null}
       </div>
@@ -295,60 +298,72 @@ export function UnitsContent({
                             </AccordionTrigger>
                             <AccordionContent className="space-y-2">
                               <ul className="space-y-2">
-                                {unitModule.moduleItems.map((moduleItem) => (
-                                  <li
-                                    key={`${moduleItem.title}-${unitModule.id}`}
-                                  >
-                                    <h2 className="font-semibold text-sm capitalize mb-1">
-                                      {moduleItem.title
-                                        .replace("_", " ")
-                                        .toLowerCase()}
-                                    </h2>
-                                    {moduleItem.items.map((contentItem) => {
-                                      const isActiveSlide = pdfUrl
-                                        ? extractPublicId(
-                                            contentItem.signedPdfUrl,
-                                          ) === extractPublicId(pdfUrl)
-                                        : false;
-                                      return (
-                                        <ul
-                                          key={contentItem.id}
-                                          className="space-y-1"
-                                        >
-                                          {contentItem.pages.map((item) => (
-                                            <li key={item.id}>
-                                              <button
-                                                onClick={() =>
-                                                  handlePageClick(
-                                                    item,
-                                                    contentItem,
-                                                  )
-                                                }
-                                                disabled={isQuizOn}
-                                                className="cursor-pointer pl-6 w-full text-left disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 py-1 px-2 rounded transition-colors"
-                                                type="button"
-                                              >
-                                                <p
-                                                  className={cn(
-                                                    "hover:underline hover:text-black text-sm",
-                                                    isActiveSlide
-                                                      ? "text-primary-400 font-medium"
-                                                      : "",
-                                                  )}
+                                {[...unitModule.moduleItems]
+                                  .sort((a, b) => {
+                                    const order: Record<string, number> = {
+                                      CONTENT: 0,
+                                      CASE_STUDY: 1,
+                                      PRACTICAL_APPLICATION: 2,
+                                    };
+                                    return (
+                                      (order[a.title] ?? 99) -
+                                      (order[b.title] ?? 99)
+                                    );
+                                  })
+                                  .map((moduleItem) => (
+                                    <li
+                                      key={`${moduleItem.title}-${unitModule.id}`}
+                                    >
+                                      <h2 className="font-semibold text-sm capitalize mb-1">
+                                        {moduleItem.title
+                                          .replace("_", " ")
+                                          .toLowerCase()}
+                                      </h2>
+                                      {moduleItem.items.map((contentItem) => {
+                                        const isActiveSlide = pdfUrl
+                                          ? extractPublicId(
+                                              contentItem.signedPdfUrl,
+                                            ) === extractPublicId(pdfUrl)
+                                          : false;
+                                        return (
+                                          <ul
+                                            key={contentItem.id}
+                                            className="space-y-1"
+                                          >
+                                            {contentItem.pages.map((item) => (
+                                              <li key={item.id}>
+                                                <button
+                                                  onClick={() =>
+                                                    handlePageClick(
+                                                      item,
+                                                      contentItem,
+                                                    )
+                                                  }
+                                                  disabled={isQuizOn}
+                                                  className="cursor-pointer pl-6 w-full text-left disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 py-1 px-2 rounded transition-colors"
+                                                  type="button"
                                                 >
-                                                  -{" "}
-                                                  {removeUnitModulePatternsExtended(
-                                                    item.pageTitle,
-                                                  )}
-                                                </p>
-                                              </button>
-                                            </li>
-                                          ))}
-                                        </ul>
-                                      );
-                                    })}
-                                  </li>
-                                ))}
+                                                  <p
+                                                    className={cn(
+                                                      "hover:underline hover:text-black text-sm",
+                                                      isActiveSlide
+                                                        ? "text-primary-400 font-medium"
+                                                        : "",
+                                                    )}
+                                                  >
+                                                    -{" "}
+                                                    {removeUnitModulePatternsExtended(
+                                                      item.pageTitle,
+                                                    )}
+                                                  </p>
+                                                </button>
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        );
+                                      })}
+                                    </li>
+                                  ))}
                               </ul>
                             </AccordionContent>
                           </AccordionItem>

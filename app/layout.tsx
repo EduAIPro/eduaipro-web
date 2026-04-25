@@ -10,6 +10,7 @@ import NextTopLoader from "nextjs-toploader";
 import { useEffect } from "react";
 import { SWRConfig } from "swr";
 import "./globals.css";
+import { usePathname } from "next/navigation";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -26,6 +27,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
   useEffect(() => {
     (window as any).chatwootSettings = {
       hideMessageBubble: false,
@@ -34,6 +37,7 @@ export default function RootLayout({
       type: "standard", // [standard, expanded_bubble]
     };
   }, []);
+
   return (
     <html
       lang="en"
@@ -52,11 +56,12 @@ export default function RootLayout({
           <AppLayoutBase>{children}</AppLayoutBase>
         </SWRConfig>
         <Toaster position="top-center" expand richColors theme="light" />
-        <Script
-          id="chatwoot"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `
+        {pathname === "/dashboard" || pathname === "/dashboard/" ? null : (
+          <Script
+            id="chatwoot"
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: `
               (function(d,t) {
                 var BASE_URL="https://app.chatwoot.com";
                 var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
@@ -71,8 +76,9 @@ export default function RootLayout({
                 }
               })(document,"script");
             `,
-          }}
-        />
+            }}
+          />
+        )}
       </body>
     </html>
   );

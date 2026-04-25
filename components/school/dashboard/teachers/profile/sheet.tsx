@@ -93,12 +93,7 @@ type TeacherContentProps = {
 };
 
 const TeacherContent = ({ staff, onSelectCert }: TeacherContentProps) => {
-  const {
-    user,
-    teacherLevel,
-    accreditationHistory,
-    accreditationProgressPercentage,
-  } = staff;
+  const { user, teacherLevel, accreditationHistory } = staff;
   const staffName = user.firstName + " " + user.lastName;
 
   const profileInfo = [
@@ -135,7 +130,7 @@ const TeacherContent = ({ staff, onSelectCert }: TeacherContentProps) => {
   const professionalInfo = [
     {
       label: "Professional level",
-      value: staff?.professionalLevel ?? "Not provided",
+      value: staff?.professionalLevel ?? staff?.teacherLevel ?? "Not provided",
     },
     {
       label: "Educational level",
@@ -213,7 +208,7 @@ const TeacherContent = ({ staff, onSelectCert }: TeacherContentProps) => {
                 <p
                   className={cn(
                     "text-sm font-medium text-grey-800 text-left capitalize",
-                    p.value === "Not provided" && "text-grey-500 italic"
+                    p.value === "Not provided" && "text-grey-500 italic",
                   )}
                 >
                   {p.value}
@@ -246,26 +241,21 @@ const TeacherContent = ({ staff, onSelectCert }: TeacherContentProps) => {
                           <div className="relative w-[220px] h-2 bg-grey-4 rounded-full">
                             <div
                               style={{
-                                width: `${accreditationProgressPercentage}%`,
+                                width: `100%`,
                               }}
                               className={cn(
-                                "absolute h-full rounded-full",
-                                accreditationProgressPercentage <= 50
-                                  ? "bg-amber-600"
-                                  : accreditationProgressPercentage < 80
-                                  ? "bg-amber-400"
-                                  : "bg-green-700"
+                                "absolute h-full rounded-full bg-green-700",
                               )}
                             ></div>
                           </div>
 
                           <p className="font-medium text-sm text-grey-500">
-                            {accreditationProgressPercentage}%
+                            100%
                           </p>
                         </div>
                       </div>
                       <div>
-                        <ChevronRightIcon className="size-4 group-hover:translate-x-2 transition-all duration-300" />
+                        <ChevronRightIcon className="size-6 group-hover:translate-x-2 transition-all duration-300" />
                       </div>
                     </div>
                   </button>
