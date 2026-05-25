@@ -32,8 +32,8 @@ export const ViewCourse = ({
     generalFetcher,
   );
   const { data: unitInfo, isLoading: unitLoading } = useSWR<UnitDetails>(
-    activeUnitId ? [retrieveCourseUnitPublicKey, activeUnitId] : null,
-    fetchWithSingleParam,
+    activeUnitId ? retrieveCourseUnitPublicKey(activeUnitId) : null,
+    generalFetcher,
   );
 
   const courseSummary = useMemo(
