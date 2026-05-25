@@ -1,5 +1,5 @@
-import { getCoursesKey, retrieveCourseUnitPublicKey } from "@/api/keys";
-import { fetchWithSingleParam, generalFetcher } from "@/api/queries";
+import { adminGetCourseUnit, getCoursesKey } from "@/api/keys";
+import { generalFetcher } from "@/api/queries";
 import {
   Accordion,
   AccordionContent,
@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { Sheet, SheetContent, SheetHeader } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
-import useGetUnit from "@/hooks/use-get-unit";
+import { Modal } from "@/components/ui/modal";
 import { Course, UnitDetails } from "@/types/course";
 import { UpdateCourseSummaryFormValue } from "@/utils/validation/admin";
 import { format } from "date-fns";
@@ -32,7 +32,7 @@ export const ViewCourse = ({
     generalFetcher,
   );
   const { data: unitInfo, isLoading: unitLoading } = useSWR<UnitDetails>(
-    activeUnitId ? retrieveCourseUnitPublicKey(activeUnitId) : null,
+    activeUnitId ? adminGetCourseUnit(activeUnitId) : null,
     generalFetcher,
   );
 
@@ -77,7 +77,7 @@ export const ViewCourse = ({
 
   return (
     <Sheet open={isOpen} onOpenChange={toggleOpen}>
-      <SheetContent className="w-full md:min-w-[60vw] xl:min-w-[40vw] max-sm:p-3">
+      <SheetContent className="w-full md:min-w-[60vw] xl:min-w-[40vw] max-sm:p-3 overflow-y-scroll">
         <SheetHeader>
           <h2 className="font-semibold text-lg text-left">
             Course Information
@@ -156,25 +156,141 @@ export const ViewCourse = ({
                             <Loader2Icon size={18} className="animate-spin" />
                           </div>
                         ) : (
-                          <div>
-                            <p>Modules:</p>
-                            <ul>
-                              {unitInfo?.modules?.flatMap((moduleItem) =>
-                                moduleItem?.moduleItems?.map((item) => (
-                                  <li
-                                    key={item.index}
-                                    className="flex items-center justify-between"
-                                  >
-                                    <p>{moduleItem.title}</p>
-                                    <a target="_blank" href={item.pdfUrl}>
-                                      <p className="truncate underline text-primary">
-                                        PDF file
-                                      </p>
-                                    </a>
-                                  </li>
-                                )),
-                              )}
-                            </ul>
+                          <div className="mt-4">
+                            {unitInfo?.modules?.map((moduleItem) => {
+                              const grouped = moduleItem.moduleItems?.reduce(
+                                (acc, item) => {
+                                  if (!acc[item.type]) acc[item.type] = [];
+                                  acc[item.type].push(item);
+                                  return acc;
+                                },
+                                {} as Record<
+                                  string,
+                                  typeof moduleItem.moduleItems
+                                >,
+                              );
+
+                              return (
+                                <div
+                                  key={moduleItem.id}
+                                  className="mb-6 last:mb-0"
+                                >
+                                  <h4 className="font-semibold text-grey-800 mb-3">
+                                    {moduleItem.title}
+                                  </h4>
+
+                                  <div className="space-y-4 pl-3">
+                                    {grouped?.["CONTENT"]?.length ? (
+                                      <div>
+                                        <p className="text-sm font-medium text-grey-500 mb-2">
+                                          Content
+                                        </p>
+                                        <ul className="space-y-2 pl-3">
+                                          {grouped["CONTENT"].map((item) => (
+                                            <li
+                                              key={item.id}
+                                              className="flex items-center justify-between"
+                                            >
+                                              <p className="text-sm text-grey-11">
+                                                {item.pages[0]?.pageTitle}
+                                              </p>
+                                              <Modal
+                                                title="View PDF"
+                                                trigger={
+                                                  <button className="text-sm font-medium text-primary underline">
+                                                    View PDF
+                                                  </button>
+                                                }
+                                                containerClassName="max-w-7xl h-[85vh]"
+                                                className="w-full h-full p-0"
+                                              >
+                                                <iframe
+                                                  src={item.signedPdfUrl}
+                                                  className="w-full h-full border-0"
+                                                />
+                                              </Modal>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    ) : null}
+
+                                    {grouped?.["PRACTICAL_APPLICATIONS"]
+                                      ?.length ? (
+                                      <div>
+                                        <p className="text-sm font-medium text-grey-500 mb-2">
+                                          Practical Applications
+                                        </p>
+                                        <ul className="space-y-2 pl-3">
+                                          {grouped[
+                                            "PRACTICAL_APPLICATIONS"
+                                          ].map((item) => (
+                                            <li
+                                              key={item.id}
+                                              className="flex items-center justify-between"
+                                            >
+                                              <p className="text-sm text-grey-11">
+                                                {item.pages[0]?.pageTitle}
+                                              </p>
+                                              <Modal
+                                                title="View PDF"
+                                                trigger={
+                                                  <button className="text-sm font-medium text-primary underline">
+                                                    View PDF
+                                                  </button>
+                                                }
+                                                containerClassName="max-w-7xl h-[85vh]"
+                                                className="w-full p-0"
+                                              >
+                                                <iframe
+                                                  src={item.signedPdfUrl}
+                                                  className="w-full h-full border-0"
+                                                />
+                                              </Modal>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    ) : null}
+
+                                    {grouped?.["CASE_STUDY"]?.length ? (
+                                      <div>
+                                        <p className="text-sm font-medium text-grey-500 mb-2">
+                                          Case Study
+                                        </p>
+                                        <ul className="space-y-2 pl-3">
+                                          {grouped["CASE_STUDY"].map((item) => (
+                                            <li
+                                              key={item.id}
+                                              className="flex items-center justify-between"
+                                            >
+                                              <p className="text-sm text-grey-11">
+                                                {item.pages[0]?.pageTitle}
+                                              </p>
+                                              <Modal
+                                                title="View PDF"
+                                                trigger={
+                                                  <button className="text-sm font-medium text-primary underline">
+                                                    View PDF
+                                                  </button>
+                                                }
+                                                containerClassName="max-w-7xl h-[85vh]"
+                                                className="w-full p-0"
+                                              >
+                                                <iframe
+                                                  src={item.signedPdfUrl}
+                                                  className="w-full h-full border-0"
+                                                />
+                                              </Modal>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
                         )}
                       </AccordionContent>

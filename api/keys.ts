@@ -85,6 +85,7 @@ export const getCoursesKey = "/admin/course/courses";
 export const getAllSystemStaffsKey = "/admin/school/staff/staffs";
 export const adminGetStaffKey = "/admin/school/staff/staffs";
 export const getAllSystemAdmins = "/admin/school/staff/owners";
+export const adminGetCourseUnit = (id: string) => `/admin/course/units/${id}`;
 
 // survey
 export const getSurveysKey = "/admin/surveys";
