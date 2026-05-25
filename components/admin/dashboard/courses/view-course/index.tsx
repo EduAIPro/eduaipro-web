@@ -1,5 +1,5 @@
-import { getCoursesKey } from "@/api/keys";
-import { generalFetcher } from "@/api/queries";
+import { getCoursesKey, retrieveCourseUnitPublicKey } from "@/api/keys";
+import { fetchWithSingleParam, generalFetcher } from "@/api/queries";
 import {
   Accordion,
   AccordionContent,
@@ -9,7 +9,7 @@ import {
 import { Sheet, SheetContent, SheetHeader } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import useGetUnit from "@/hooks/use-get-unit";
-import { Course } from "@/types/course";
+import { Course, UnitDetails } from "@/types/course";
 import { UpdateCourseSummaryFormValue } from "@/utils/validation/admin";
 import { format } from "date-fns";
 import { Loader2Icon } from "lucide-react";
@@ -29,12 +29,12 @@ export const ViewCourse = ({
   const [activeUnitId, setActiveUnitId] = useState<null | string>(null);
   const { data, isLoading } = useSWR<Course>(
     courseId ? `${getCoursesKey}/${courseId}` : null,
-    generalFetcher
+    generalFetcher,
   );
-
-  const { data: unitInfo, isLoading: unitLoading } = useGetUnit({
-    unitId: activeUnitId,
-  });
+  const { data: unitInfo, isLoading: unitLoading } = useSWR<UnitDetails>(
+    activeUnitId ? [retrieveCourseUnitPublicKey, activeUnitId] : null,
+    fetchWithSingleParam,
+  );
 
   const courseSummary = useMemo(
     () => [
@@ -61,7 +61,7 @@ export const ViewCourse = ({
         value: format(data?.createdAt ?? new Date(), "dd/MM/yyyy"),
       },
     ],
-    [data]
+    [data],
   );
 
   const updatePayload: UpdateCourseSummaryFormValue = useMemo(() => {
@@ -172,7 +172,7 @@ export const ViewCourse = ({
                                       </p>
                                     </a>
                                   </li>
-                                ))
+                                )),
                               )}
                             </ul>
                           </div>
