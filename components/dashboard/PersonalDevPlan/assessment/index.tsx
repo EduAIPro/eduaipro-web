@@ -3,8 +3,7 @@
 import { getCourseWithProgress, submitAssessmentKey } from "@/api/keys";
 import { submitAssessment } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import {
@@ -16,6 +15,7 @@ import { toast } from "sonner";
 import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 import { useSurvey } from "../../survey-modal/survey-context";
+import { AssessmentError } from "./error";
 
 type AssessmentProps = {
   data?: GeneratedQuestions;
@@ -24,6 +24,7 @@ type AssessmentProps = {
   initialTime?: number;
   removeAssessmentScreen: VoidFunction;
   onSubmisson: (v: AssessmentSubmitResponse) => void;
+  goBackOnErr: VoidFunction;
 };
 
 export const Assessment: React.FC<AssessmentProps> = ({
@@ -32,12 +33,14 @@ export const Assessment: React.FC<AssessmentProps> = ({
   isLoading,
   removeAssessmentScreen,
   onSubmisson,
-  initialTime = 1200, // 15 minutes default
+  goBackOnErr,
+  initialTime = 1200,
 }) => {
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<{ [q: number]: string }>({});
   const [timer, setTimer] = React.useState(initialTime);
   const [direction, setDirection] = useState<"left" | "right">("right");
+  const [animKey, setAnimKey] = useState(0);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -45,10 +48,13 @@ export const Assessment: React.FC<AssessmentProps> = ({
   const q = data?.AssessmentQuestion[current];
 
   const isOnLastStep = useMemo(() => current === total - 1, [current, total]);
+  const answeredCount = Object.keys(selected).length;
+  const allAnswered = answeredCount === total;
   const isSubmitDisabled = useMemo(
-    () => isOnLastStep && Object.entries(selected).length < total,
-    [isOnLastStep, selected],
+    () => isOnLastStep && !allAnswered,
+    [isOnLastStep, allAnswered],
   );
+  const isTimerUrgent = timer <= 120;
 
   const { mutate } = useSWRConfig();
   const { toggleOpen } = useSurvey();
@@ -62,18 +68,14 @@ export const Assessment: React.FC<AssessmentProps> = ({
   const submitAssessments = () => {
     trigger(selected).then((res) => {
       if (res) {
-        // refetch course progress
         mutate(getCourseWithProgress);
-
         onSubmisson(res);
         removeAssessmentScreen();
-        // open surveys if the surveys array exists
         toggleOpen(!!res.surveys.length, { surveys: res.surveys });
       }
     });
   };
 
-  // Timer effect
   React.useEffect(() => {
     if (isLoading || error) return;
     timerRef.current = setInterval(() => {
@@ -85,9 +87,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
   }, [isLoading, error]);
 
   useEffect(() => {
-    if (timer === 0) {
-      submitAssessments();
-    }
+    if (timer === 0) submitAssessments();
   }, [timer]);
 
   useEffect(() => {
@@ -114,23 +114,13 @@ export const Assessment: React.FC<AssessmentProps> = ({
 
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") {
-        submitAssessments();
-      }
+      if (document.visibilityState === "hidden") submitAssessments();
     };
-
     document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
+    return () =>
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
   }, []);
 
-  // Animation classes
-  const getAnimationClass = (dir: "left" | "right") =>
-    dir === "right" ? "animate-slide-in-right" : "animate-slide-in-left";
-
-  // Format timer
   const formatTime = (t: number) => {
     const m = Math.floor(t / 60)
       .toString()
@@ -139,157 +129,339 @@ export const Assessment: React.FC<AssessmentProps> = ({
     return `${m}:${s}`;
   };
 
-  // Skeleton loader
+  const navigate = (dir: "left" | "right") => {
+    setDirection(dir);
+    setAnimKey((k) => k + 1);
+    setCurrent((c) =>
+      dir === "right" ? Math.min(total - 1, c + 1) : Math.max(0, c - 1),
+    );
+  };
+
+  // ── Skeleton ──────────────────────────────────────────────────────────────
   if (isLoading) {
     return (
-      <Card className="w-full mx-auto mt-10 shadow-none">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <Skeleton className="h-6 w-48" />
-          <Skeleton className="h-6 w-16" />
+      <Card className="w-full mx-auto mt-10 shadow-none border-0">
+        <CardHeader className="flex flex-row items-start justify-between pb-4">
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-36" />
+            <Skeleton className="h-4 w-48" />
+          </div>
+          <Skeleton className="h-8 w-20 rounded-full" />
         </CardHeader>
-        <CardContent>
-          <Skeleton className="h-8 w-3/4 mb-6" />
-          <div className="space-y-4 my-4">
+        <CardContent className="space-y-6">
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <Skeleton className="h-4 w-28" />
+              <Skeleton className="h-4 w-20" />
+            </div>
+            <Skeleton className="h-[3px] w-full rounded-full" />
+          </div>
+          <Skeleton className="h-14 w-4/5" />
+          <div className="space-y-3">
             {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-12 w-full rounded-md" />
+              <Skeleton key={i} className="h-14 w-full rounded-xl" />
             ))}
           </div>
-          <div className="flex justify-between mt-8">
-            <Skeleton className="h-10 w-24" />
-            <Skeleton className="h-10 w-24" />
+          <div className="flex justify-between pt-4 border-t border-border/30">
+            <div className="flex gap-1.5">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Skeleton key={i} className="h-1.5 w-1.5 rounded-full" />
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <Skeleton className="h-9 w-24 rounded-md" />
+              <Skeleton className="h-9 w-24 rounded-md" />
+            </div>
           </div>
         </CardContent>
       </Card>
     );
   }
 
+  // ── Error ─────────────────────────────────────────────────────────────────
   if (error) {
     return (
-      <Card className="w-full mx-auto mt-10">
-        <CardContent>
-          <div className="text-red-500 text-center py-8">{error}</div>
-        </CardContent>
-      </Card>
+      <AssessmentError error={error} removeAssessmentScreen={goBackOnErr} />
     );
   }
 
   if (!data) return null;
 
-  return (
-    <Card className="w-full mx-auto mt-10 shadow-none">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-lg font-semibold">
-          Graded Quiz: Assessment for Learning
-        </CardTitle>
-        <div className="text-sm font-mono text-muted-foreground">
-          {formatTime(timer)}
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-base font-medium text-muted-foreground">
-            Question {current + 1} of {total}
-          </span>
-        </div>
-        <div
-          className={cn(
-            "transition-all duration-500",
-            getAnimationClass(direction),
-          )}
-          key={q?.index}
-        >
-          <div className="text-base font-medium mb-6">{q?.questionText}</div>
-          <div className="space-y-4">
-            {q?.AssessmentQuestionOption.map((opt) => (
-              <button
-                key={opt.id}
-                className={cn(
-                  "w-full text-left px-4 py-3 rounded-lg border transition-colors flex items-center",
-                  selected[current] === opt.identifier
-                    ? "border-primary-300 bg-primary-300 text-primary-foreground"
-                    : "bg-[#F9FBFC] hover:bg-muted border-[#E6E8EA]",
-                )}
-                onClick={() => {
-                  setSelected((prev) => ({
-                    ...prev,
-                    [current]: opt.identifier,
-                  }));
-                }}
-                type="button"
-              >
-                <Checkbox checked={selected[current] === opt.identifier} />
-                <span className="font-semibold mx-2">{opt.identifier}.</span>
-                <p>{opt.value}</p>
-              </button>
-            ))}
-          </div>
-        </div>
-        {isOnLastStep ? (
-          <div className="mt-3">
-            <p className="text-grey-500">
-              By clicking submit, you confirm that you have completed this quiz
-              on your own without any assistance from others, and you understand
-              that leaving this tab will result in automatic submission of your
-              quiz.
-            </p>
-          </div>
-        ) : null}
+  const progressPct = (answeredCount / total) * 100;
 
-        <div className="flex justify-between mt-8">
-          <Button
-            variant="outline"
-            disabled={current === 0}
-            onClick={() => {
-              setDirection("left");
-              setCurrent((c) => Math.max(0, c - 1));
-            }}
-          >
-            Previous
-          </Button>
-          <Button
-            loading={isMutating}
-            disabled={isSubmitDisabled}
-            onClick={() => {
-              if (isOnLastStep) {
-                submitAssessments();
-              } else {
-                setDirection("right");
-                setCurrent((c) => Math.min(total - 1, c + 1));
-              }
-            }}
-          >
-            {isOnLastStep ? "Submit" : "Next"}
-          </Button>
-        </div>
-      </CardContent>
+  // ── Main ──────────────────────────────────────────────────────────────────
+  return (
+    <>
       <style jsx global>{`
-        @keyframes slide-in-right {
-          0% {
+        @import url("https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@400;500&display=swap");
+
+        .assessment-wrap {
+          font-family: "DM Sans", sans-serif;
+        }
+        .assessment-question-serif {
+          font-family: "Lora", serif;
+          font-weight: 500;
+        }
+        .assessment-title-serif {
+          font-family: "Lora", serif;
+          font-weight: 600;
+        }
+
+        @keyframes assessment-slide-right {
+          from {
             opacity: 0;
-            transform: translateX(40px);
+            transform: translateX(22px);
           }
-          100% {
+          to {
             opacity: 1;
             transform: translateX(0);
           }
         }
-        @keyframes slide-in-left {
-          0% {
+        @keyframes assessment-slide-left {
+          from {
             opacity: 0;
-            transform: translateX(-40px);
+            transform: translateX(-22px);
           }
-          100% {
+          to {
             opacity: 1;
             transform: translateX(0);
           }
         }
-        .animate-slide-in-right {
-          animation: slide-in-right 0.5s;
+        .assessment-slide-right {
+          animation: assessment-slide-right 0.3s ease both;
         }
-        .animate-slide-in-left {
-          animation: slide-in-left 0.5s;
+        .assessment-slide-left {
+          animation: assessment-slide-left 0.3s ease both;
+        }
+
+        @keyframes assessment-timer-pulse {
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.35;
+          }
+        }
+        .assessment-timer-pulse {
+          animation: assessment-timer-pulse 1s infinite;
         }
       `}</style>
-    </Card>
+
+      <Card className="assessment-wrap w-full mx-auto mt-10 shadow-none border-0">
+        <CardHeader className="flex flex-row items-start justify-between pb-4">
+          {/* Title */}
+          <div>
+            <p className="assessment-title-serif text-[17px] text-foreground leading-tight m-0">
+              Graded Quiz
+            </p>
+            <p className="text-[13px] text-muted-foreground mt-0.5">
+              Assessment for Learning
+            </p>
+          </div>
+
+          {/* Timer pill */}
+          <div
+            className={cn(
+              "flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium tabular-nums border",
+              isTimerUrgent
+                ? "bg-destructive/10 text-destructive border-destructive/20"
+                : "bg-muted/60 text-foreground border-border/50",
+            )}
+          >
+            <span
+              className={cn(
+                "block w-1.5 h-1.5 rounded-full",
+                isTimerUrgent
+                  ? "bg-destructive assessment-timer-pulse"
+                  : "bg-emerald-500",
+              )}
+            />
+            {formatTime(timer)}
+          </div>
+        </CardHeader>
+
+        <CardContent className="space-y-5">
+          {/* Progress */}
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-[13px] text-muted-foreground">
+                Question {current + 1} of {total}
+              </span>
+              <span className="text-[13px] font-medium text-foreground">
+                {answeredCount} answered
+              </span>
+            </div>
+            <div className="h-[3px] w-full rounded-full bg-muted overflow-hidden">
+              <div
+                className="h-full rounded-full bg-foreground transition-all duration-500"
+                style={{ width: `${progressPct}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Question + Options */}
+          <div
+            key={animKey}
+            className={cn(
+              direction === "right"
+                ? "assessment-slide-right"
+                : "assessment-slide-left",
+            )}
+          >
+            <p className="assessment-question-serif text-[16px] leading-relaxed text-foreground mb-5">
+              {q?.questionText}
+            </p>
+
+            <div className="flex flex-col gap-2.5">
+              {q?.AssessmentQuestionOption.map((opt) => {
+                const isSelected = selected[current] === opt.identifier;
+                return (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() =>
+                      setSelected((prev) => ({
+                        ...prev,
+                        [current]: opt.identifier,
+                      }))
+                    }
+                    className={cn(
+                      "w-full text-left flex items-center gap-3 px-4 py-3.5 rounded-xl border transition-all duration-150",
+                      isSelected
+                        ? "border-foreground bg-muted/60"
+                        : "border-border/60 bg-background hover:border-border hover:bg-muted/30",
+                    )}
+                  >
+                    {/* Letter badge */}
+                    <span
+                      className={cn(
+                        "flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-medium border transition-all duration-150",
+                        isSelected
+                          ? "bg-foreground text-background border-foreground"
+                          : "text-muted-foreground border-border/70",
+                      )}
+                    >
+                      {opt.identifier}
+                    </span>
+                    <span className="text-[14px] text-foreground leading-snug">
+                      {opt.value}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Disclaimer on last step */}
+          {isOnLastStep && (
+            <p className="text-[12px] text-muted-foreground leading-relaxed bg-muted/50 rounded-lg px-3.5 py-3">
+              By clicking submit, you confirm that you completed this quiz
+              independently and understand that leaving this tab will result in
+              automatic submission of your answers.
+            </p>
+          )}
+
+          {/* Footer */}
+          <div className="flex items-center justify-between pt-4 border-t border-border/30">
+            {/* Dot nav */}
+            <div className="flex items-center gap-1.5">
+              {Array.from({ length: total }).map((_, i) => (
+                <span
+                  key={i}
+                  className={cn(
+                    "block rounded-full transition-all duration-200",
+                    i === current
+                      ? "w-2 h-2 bg-foreground scale-125"
+                      : selected[i]
+                        ? "w-1.5 h-1.5 bg-foreground"
+                        : "w-1.5 h-1.5 bg-border",
+                  )}
+                />
+              ))}
+            </div>
+
+            {/* Prev / Next-Submit */}
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={current === 0}
+                onClick={() => navigate("left")}
+                className="gap-1.5"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+                Previous
+              </Button>
+
+              <Button
+                size="sm"
+                loading={isMutating}
+                disabled={isSubmitDisabled}
+                onClick={() => {
+                  if (isOnLastStep) {
+                    submitAssessments();
+                  } else {
+                    navigate("right");
+                  }
+                }}
+                className="gap-1.5"
+              >
+                {isOnLastStep ? (
+                  <>
+                    Submit
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </>
+                ) : (
+                  <>
+                    Next
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </>
   );
 };

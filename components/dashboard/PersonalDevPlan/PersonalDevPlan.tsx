@@ -195,6 +195,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
       isLoading={isMutating}
       data={questions}
       error={error}
+      goBackOnErr={() => setIsQuizOn(false)}
       removeAssessmentScreen={removeAssessmentScreen}
       onSubmisson={(v: AssessmentSubmitResponse) => {
         if (activeUnitId) {
