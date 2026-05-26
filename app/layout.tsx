@@ -30,13 +30,15 @@ export default function RootLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    (window as any).chatwootSettings = {
-      hideMessageBubble: false,
-      position: "left", // This can be left or right
-      locale: "en", // Language to be set
-      type: "standard", // [standard, expanded_bubble]
-    };
-  }, []);
+    if (pathname !== "/dashboard" && pathname !== "/dashboard/") {
+      (window as any).chatwootSettings = {
+        hideMessageBubble: false,
+        position: "left", // This can be left or right
+        locale: "en", // Language to be set
+        type: "standard", // [standard, expanded_bubble]
+      };
+    }
+  }, [pathname]);
 
   return (
     <html
@@ -56,7 +58,7 @@ export default function RootLayout({
           <AppLayoutBase>{children}</AppLayoutBase>
         </SWRConfig>
         <Toaster position="top-center" expand richColors theme="light" />
-        {pathname === "/dashboard" || pathname === "/dashboard/" ? null : (
+        {pathname !== "/dashboard" && pathname !== "/dashboard/" ? (
           <Script
             id="chatwoot"
             strategy="lazyOnload"
@@ -78,7 +80,7 @@ export default function RootLayout({
             `,
             }}
           />
-        )}
+        ) : null}
       </body>
     </html>
   );
