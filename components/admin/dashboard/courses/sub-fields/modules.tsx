@@ -7,6 +7,7 @@ import { emptyModule } from "../constants";
 import { ModuleItemFormField } from "./module-items";
 
 type ModuleFormFieldProps = {
+  mode?: "edit" | "create";
   fieldName: string;
   unitItem: Omit<UnitFormValue, "title">;
 };
@@ -15,14 +16,16 @@ type ModuleFormFieldProps = {
 export const ModuleFormField = <T,>({
   fieldName,
   unitItem,
+  mode = "create",
 }: ModuleFormFieldProps) => {
   const { touched, errors } = useFormikContext<T>();
 
   const fieldError = (fieldName: keyof T) =>
     touched[fieldName] && errors[fieldName] ? errors[fieldName] : null;
+  const field = mode === "edit" ? fieldName.slice(8) : fieldName;
 
   return (
-    <FieldArray name={fieldName}>
+    <FieldArray name={field}>
       {({ remove, push }) => (
         <div className="space-y-8">
           {unitItem.modules.map((mod, moduleIndex) => (
@@ -55,15 +58,16 @@ export const ModuleFormField = <T,>({
               </div>
               <div>
                 <FormInput
-                  name={`${fieldName}.${moduleIndex}.title`}
+                  name={`${field}.${moduleIndex}.title`}
                   placeholder="Enter module title"
                   error={
-                    fieldError(`${fieldName}.${moduleIndex}.title` as any) as
+                    fieldError(`${field}.${moduleIndex}.title` as any) as
                       | string
                       | null
                   }
                 />
                 <ModuleItemFormField<T>
+                  isEdit={mode === "edit"}
                   moduleObj={mod}
                   fieldName={`${fieldName}.${moduleIndex}.moduleItems`}
                 />

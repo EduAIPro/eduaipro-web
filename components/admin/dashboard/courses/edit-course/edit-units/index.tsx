@@ -1,4 +1,8 @@
-import { adminUpdateCourseUnitKey, bulkUploadFilesKey } from "@/api/keys";
+import {
+  adminGetCourseUnit,
+  adminUpdateCourseUnitKey,
+  bulkUploadFilesKey,
+} from "@/api/keys";
 import { bulkUploadFiles, updateCourseUnits } from "@/api/mutations";
 import useGetUnit from "@/hooks/use-get-unit";
 import {
@@ -6,7 +10,7 @@ import {
   CreateCourseModuleItem,
   UpdateUnitPayload,
 } from "@/types/admin/courses";
-import { ModuleType } from "@/types/course";
+import { ModuleType, UnitDetails as UnitDetailsType } from "@/types/course";
 import {
   createCourseValidation,
   UpdateUnitFormValue,
@@ -18,26 +22,29 @@ import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
 import { emptyModule } from "../../constants";
 import { UnitDetails } from "./unit-details";
+import useSWR from "swr";
+import { generalFetcher } from "@/api/queries";
 
 export const EditCourseUnits = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const unitId = searchParams.get("unit-id");
 
-  const { data: unitInfo, isLoading: unitLoading } = useGetUnit({
-    unitId,
-  });
+  const { data: unitInfo, isLoading: unitLoading } = useSWR<UnitDetailsType>(
+    unitId ? adminGetCourseUnit(unitId) : null,
+    generalFetcher,
+  );
 
   const { trigger, isMutating } = useSWRMutation(
     unitId ? adminUpdateCourseUnitKey(unitId) : null,
-    updateCourseUnits
+    updateCourseUnits,
   );
   const { trigger: triggerBulkUpload, isMutating: isFileMutating } =
     useSWRMutation(bulkUploadFilesKey, bulkUploadFiles);
 
   async function handleSubmit(
     values: UpdateUnitFormValue,
-    { resetForm }: { resetForm: VoidFunction }
+    { resetForm }: { resetForm: VoidFunction },
   ) {
     try {
       //initiate result array - will contain an array of urls as well as their unit, module and module item indexes
@@ -49,7 +56,7 @@ export const EditCourseUnits = () => {
           m.moduleItems.map((mI, moduleItemIndex) => ({
             file: mI.pdfFile as File,
             indexes: [moduleId, moduleItemIndex],
-          }))
+          })),
         )
 
         .filter((v) => v.file && v.file instanceof File);
@@ -66,11 +73,11 @@ export const EditCourseUnits = () => {
           return triggerBulkUpload({ files: batch.map((i) => i.file) }).then(
             (res) => {
               res.urls.forEach((i, index) =>
-                result.push({ url: i.url, indexes: batch[index].indexes })
+                result.push({ url: i.url, indexes: batch[index].indexes }),
               );
-            }
+            },
           );
-        })
+        }),
       );
 
       // then organise the units, modules, module items and pages according to how the api expects them
@@ -87,7 +94,7 @@ export const EditCourseUnits = () => {
               // lcoate the pdf url for this particular module item
               const pdfUrl = result.find(
                 (r) =>
-                  r.indexes[0] === moduleId && r.indexes[1] === moduleItemId
+                  r.indexes[0] === moduleId && r.indexes[1] === moduleItemId,
               );
               // return module item object
               return {
@@ -96,7 +103,7 @@ export const EditCourseUnits = () => {
                 index: moduleItemId + 1,
                 pages,
               };
-            }
+            },
           );
 
           // return module object
@@ -105,7 +112,7 @@ export const EditCourseUnits = () => {
             index: moduleId + 1,
             moduleItems,
           };
-        }
+        },
       );
 
       // prepare api payload
@@ -152,6 +159,7 @@ export const EditCourseUnits = () => {
       };
     }
   }, [unitInfo]);
+
   return (
     <div>
       <Formik
@@ -162,7 +170,11 @@ export const EditCourseUnits = () => {
         enableReinitialize
       >
         <Form className="max-w-3xl mx-auto">
-          <UnitDetails isLoading={unitLoading} />
+          <UnitDetails
+            isLoading={unitLoading}
+            index={unitInfo?.index || 0}
+            isMutating={isMutating}
+          />
         </Form>
       </Formik>
     </div>
