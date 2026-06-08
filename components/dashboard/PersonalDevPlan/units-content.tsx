@@ -22,25 +22,182 @@ import { removeUnitModulePatternsExtended } from "@/utils/text";
 import { extractPublicId } from "@/utils/link";
 import {
   BookOpenIcon,
-  CheckCircleIcon,
-  CheckIcon,
-  CircleDashedIcon,
-  FileTextIcon,
+  ClipboardListIcon,
+  FolderOpenIcon,
+  GraduationCapIcon,
   Loader2Icon,
-  LockIcon,
   SparklesIcon,
+  WrenchIcon,
 } from "lucide-react";
 import {
   Dispatch,
+  ReactNode,
   SetStateAction,
   useCallback,
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import useSWRMutation from "swr/mutation";
 import Chatbot from "../chat";
 
+// ─── Section config by module item type ───────────────────────────────────────
+const SECTION_CFG: Record<
+  string,
+  { label: string; icon: ReactNode; color: string; bg: string; defaultOpen: boolean }
+> = {
+  CONTENT: {
+    label: "Core CPD Content",
+    icon: <BookOpenIcon size={14} />,
+    color: "#1A56DB",
+    bg: "#EFF6FF",
+    defaultOpen: true,
+  },
+  PRACTICAL_APPLICATIONS: {
+    label: "Practical Application",
+    icon: <WrenchIcon size={14} />,
+    color: "#16A34A",
+    bg: "#F0FDF4",
+    defaultOpen: false,
+  },
+  CASE_STUDY: {
+    label: "Case Studies",
+    icon: <FolderOpenIcon size={14} />,
+    color: "#EA580C",
+    bg: "#FFF7ED",
+    defaultOpen: false,
+  },
+};
+
+const SECTION_TYPE_ORDER: Record<string, number> = {
+  CONTENT: 0,
+  PRACTICAL_APPLICATIONS: 1,
+  CASE_STUDY: 2,
+};
+
+// ─── Slide thumbnail ──────────────────────────────────────────────────────────
+function SlideThumbnail({
+  type,
+  isActive,
+  isCompleted,
+}: {
+  type: string;
+  isActive: boolean;
+  isCompleted: boolean;
+}) {
+  const colorMap: Record<string, { bg: string; accent: string }> = {
+    CONTENT: { bg: "#EFF6FF", accent: "#1A56DB" },
+    PRACTICAL_APPLICATIONS: { bg: "#F0FDF4", accent: "#16A34A" },
+    CASE_STUDY: { bg: "#FFF7ED", accent: "#EA580C" },
+  };
+  const c = colorMap[type] ?? colorMap.CONTENT;
+
+  return (
+    <div
+      style={{
+        width: 44,
+        height: 32,
+        borderRadius: 5,
+        flexShrink: 0,
+        background: c.bg,
+        border: `1px solid ${isActive ? c.accent + "80" : isCompleted ? c.accent + "40" : "#E5E7EB"}`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+      }}
+    >
+      <svg width="34" height="24" viewBox="0 0 34 24" fill="none">
+        <rect x="2" y="3" width="30" height="3" rx="1" fill={c.accent} opacity="0.5" />
+        <rect x="2" y="8" width="22" height="2" rx="1" fill={c.accent} opacity="0.25" />
+        <rect x="2" y="12" width="26" height="2" rx="1" fill={c.accent} opacity="0.2" />
+        <rect x="2" y="16" width="18" height="2" rx="1" fill={c.accent} opacity="0.15" />
+      </svg>
+    </div>
+  );
+}
+
+// ─── Section accordion with local open/close state ────────────────────────────
+function SectionAccordion({
+  label,
+  icon,
+  color,
+  bg,
+  count,
+  children,
+  defaultOpen = false,
+}: {
+  label: string;
+  icon: ReactNode;
+  color: string;
+  bg: string;
+  count: number;
+  children: ReactNode;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  return (
+    <div className="mb-1.5">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left transition-all"
+        style={{
+          background: open ? bg : "transparent",
+          border: `1px solid ${open ? color + "30" : "transparent"}`,
+        }}
+      >
+        <div className="shrink-0" style={{ color }}>{icon}</div>
+        <span
+          className="flex-1 text-[11px] font-bold uppercase"
+          style={{ color, letterSpacing: "0.07em" }}
+        >
+          {label}
+        </span>
+        <span
+          className="text-[10px] font-semibold rounded-full px-1.5 py-0.5"
+          style={{ color, background: color + "18" }}
+        >
+          {count}
+        </span>
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          className="shrink-0 transition-transform duration-200"
+          style={{ transform: open ? "rotate(180deg)" : "none" }}
+        >
+          <path
+            d="M3 5L7 9L11 5"
+            stroke="#6B7280"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+
+      {open && (
+        <div
+          className="mt-1"
+          style={{
+            paddingLeft: 10,
+            paddingRight: 4,
+            borderLeft: `2px solid ${color}30`,
+            marginLeft: 17,
+          }}
+        >
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Props ────────────────────────────────────────────────────────────────────
 type UnitsContentProps = {
   setCurrentPage: Dispatch<SetStateAction<number>>;
   setValues: Dispatch<SetStateAction<string>>;
@@ -63,50 +220,6 @@ type UnitsContentProps = {
   moduleId: string | null;
   isMobileLandscape?: boolean;
 };
-
-// Color accent per document type for the thumbnail header strip
-const TYPE_COLORS: Record<string, string> = {
-  CONTENT: "bg-[#185FA5]",
-  CASE_STUDY: "bg-[#0F6E56]",
-  PRACTICAL_APPLICATION: "bg-[#534AB7]",
-};
-
-// Human-readable category label
-const TYPE_LABELS: Record<string, string> = {
-  CONTENT: "content",
-  CASE_STUDY: "case study",
-  PRACTICAL_APPLICATION: "practical application",
-};
-
-// Simulated page-line texture colours per type (light strip lines)
-const LINE_COLORS: Record<string, string> = {
-  CONTENT: "bg-blue-200",
-  CASE_STUDY: "bg-teal-200",
-  PRACTICAL_APPLICATION: "bg-violet-200",
-};
-
-function PdfThumbnail({ type }: { type: string }) {
-  const header = TYPE_COLORS[type] ?? "bg-gray-400";
-  const lines = LINE_COLORS[type] ?? "bg-gray-200";
-  return (
-    <div className="w-11 h-14 rounded border border-[#DBDBDB] overflow-hidden flex flex-col shrink-0">
-      <div className={cn("h-3 flex items-center px-1", header)}>
-        <span className="text-[5px] text-white font-medium tracking-wide truncate">
-          {TYPE_LABELS[type]?.toUpperCase() ?? "DOC"}
-        </span>
-      </div>
-      <div className="flex-1 bg-white px-1.5 py-1 flex flex-col gap-[3px]">
-        {[100, 80, 100, 60, 100, 75, 100].map((w, i) => (
-          <div
-            key={i}
-            className={cn("h-[2px] rounded-sm", lines)}
-            style={{ width: `${w}%` }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
 
 export function UnitsContent({
   setCurrentPage,
@@ -145,34 +258,23 @@ export function UnitsContent({
 
   const memoizedModules = useMemo(() => {
     if (!unitInfo) return [];
-
     return unitInfo.modules.map((unitModule) => {
       const isCompleted = courseProgress.module
         ? unitModule.index <= courseProgress.module?.index
         : false;
-
       const moduleItems = groupByType(unitModule.moduleItems);
-
-      return {
-        ...unitModule,
-        isCompleted,
-        moduleItems,
-      };
+      return { ...unitModule, isCompleted, moduleItems };
     });
   }, [unitInfo, courseProgress.module]);
 
   useEffect(() => {
     if (!unitInfo || !pdfUrl) return;
-
     const modulesToUpdate: string[] = [];
-
     unitInfo.modules.forEach((m) => {
       if (processedModulesRef.current.has(`${m.id}-${pdfUrl}`)) return;
-
       const activeModule = m.moduleItems.find(
         (item) => item.signedPdfUrl === pdfUrl,
       );
-
       if (
         activeModule &&
         (!courseProgress.module || m.index > courseProgress.module?.index)
@@ -181,7 +283,6 @@ export function UnitsContent({
         processedModulesRef.current.add(`${m.id}-${pdfUrl}`);
       }
     });
-
     if (modulesToUpdate.length > 0) {
       Promise.all(
         modulesToUpdate.map((moduleId) => trigger({ moduleId })),
@@ -192,10 +293,7 @@ export function UnitsContent({
   const handleUnitClick = useCallback(
     (unit: CourseUnit, index: number) => {
       if (unit.index > courseProgress.unit.index) return;
-
-      if (index === 0 && !introHasPlayed) {
-        handleIntroPlayed();
-      }
+      if (index === 0 && !introHasPlayed) handleIntroPlayed();
     },
     [courseProgress.unit.index, introHasPlayed],
   );
@@ -211,30 +309,89 @@ export function UnitsContent({
     }
   };
 
+  const progressPct = Math.min(
+    100,
+    Math.round((courseProgress.unit.index / units.length) * 100),
+  );
+
   return (
     <div
       id="units-sidebar"
-      className="max-lg:mt-6 min-[1600px]:col-span-2 bg-white rounded-xl border border-[#DBDBDB] overflow-hidden"
+      className="max-lg:mt-6 min-[1600px]:col-span-2 bg-white rounded-xl overflow-hidden"
+      style={{
+        border: "1px solid #E5E7EB",
+        boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+      }}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3.5 border-b border-[#DBDBDB]">
-        <div>
-          <h4 className="font-semibold text-sm text-gray-900">
-            Course content
-          </h4>
-          <p className="text-xs text-gray-500 mt-0.5">
-            Unit {courseProgress.unit.index} of {units.length}&nbsp;·&nbsp;
-            {Math.round((courseProgress.unit.index / units.length) * 100)}%
-            complete
-          </p>
+      {/* ── Header ── */}
+      <div
+        className="px-4 py-4 bg-white"
+        style={{ borderBottom: "1px solid #F3F4F6" }}
+      >
+        {/* Title row */}
+        <div className="flex items-center gap-2.5 mb-3">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 text-[#1A56DB]">
+            <GraduationCapIcon size={20} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h4 className="text-sm font-bold text-gray-900">Course content</h4>
+            <p className="text-[11px] text-gray-500 mt-0.5">
+              {units.length} unit{units.length !== 1 ? "s" : ""} · CPD
+              Accredited
+            </p>
+          </div>
+          {!isQuizOn && !isMobileLandscape && (
+            <Chatbot moduleItemId={moduleId} />
+          )}
         </div>
-        {!isQuizOn && !isMobileLandscape ? (
-          <Chatbot moduleItemId={moduleId} />
-        ) : null}
+
+        {/* Progress bar */}
+        <div className="mb-3">
+          <div className="flex justify-between mb-1">
+            <span className="text-[11px] text-gray-500">Overall progress</span>
+            <span className="text-[11px] font-bold text-[#1A56DB]">
+              Unit {courseProgress.unit.index} of {units.length} · {progressPct}
+              %
+            </span>
+          </div>
+          <div
+            className="h-1.5 rounded-full overflow-hidden"
+            style={{ background: "#F3F4F6" }}
+          >
+            <div
+              className="h-full rounded-full bg-[#1A56DB] transition-all"
+              style={{ width: `${progressPct}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Legend */}
+        <div className="flex gap-3">
+          {[
+            { color: "#16A34A", bg: "#DCFCE7", label: "Completed" },
+            { color: "#1A56DB", bg: "#EFF6FF", label: "In progress" },
+            { color: "#9CA3AF", bg: "#F3F4F6", label: "Locked" },
+          ].map((l) => (
+            <div key={l.label} className="flex items-center gap-1.5">
+              <div
+                style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: "50%",
+                  background: l.bg,
+                  border: `1.5px solid ${l.color}`,
+                  flexShrink: 0,
+                }}
+              />
+              <span className="text-[10.5px] text-gray-500">{l.label}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
+      {/* ── Units list ── */}
       <ScrollArea className="h-full max-h-screen overflow-y-auto no-scrollbar">
-        <div className="py-1">
+        <div className="p-3.5">
           <Accordion
             value={values}
             onValueChange={(v) => {
@@ -249,269 +406,486 @@ export function UnitsContent({
               const isCompleted = unit.isUnitCompleted;
               const isLocked = !unit.isUnitAccessible;
 
+              const statusColor = isCompleted
+                ? "#16A34A"
+                : isLocked
+                  ? "#9CA3AF"
+                  : "#1A56DB";
+              const statusBg = isCompleted
+                ? "#DCFCE7"
+                : isLocked
+                  ? "#F3F4F6"
+                  : "#EFF6FF";
+              const statusLabel = isCompleted
+                ? "Completed"
+                : isLocked
+                  ? "Locked"
+                  : "In Progress";
+              const unitNum = String(unit.index).padStart(2, "0");
+
               return (
                 <AccordionItem
                   disabled={isLocked}
                   value={unit.id}
                   key={unit.id}
-                  className="border-b border-[#DBDBDB] last:border-b-0"
+                  className="border-b-0 rounded-xl mb-2.5 overflow-hidden last:mb-0"
+                  style={{
+                    border: `1px solid ${isActive && !isCompleted ? "#1A56DB40" : "#E5E7EB"}`,
+                    boxShadow:
+                      isActive && !isCompleted
+                        ? "0 0 0 1px #1A56DB20"
+                        : "none",
+                  }}
                 >
                   <AccordionTrigger
                     onClick={() => handleUnitClick(unit, i)}
                     className={cn(
-                      "hover:no-underline px-4 py-2.5 transition-colors",
-                      isActive
-                        ? "bg-gray-50 border-l-[3px] border-l-[#378ADD] pl-[13px]"
-                        : "border-l-[3px] border-l-transparent",
-                      isLocked ? "opacity-40 cursor-not-allowed" : "",
+                      "hover:no-underline px-4 py-3 transition-colors",
+                      isActive ? "bg-[#F8FAFF]" : "bg-white",
+                      isLocked ? "[&>svg:last-child]:hidden cursor-not-allowed" : "",
                     )}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-4 h-4 flex items-center justify-center shrink-0">
-                        {isLocked ? (
-                          <LockIcon size={14} className="text-gray-400" />
-                        ) : isCompleted ? (
-                          <CheckIcon size={14} className="text-[#1D9E75]" />
-                        ) : (
-                          <BookOpenIcon size={14} className="text-[#378ADD]" />
-                        )}
+                    <div className="flex items-center gap-2.5 w-full mr-2">
+                      {/* Unit number badge */}
+                      <div
+                        className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold shrink-0"
+                        style={{
+                          background: isLocked ? "#F3F4F6" : "#1A56DB15",
+                          color: isLocked ? "#9CA3AF" : "#1A56DB",
+                        }}
+                      >
+                        {unitNum}
                       </div>
-                      <div className="text-left">
+
+                      <div className="flex-1 min-w-0 text-left">
                         <p
-                          className={cn(
-                            "text-sm font-medium",
-                            isActive ? "text-gray-900" : "text-gray-600",
-                            isCompleted && !isActive ? "text-gray-400" : "",
-                          )}
+                          className="text-[13px] font-semibold truncate"
+                          style={{ color: isLocked ? "#9CA3AF" : "#111827" }}
                         >
                           Unit {unit.index}
                         </p>
-                        {isActive && unitInfo && (
-                          <p className="text-xs text-gray-400 mt-0.5">
-                            {unitInfo.modules.length}{" "}
-                            {unitInfo.modules.length === 1
-                              ? "module"
-                              : "modules"}
-                          </p>
+                        <p className="text-[10.5px] text-gray-400 mt-0.5">
+                          {isActive && unitInfo
+                            ? `${unitInfo.modules.length} module${unitInfo.modules.length !== 1 ? "s" : ""}`
+                            : isLocked
+                              ? "Locked"
+                              : "Available"}
+                        </p>
+                      </div>
+
+                      {/* Status pill */}
+                      <div
+                        className="text-[10px] font-semibold rounded-full px-2.5 py-1 shrink-0 flex items-center gap-1"
+                        style={{ color: statusColor, background: statusBg }}
+                      >
+                        {isLocked && (
+                          <svg
+                            width="10"
+                            height="10"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                          >
+                            <rect
+                              x="3"
+                              y="6"
+                              width="8"
+                              height="6"
+                              rx="1.5"
+                              stroke="currentColor"
+                              strokeWidth="1"
+                            />
+                            <path
+                              d="M5 6V4.5a2 2 0 114 0V6"
+                              stroke="currentColor"
+                              strokeWidth="1"
+                              strokeLinecap="round"
+                            />
+                          </svg>
                         )}
+                        {statusLabel}
                       </div>
                     </div>
                   </AccordionTrigger>
 
-                  <AccordionContent>
+                  <AccordionContent className="pb-0">
                     {isLoading ? (
-                      <div className="flex justify-center py-4">
+                      <div className="flex justify-center py-6">
                         <Loader2Icon className="animate-spin" size={20} />
                       </div>
                     ) : unitInfo && unit.id === values ? (
-                      <div className="space-y-1 pb-1">
-                        <Accordion
-                          value={moduleValues[i]}
-                          onValueChange={(v) => {
-                            const newModule = moduleValues.map((m, mi) =>
-                              mi === i ? v : m,
-                            );
-                            setModuleValues(newModule);
-                          }}
-                          type="multiple"
-                          className="w-full"
-                        >
-                          {memoizedModules.map((unitModule) => {
-                            const pages = unitModule.moduleItems.map(
-                              (m) => m.items.length,
-                            );
-                            const totalSlides = pages.reduce(
-                              (p, c) => p + c,
-                              0,
-                            );
-                            const moduleSlides =
-                              unitModule.moduleItems?.flatMap((mI) =>
-                                mI.items.map((i) => i.signedPdfUrl),
+                      <div
+                        style={{
+                          padding: "0 14px 14px",
+                          borderTop: "1px solid #F3F4F6",
+                          background: "#FAFAFA",
+                        }}
+                      >
+                        {/* Module list */}
+                        <div className="pt-2.5">
+                          <Accordion
+                            value={moduleValues[i]}
+                            onValueChange={(v) => {
+                              const updated = moduleValues.map((m, mi) =>
+                                mi === i ? v : m,
                               );
-                            const isActiveModule = pdfUrl
-                              ? moduleSlides.some(
-                                  (s) =>
-                                    extractPublicId(s) ===
-                                    extractPublicId(pdfUrl),
-                                )
-                              : false;
+                              setModuleValues(updated);
+                            }}
+                            type="multiple"
+                            className="w-full space-y-2"
+                          >
+                            {memoizedModules.map((unitModule) => {
+                              const isActiveModule = pdfUrl
+                                ? unitModule.moduleItems.some((mi) =>
+                                    mi.items.some(
+                                      (item) =>
+                                        extractPublicId(
+                                          item.signedPdfUrl,
+                                        ) === extractPublicId(pdfUrl),
+                                    ),
+                                  )
+                                : false;
 
-                            return (
-                              <AccordionItem
-                                value={`${unit.index}-${unitModule.index}`}
-                                key={unitModule.id}
-                                className="w-full border-none"
-                              >
-                                <AccordionTrigger
-                                  className={cn(
-                                    "hover:no-underline px-4 py-2 transition-colors",
-                                    isActiveModule ? "bg-blue-50/60" : "",
-                                  )}
+                              const contentGroup = unitModule.moduleItems.find(
+                                (m) => m.title === "CONTENT",
+                              );
+                              const practicalGroup =
+                                unitModule.moduleItems.find(
+                                  (m) => m.title === "PRACTICAL_APPLICATIONS",
+                                );
+                              const caseStudyGroup =
+                                unitModule.moduleItems.find(
+                                  (m) => m.title === "CASE_STUDY",
+                                );
+                              const cpdSlides =
+                                contentGroup?.items.reduce(
+                                  (s, it) => s + it.pages.length,
+                                  0,
+                                ) ?? 0;
+                              const practicalCount =
+                                practicalGroup?.items.length ?? 0;
+                              const caseStudyCount =
+                                caseStudyGroup?.items.length ?? 0;
+
+                              return (
+                                <AccordionItem
+                                  value={`${unit.index}-${unitModule.index}`}
+                                  key={unitModule.id}
+                                  className="border-b-0 rounded-[10px] overflow-hidden"
+                                  style={{
+                                    border: "1px solid #F3F4F6",
+                                    background: "white",
+                                  }}
                                 >
-                                  <div className="flex items-center gap-2 pl-5">
-                                    <div className="w-4 h-4 flex items-center justify-center shrink-0">
-                                      {unitModule.isCompleted ? (
-                                        <CheckCircleIcon
-                                          size={15}
-                                          className="text-[#1D9E75]"
-                                        />
-                                      ) : (
-                                        <CircleDashedIcon
-                                          size={15}
-                                          className="text-gray-400"
-                                        />
-                                      )}
-                                    </div>
-                                    <div
-                                      className={cn(
-                                        "text-left",
-                                        unitModule.isCompleted
-                                          ? "text-[#1D9E75]"
-                                          : "text-gray-600",
-                                      )}
-                                    >
-                                      <p className="text-sm font-medium">
+                                  <AccordionTrigger
+                                    className={cn(
+                                      "hover:no-underline px-3.5 py-2.5 transition-colors",
+                                      isActiveModule
+                                        ? "bg-blue-50/60"
+                                        : "bg-white",
+                                    )}
+                                  >
+                                    <div className="flex items-center gap-2 w-full mr-2">
+                                      {/* Module label badge */}
+                                      <div
+                                        className="text-[10px] font-bold rounded px-2 py-0.5 shrink-0"
+                                        style={{
+                                          color: "#1A56DB",
+                                          background: "#1A56DB15",
+                                          letterSpacing: "0.03em",
+                                        }}
+                                      >
                                         Module {unitModule.index}
-                                      </p>
-                                      <p className="text-xs text-gray-400">
-                                        {totalSlides} slides
-                                      </p>
+                                      </div>
+
+                                      <div className="flex-1 min-w-0 text-left">
+                                        <p className="text-[12.5px] font-semibold text-gray-900">
+                                          Module {unitModule.index}
+                                        </p>
+                                        <p className="text-[10.5px] text-gray-400 mt-0.5">
+                                          {cpdSlides > 0 &&
+                                            `${cpdSlides} CPD slides`}
+                                          {practicalCount > 0 &&
+                                            ` · ${practicalCount} practical`}
+                                          {caseStudyCount > 0 &&
+                                            ` · ${caseStudyCount} case ${caseStudyCount === 1 ? "study" : "studies"}`}
+                                        </p>
+                                      </div>
+
+                                      {/* Done / Upcoming pill */}
+                                      <div
+                                        className="text-[10px] font-semibold rounded-full px-2 py-0.5 shrink-0"
+                                        style={{
+                                          color: unitModule.isCompleted
+                                            ? "#16A34A"
+                                            : "#9CA3AF",
+                                          background: unitModule.isCompleted
+                                            ? "#DCFCE7"
+                                            : "#F3F4F6",
+                                        }}
+                                      >
+                                        {unitModule.isCompleted
+                                          ? "✓ Done"
+                                          : "Upcoming"}
+                                      </div>
                                     </div>
-                                  </div>
-                                </AccordionTrigger>
+                                  </AccordionTrigger>
 
-                                <AccordionContent className="pb-2">
-                                  <ul className="space-y-3 px-4 pt-1">
-                                    {[...unitModule.moduleItems]
-                                      .sort((a, b) => {
-                                        const order: Record<string, number> = {
-                                          CONTENT: 0,
-                                          CASE_STUDY: 1,
-                                          PRACTICAL_APPLICATION: 2,
-                                        };
-                                        return (
-                                          (order[a.title] ?? 99) -
-                                          (order[b.title] ?? 99)
-                                        );
-                                      })
-                                      .map((moduleItem) => (
-                                        <li
-                                          key={`${moduleItem.title}-${unitModule.id}`}
-                                        >
-                                          {/* Category label */}
-                                          <p className="text-[10px] font-medium tracking-widest uppercase text-gray-400 mb-2 pl-7">
-                                            {TYPE_LABELS[moduleItem.title] ??
-                                              moduleItem.title
-                                                .replace(/_/g, " ")
-                                                .toLowerCase()}
-                                          </p>
+                                  <AccordionContent className="pb-0">
+                                    <div
+                                      className="px-3.5 pt-2 pb-3.5"
+                                      style={{
+                                        borderTop: "1px solid #F3F4F6",
+                                      }}
+                                    >
+                                      {[...unitModule.moduleItems]
+                                        .sort(
+                                          (a, b) =>
+                                            (SECTION_TYPE_ORDER[a.title] ??
+                                              99) -
+                                            (SECTION_TYPE_ORDER[b.title] ?? 99),
+                                        )
+                                        .map((moduleItem) => {
+                                          const cfg =
+                                            SECTION_CFG[moduleItem.title];
+                                          if (!cfg) return null;
 
-                                          {/* Thumbnail cards */}
-                                          {moduleItem.items.map(
-                                            (contentItem) => {
-                                              const isActiveSlide = pdfUrl
-                                                ? extractPublicId(
-                                                    contentItem.signedPdfUrl,
-                                                  ) === extractPublicId(pdfUrl)
-                                                : false;
+                                          return (
+                                            <SectionAccordion
+                                              key={moduleItem.title}
+                                              label={cfg.label}
+                                              icon={cfg.icon}
+                                              color={cfg.color}
+                                              bg={cfg.bg}
+                                              count={moduleItem.items.length}
+                                              defaultOpen={cfg.defaultOpen}
+                                            >
+                                              {moduleItem.items.map(
+                                                (contentItem) => {
+                                                  const isActiveSlide = pdfUrl
+                                                    ? extractPublicId(
+                                                        contentItem.signedPdfUrl,
+                                                      ) ===
+                                                      extractPublicId(pdfUrl)
+                                                    : false;
+                                                  const cardTitle =
+                                                    contentItem.pages[0]
+                                                      ?.pageTitle ?? "";
 
-                                              // Use first page title as the card title
-                                              const cardTitle =
-                                                contentItem.pages[0]
-                                                  ?.pageTitle ?? "";
-                                              const pageCount =
-                                                contentItem.pages.length;
-
-                                              return (
-                                                <button
-                                                  key={contentItem.id}
-                                                  onClick={() => {
-                                                    if (contentItem.pages[0]) {
-                                                      handlePageClick(
-                                                        contentItem.pages[0],
-                                                        contentItem,
-                                                      );
-                                                    }
-                                                  }}
-                                                  disabled={isQuizOn}
-                                                  type="button"
-                                                  className={cn(
-                                                    "w-full flex items-center gap-3 p-2 rounded-lg border text-left transition-colors mb-2",
-                                                    "disabled:opacity-50 disabled:cursor-not-allowed",
-                                                    isActiveSlide
-                                                      ? "border-[#378ADD] bg-blue-50"
-                                                      : "border-[#DBDBDB] bg-white hover:border-gray-300 hover:bg-gray-50",
-                                                  )}
-                                                >
-                                                  <PdfThumbnail
-                                                    type={moduleItem.title}
-                                                  />
-                                                  <div className="flex-1 min-w-0">
-                                                    <p
-                                                      className={cn(
-                                                        "text-xs font-medium leading-snug line-clamp-2",
-                                                        isActiveSlide
-                                                          ? "text-[#185FA5]"
-                                                          : "text-gray-800",
-                                                      )}
+                                                  return (
+                                                    <button
+                                                      key={contentItem.id}
+                                                      type="button"
+                                                      onClick={() => {
+                                                        if (
+                                                          contentItem.pages[0]
+                                                        ) {
+                                                          handlePageClick(
+                                                            contentItem
+                                                              .pages[0],
+                                                            contentItem,
+                                                          );
+                                                        }
+                                                      }}
+                                                      disabled={isQuizOn}
+                                                      className="w-full flex items-center gap-2.5 py-1.5 text-left disabled:opacity-50 disabled:cursor-not-allowed"
                                                     >
-                                                      {removeUnitModulePatternsExtended(
-                                                        cardTitle,
-                                                      )}
-                                                    </p>
-                                                    <p className="text-[11px] text-gray-400 mt-1 flex items-center gap-1">
-                                                      <FileTextIcon size={10} />
-                                                      {pageCount}{" "}
-                                                      {pageCount === 1
-                                                        ? "page"
-                                                        : "pages"}
-                                                    </p>
-                                                  </div>
-                                                </button>
-                                              );
-                                            },
-                                          )}
-                                        </li>
-                                      ))}
-                                  </ul>
-                                </AccordionContent>
-                              </AccordionItem>
-                            );
-                          })}
-                        </Accordion>
+                                                      {/* Timeline status dot */}
+                                                      <div className="shrink-0 flex items-center justify-center w-[18px]">
+                                                        {unitModule.isCompleted ? (
+                                                          <svg
+                                                            width="18"
+                                                            height="18"
+                                                            viewBox="0 0 18 18"
+                                                            fill="none"
+                                                          >
+                                                            <circle
+                                                              cx="9"
+                                                              cy="9"
+                                                              r="8.5"
+                                                              fill="#1A56DB"
+                                                              stroke="#1A56DB"
+                                                            />
+                                                            <path
+                                                              d="M5.5 9L7.5 11L12.5 6.5"
+                                                              stroke="white"
+                                                              strokeWidth="1.5"
+                                                              strokeLinecap="round"
+                                                              strokeLinejoin="round"
+                                                            />
+                                                          </svg>
+                                                        ) : isActiveSlide ? (
+                                                          <svg
+                                                            width="18"
+                                                            height="18"
+                                                            viewBox="0 0 18 18"
+                                                            fill="none"
+                                                          >
+                                                            <circle
+                                                              cx="9"
+                                                              cy="9"
+                                                              r="8.5"
+                                                              stroke="#1A56DB"
+                                                              strokeWidth="1.5"
+                                                            />
+                                                            <circle
+                                                              cx="9"
+                                                              cy="9"
+                                                              r="4"
+                                                              fill="#1A56DB"
+                                                            />
+                                                          </svg>
+                                                        ) : (
+                                                          <svg
+                                                            width="18"
+                                                            height="18"
+                                                            viewBox="0 0 18 18"
+                                                            fill="none"
+                                                          >
+                                                            <circle
+                                                              cx="9"
+                                                              cy="9"
+                                                              r="8.5"
+                                                              stroke="#D1D5DB"
+                                                              strokeWidth="1"
+                                                            />
+                                                          </svg>
+                                                        )}
+                                                      </div>
 
-                        {/* Assessment / completion footer */}
-                        <div className="px-4 pt-2">
-                          {unit.isUnitCompleted &&
-                          unitInfo?.assessmentRecord ? (
-                            <div className="bg-green-50/60 p-3 rounded-lg border border-green-600/60">
-                              <p className="text-sm font-medium flex items-center justify-between">
-                                <span className="text-green-800">
-                                  Unit completed
-                                </span>
-                                <span className="text-green-700 font-medium">
+                                                      {/* Thumbnail */}
+                                                      <SlideThumbnail
+                                                        type={moduleItem.title}
+                                                        isActive={isActiveSlide}
+                                                        isCompleted={
+                                                          unitModule.isCompleted
+                                                        }
+                                                      />
+
+                                                      {/* Title */}
+                                                      <span
+                                                        className={cn(
+                                                          "flex-1 text-[12.5px] leading-snug line-clamp-2",
+                                                          isActiveSlide
+                                                            ? "font-semibold text-gray-900"
+                                                            : unitModule.isCompleted
+                                                              ? "text-gray-500"
+                                                              : "text-gray-700",
+                                                        )}
+                                                      >
+                                                        {removeUnitModulePatternsExtended(
+                                                          cardTitle,
+                                                        )}
+                                                      </span>
+
+                                                      {/* "Now" badge */}
+                                                      {isActiveSlide && (
+                                                        <div className="flex items-center gap-1 bg-blue-50 rounded px-1.5 py-0.5 shrink-0">
+                                                          <svg
+                                                            width="10"
+                                                            height="10"
+                                                            viewBox="0 0 12 12"
+                                                            fill="none"
+                                                          >
+                                                            <path
+                                                              d="M3 2L10 6L3 10V2Z"
+                                                              fill="#1A56DB"
+                                                            />
+                                                          </svg>
+                                                          <span className="text-[10px] font-semibold text-[#1A56DB]">
+                                                            Now
+                                                          </span>
+                                                        </div>
+                                                      )}
+                                                    </button>
+                                                  );
+                                                },
+                                              )}
+                                            </SectionAccordion>
+                                          );
+                                        })}
+                                    </div>
+                                  </AccordionContent>
+                                </AccordionItem>
+                              );
+                            })}
+                          </Accordion>
+                        </div>
+
+                        {/* Assessment banner */}
+                        <div className="mt-3">
+                          {unit.isUnitCompleted && unitInfo?.assessmentRecord ? (
+                            <div
+                              className="flex items-center gap-2.5 p-3 rounded-[10px]"
+                              style={{
+                                background: "#F0FDF4",
+                                border: "1px solid #BBF7D0",
+                              }}
+                            >
+                              <div
+                                className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-[#16A34A]"
+                                style={{ background: "#16A34A15" }}
+                              >
+                                <ClipboardListIcon size={18} />
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-[12.5px] font-semibold text-[#15803D]">
+                                  Unit Assessment
+                                </p>
+                                <p className="text-[11px] text-gray-500">
                                   Score:{" "}
-                                  {unitInfo?.assessmentRecord?.gradePercentage}%
-                                </span>
-                              </p>
+                                  {unitInfo.assessmentRecord.gradePercentage}% ✓
+                                </p>
+                              </div>
+                              <div
+                                className="text-[11px] font-semibold rounded-lg px-3 py-1.5 shrink-0"
+                                style={{
+                                  color: "#16A34A",
+                                  background: "#DCFCE7",
+                                }}
+                              >
+                                Passed ✓
+                              </div>
                             </div>
                           ) : (
-                            <Button
-                              id="start-assessment-btn"
-                              loading={isGeneratingQuestions}
-                              onClick={generateQuestions}
-                              disabled={isQuizOn || isGeneratingQuestions}
-                              className="w-full"
-                              type="button"
+                            <div
+                              className="flex items-center gap-2.5 p-3 rounded-[10px]"
+                              style={{
+                                background: "#F8FAFF",
+                                border: "1px solid #1A56DB30",
+                              }}
                             >
-                              <SparklesIcon className="mr-2" size={14} />
-                              Start assessment
-                            </Button>
+                              <div
+                                className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-[#1A56DB]"
+                                style={{ background: "#1A56DB15" }}
+                              >
+                                <ClipboardListIcon size={18} />
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-[12.5px] font-semibold text-[#1E40AF]">
+                                  Unit Assessment
+                                </p>
+                                <p className="text-[11px] text-gray-500">
+                                  Complete all modules to unlock
+                                </p>
+                              </div>
+                              <Button
+                                id="start-assessment-btn"
+                                loading={isGeneratingQuestions}
+                                onClick={generateQuestions}
+                                disabled={isQuizOn || isGeneratingQuestions}
+                                type="button"
+                                size="sm"
+                                className="shrink-0"
+                              >
+                                <SparklesIcon size={12} className="mr-1" />
+                                Start
+                              </Button>
+                            </div>
                           )}
                         </div>
                       </div>
                     ) : (
-                      <div className="text-center py-4 text-gray-400 text-sm">
+                      <div className="text-center py-6 text-gray-400 text-sm">
                         No content available
                       </div>
                     )}

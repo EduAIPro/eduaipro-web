@@ -167,10 +167,10 @@ export default function OverviewPage() {
         />
         <div className="flex flex-col gap-8">
           <div className="space-y-3">
-            <h2 id="course-title" className="text-xl font-semibold capitalize">
+            <h2 id="course-title" className="text-2xl font-bold capitalize">
               {course.title.replaceAll("_", " ").toLowerCase()}
             </h2>
-            <div className="flex items-start gap-10">
+            {/* <div className="flex items-start gap-10">
               <div id="course-content-stats">
                 <h3 className="font-medium text-sm">Content</h3>
                 <div className="flex items-center gap-1">
@@ -207,7 +207,7 @@ export default function OverviewPage() {
                   Unit {courseProgress?.unit.index} of {course.units.length}
                 </p>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div id="personal-dev-plan">
