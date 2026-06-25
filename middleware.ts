@@ -8,6 +8,16 @@ export function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get(REFRESH_TOKEN)?.value;
   const { pathname } = request.nextUrl;
 
+  // Maintenance mode - block access to login and dashboard pages
+  const maintenanceRoutes = ["/login", "/dashboard"];
+  const isMaintenanceRoute = maintenanceRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+
+  if (process.env.MAINTENANCE_MODE === "true" && isMaintenanceRoute) {
+    return NextResponse.redirect(new URL("/maintenance", request.url));
+  }
+
   // Protected routes - require authentication
   const protectedRoutes = ["/dashboard", "/school", "/admin"];
   const isProtectedRoute = protectedRoutes.some((route) =>
