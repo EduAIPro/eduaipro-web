@@ -117,7 +117,9 @@ export type ContentPage = {
   pageNumber: number;
   thumbnailUrl: string;
   createdAt: string;
+  updatedAt: string;
   moduleItemId: string;
+  lastTitleUpdate: string;
 };
 
 export type UnitDetails = {
