@@ -15,8 +15,8 @@ const moduleItemValidation = Yup.object().shape({
     }),
   type: Yup.string()
     .oneOf(
-      ["CONTENT", "PRACTICAL_APPLICATIONS", "CASE_STUDY"],
-      "Course type must be CONTENT, PRACTICAL_APPLICATIONS, CASE_STUDY"
+      ["CONTENT", "PRACTICAL_APPLICATION", "CASE_STUDY"],
+      "Course type must be CONTENT, PRACTICAL_APPLICATION, CASE_STUDY",
     )
     .required("Course type is a required value"),
   pages: Yup.array()

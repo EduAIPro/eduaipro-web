@@ -97,6 +97,6 @@ export const moduleItemTypeOptions = [
   },
   {
     label: "Practical applications",
-    value: ModuleTypeEnum.PRACTICAL_APPLICATIONS,
+    value: ModuleTypeEnum.PRACTICAL_APPLICATION,
   },
 ];

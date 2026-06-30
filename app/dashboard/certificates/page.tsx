@@ -10,7 +10,10 @@ const CertificationStatus: React.FC = () => {
   return (
     <>
       <div className="mb-8">
-        <h2 className="text-2xl font-semibold">Certificates</h2>
+        <h2 className="text-2xl font-semibold text-gray-900">Certificates</h2>
+        <p className="text-sm text-gray-500 mt-1">
+          Track and download the certificates you{"'"}ve earned.
+        </p>
       </div>
       <Certificates />
     </>

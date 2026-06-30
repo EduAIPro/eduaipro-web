@@ -215,40 +215,40 @@ export const ViewCourse = ({
                                       </div>
                                     ) : null}
 
-                                    {grouped?.["PRACTICAL_APPLICATIONS"]
+                                    {grouped?.["PRACTICAL_APPLICATION"]
                                       ?.length ? (
                                       <div>
                                         <p className="text-sm font-medium text-grey-500 mb-2">
                                           Practical Applications
                                         </p>
                                         <ul className="space-y-2 pl-3">
-                                          {grouped[
-                                            "PRACTICAL_APPLICATIONS"
-                                          ].map((item) => (
-                                            <li
-                                              key={item.id}
-                                              className="flex items-center justify-between"
-                                            >
-                                              <p className="text-sm text-grey-11">
-                                                {item.pages[0]?.pageTitle}
-                                              </p>
-                                              <Modal
-                                                title="View PDF"
-                                                trigger={
-                                                  <button className="text-sm font-medium text-primary underline">
-                                                    View PDF
-                                                  </button>
-                                                }
-                                                containerClassName="max-w-7xl h-[85vh]"
-                                                className="w-full p-0"
+                                          {grouped["PRACTICAL_APPLICATION"].map(
+                                            (item) => (
+                                              <li
+                                                key={item.id}
+                                                className="flex items-center justify-between"
                                               >
-                                                <iframe
-                                                  src={item.signedPdfUrl}
-                                                  className="w-full h-full border-0"
-                                                />
-                                              </Modal>
-                                            </li>
-                                          ))}
+                                                <p className="text-sm text-grey-11">
+                                                  {item.pages[0]?.pageTitle}
+                                                </p>
+                                                <Modal
+                                                  title="View PDF"
+                                                  trigger={
+                                                    <button className="text-sm font-medium text-primary underline">
+                                                      View PDF
+                                                    </button>
+                                                  }
+                                                  containerClassName="max-w-7xl h-[85vh]"
+                                                  className="w-full p-0"
+                                                >
+                                                  <iframe
+                                                    src={item.signedPdfUrl}
+                                                    className="w-full h-full border-0"
+                                                  />
+                                                </Modal>
+                                              </li>
+                                            ),
+                                          )}
                                         </ul>
                                       </div>
                                     ) : null}

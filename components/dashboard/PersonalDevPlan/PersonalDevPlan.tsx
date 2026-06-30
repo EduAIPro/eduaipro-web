@@ -216,6 +216,8 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
       startAssessment={startAssessment}
       isMobileLandscape={isMobileLandscape}
       setIsMobileLandscape={setIsMobileLandscape}
+      currentPage={currentPage}
+      setCurrentPage={setCurrentPage}
       {...props}
     />
   );
@@ -242,6 +244,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
       unitInfo={unitInfo}
       isLoading={isLoading}
       isMobileLandscape={isMobileLandscape}
+      currentPage={currentPage}
     />
   );
 
