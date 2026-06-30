@@ -6,13 +6,16 @@ import { cn } from "@/lib/utils";
 import { CourseProgress, UnitDetails } from "@/types/course";
 import { extractPublicId } from "@/utils/link";
 import {
+  BookOpenIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  FolderOpenIcon,
   Loader2,
   Maximize2,
   Minimize2,
   RotateCw,
   SparklesIcon,
+  WrenchIcon,
 } from "lucide-react";
 import React, {
   Dispatch,
@@ -44,9 +47,35 @@ type CourseMediaProps = {
   navigateToPreviousUnit?: () => Promise<string | null>;
   isMobileLandscape?: boolean;
   setIsMobileLandscape?: Dispatch<SetStateAction<boolean>>;
+  currentPage?: number;
+  setCurrentPage?: Dispatch<SetStateAction<number>>;
 };
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
+const TYPE_CFG: Record<
+  string,
+  { label: string; icon: React.ElementType; color: string; bg: string }
+> = {
+  CONTENT: {
+    label: "Core CPD Content",
+    icon: BookOpenIcon,
+    color: "#1A56DB",
+    bg: "#EFF6FF",
+  },
+  PRACTICAL_APPLICATION: {
+    label: "Practical Application",
+    icon: WrenchIcon,
+    color: "#16A34A",
+    bg: "#F0FDF4",
+  },
+  CASE_STUDY: {
+    label: "Case Study",
+    icon: FolderOpenIcon,
+    color: "#EA580C",
+    bg: "#FFF7ED",
+  },
+};
 
 const CourseMedia: React.FC<CourseMediaProps> = ({
   pdfUrl,
@@ -63,6 +92,8 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
   navigateToPreviousUnit,
   isMobileLandscape = false,
   setIsMobileLandscape,
+  currentPage,
+  setCurrentPage,
 }) => {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [containerWidth, setContainerWidth] = useState(600);
@@ -143,6 +174,16 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
     );
   }, [allModules, pdfUrl]);
 
+  const currentModule = useMemo(() => {
+    if (!currentModuleData) return undefined;
+    return getModuleAndItemForPage(currentModuleData.id).module;
+  }, [currentModuleData, getModuleAndItemForPage]);
+
+  const currentDocTitle = currentModuleData?.pages?.[0]?.pageTitle ?? "";
+  const currentTypeCfg = currentModuleData
+    ? TYPE_CFG[currentModuleData.type]
+    : undefined;
+
   const nextModuleData = useMemo(() => {
     if (!currentModuleData) return null;
     const idx = currentModuleData.idx;
@@ -184,19 +225,29 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
     );
   }, [isOnLastModule, pageNumber, numPages, unitInfo?.assessmentRecord]);
 
+  // Sync internal pageNumber when the sidebar selects a page
+  useEffect(() => {
+    if (currentPage !== undefined && currentPage !== pageNumber) {
+      setPageNumber(currentPage);
+    }
+  }, [currentPage]);
+
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
     if (shouldLoadToLastPage) {
       setPageNumber(numPages);
+      setCurrentPage?.(numPages);
       setShouldLoadToLastPage(false);
     } else {
       setPageNumber(1);
+      setCurrentPage?.(1);
     }
   };
 
   const handleNext = async () => {
     if (pageNumber < numPages) {
       setPageNumber((prev) => prev + 1);
+      setCurrentPage?.(pageNumber + 1);
       return;
     }
 
@@ -249,6 +300,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
   const handlePrev = async () => {
     if (pageNumber > 1) {
       setPageNumber((prev) => prev - 1);
+      setCurrentPage?.(pageNumber - 1);
       return;
     }
 
@@ -336,9 +388,17 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
           ? "max-h-screen overflow-y-scroll xs:p-4 bg-white"
           : isMobileLandscape
             ? "fixed inset-0 z-[100] bg-white w-full h-full p-0 overflow-hidden"
-            : "min-h-[70vh]",
+            : "min-h-[70vh] bg-white rounded-xl p-3.5",
         isMobileLandscape ? "" : "col-span-3 h-fit space-y-3 xs:space-y-6",
       )}
+      style={
+        !isFullscreen && !isMobileLandscape
+          ? {
+              border: "1px solid #E5E7EB",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+            }
+          : undefined
+      }
     >
       <div
         className={cn(
@@ -350,11 +410,47 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
       >
         {introHasPlayed || !introVideoUrl ? (
           <>
+            {/* Document header */}
+            {pdfUrl && currentTypeCfg && !isMobileLandscape && (
+              <div
+                className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl"
+                style={{ border: "1px solid #E5E7EB" }}
+              >
+                <div
+                  className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                  style={{
+                    background: currentTypeCfg.bg,
+                    color: currentTypeCfg.color,
+                  }}
+                >
+                  <currentTypeCfg.icon size={16} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[13px] font-semibold text-gray-900 truncate">
+                    {currentDocTitle || "Untitled document"}
+                  </p>
+                  <p className="text-[10.5px] text-gray-400 mt-0.5">
+                    {unitInfo && `Unit ${unitInfo.index}`}
+                    {currentModule && ` · Module ${currentModule.index}`}
+                  </p>
+                </div>
+                <div
+                  className="text-[10px] font-semibold rounded-full px-2.5 py-1 shrink-0"
+                  style={{
+                    color: currentTypeCfg.color,
+                    background: currentTypeCfg.color + "18",
+                  }}
+                >
+                  {currentTypeCfg.label}
+                </div>
+              </div>
+            )}
+
             {/* PDF Viewer */}
             <div
               ref={containerRef}
               className={cn(
-                "relative rounded-xl overflow-hidden bg-white flex flex-col items-center justify-center border border-[#DBDBDB]",
+                "relative rounded-xl overflow-hidden bg-white flex flex-col items-center justify-center border border-[#E5E7EB]",
                 isFullscreen || isMobileLandscape
                   ? "flex-1 min-h-0"
                   : "min-h-[520px]",
@@ -364,7 +460,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
               <div className="absolute top-3 left-3 z-50 md:hidden">
                 <button
                   onClick={toggleMobileLandscape}
-                  className="bg-white/90 hover:bg-white p-2 rounded-lg transition-colors border border-[#DBDBDB] text-gray-600 shadow-sm"
+                  className="bg-white/90 hover:bg-white p-2 rounded-lg transition-colors border border-[#E5E7EB] text-gray-600 shadow-sm"
                   type="button"
                   aria-label="Rotate view"
                 >
@@ -379,7 +475,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                   loading={
                     <div className="flex flex-col items-center gap-3 py-16">
                       <Loader2
-                        className="animate-spin text-primary"
+                        className="animate-spin text-[#1A56DB]"
                         size={28}
                       />
                       <p className="text-sm text-gray-400">Loading document…</p>
@@ -406,7 +502,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                         style={{ width: pdfPageWidth, height: 520 }}
                       >
                         <Loader2
-                          className="animate-spin text-primary"
+                          className="animate-spin text-[#1A56DB]"
                           size={22}
                         />
                       </div>
@@ -422,7 +518,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
               {/* Fullscreen toggle — desktop only */}
               <button
                 onClick={toggleFullScreen}
-                className="absolute top-3 right-3 bg-white/90 hover:bg-white p-2 rounded-lg z-10 transition-colors border border-[#DBDBDB] text-gray-600 shadow-sm hidden md:flex items-center justify-center"
+                className="absolute top-3 right-3 bg-white/90 hover:bg-white p-2 rounded-lg z-10 transition-colors border border-[#E5E7EB] text-gray-600 shadow-sm hidden md:flex items-center justify-center"
                 type="button"
                 aria-label={
                   isFullscreen ? "Exit fullscreen" : "Enter fullscreen"
@@ -438,7 +534,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
 
             {/* Thumbnail strip — desktop only */}
             {pdfUrl && numPages > 0 && (
-              <div className="w-full overflow-x-auto py-3 px-3 bg-gray-50 rounded-xl border border-[#DBDBDB] hidden md:block">
+              <div className="w-full overflow-x-auto py-3 px-3 bg-gray-50 rounded-xl border border-[#E5E7EB] hidden md:block">
                 <Document
                   file={pdfUrl}
                   className="flex gap-2.5 min-w-min mx-auto"
@@ -447,11 +543,14 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                     <button
                       key={`thumb_${index + 1}`}
                       type="button"
-                      onClick={() => setPageNumber(index + 1)}
+                      onClick={() => {
+                        setPageNumber(index + 1);
+                        setCurrentPage?.(index + 1);
+                      }}
                       className={cn(
-                        "relative shrink-0 rounded overflow-hidden transition-all duration-150 border-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+                        "relative shrink-0 rounded overflow-hidden transition-all duration-150 border-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A56DB]/40",
                         pageNumber === index + 1
-                          ? "border-primary scale-[1.04] opacity-100"
+                          ? "border-[#1A56DB] scale-[1.04] opacity-100"
                           : "border-transparent opacity-50 hover:opacity-80 hover:border-gray-300",
                       )}
                     >
@@ -466,7 +565,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                         className={cn(
                           "absolute inset-x-0 bottom-0 text-white text-[10px] text-center py-0.5 transition-opacity",
                           pageNumber === index + 1
-                            ? "bg-primary/80 opacity-100"
+                            ? "bg-[#1A56DB]/80 opacity-100"
                             : "bg-black/50 opacity-0 group-hover:opacity-100",
                         )}
                       >
@@ -485,7 +584,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                 onClick={handlePrev}
                 variant="outline"
                 className={cn(
-                  "gap-1.5 min-w-[110px]",
+                  "gap-1.5 min-w-[110px] border-[#E5E7EB] text-gray-700 hover:bg-gray-50",
                   isFullscreen
                     ? "max-xs:fixed max-xs:top-3 max-xs:z-20 max-xs:left-2"
                     : "",
@@ -515,7 +614,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                   id="nav-next"
                   onClick={handleNext}
                   className={cn(
-                    "gap-1.5 min-w-[110px] bg-primary hover:bg-primary/90",
+                    "gap-1.5 min-w-[110px] bg-[#1A56DB] hover:bg-[#1A56DB]/90",
                     isFullscreen
                       ? "max-xs:fixed max-xs:bottom-3 max-xs:z-20 max-xs:left-2"
                       : "",
@@ -530,7 +629,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
                   id="nav-next"
                   onClick={handleNext}
                   className={cn(
-                    "gap-1.5 min-w-[110px]",
+                    "gap-1.5 min-w-[110px] bg-[#1A56DB] hover:bg-[#1A56DB]/90",
                     isFullscreen
                       ? "max-xs:fixed max-xs:bottom-3 max-xs:z-20 max-xs:left-2"
                       : "",
@@ -559,7 +658,7 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
         ) : (
           /* Intro video */
           <div className="space-y-4">
-            <div className="rounded-xl overflow-hidden border border-[#DBDBDB] bg-black shadow-sm aspect-video">
+            <div className="rounded-xl overflow-hidden border border-[#E5E7EB] bg-black shadow-sm aspect-video">
               <ReactPlayer
                 ref={playerRef}
                 controls
@@ -572,7 +671,12 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
               />
             </div>
             <div className="flex justify-end">
-              <Button onClick={handleStartCourse} type="button" size="lg">
+              <Button
+                onClick={handleStartCourse}
+                type="button"
+                size="lg"
+                className="bg-[#1A56DB] hover:bg-[#1A56DB]/90"
+              >
                 Start course
               </Button>
             </div>

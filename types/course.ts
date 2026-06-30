@@ -91,11 +91,11 @@ export type Module = {
   moduleItems: ModuleItem[];
 };
 
-export type ModuleType = "CONTENT" | "PRACTICAL_APPLICATIONS" | "CASE_STUDY";
+export type ModuleType = "CONTENT" | "PRACTICAL_APPLICATION" | "CASE_STUDY";
 
 export enum ModuleTypeEnum {
   CONTENT = "CONTENT",
-  PRACTICAL_APPLICATIONS = "PRACTICAL_APPLICATIONS",
+  PRACTICAL_APPLICATION = "PRACTICAL_APPLICATION",
   CASE_STUDY = "CASE_STUDY",
 }
 
@@ -115,6 +115,7 @@ export type ContentPage = {
   id: string;
   pageTitle: string;
   pageNumber: number;
+  thumbnailUrl: string;
   createdAt: string;
   moduleItemId: string;
 };

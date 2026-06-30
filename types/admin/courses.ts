@@ -52,8 +52,14 @@ export type CreateCourseModuleItem = {
   type: ModuleType;
   index: number;
   pages: {
-    title: string;
-    number: number;
+    id: string;
+    pageTitle: string;
+    pageNumber: number;
+    thumbnailUrl: string;
+    createdAt: string;
+    updatedAt: string;
+    moduleItemId: string;
+    lastTitleUpdate: string;
   }[];
 };
 

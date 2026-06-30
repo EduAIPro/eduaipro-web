@@ -22,10 +22,13 @@ import { removeUnitModulePatternsExtended } from "@/utils/text";
 import { extractPublicId } from "@/utils/link";
 import {
   BookOpenIcon,
+  CheckIcon,
   ClipboardListIcon,
   FolderOpenIcon,
   GraduationCapIcon,
   Loader2Icon,
+  LockIcon,
+  PlayIcon,
   SparklesIcon,
   WrenchIcon,
 } from "lucide-react";
@@ -40,12 +43,19 @@ import {
   useState,
 } from "react";
 import useSWRMutation from "swr/mutation";
+import Image from "next/image";
 import Chatbot from "../chat";
 
 // ─── Section config by module item type ───────────────────────────────────────
 const SECTION_CFG: Record<
   string,
-  { label: string; icon: ReactNode; color: string; bg: string; defaultOpen: boolean }
+  {
+    label: string;
+    icon: ReactNode;
+    color: string;
+    bg: string;
+    defaultOpen: boolean;
+  }
 > = {
   CONTENT: {
     label: "Core CPD Content",
@@ -54,7 +64,7 @@ const SECTION_CFG: Record<
     bg: "#EFF6FF",
     defaultOpen: true,
   },
-  PRACTICAL_APPLICATIONS: {
+  PRACTICAL_APPLICATION: {
     label: "Practical Application",
     icon: <WrenchIcon size={14} />,
     color: "#16A34A",
@@ -72,33 +82,43 @@ const SECTION_CFG: Record<
 
 const SECTION_TYPE_ORDER: Record<string, number> = {
   CONTENT: 0,
-  PRACTICAL_APPLICATIONS: 1,
+  PRACTICAL_APPLICATION: 1,
   CASE_STUDY: 2,
 };
 
 // ─── Slide thumbnail ──────────────────────────────────────────────────────────
+const THUMBNAIL_SIZES = {
+  sm: { width: 44, height: 32, radius: 5 },
+  lg: { width: 96, height: 68, radius: 8 },
+};
+
 function SlideThumbnail({
   type,
   isActive,
   isCompleted,
+  thumbnailUrl,
+  size = "sm",
 }: {
   type: string;
   isActive: boolean;
   isCompleted: boolean;
+  thumbnailUrl?: string;
+  size?: "sm" | "lg";
 }) {
   const colorMap: Record<string, { bg: string; accent: string }> = {
     CONTENT: { bg: "#EFF6FF", accent: "#1A56DB" },
-    PRACTICAL_APPLICATIONS: { bg: "#F0FDF4", accent: "#16A34A" },
+    PRACTICAL_APPLICATION: { bg: "#F0FDF4", accent: "#16A34A" },
     CASE_STUDY: { bg: "#FFF7ED", accent: "#EA580C" },
   };
   const c = colorMap[type] ?? colorMap.CONTENT;
+  const { width, height, radius } = THUMBNAIL_SIZES[size];
 
   return (
     <div
       style={{
-        width: 44,
-        height: 32,
-        borderRadius: 5,
+        width,
+        height,
+        borderRadius: radius,
         flexShrink: 0,
         background: c.bg,
         border: `1px solid ${isActive ? c.accent + "80" : isCompleted ? c.accent + "40" : "#E5E7EB"}`,
@@ -108,12 +128,54 @@ function SlideThumbnail({
         overflow: "hidden",
       }}
     >
-      <svg width="34" height="24" viewBox="0 0 34 24" fill="none">
-        <rect x="2" y="3" width="30" height="3" rx="1" fill={c.accent} opacity="0.5" />
-        <rect x="2" y="8" width="22" height="2" rx="1" fill={c.accent} opacity="0.25" />
-        <rect x="2" y="12" width="26" height="2" rx="1" fill={c.accent} opacity="0.2" />
-        <rect x="2" y="16" width="18" height="2" rx="1" fill={c.accent} opacity="0.15" />
-      </svg>
+      {thumbnailUrl ? (
+        <Image
+          src={thumbnailUrl}
+          alt=""
+          width={width}
+          height={height}
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <svg width="34" height="24" viewBox="0 0 34 24" fill="none">
+          <rect
+            x="2"
+            y="3"
+            width="30"
+            height="3"
+            rx="1"
+            fill={c.accent}
+            opacity="0.5"
+          />
+          <rect
+            x="2"
+            y="8"
+            width="22"
+            height="2"
+            rx="1"
+            fill={c.accent}
+            opacity="0.25"
+          />
+          <rect
+            x="2"
+            y="12"
+            width="26"
+            height="2"
+            rx="1"
+            fill={c.accent}
+            opacity="0.2"
+          />
+          <rect
+            x="2"
+            y="16"
+            width="18"
+            height="2"
+            rx="1"
+            fill={c.accent}
+            opacity="0.15"
+          />
+        </svg>
+      )}
     </div>
   );
 }
@@ -149,7 +211,9 @@ function SectionAccordion({
           border: `1px solid ${open ? color + "30" : "transparent"}`,
         }}
       >
-        <div className="shrink-0" style={{ color }}>{icon}</div>
+        <div className="shrink-0" style={{ color }}>
+          {icon}
+        </div>
         <span
           className="flex-1 text-[11px] font-bold uppercase"
           style={{ color, letterSpacing: "0.07em" }}
@@ -219,6 +283,7 @@ type UnitsContentProps = {
   moduleValues: string[][];
   moduleId: string | null;
   isMobileLandscape?: boolean;
+  currentPage: number;
 };
 
 export function UnitsContent({
@@ -242,6 +307,7 @@ export function UnitsContent({
   setModuleValues,
   moduleId,
   isMobileLandscape,
+  currentPage,
 }: UnitsContentProps) {
   const { trigger } = useSWRMutation(updateModuleKey, updateModule);
   const processedModulesRef = useRef(new Set<string>());
@@ -432,9 +498,7 @@ export function UnitsContent({
                   style={{
                     border: `1px solid ${isActive && !isCompleted ? "#1A56DB40" : "#E5E7EB"}`,
                     boxShadow:
-                      isActive && !isCompleted
-                        ? "0 0 0 1px #1A56DB20"
-                        : "none",
+                      isActive && !isCompleted ? "0 0 0 1px #1A56DB20" : "none",
                   }}
                 >
                   <AccordionTrigger
@@ -442,7 +506,9 @@ export function UnitsContent({
                     className={cn(
                       "hover:no-underline px-4 py-3 transition-colors",
                       isActive ? "bg-[#F8FAFF]" : "bg-white",
-                      isLocked ? "[&>svg:last-child]:hidden cursor-not-allowed" : "",
+                      isLocked
+                        ? "[&>svg:last-child]:hidden cursor-not-allowed"
+                        : "",
                     )}
                   >
                     <div className="flex items-center gap-2.5 w-full mr-2">
@@ -538,9 +604,8 @@ export function UnitsContent({
                                 ? unitModule.moduleItems.some((mi) =>
                                     mi.items.some(
                                       (item) =>
-                                        extractPublicId(
-                                          item.signedPdfUrl,
-                                        ) === extractPublicId(pdfUrl),
+                                        extractPublicId(item.signedPdfUrl) ===
+                                        extractPublicId(pdfUrl),
                                     ),
                                   )
                                 : false;
@@ -550,7 +615,7 @@ export function UnitsContent({
                               );
                               const practicalGroup =
                                 unitModule.moduleItems.find(
-                                  (m) => m.title === "PRACTICAL_APPLICATIONS",
+                                  (m) => m.title === "PRACTICAL_APPLICATION",
                                 );
                               const caseStudyGroup =
                                 unitModule.moduleItems.find(
@@ -661,142 +726,255 @@ export function UnitsContent({
                                             >
                                               {moduleItem.items.map(
                                                 (contentItem) => {
-                                                  const isActiveSlide = pdfUrl
-                                                    ? extractPublicId(
-                                                        contentItem.signedPdfUrl,
-                                                      ) ===
-                                                      extractPublicId(pdfUrl)
-                                                    : false;
-                                                  const cardTitle =
-                                                    contentItem.pages[0]
-                                                      ?.pageTitle ?? "";
+                                                  const isActiveDocument =
+                                                    pdfUrl
+                                                      ? extractPublicId(
+                                                          contentItem.signedPdfUrl,
+                                                        ) ===
+                                                        extractPublicId(pdfUrl)
+                                                      : false;
+                                                  const docTitle =
+                                                    removeUnitModulePatternsExtended(
+                                                      contentItem.pages[0]
+                                                        ?.pageTitle ?? "",
+                                                    );
 
                                                   return (
-                                                    <button
+                                                    <div
                                                       key={contentItem.id}
-                                                      type="button"
-                                                      onClick={() => {
-                                                        if (
-                                                          contentItem.pages[0]
-                                                        ) {
-                                                          handlePageClick(
-                                                            contentItem
-                                                              .pages[0],
-                                                            contentItem,
-                                                          );
-                                                        }
-                                                      }}
-                                                      disabled={isQuizOn}
-                                                      className="w-full flex items-center gap-2.5 py-1.5 text-left disabled:opacity-50 disabled:cursor-not-allowed"
+                                                      className="mb-3 last:mb-0"
                                                     >
-                                                      {/* Timeline status dot */}
-                                                      <div className="shrink-0 flex items-center justify-center w-[18px]">
-                                                        {unitModule.isCompleted ? (
-                                                          <svg
-                                                            width="18"
-                                                            height="18"
-                                                            viewBox="0 0 18 18"
-                                                            fill="none"
-                                                          >
-                                                            <circle
-                                                              cx="9"
-                                                              cy="9"
-                                                              r="8.5"
-                                                              fill="#1A56DB"
-                                                              stroke="#1A56DB"
-                                                            />
-                                                            <path
-                                                              d="M5.5 9L7.5 11L12.5 6.5"
-                                                              stroke="white"
-                                                              strokeWidth="1.5"
-                                                              strokeLinecap="round"
-                                                              strokeLinejoin="round"
-                                                            />
-                                                          </svg>
-                                                        ) : isActiveSlide ? (
-                                                          <svg
-                                                            width="18"
-                                                            height="18"
-                                                            viewBox="0 0 18 18"
-                                                            fill="none"
-                                                          >
-                                                            <circle
-                                                              cx="9"
-                                                              cy="9"
-                                                              r="8.5"
-                                                              stroke="#1A56DB"
-                                                              strokeWidth="1.5"
-                                                            />
-                                                            <circle
-                                                              cx="9"
-                                                              cy="9"
-                                                              r="4"
-                                                              fill="#1A56DB"
-                                                            />
-                                                          </svg>
-                                                        ) : (
-                                                          <svg
-                                                            width="18"
-                                                            height="18"
-                                                            viewBox="0 0 18 18"
-                                                            fill="none"
-                                                          >
-                                                            <circle
-                                                              cx="9"
-                                                              cy="9"
-                                                              r="8.5"
-                                                              stroke="#D1D5DB"
-                                                              strokeWidth="1"
-                                                            />
-                                                          </svg>
-                                                        )}
+                                                      {/* Document header */}
+                                                      <div className="flex items-center gap-2 mb-2">
+                                                        <div className="shrink-0 flex items-center justify-center w-[18px]">
+                                                          {unitModule.isCompleted ? (
+                                                            <svg
+                                                              width="18"
+                                                              height="18"
+                                                              viewBox="0 0 18 18"
+                                                              fill="none"
+                                                            >
+                                                              <circle
+                                                                cx="9"
+                                                                cy="9"
+                                                                r="8.5"
+                                                                fill="#1A56DB"
+                                                                stroke="#1A56DB"
+                                                              />
+                                                              <path
+                                                                d="M5.5 9L7.5 11L12.5 6.5"
+                                                                stroke="white"
+                                                                strokeWidth="1.5"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                              />
+                                                            </svg>
+                                                          ) : isActiveDocument ? (
+                                                            <svg
+                                                              width="18"
+                                                              height="18"
+                                                              viewBox="0 0 18 18"
+                                                              fill="none"
+                                                            >
+                                                              <circle
+                                                                cx="9"
+                                                                cy="9"
+                                                                r="8.5"
+                                                                stroke="#1A56DB"
+                                                                strokeWidth="1.5"
+                                                              />
+                                                              <circle
+                                                                cx="9"
+                                                                cy="9"
+                                                                r="4"
+                                                                fill="#1A56DB"
+                                                              />
+                                                            </svg>
+                                                          ) : (
+                                                            <svg
+                                                              width="18"
+                                                              height="18"
+                                                              viewBox="0 0 18 18"
+                                                              fill="none"
+                                                            >
+                                                              <circle
+                                                                cx="9"
+                                                                cy="9"
+                                                                r="8.5"
+                                                                stroke="#D1D5DB"
+                                                                strokeWidth="1"
+                                                              />
+                                                            </svg>
+                                                          )}
+                                                        </div>
+                                                        <span
+                                                          className={cn(
+                                                            "flex-1 text-[12.5px] font-semibold leading-snug line-clamp-1",
+                                                            isActiveDocument
+                                                              ? "text-gray-900"
+                                                              : unitModule.isCompleted
+                                                                ? "text-gray-500"
+                                                                : "text-gray-700",
+                                                          )}
+                                                        >
+                                                          {docTitle}
+                                                        </span>
                                                       </div>
 
-                                                      {/* Thumbnail */}
-                                                      <SlideThumbnail
-                                                        type={moduleItem.title}
-                                                        isActive={isActiveSlide}
-                                                        isCompleted={
-                                                          unitModule.isCompleted
-                                                        }
-                                                      />
+                                                      {/* Page roadmap */}
+                                                      <div className="pl-[26px]">
+                                                        {contentItem.pages.map(
+                                                          (page, pageIdx) => {
+                                                            const isLastPage =
+                                                              pageIdx ===
+                                                              contentItem.pages
+                                                                .length -
+                                                                1;
 
-                                                      {/* Title */}
-                                                      <span
-                                                        className={cn(
-                                                          "flex-1 text-[12.5px] leading-snug line-clamp-2",
-                                                          isActiveSlide
-                                                            ? "font-semibold text-gray-900"
-                                                            : unitModule.isCompleted
-                                                              ? "text-gray-500"
-                                                              : "text-gray-700",
-                                                        )}
-                                                      >
-                                                        {removeUnitModulePatternsExtended(
-                                                          cardTitle,
-                                                        )}
-                                                      </span>
+                                                            const pageStatus =
+                                                              unitModule.isCompleted
+                                                                ? "done"
+                                                                : isActiveDocument
+                                                                  ? page.pageNumber <
+                                                                    currentPage
+                                                                    ? "done"
+                                                                    : page.pageNumber ===
+                                                                        currentPage
+                                                                      ? "active"
+                                                                      : "locked"
+                                                                  : "locked";
 
-                                                      {/* "Now" badge */}
-                                                      {isActiveSlide && (
-                                                        <div className="flex items-center gap-1 bg-blue-50 rounded px-1.5 py-0.5 shrink-0">
-                                                          <svg
-                                                            width="10"
-                                                            height="10"
-                                                            viewBox="0 0 12 12"
-                                                            fill="none"
-                                                          >
-                                                            <path
-                                                              d="M3 2L10 6L3 10V2Z"
-                                                              fill="#1A56DB"
-                                                            />
-                                                          </svg>
-                                                          <span className="text-[10px] font-semibold text-[#1A56DB]">
-                                                            Now
-                                                          </span>
-                                                        </div>
-                                                      )}
-                                                    </button>
+                                                            const accentColor =
+                                                              cfg.color;
+
+                                                            return (
+                                                              <div
+                                                                key={page.id}
+                                                                className="flex items-center"
+                                                              >
+                                                                {/* Node + connector column */}
+                                                                <div className="flex flex-col items-center w-[18px] shrink-0 self-stretch">
+                                                                  {/* Node */}
+                                                                  <div
+                                                                    className="shrink-0 mt-[11px]"
+                                                                    style={{
+                                                                      width: 10,
+                                                                      height: 10,
+                                                                      borderRadius:
+                                                                        "50%",
+                                                                      background:
+                                                                        pageStatus ===
+                                                                        "done"
+                                                                          ? accentColor
+                                                                          : "white",
+                                                                      border: `2px solid ${
+                                                                        pageStatus ===
+                                                                        "locked"
+                                                                          ? "#E5E7EB"
+                                                                          : accentColor
+                                                                      }`,
+                                                                      boxShadow:
+                                                                        pageStatus ===
+                                                                        "active"
+                                                                          ? `0 0 0 3px ${accentColor}40`
+                                                                          : "none",
+                                                                      flexShrink: 0,
+                                                                    }}
+                                                                  />
+                                                                  {/* Connector */}
+                                                                  {!isLastPage && (
+                                                                    <div
+                                                                      className="flex-1 mt-1"
+                                                                      style={{
+                                                                        width: 1,
+                                                                        background:
+                                                                          "repeating-linear-gradient(to bottom,#94A3B8 0,#94A3B8 3px,transparent 3px,transparent 6px)",
+                                                                      }}
+                                                                    />
+                                                                  )}
+                                                                </div>
+
+                                                                {/* Row: thumbnail + title + badge */}
+                                                                <button
+                                                                  type="button"
+                                                                  onClick={() =>
+                                                                    handlePageClick(
+                                                                      page,
+                                                                      contentItem,
+                                                                    )
+                                                                  }
+                                                                  disabled={
+                                                                    isQuizOn ||
+                                                                    pageStatus ===
+                                                                      "locked"
+                                                                  }
+                                                                  className="flex-1 flex items-center gap-2.5 py-1.5 pl-2 text-left disabled:cursor-default"
+                                                                >
+                                                                  <SlideThumbnail
+                                                                    type={
+                                                                      moduleItem.title
+                                                                    }
+                                                                    isActive={
+                                                                      pageStatus ===
+                                                                      "active"
+                                                                    }
+                                                                    isCompleted={
+                                                                      pageStatus ===
+                                                                      "done"
+                                                                    }
+                                                                    thumbnailUrl={
+                                                                      page.thumbnailUrl
+                                                                    }
+                                                                  />
+
+                                                                  <span
+                                                                    className={cn(
+                                                                      "flex-1 text-[12px] leading-snug line-clamp-2",
+                                                                      pageStatus ===
+                                                                        "active"
+                                                                        ? "font-medium text-[#1E40AF]"
+                                                                        : pageStatus ===
+                                                                            "done"
+                                                                          ? "text-gray-500"
+                                                                          : "text-gray-400",
+                                                                    )}
+                                                                  >
+                                                                    {removeUnitModulePatternsExtended(
+                                                                      page.pageTitle,
+                                                                    )}
+                                                                  </span>
+
+                                                                  {pageStatus ===
+                                                                    "active" && (
+                                                                    <span className="flex items-center gap-1 bg-[#EFF6FF] text-[#1E40AF] text-[10px] font-medium rounded px-1.5 py-0.5 shrink-0">
+                                                                      <PlayIcon
+                                                                        size={8}
+                                                                        fill="currentColor"
+                                                                      />
+                                                                      Now
+                                                                    </span>
+                                                                  )}
+                                                                  {pageStatus ===
+                                                                    "done" && (
+                                                                    <CheckIcon
+                                                                      size={13}
+                                                                      className="shrink-0 text-[#1A56DB]"
+                                                                    />
+                                                                  )}
+                                                                  {pageStatus ===
+                                                                    "locked" && (
+                                                                    <LockIcon
+                                                                      size={11}
+                                                                      className="shrink-0 text-gray-400"
+                                                                    />
+                                                                  )}
+                                                                </button>
+                                                              </div>
+                                                            );
+                                                          },
+                                                        )}
+                                                      </div>
+                                                    </div>
                                                   );
                                                 },
                                               )}
@@ -813,7 +991,8 @@ export function UnitsContent({
 
                         {/* Assessment banner */}
                         <div className="mt-3">
-                          {unit.isUnitCompleted && unitInfo?.assessmentRecord ? (
+                          {unit.isUnitCompleted &&
+                          unitInfo?.assessmentRecord ? (
                             <div
                               className="flex items-center gap-2.5 p-3 rounded-[10px]"
                               style={{
