@@ -29,17 +29,16 @@ export const ModuleItemFormField = <T,>({
   isEdit = false,
 }: ModuleItemFormFieldProps) => {
   const { touched, errors, setFieldValue, values } = useFormikContext<T>();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRefs = useRef<Record<number, HTMLInputElement | null>>({});
 
   const fieldError = (fieldName: keyof T) =>
     touched[fieldName] && errors[fieldName] ? errors[fieldName] : null;
 
+  // in edit mode the form values are rooted at "modules", so strip the "units.<n>." prefix
+  const field = isEdit ? fieldName.replace(/^units\.\d+\./, "") : fieldName;
+
   function onFileSelect(file: File | null, moduleItemIndex: number) {
-    if (file) {
-      setFieldValue(`${fieldName}.${moduleItemIndex}.pdfFile`, file, true);
-    } else {
-      setFieldValue(`${fieldName}.${moduleItemIndex}.pdfFile`, null, true);
-    }
+    setFieldValue(`${field}.${moduleItemIndex}.pdfFile`, file, true);
   }
 
   const handleInputChange = (
@@ -48,13 +47,14 @@ export const ModuleItemFormField = <T,>({
   ) => {
     const file = event.target.files?.[0] || null;
     onFileSelect(file, moduleItemIndex);
+    // allow selecting the same file again after it has been removed
+    event.target.value = "";
   };
 
-  const handleClick = () => {
-    fileInputRef.current?.click();
+  const handleClick = (moduleItemIndex: number) => {
+    fileInputRefs.current[moduleItemIndex]?.click();
   };
   const { unitId, moduleId } = extractIds(fieldName);
-  const field = isEdit ? fieldName.slice(8) : fieldName;
   return (
     <FieldArray name={field}>
       {({ remove, push }) => (
@@ -83,18 +83,19 @@ export const ModuleItemFormField = <T,>({
                   <div>
                     <Button
                       disabled={!!pdfFile}
-                      onClick={handleClick}
+                      onClick={() => handleClick(moduleItemIndex)}
                       variant="outline"
                     >
                       <PlusIcon />
                       Add file
                     </Button>
                     <input
-                      ref={fileInputRef}
+                      ref={(el) => {
+                        fileInputRefs.current[moduleItemIndex] = el;
+                      }}
                       type="file"
                       name={`${field}.${moduleItemIndex}.pdfFile`}
                       accept=".pdf"
-                      disabled={false}
                       onChange={(e) => handleInputChange(e, moduleItemIndex)}
                       className="hidden"
                     />
@@ -135,12 +136,7 @@ export const ModuleItemFormField = <T,>({
                       </div>
                     </div>
                     <Button
-                      onClick={() => {
-                        const computedFieldName = isEdit
-                          ? `${fieldName.slice(8)}.${moduleItemIndex}.pdfFile`
-                          : `${fieldName}.${moduleItemIndex}.pdfFile`;
-                        setFieldValue(computedFieldName, null, true);
-                      }}
+                      onClick={() => onFileSelect(null, moduleItemIndex)}
                       className="min-w-fit"
                       variant="ghost"
                     >
@@ -156,7 +152,7 @@ export const ModuleItemFormField = <T,>({
                 </div>
                 <div className="flex items-center gap-3 justify-end mt-3">
                   <Button
-                    onClick={() => push(emptyModuleItem)}
+                    onClick={() => push(structuredClone(emptyModuleItem))}
                     className="border-primary-260 text-primary-260"
                     variant="outline"
                     size="sm"

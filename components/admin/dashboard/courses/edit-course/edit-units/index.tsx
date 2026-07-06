@@ -12,7 +12,7 @@ import {
 } from "@/types/admin/courses";
 import { ModuleType, UnitDetails as UnitDetailsType } from "@/types/course";
 import {
-  createCourseValidation,
+  updateUnitValidation,
   UpdateUnitFormValue,
 } from "@/utils/validation/admin";
 import { Form, Formik } from "formik";
@@ -33,6 +33,8 @@ export const EditCourseUnits = () => {
   const { data: unitInfo, isLoading: unitLoading } = useSWR<UnitDetailsType>(
     unitId ? adminGetCourseUnit(unitId) : null,
     generalFetcher,
+    // the form reinitializes from this data, so a focus refetch would wipe in-progress edits
+    { revalidateOnFocus: false },
   );
 
   const { trigger, isMutating } = useSWRMutation(
@@ -47,40 +49,31 @@ export const EditCourseUnits = () => {
     { resetForm }: { resetForm: VoidFunction },
   ) {
     try {
-      //initiate result array - will contain an array of urls as well as their unit, module and module item indexes
-      const result: { url: string; indexes: number[] }[] = [];
-
-      // map out all pdf's(and their specific indexes) from form data
-      const allPdfs: { file: File; indexes: number[] }[] = values.modules
-        .flatMap((m, moduleId) =>
-          m.moduleItems.map((mI, moduleItemIndex) => ({
-            file: mI.pdfFile as File,
-            indexes: [moduleId, moduleItemIndex],
-          })),
-        )
-
-        .filter((v) => v.file && v.file instanceof File);
-
-      // group the pdf's into batches of 5
-      const batchedPdfs = [];
-      for (let i = 0; i < allPdfs.length; i += 5) {
-        batchedPdfs.push(allPdfs.slice(i, i + 5));
-      }
-
-      // then upload the individual batches and store the results in the result array
-      await Promise.all(
-        batchedPdfs.map((batch) => {
-          return triggerBulkUpload({ files: batch.map((i) => i.file) }).then(
-            (res) => {
-              res.urls.forEach((i, index) =>
-                result.push({ url: i.url, indexes: batch[index].indexes }),
-              );
-            },
-          );
-        }),
+      // map out all newly attached pdf's (keyed by their module and module item indexes)
+      const allPdfs = values.modules.flatMap((m, moduleId) =>
+        m.moduleItems.flatMap((mI, moduleItemId) =>
+          mI.pdfFile instanceof File
+            ? [{ file: mI.pdfFile, key: `${moduleId}.${moduleItemId}` }]
+            : [],
+        ),
       );
 
-      // then organise the units, modules, module items and pages according to how the api expects them
+      // upload in batches of 5, one batch at a time, and key each returned url to its module item
+      const uploadedUrls = new Map<string, string>();
+      for (let i = 0; i < allPdfs.length; i += 5) {
+        const batch = allPdfs.slice(i, i + 5);
+        const res = await triggerBulkUpload({
+          files: batch.map((b) => b.file),
+        });
+        if (!res?.urls || res.urls.length !== batch.length) {
+          throw new Error("Some files failed to upload. Please try again.");
+        }
+        res.urls.forEach((u, index) =>
+          uploadedUrls.set(batch[index].key, u.url),
+        );
+      }
+
+      // then organise the modules, module items and pages according to how the api expects them
       const modules: CreateCourseModule[] = values.modules.map(
         (m, moduleId) => {
           const moduleItems: CreateCourseModuleItem[] = m.moduleItems.map(
@@ -91,14 +84,19 @@ export const EditCourseUnits = () => {
                 number: Number(p.number),
               }));
 
-              // lcoate the pdf url for this particular module item
-              const pdfUrl = result.find(
-                (r) =>
-                  r.indexes[0] === moduleId && r.indexes[1] === moduleItemId,
-              );
+              // a newly uploaded file wins; otherwise keep the item's existing pdf
+              const pdfUrl =
+                uploadedUrls.get(`${moduleId}.${moduleItemId}`) ??
+                mItem.existingPdfUrl;
+              if (!pdfUrl) {
+                throw new Error(
+                  `Missing file for module ${moduleId + 1}, sub-module ${moduleItemId + 1}. Please re-attach the file and try again.`,
+                );
+              }
+
               // return module item object
               return {
-                pdfUrl: pdfUrl?.url ?? "",
+                pdfUrl,
                 type: mItem.type as ModuleType,
                 index: moduleItemId + 1,
                 pages,
@@ -123,14 +121,12 @@ export const EditCourseUnits = () => {
       // send payload to api
       await trigger(payload);
 
-      // re-route and display success messages
-      router.push("/admin/courses");
-      toast.success("Course units updated successfully!");
-
-      // reset the form
+      // reset the form, then re-route and display success messages
       resetForm();
+      toast.success("Course units updated successfully!");
+      router.push("/admin/courses");
     } catch (error) {
-      toast.error(error as string);
+      toast.error(error instanceof Error ? error.message : String(error));
     }
   }
 
@@ -138,7 +134,9 @@ export const EditCourseUnits = () => {
     if (unitInfo) {
       const modules = unitInfo?.modules.flatMap((mod) => {
         const moduleItems = mod.moduleItems?.map((modItem) => ({
+          // signed url is only for viewing; the permanent url is what gets saved back
           pdfFile: modItem.signedPdfUrl,
+          existingPdfUrl: modItem.pdfUrl,
           type: modItem.type,
           pages: modItem.pages.map((page) => ({
             title: page.pageTitle,
@@ -155,7 +153,7 @@ export const EditCourseUnits = () => {
       return { modules };
     } else {
       return {
-        modules: [emptyModule as any],
+        modules: [structuredClone(emptyModule) as any],
       };
     }
   }, [unitInfo]);
@@ -166,7 +164,7 @@ export const EditCourseUnits = () => {
         validateOnMount
         initialValues={updateUnitInitialValues}
         onSubmit={handleSubmit}
-        validationSchema={createCourseValidation}
+        validationSchema={updateUnitValidation}
         enableReinitialize
       >
         <Form className="max-w-3xl mx-auto">

@@ -170,8 +170,8 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
           </header>
 
           {/* Content */}
-          <main className="flex-1 overflow-y-auto p-4 md:p-6 max-sm:pb-14">
-            <div className="p-2 md:p-6">{children}</div>
+          <main className="flex-1 overflow-y-auto p-4 md:p-6 max-sm:pb-20">
+            <div>{children}</div>
           </main>
         </div>
       </SurveyProvider>

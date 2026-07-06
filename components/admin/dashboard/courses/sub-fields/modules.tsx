@@ -22,7 +22,9 @@ export const ModuleFormField = <T,>({
 
   const fieldError = (fieldName: keyof T) =>
     touched[fieldName] && errors[fieldName] ? errors[fieldName] : null;
-  const field = mode === "edit" ? fieldName.slice(8) : fieldName;
+  // in edit mode the form values are rooted at "modules", so strip the "units.<n>." prefix
+  const field =
+    mode === "edit" ? fieldName.replace(/^units\.\d+\./, "") : fieldName;
 
   return (
     <FieldArray name={field}>
@@ -39,7 +41,7 @@ export const ModuleFormField = <T,>({
                     variant="outline"
                     size="sm"
                     className="border-primary text-primary"
-                    onClick={() => push(emptyModule)}
+                    onClick={() => push(structuredClone(emptyModule))}
                   >
                     <PlusIcon />
                     <p>Add module</p>
