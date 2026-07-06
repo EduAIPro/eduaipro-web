@@ -34,39 +34,34 @@ export const CreateCourse = () => {
     { resetForm }: { resetForm: VoidFunction }
   ) {
     try {
-      //initiate result array - will contain an array of urls as well as their unit, module and module item indexes
-      const result: { url: string; indexes: number[] }[] = [];
-
-      // map out all pdf's(and their specific indexes) from form data
-      const allPdfs: { file: File; indexes: number[] }[] = values.units
-        .flatMap((u, uI) =>
-          u.modules.flatMap((m, moduleId) =>
-            m.moduleItems.map((mI, moduleItemIndex) => ({
-              file: mI.pdfFile as File,
-              indexes: [uI, moduleId, moduleItemIndex],
-            }))
+      // map out all pdf's (keyed by their unit, module and module item indexes) from form data
+      const allPdfs = values.units.flatMap((u, unitId) =>
+        u.modules.flatMap((m, moduleId) =>
+          m.moduleItems.flatMap((mI, moduleItemId) =>
+            mI.pdfFile instanceof File
+              ? [
+                  {
+                    file: mI.pdfFile,
+                    key: `${unitId}.${moduleId}.${moduleItemId}`,
+                  },
+                ]
+              : []
           )
         )
-        .filter((v) => v.file && v.file instanceof File);
-
-      // group the pdf's into batches of 5
-      const batchedPdfs = [];
-      for (let i = 0; i < allPdfs.length; i += 5) {
-        batchedPdfs.push(allPdfs.slice(i, i + 5));
-      }
-
-      // then upload the individual batches and store the results in the result array
-      await Promise.all(
-        batchedPdfs.map((batch) => {
-          return triggerBulkUpload({ files: batch.map((i) => i.file) }).then(
-            (res) => {
-              res.urls.forEach((i, index) =>
-                result.push({ url: i.url, indexes: batch[index].indexes })
-              );
-            }
-          );
-        })
       );
+
+      // upload in batches of 5, one batch at a time, and key each returned url to its module item
+      const uploadedUrls = new Map<string, string>();
+      for (let i = 0; i < allPdfs.length; i += 5) {
+        const batch = allPdfs.slice(i, i + 5);
+        const res = await triggerBulkUpload({
+          files: batch.map((b) => b.file),
+        });
+        if (!res?.urls || res.urls.length !== batch.length) {
+          throw new Error("Some files failed to upload. Please try again.");
+        }
+        res.urls.forEach((u, index) => uploadedUrls.set(batch[index].key, u.url));
+      }
 
       // then organise the units, modules, module items and pages according to how the api expects them
       const units: CreateCourseUnit[] = values.units.map((u, unitId) => {
@@ -79,16 +74,19 @@ export const CreateCourse = () => {
                 number: Number(p.number),
               }));
 
-              // lcoate the pdf url for this particular module item
-              const pdfUrl = result.find(
-                (r) =>
-                  r.indexes[0] === unitId &&
-                  r.indexes[1] === moduleId &&
-                  r.indexes[2] === moduleItemId
+              // locate the pdf url for this particular module item
+              const pdfUrl = uploadedUrls.get(
+                `${unitId}.${moduleId}.${moduleItemId}`
               );
+              if (!pdfUrl) {
+                throw new Error(
+                  `Missing uploaded file for unit ${unitId + 1}, module ${moduleId + 1}, sub-module ${moduleItemId + 1}. Please re-attach the file and try again.`
+                );
+              }
+
               // return module item object
               return {
-                pdfUrl: pdfUrl?.url ?? "",
+                pdfUrl,
                 type: mItem.type as ModuleType,
                 index: moduleItemId + 1,
                 pages,
@@ -128,24 +126,23 @@ export const CreateCourse = () => {
       // send payload to api
       await trigger(payload);
 
-      // re-route and display success messages
-      router.push("/admin/courses");
-      toast.success("Course created successfully!");
-
-      // reset the form
+      // reset the form, then re-route and display success messages
       resetForm();
+      toast.success("Course created successfully!");
+      router.push("/admin/courses");
     } catch (error) {
-      toast.error(error as string);
+      toast.error(error instanceof Error ? error.message : String(error));
     }
   }
 
   const createCourseInitialValues: CreateCourseFormValue = {
     courseName: "",
     description: "",
+    introductoryVideo: "",
     teachingLevel: "",
     completionPeriod: "",
     validityPeriod: "",
-    units: [emptyUnit as any],
+    units: [structuredClone(emptyUnit) as any],
   };
   return (
     <div>

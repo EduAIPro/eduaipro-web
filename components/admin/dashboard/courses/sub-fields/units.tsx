@@ -59,7 +59,7 @@ export const UnitFormField = () => {
           ))}
 
           <div className="flex items-center justify-end bg-white pb-4 pr-4 rounded-xl">
-            <Button onClick={() => push(emptyUnit)}>
+            <Button onClick={() => push(structuredClone(emptyUnit))}>
               <PlusIcon />
               <p>Add unit</p>
             </Button>

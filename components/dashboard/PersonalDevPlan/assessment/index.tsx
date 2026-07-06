@@ -198,14 +198,6 @@ export const Assessment: React.FC<AssessmentProps> = ({
         .assessment-wrap {
           font-family: "DM Sans", sans-serif;
         }
-        .assessment-question-serif {
-          font-family: "Lora", serif;
-          font-weight: 500;
-        }
-        .assessment-title-serif {
-          font-family: "Lora", serif;
-          font-weight: 600;
-        }
 
         @keyframes assessment-slide-right {
           from {
@@ -252,9 +244,9 @@ export const Assessment: React.FC<AssessmentProps> = ({
         <CardHeader className="flex flex-row items-start justify-between pb-4">
           {/* Title */}
           <div>
-            <p className="assessment-title-serif text-[17px] text-foreground leading-tight m-0">
+            <h2 className="text-[17px] text-foreground leading-tight font-semibold m-0">
               Graded Quiz
-            </p>
+            </h2>
             <p className="text-[13px] text-muted-foreground mt-0.5">
               Assessment for Learning
             </p>
@@ -294,7 +286,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
             </div>
             <div className="h-[3px] w-full rounded-full bg-muted overflow-hidden">
               <div
-                className="h-full rounded-full bg-foreground transition-all duration-500"
+                className="h-full rounded-full bg-primary transition-all duration-500"
                 style={{ width: `${progressPct}%` }}
               />
             </div>
@@ -309,9 +301,9 @@ export const Assessment: React.FC<AssessmentProps> = ({
                 : "assessment-slide-left",
             )}
           >
-            <p className="assessment-question-serif text-[16px] leading-relaxed text-foreground mb-5">
+            <h3 className="text-sm font-medium leading-relaxed text-foreground mb-5">
               {q?.questionText}
-            </p>
+            </h3>
 
             <div className="flex flex-col gap-2.5">
               {q?.AssessmentQuestionOption.map((opt) => {
@@ -329,7 +321,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
                     className={cn(
                       "w-full text-left flex items-center gap-3 px-4 py-3.5 rounded-xl border transition-all duration-150",
                       isSelected
-                        ? "border-foreground bg-muted/60"
+                        ? "border-primary-300 bg-primary-250/10"
                         : "border-border/60 bg-background hover:border-border hover:bg-muted/30",
                     )}
                   >
@@ -338,7 +330,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
                       className={cn(
                         "flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-medium border transition-all duration-150",
                         isSelected
-                          ? "bg-foreground text-background border-foreground"
+                          ? "bg-primary-300 text-background border-primary-300"
                           : "text-muted-foreground border-border/70",
                       )}
                     >
@@ -363,18 +355,18 @@ export const Assessment: React.FC<AssessmentProps> = ({
           )}
 
           {/* Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-border/30">
+          <div className="flex sm:items-center max-sm:flex-col max-sm:gap-5 sm:justify-between pt-4 border-t border-border/30">
             {/* Dot nav */}
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center max-sm:justify-center gap-1.5">
               {Array.from({ length: total }).map((_, i) => (
                 <span
                   key={i}
                   className={cn(
                     "block rounded-full transition-all duration-200",
                     i === current
-                      ? "w-2 h-2 bg-foreground scale-125"
+                      ? "w-2 h-2 bg-primary scale-125"
                       : selected[i]
-                        ? "w-1.5 h-1.5 bg-foreground"
+                        ? "w-1.5 h-1.5 bg-primary"
                         : "w-1.5 h-1.5 bg-border",
                   )}
                 />
@@ -388,7 +380,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
                 size="sm"
                 disabled={current === 0}
                 onClick={() => navigate("left")}
-                className="gap-1.5"
+                className="gap-1.5 max-sm:flex-1"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -418,7 +410,7 @@ export const Assessment: React.FC<AssessmentProps> = ({
                     navigate("right");
                   }
                 }}
-                className="gap-1.5"
+                className="gap-1.5 max-sm:flex-1"
               >
                 {isOnLastStep ? (
                   <>

@@ -32,7 +32,7 @@ export const PageFormField = <T,>({
 
                 <div className="flex items-center gap-3">
                   <Button
-                    onClick={() => push(emptyPage)}
+                    onClick={() => push(structuredClone(emptyPage))}
                     className="border-success-600 text-success-600"
                     variant="ghost"
                     size="sm"
