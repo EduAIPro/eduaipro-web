@@ -1,4 +1,11 @@
 import { format } from "date-fns";
+import {
+  BadgeCheckIcon,
+  CalendarClockIcon,
+  MailIcon,
+  PhoneIcon,
+  UserIcon,
+} from "lucide-react";
 import { useMemo } from "react";
 
 type UserInfoProps = {
@@ -18,52 +25,72 @@ export const UserInfo = ({ user }: UserInfoProps) => {
             {
               title: "Full name",
               value: user.fullName,
+              icon: <UserIcon size={15} />,
+              color: "#1A56DB",
+              bg: "#EFF6FF",
             },
             {
               title: "Email address",
               value: user?.email,
+              icon: <MailIcon size={15} />,
+              color: "#1A56DB",
+              bg: "#EFF6FF",
             },
             {
               title: "Phone number",
-              value: user?.phoneNumber,
-            },
-            {
-              title: "Status",
-              value: "Active",
+              value: user?.phoneNumber || "Not provided",
+              icon: <PhoneIcon size={15} />,
+              color: "#1A56DB",
+              bg: "#EFF6FF",
             },
             {
               title: "Last login",
               value: format(
                 user?.lastLoggedInAt !== "" ? user?.lastLoggedInAt : new Date(),
-                "dd/MM/yyyy"
+                "dd/MM/yyyy",
               ),
+              icon: <CalendarClockIcon size={15} />,
+              color: "#EA580C",
+              bg: "#FFF7ED",
             },
           ]
         : [],
-    [user]
+    [user],
   );
   return (
-    <div className="space-y-5">
-      <div className="space-y-4">
-        <h3 className="font-semibold text-lg">Profile</h3>
-        <ul className="space-y-2">
-          {userInfo?.length
-            ? userInfo.map((info) => (
-                <li
-                  key={info.title}
-                  className="flex items-center justify-between"
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="font-bold text-grey-800">Profile details</h3>
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] rounded-full px-2.5 py-1">
+          <BadgeCheckIcon size={12} />
+          Active
+        </span>
+      </div>
+      <ul className="space-y-1">
+        {userInfo?.length
+          ? userInfo.map((info) => (
+              <li
+                key={info.title}
+                className="flex items-center gap-3 py-2.5 border-b border-grey-3 last:border-b-0"
+              >
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                  style={{ background: info.bg, color: info.color }}
                 >
-                  <h4 className="font-semibold text-grey-500 text-sm">
+                  {info.icon}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-medium text-grey-500">
                     {info.title}
-                  </h4>
-                  <p className="text-grey-800 font-medium w-1/2 truncate">
+                  </p>
+                  <p className="text-grey-800 font-semibold text-sm truncate">
                     {info.value}
                   </p>
-                </li>
-              ))
-            : null}
-        </ul>
-      </div>
+                </div>
+              </li>
+            ))
+          : null}
+      </ul>
     </div>
   );
 };

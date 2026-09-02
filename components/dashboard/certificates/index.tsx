@@ -21,7 +21,10 @@ export const Certificates = () => {
   return (
     <section
       className="bg-white rounded-xl overflow-hidden"
-      style={{ border: "1px solid #E5E7EB", boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}
+      style={{
+        border: "1px solid #E5E7EB",
+        boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+      }}
     >
       {/* Header */}
       <div
@@ -45,7 +48,7 @@ export const Certificates = () => {
 
       {/* Grid */}
       <div className="p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {isLoading ? (
             <CertificatesSkeleton />
           ) : data?.data?.length ? (

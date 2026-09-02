@@ -147,16 +147,16 @@ const TeacherContent = ({ staff, onSelectCert }: TeacherContentProps) => {
       value: staff?.areaOfSpecialization ?? "Not provided",
     },
     {
-      label: "Interested skills",
-      value: staff?.interestedSkills?.join(", ") ?? "Not provided",
-    },
-    {
       label: "Primary learning goal",
       value: staff?.primaryLearningGoal ?? "Not provided",
     },
     {
       label: "Secondary learning goal",
-      value: staff?.altLearningGoal ?? "Not provided",
+      value: staff?.altLearningGoal || "Not provided",
+    },
+    {
+      label: "Interested skills",
+      value: staff?.interestedSkills?.join(", ") ?? "Not provided",
     },
   ];
 
@@ -203,11 +203,11 @@ const TeacherContent = ({ staff, onSelectCert }: TeacherContentProps) => {
           </h2>
           <ul className="space-y-2">
             {professionalInfo.map((p) => (
-              <li key={p.label} className="flex items-center justify-between">
+              <li key={p.label} className="flex items-start justify-between">
                 <h3 className="text-sm font-medium text-grey-500">{p.label}</h3>
                 <p
                   className={cn(
-                    "text-sm font-medium text-grey-800 text-left capitalize",
+                    "text-sm max-w-[50%] font-medium text-grey-800 text-right capitalize",
                     p.value === "Not provided" && "text-grey-500 italic",
                   )}
                 >

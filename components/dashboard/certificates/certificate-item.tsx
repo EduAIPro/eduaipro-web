@@ -57,11 +57,11 @@ export const CertificateItem = ({
       {/* Content */}
       <div className="p-3.5 space-y-3">
         <div className="space-y-1.5">
-          <h3 className="text-[13px] font-semibold text-gray-900 truncate">
-            {certificate.certificateName ??
-              "Personal Development Plan Certificate"}
+          <h3 className="text-[13px] font-semibold capitalize text-gray-900 truncate">
+            {certificate.course?.title?.replaceAll("_", " ").toLowerCase()}{" "}
+            Accreditation
           </h3>
-          <div className="flex items-center gap-1 text-[10.5px] text-gray-400">
+          <div className="flex items-center text-[10.5px] text-gray-400">
             <HashIcon size={11} />
             <span className="truncate">{certificate.certificateId}</span>
           </div>

@@ -8,7 +8,7 @@ import {
   changePasswordValidation,
 } from "@/utils/validation/teacher-profile/settings";
 import { Form, Formik } from "formik";
-import { EyeClosedIcon, EyeIcon } from "lucide-react";
+import { EyeClosedIcon, EyeIcon, LockKeyholeIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
@@ -51,8 +51,13 @@ export const ChangePassword = () => {
   );
   return (
     <div>
-      <div>
-        <h3 className="font-semibold md:text-lg">Change password</h3>
+      <div className="flex items-center gap-2.5">
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-[#16A34A] bg-[#F0FDF4]">
+          <LockKeyholeIcon size={16} />
+        </div>
+        <h3 className="font-bold text-grey-800 md:text-lg">
+          Change password
+        </h3>
       </div>
       <Formik
         initialValues={{
@@ -76,6 +81,7 @@ export const ChangePassword = () => {
                   : null
               }
               type={showPassword ? "text" : "password"}
+              leftIcon={<LockKeyholeIcon size={16} className="text-[#1A56DB]" />}
               rightIcon={<PasswordIcon />}
             />
             <FormInput
@@ -86,6 +92,7 @@ export const ChangePassword = () => {
                 touched.password && errors.password ? errors.password : null
               }
               type={showPassword ? "text" : "password"}
+              leftIcon={<LockKeyholeIcon size={16} className="text-[#1A56DB]" />}
               rightIcon={<PasswordIcon />}
             />
             <FormInput
@@ -98,6 +105,7 @@ export const ChangePassword = () => {
                   : null
               }
               type={showPassword ? "text" : "password"}
+              leftIcon={<LockKeyholeIcon size={16} className="text-[#1A56DB]" />}
               rightIcon={<PasswordIcon />}
             />
             <div className="mt-4 w-full flex items-center justify-end">

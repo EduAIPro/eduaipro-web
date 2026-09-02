@@ -8,6 +8,7 @@ import {
   editUserValidation,
 } from "@/utils/validation/teacher-profile/settings";
 import { Form, Formik } from "formik";
+import { MailIcon, PhoneIcon, UserIcon, UserRoundPenIcon } from "lucide-react";
 import useSWRMutation from "swr/mutation";
 
 type EditProfileProps = {
@@ -30,8 +31,13 @@ export const EditProfile = ({ user, refetch }: EditProfileProps) => {
   }
   return (
     <div>
-      <div>
-        <h3 className="font-semibold md:text-lg">Personal information</h3>
+      <div className="flex items-center gap-2.5">
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-[#1A56DB] bg-[#EFF6FF]">
+          <UserRoundPenIcon size={16} />
+        </div>
+        <h3 className="font-bold text-grey-800 md:text-lg">
+          Personal information
+        </h3>
       </div>
       <Formik
         initialValues={user}
@@ -47,6 +53,7 @@ export const EditProfile = ({ user, refetch }: EditProfileProps) => {
               placeholder={user?.userFirstName}
               className="w-full"
               name="userFirstName"
+              leftIcon={<UserIcon size={16} className="text-[#1A56DB]" />}
               error={
                 touched.userFirstName && errors.userFirstName
                   ? errors.userFirstName
@@ -58,6 +65,7 @@ export const EditProfile = ({ user, refetch }: EditProfileProps) => {
               placeholder={user?.userLastName}
               className="w-full"
               name="userLastName"
+              leftIcon={<UserIcon size={16} className="text-[#1A56DB]" />}
               error={
                 touched.userLastName && errors.userLastName
                   ? errors.userLastName
@@ -71,12 +79,14 @@ export const EditProfile = ({ user, refetch }: EditProfileProps) => {
               type="email"
               disabled
               className="opacity-50"
+              leftIcon={<MailIcon size={16} className="text-[#1A56DB]" />}
               error={touched.email && errors.email ? errors.email : null}
             />
             <FormInput
               label="Phone number"
               name="phoneNumber"
               placeholder="806 902 5433"
+              leftIcon={<PhoneIcon size={16} className="text-[#1A56DB]" />}
               error={
                 touched.phoneNumber && errors.phoneNumber
                   ? errors.phoneNumber
