@@ -284,6 +284,9 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
       <AssessmentCompletedModal
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
+        firstName={user?.firstName}
+        passed={assessmentResults?.assessmentPassed}
+        gradePercentage={assessmentResults?.assessmentRecord.gradePercentage}
       />
     </>
   );
