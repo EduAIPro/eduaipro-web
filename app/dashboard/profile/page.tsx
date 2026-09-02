@@ -31,8 +31,14 @@ const ProfilePage = () => {
   return (
     <>
       <ProfileHeader user={userImageInfo} refetch={refetch} />
-      <section className="mt-5 grid md:grid-cols-2 xl:grid-cols-3 gap-5">
-        <div className="border border-grey-400 bg-white rounded-lg p-5">
+      <section className="mt-6 grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <div
+          className="bg-white rounded-xl p-5 h-fit"
+          style={{
+            border: "1px solid #E5E7EB",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.04)",
+          }}
+        >
           <UserInfo
             user={{
               ...userDetails,
@@ -41,9 +47,17 @@ const ProfilePage = () => {
             }}
           />
         </div>
-        <div className="xl:col-span-2 border border-grey-400 bg-white rounded-lg p-5 space-y-5">
+        <div
+          className="xl:col-span-2 bg-white rounded-xl p-5 space-y-6"
+          style={{
+            border: "1px solid #E5E7EB",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.04)",
+          }}
+        >
           <EditProfile refetch={refetch} user={userDetails} />
-          <ChangePassword />
+          <div className="border-t border-grey-3 pt-6">
+            <ChangePassword />
+          </div>
         </div>
       </section>
     </>

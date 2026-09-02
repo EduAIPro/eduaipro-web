@@ -326,7 +326,7 @@ export function UnitsContent({
     if (!unitInfo) return [];
     return unitInfo.modules.map((unitModule) => {
       const isCompleted = courseProgress.module
-        ? unitModule.index <= courseProgress.module?.index
+        ? unitModule.index < courseProgress.module?.index
         : false;
       const moduleItems = groupByType(unitModule.moduleItems);
       return { ...unitModule, isCompleted, moduleItems };

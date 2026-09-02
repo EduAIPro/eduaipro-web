@@ -21,4 +21,9 @@ export type Accreditation = {
   updatedAt: string;
   staffId: string;
   courseId: string;
+  course: {
+    id: string;
+    title: string;
+    description: string;
+  };
 };

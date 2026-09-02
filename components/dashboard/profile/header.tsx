@@ -1,7 +1,12 @@
 import { singleUploadFileKey, updatePersonalInfoKey } from "@/api/keys";
 import { singleUploadFile, updatePersonalInfo } from "@/api/mutations";
 import ProfilePic from "@/components/svgs/user-profile.svg";
-import { Loader2 } from "lucide-react";
+import {
+  CameraIcon,
+  GraduationCapIcon,
+  Loader2,
+  SparklesIcon,
+} from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -22,11 +27,11 @@ export const ProfileHeader = ({ user, refetch }: ProfileHeaderProps) => {
 
   const { trigger: uploadFile } = useSWRMutation(
     singleUploadFileKey,
-    singleUploadFile
+    singleUploadFile,
   );
   const { trigger: updateProfile } = useSWRMutation(
     updatePersonalInfoKey,
-    updatePersonalInfo
+    updatePersonalInfo,
   );
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +69,25 @@ export const ProfileHeader = ({ user, refetch }: ProfileHeaderProps) => {
   };
 
   return (
-    <section className="py-12 bg-[linear-gradient(180deg,_#FFFFFF_0%,_#EBEBEB_100%)] md:-mx-12 -mx-6 px-6 md:px-12 max-md:-mt-6">
+    <section
+      className="relative overflow-hidden py-10 md:-mx-12 -mx-6 px-6 md:px-12 max-md:-mt-6"
+      style={{
+        background:
+          "linear-gradient(135deg, #EFF6FF 0%, #F8FAFF 55%, #FFFFFF 100%)",
+      }}
+    >
+      {/* Decorative pattern */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <GraduationCapIcon
+          className="absolute -right-4 -top-6 rotate-12 text-[#1A56DB]/[0.06]"
+          size={160}
+        />
+        <SparklesIcon
+          className="absolute right-24 bottom-2 text-[#1A56DB]/[0.08] max-md:hidden"
+          size={40}
+        />
+      </div>
+
       {/* Hidden Input */}
       <input
         type="file"
@@ -74,11 +97,11 @@ export const ProfileHeader = ({ user, refetch }: ProfileHeaderProps) => {
         onChange={handleFileChange}
       />
 
-      <div className="flex items-center gap-5">
+      <div className="relative flex items-center gap-5">
         <div className="shrink-0 relative group">
           <div
             onClick={() => !isUploading && fileInputRef.current?.click()}
-            className="cursor-pointer relative rounded-full overflow-hidden w-[100px] h-[100px]"
+            className="cursor-pointer relative rounded-full overflow-hidden w-[100px] h-[100px] ring-4 ring-white shadow-[0_4px_20px_rgba(26,86,219,0.18)]"
           >
             {user?.profilePicUrl ? (
               <Image
@@ -105,10 +128,28 @@ export const ProfileHeader = ({ user, refetch }: ProfileHeaderProps) => {
               </div>
             )}
           </div>
+
+          {/* Camera badge */}
+          <button
+            type="button"
+            onClick={() => !isUploading && fileInputRef.current?.click()}
+            className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#1A56DB] text-white flex items-center justify-center ring-2 ring-white shadow-sm hover:bg-[#1442ad] transition-colors"
+            aria-label="Change profile picture"
+          >
+            <CameraIcon size={13} />
+          </button>
         </div>
         <div>
-          <h2 className="font-semibold text-grey-650">{user?.name ?? "..."}</h2>
-          <p className="font-medium text-grey-500">{user?.email ?? "..."}</p>
+          <h2 className="font-bold text-lg text-grey-800">
+            {user?.name ?? "..."}
+          </h2>
+          <p className="font-medium text-grey-500 text-sm mt-0.5">
+            {user?.email ?? "..."}
+          </p>
+          <span className="inline-flex items-center gap-1 mt-2 text-[11px] font-semibold text-[#1A56DB] bg-[#1A56DB]/10 rounded-full px-2.5 py-1">
+            <GraduationCapIcon size={12} />
+            CPD Learner
+          </span>
         </div>
       </div>
     </section>
