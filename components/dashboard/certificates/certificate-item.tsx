@@ -31,6 +31,7 @@ export const CertificateItem = ({
       icon: CalendarDaysIcon,
     },
   ];
+  console.log({ certificate });
 
   return (
     <div
