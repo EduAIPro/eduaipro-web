@@ -62,7 +62,7 @@ export const SystemTeachersTable = () => {
         meta={{
           total: data?.pagination.total || 0,
           page: data?.pagination.current || 1,
-          totalPages: data?.pagination.total || 10,
+          totalPages: data?.pagination.totalPages || 1,
           limit: 10,
         }}
       />

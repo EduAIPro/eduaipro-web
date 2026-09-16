@@ -460,10 +460,12 @@ export function DataTable<TData, TValue>({
               </Button>
             </div>
             <div>
-              <span className="text-sm font-medium">
-                Page {currentPage} of {meta?.totalPages || 1}
-                {meta?.total ? ` (${meta.total} total items)` : ""}
-              </span>
+              {!isLoading ? (
+                <span className="text-sm font-medium">
+                  Page {currentPage} of {meta?.totalPages || 1}
+                  {meta?.total ? ` (${meta.total} total items)` : ""}
+                </span>
+              ) : null}
             </div>
           </div>
           <ScrollBar orientation="horizontal" />
