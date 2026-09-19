@@ -18,13 +18,16 @@ import Typography from "../common/ui/Typography";
 import { Button } from "../ui/button";
 import { navLinks } from "./data";
 import { getRefreshToken } from "@/utils/auth";
-import { getTokenRole } from "@/utils/auth/helpers";
+import useUser from "@/hooks/use-user";
+import { Staff } from "@/types/user";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dashboardUrl, setDashboardUrl] = useState<null | string>(null);
 
   const router = useRouter();
+  const { staff } = useUser(isLoggedIn);
   const { hasScrolled } = useHasScrolled();
 
   const toggleMenu = () => {
@@ -35,21 +38,24 @@ export default function Navbar() {
     async function checkAuth() {
       const refreshToken = await getRefreshToken();
 
-      if (refreshToken) {
-        const role = getTokenRole(refreshToken);
+      if (refreshToken && !isLoggedIn) {
+        setIsLoggedIn(true);
+      }
+
+      if (staff && staff !== null) {
         const dashboardUrl =
-          role === "TEACHER" || role === "USER"
+          (staff as Staff).role === "TEACHER"
             ? "/dashboard"
-            : role === "ADMIN"
-              ? "/admin"
-              : "/school";
+            : (staff as Staff).role === "OWNER"
+              ? "/school"
+              : "/admin";
 
         setDashboardUrl(dashboardUrl);
       }
     }
 
     checkAuth();
-  }, []);
+  }, [staff]);
 
   return (
     <nav
@@ -114,7 +120,7 @@ export default function Navbar() {
             ))}
           </div>
           <div className="gap-4 items-center flex max-lg:hidden">
-            {dashboardUrl && dashboardUrl !== null ? (
+            {isLoggedIn && dashboardUrl ? (
               <>
                 <Button onClick={() => router.push(dashboardUrl)}>
                   <Typography.P weight="semibold" fontColor="white">

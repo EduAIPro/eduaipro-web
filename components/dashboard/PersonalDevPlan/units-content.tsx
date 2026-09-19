@@ -23,6 +23,7 @@ import { extractPublicId } from "@/utils/link";
 import {
   BookOpenIcon,
   CheckIcon,
+  CheckCircle2Icon,
   ClipboardListIcon,
   ClockIcon,
   FolderOpenIcon,
@@ -46,6 +47,67 @@ import {
 import useSWRMutation from "swr/mutation";
 import Image from "next/image";
 import Chatbot from "../chat";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  ContentPage as ContentPageType,
+  ModuleItem as ModuleItemDoc,
+} from "@/types/course";
+import { MarkCompleteModal } from "./mark-complete-modal";
+
+// ─── Section/slide completion tracking (frontend-only, see backend note below) ─
+// NOTE: there is currently no backend endpoint to persist per-slide "viewed"
+// flags or per-section completion (only a coarse module-level progress PATCH
+// exists). This is tracked client-side in localStorage as an interim solution
+// and is NOT certificate-grade durable storage — it should be swapped for a
+// real write-through API the moment one exists.
+const VIEW_DWELL_MS = 3000;
+
+function progressStorageKey(staffId?: string) {
+  return `cpd-progress:${staffId ?? "anonymous"}`;
+}
+
+type LocalProgressState = {
+  viewedPageIds: Record<string, true>;
+  completedDocumentIds: Record<string, true>;
+};
+
+function loadLocalProgress(staffId?: string): LocalProgressState {
+  if (typeof window === "undefined")
+    return { viewedPageIds: {}, completedDocumentIds: {} };
+  try {
+    const raw = window.localStorage.getItem(progressStorageKey(staffId));
+    if (!raw) return { viewedPageIds: {}, completedDocumentIds: {} };
+    const parsed = JSON.parse(raw);
+    return {
+      viewedPageIds: parsed.viewedPageIds ?? {},
+      completedDocumentIds: parsed.completedDocumentIds ?? {},
+    };
+  } catch {
+    return { viewedPageIds: {}, completedDocumentIds: {} };
+  }
+}
+
+function saveLocalProgress(
+  staffId: string | undefined,
+  state: LocalProgressState,
+) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(
+      progressStorageKey(staffId),
+      JSON.stringify(state),
+    );
+  } catch {
+    // ignore quota/serialization errors — progress just won't persist this session
+  }
+}
 
 // ─── Section config by module item type ───────────────────────────────────────
 const SECTION_CFG: Record<
@@ -288,30 +350,164 @@ type UnitsContentProps = {
 };
 
 export function UnitsContent({
-  setCurrentPage,
-  setPdfUrl,
   pdfUrl,
-  setModuleId,
   units,
-  courseProgress,
-  generateQuestions,
-  handleIntroPlayed,
-  isGeneratingQuestions,
   isQuizOn,
-  setActiveUnitId,
+  courseProgress,
+  isGeneratingQuestions,
   isLoading,
   values,
-  setValues,
   unitInfo,
   introHasPlayed,
   moduleValues,
-  setModuleValues,
   moduleId,
   isMobileLandscape,
   currentPage,
+  setCurrentPage,
+  setPdfUrl,
+  setModuleId,
+  generateQuestions,
+  handleIntroPlayed,
+  setActiveUnitId,
+  setValues,
+  setModuleValues,
 }: UnitsContentProps) {
   const { trigger } = useSWRMutation(updateModuleKey, updateModule);
   const processedModulesRef = useRef(new Set<string>());
+
+  // ── Local slide-viewed / section-completion tracking ──
+  const [viewedPageIds, setViewedPageIds] = useState<Record<string, true>>({});
+  const [completedDocumentIds, setCompletedDocumentIds] = useState<
+    Record<string, true>
+  >({});
+  const [confirmDialogDoc, setConfirmDialogDoc] = useState<{
+    item: ModuleItemDoc;
+    viewedCount: number;
+    totalCount: number;
+  } | null>(null);
+
+  useEffect(() => {
+    const stored = loadLocalProgress(courseProgress.staffId);
+    setViewedPageIds(stored.viewedPageIds);
+    setCompletedDocumentIds(stored.completedDocumentIds);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courseProgress.staffId]);
+
+  const markPageViewed = useCallback(
+    (pageId: string) => {
+      setViewedPageIds((prev) => {
+        if (prev[pageId]) return prev;
+        const next = { ...prev, [pageId]: true as const };
+        saveLocalProgress(courseProgress.staffId, {
+          viewedPageIds: next,
+          completedDocumentIds,
+        });
+        return next;
+      });
+    },
+    [courseProgress.staffId, completedDocumentIds],
+  );
+
+  const markDocumentComplete = useCallback(
+    (documentId: string) => {
+      setCompletedDocumentIds((prev) => {
+        if (prev[documentId]) return prev;
+        const next = { ...prev, [documentId]: true as const };
+        saveLocalProgress(courseProgress.staffId, {
+          viewedPageIds,
+          completedDocumentIds: next,
+        });
+        return next;
+      });
+    },
+    [courseProgress.staffId, viewedPageIds],
+  );
+
+  // Flat, ordered list of every document (section) across the whole unit —
+  // modules in index order, sections within a module in CONTENT →
+  // PRACTICAL_APPLICATION → CASE_STUDY order, documents within a section
+  // in index order. Used to find "what comes next" after a section completes.
+  const orderedDocuments = useMemo(() => {
+    if (!unitInfo) return [];
+    const docs: { moduleId: string; item: ModuleItemDoc }[] = [];
+    const modulesSorted = [...unitInfo.modules].sort(
+      (a, b) => a.index - b.index,
+    );
+    for (const m of modulesSorted) {
+      const sections = groupByType(m.moduleItems).sort(
+        (a, b) =>
+          (SECTION_TYPE_ORDER[a.title] ?? 99) -
+          (SECTION_TYPE_ORDER[b.title] ?? 99),
+      );
+      for (const section of sections) {
+        const itemsSorted = [...section.items].sort(
+          (a, b) => a.index - b.index,
+        );
+        for (const item of itemsSorted) {
+          docs.push({ moduleId: m.id, item });
+        }
+      }
+    }
+    return docs;
+  }, [unitInfo]);
+
+  const navigateToNextDocument = useCallback(
+    (completedItem: ModuleItemDoc) => {
+      const idx = orderedDocuments.findIndex(
+        (d) => d.item.id === completedItem.id,
+      );
+      if (idx === -1 || idx === orderedDocuments.length - 1) return;
+      const next = orderedDocuments[idx + 1];
+      setModuleId(next.moduleId);
+      setPdfUrl(next.item.signedPdfUrl);
+      setCurrentPage(next.item.pages[0]?.pageNumber ?? 1);
+    },
+    [orderedDocuments, setModuleId, setPdfUrl, setCurrentPage],
+  );
+
+  // Track how long the active slide has been on screen; mark it "viewed"
+  // after a continuous 3s dwell, regardless of how the learner navigated to it.
+  useEffect(() => {
+    if (!pdfUrl || !unitInfo) return;
+    let activePage: ContentPageType | undefined;
+    for (const m of unitInfo.modules) {
+      for (const item of m.moduleItems) {
+        if (item.signedPdfUrl !== pdfUrl) continue;
+        activePage = item.pages.find((p) => p.pageNumber === currentPage);
+        if (activePage) break;
+      }
+      if (activePage) break;
+    }
+    if (!activePage || viewedPageIds[activePage.id]) return;
+
+    const pageId = activePage.id;
+    const timer = setTimeout(() => markPageViewed(pageId), VIEW_DWELL_MS);
+    return () => clearTimeout(timer);
+  }, [pdfUrl, currentPage, unitInfo, viewedPageIds, markPageViewed]);
+
+  const isDocumentComplete = useCallback(
+    (item: ModuleItemDoc) =>
+      completedDocumentIds[item.id] === true ||
+      (item.pages.length > 0 &&
+        item.pages.every((p) => viewedPageIds[p.id] === true)),
+    [completedDocumentIds, viewedPageIds],
+  );
+
+  const requestMarkComplete = useCallback(
+    (item: ModuleItemDoc) => {
+      const totalCount = item.pages.length;
+      const viewedCount = item.pages.filter(
+        (p) => viewedPageIds[p.id] === true,
+      ).length;
+      if (viewedCount >= totalCount) {
+        markDocumentComplete(item.id);
+        navigateToNextDocument(item);
+        return;
+      }
+      setConfirmDialogDoc({ item, viewedCount, totalCount });
+    },
+    [viewedPageIds, markDocumentComplete, navigateToNextDocument],
+  );
 
   const memoizedUnits = useMemo(() => {
     return units.map((unit) => ({
@@ -326,13 +522,29 @@ export function UnitsContent({
   const memoizedModules = useMemo(() => {
     if (!unitInfo) return [];
     return unitInfo.modules.map((unitModule) => {
-      const isCompleted = courseProgress.module
+      const backendCompleted = courseProgress.module
         ? unitModule.index < courseProgress.module?.index
         : false;
-      const moduleItems = groupByType(unitModule.moduleItems);
-      return { ...unitModule, isCompleted, moduleItems };
+      const moduleItems = groupByType(unitModule.moduleItems).map(
+        (section) => ({
+          ...section,
+          isSectionComplete: section.items.every((item) =>
+            isDocumentComplete(item),
+          ),
+        }),
+      );
+      // Module is "Done" once the backend confirms it, or (locally) once
+      // every section it contains has been completed by the learner.
+      const isCompleted =
+        backendCompleted ||
+        (moduleItems.length > 0 &&
+          moduleItems.every((section) => section.isSectionComplete));
+      const isOpened = unitModule.moduleItems.some((item) =>
+        item.pages.some((p) => viewedPageIds[p.id]),
+      );
+      return { ...unitModule, isCompleted, isOpened, moduleItems };
     });
-  }, [unitInfo, courseProgress.module]);
+  }, [unitInfo, courseProgress.module, isDocumentComplete, viewedPageIds]);
 
   useEffect(() => {
     if (!unitInfo || !pdfUrl) return;
@@ -611,6 +823,14 @@ export function UnitsContent({
 
                               const isModuleFinished =
                                 unitModule.isCompleted || unit.isUnitCompleted;
+                              const hasAnySectionComplete =
+                                unitModule.moduleItems.some(
+                                  (section) => section.isSectionComplete,
+                                );
+                              const isModuleActive =
+                                isActiveModule ||
+                                unitModule.isOpened ||
+                                hasAnySectionComplete;
 
                               return (
                                 <AccordionItem
@@ -663,19 +883,19 @@ export function UnitsContent({
                                         style={{
                                           color: isModuleFinished
                                             ? "#16A34A"
-                                            : isActiveModule
+                                            : isModuleActive
                                               ? "#1A56DB"
                                               : "#9CA3AF",
                                           background: isModuleFinished
                                             ? "#DCFCE7"
-                                            : isActiveModule
+                                            : isModuleActive
                                               ? "#EFF6FF"
                                               : "#F3F4F6",
                                         }}
                                       >
                                         {isModuleFinished
                                           ? "✓ Done"
-                                          : isActiveModule
+                                          : isModuleActive
                                             ? "Active"
                                             : "Upcoming"}
                                       </div>
@@ -725,6 +945,16 @@ export function UnitsContent({
                                                       contentItem.pages[0]
                                                         ?.pageTitle ?? "",
                                                     );
+                                                  const isDocComplete =
+                                                    unitModule.isCompleted ||
+                                                    isDocumentComplete(
+                                                      contentItem,
+                                                    );
+                                                  const viewedInDoc =
+                                                    contentItem.pages.filter(
+                                                      (p) =>
+                                                        viewedPageIds[p.id],
+                                                    ).length;
 
                                                   return (
                                                     <div
@@ -734,7 +964,7 @@ export function UnitsContent({
                                                       {/* Document header */}
                                                       <div className="flex items-center gap-2 mb-2">
                                                         <div className="shrink-0 flex items-center justify-center w-[18px]">
-                                                          {unitModule.isCompleted ? (
+                                                          {isDocComplete ? (
                                                             <svg
                                                               width="18"
                                                               height="18"
@@ -818,19 +1048,24 @@ export function UnitsContent({
                                                                 .length -
                                                                 1;
 
+                                                            // Cascaded display: once the document/module is
+                                                            // complete, every slide shows a tick — this is
+                                                            // derived display only, not stored per-slide.
+                                                            const isCurrentPage =
+                                                              isActiveDocument &&
+                                                              page.pageNumber ===
+                                                                currentPage;
                                                             const pageStatus =
-                                                              unitModule.isCompleted ||
+                                                              isDocComplete ||
                                                               unit.isUnitCompleted
                                                                 ? "done"
-                                                                : isActiveDocument
-                                                                  ? page.pageNumber <
-                                                                    currentPage
-                                                                    ? "done"
-                                                                    : page.pageNumber ===
-                                                                        currentPage
-                                                                      ? "active"
-                                                                      : "locked"
-                                                                  : "locked";
+                                                                : viewedPageIds[
+                                                                      page.id
+                                                                    ]
+                                                                  ? "done"
+                                                                  : isCurrentPage
+                                                                    ? "active"
+                                                                    : "unseen";
 
                                                             const accentColor =
                                                               cfg.color;
@@ -857,7 +1092,7 @@ export function UnitsContent({
                                                                           : "white",
                                                                       border: `2px solid ${
                                                                         pageStatus ===
-                                                                        "locked"
+                                                                        "unseen"
                                                                           ? "#E5E7EB"
                                                                           : accentColor
                                                                       }`,
@@ -947,19 +1182,43 @@ export function UnitsContent({
                                                                       className="shrink-0 text-[#1A56DB]"
                                                                     />
                                                                   )}
-                                                                  {pageStatus ===
-                                                                    "locked" && (
-                                                                    <ClockIcon
-                                                                      size={11}
-                                                                      className="shrink-0 text-gray-400"
-                                                                    />
-                                                                  )}
                                                                 </button>
                                                               </div>
                                                             );
                                                           },
                                                         )}
                                                       </div>
+
+                                                      {/* Mark complete & continue — always available, never gated on reaching the last slide */}
+                                                      {!isDocComplete &&
+                                                        !unit.isUnitCompleted && (
+                                                          <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                              requestMarkComplete(
+                                                                contentItem,
+                                                              )
+                                                            }
+                                                            className="mt-1.5 ml-[26px] flex items-center gap-1 text-[11px] font-semibold"
+                                                            style={{
+                                                              color: cfg.color,
+                                                            }}
+                                                          >
+                                                            <CheckCircle2Icon
+                                                              size={13}
+                                                            />
+                                                            Mark complete &
+                                                            continue
+                                                            <span className="text-gray-400 font-normal">
+                                                              ({viewedInDoc}/
+                                                              {
+                                                                contentItem
+                                                                  .pages.length
+                                                              }{" "}
+                                                              viewed)
+                                                            </span>
+                                                          </button>
+                                                        )}
                                                     </div>
                                                   );
                                                 },
@@ -1061,6 +1320,44 @@ export function UnitsContent({
           </Accordion>
         </div>
       </ScrollArea>
+
+      <Dialog
+        open={confirmDialogDoc !== null}
+        onOpenChange={(open) => {
+          if (!open) setConfirmDialogDoc(null);
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Mark section complete?</DialogTitle>
+            <DialogDescription>
+              {confirmDialogDoc &&
+                `You've viewed ${confirmDialogDoc.viewedCount} of ${confirmDialogDoc.totalCount} slides in this section. Mark it complete?`}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setConfirmDialogDoc(null)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={() => {
+                if (confirmDialogDoc) {
+                  markDocumentComplete(confirmDialogDoc.item.id);
+                  navigateToNextDocument(confirmDialogDoc.item);
+                }
+                setConfirmDialogDoc(null);
+              }}
+            >
+              Mark Complete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
