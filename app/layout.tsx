@@ -28,17 +28,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const isDashboard = pathname === "/dashboard" || pathname === "/dashboard/";
 
   useEffect(() => {
-    if (pathname !== "/dashboard" && pathname !== "/dashboard/") {
-      (window as any).chatwootSettings = {
-        hideMessageBubble: false,
-        position: "left", // This can be left or right
-        locale: "en", // Language to be set
-        type: "standard", // [standard, expanded_bubble]
-      };
-    }
-  }, [pathname]);
+    (window as any).chatwootSettings = {
+      hideMessageBubble: isDashboard,
+      position: "left", // This can be left or right
+      locale: "en", // Language to be set
+      type: "standard", // [standard, expanded_bubble]
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const toggleBubble = () => {
+      (window as any).$chatwoot?.toggleBubbleVisibility(
+        isDashboard ? "hide" : "show"
+      );
+    };
+
+    toggleBubble();
+    window.addEventListener("chatwoot:ready", toggleBubble);
+    return () => window.removeEventListener("chatwoot:ready", toggleBubble);
+  }, [isDashboard]);
 
   return (
     <html
@@ -58,12 +70,11 @@ export default function RootLayout({
           <AppLayoutBase>{children}</AppLayoutBase>
         </SWRConfig>
         <Toaster position="top-center" expand richColors theme="light" />
-        {pathname !== "/dashboard" && pathname !== "/dashboard/" ? (
-          <Script
-            id="chatwoot"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: `
+        <Script
+          id="chatwoot"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: `
               (function(d,t) {
                 var BASE_URL="https://app.chatwoot.com";
                 var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
@@ -78,9 +89,8 @@ export default function RootLayout({
                 }
               })(document,"script");
             `,
-            }}
-          />
-        ) : null}
+          }}
+        />
       </body>
     </html>
   );
