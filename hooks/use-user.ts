@@ -4,13 +4,16 @@ import { Staff } from "@/types/user";
 import { useMemo } from "react";
 import useSWR from "swr";
 
-export default function useUser() {
+export default function useUser(shouldFetch = true) {
   const fetcher = (url: string) => api.get(url).then((res) => res.data.data);
 
-  const { data, error, isLoading, mutate } = useSWR<Staff>(getStaff, fetcher);
+  const { data, error, isLoading, mutate } = useSWR<Staff>(
+    shouldFetch ? getStaff : null,
+    fetcher,
+  );
   const { user, ...staff } = useMemo(
     () => data ?? { user: null, staff: null },
-    [data]
+    [data],
   );
   return {
     user,
