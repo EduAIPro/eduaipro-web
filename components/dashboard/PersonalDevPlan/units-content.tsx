@@ -24,6 +24,7 @@ import {
   BookOpenIcon,
   CheckIcon,
   ClipboardListIcon,
+  ClockIcon,
   FolderOpenIcon,
   GraduationCapIcon,
   Loader2Icon,
@@ -436,7 +437,7 @@ export function UnitsContent({
           {[
             { color: "#16A34A", bg: "#DCFCE7", label: "Completed" },
             { color: "#1A56DB", bg: "#EFF6FF", label: "In progress" },
-            { color: "#9CA3AF", bg: "#F3F4F6", label: "Locked" },
+            { color: "#9CA3AF", bg: "#F3F4F6", label: "Pending" },
           ].map((l) => (
             <div key={l.label} className="flex items-center gap-1.5">
               <div
@@ -485,7 +486,7 @@ export function UnitsContent({
               const statusLabel = isCompleted
                 ? "Completed"
                 : isLocked
-                  ? "Locked"
+                  ? "Pending"
                   : "In Progress";
               const unitNum = String(unit.index).padStart(2, "0");
 
@@ -534,7 +535,7 @@ export function UnitsContent({
                           {isActive && unitInfo
                             ? `${unitInfo.modules.length} module${unitInfo.modules.length !== 1 ? "s" : ""}`
                             : isLocked
-                              ? "Locked"
+                              ? "Unavailable"
                               : "Available"}
                         </p>
                       </div>
@@ -544,30 +545,7 @@ export function UnitsContent({
                         className="text-[10px] font-semibold rounded-full px-2.5 py-1 shrink-0 flex items-center gap-1"
                         style={{ color: statusColor, background: statusBg }}
                       >
-                        {isLocked && (
-                          <svg
-                            width="10"
-                            height="10"
-                            viewBox="0 0 14 14"
-                            fill="none"
-                          >
-                            <rect
-                              x="3"
-                              y="6"
-                              width="8"
-                              height="6"
-                              rx="1.5"
-                              stroke="currentColor"
-                              strokeWidth="1"
-                            />
-                            <path
-                              d="M5 6V4.5a2 2 0 114 0V6"
-                              stroke="currentColor"
-                              strokeWidth="1"
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                        )}
+                        {isLocked && <ClockIcon size={10} />}
                         {statusLabel}
                       </div>
                     </div>
@@ -631,6 +609,9 @@ export function UnitsContent({
                               const caseStudyCount =
                                 caseStudyGroup?.items.length ?? 0;
 
+                              const isModuleFinished =
+                                unitModule.isCompleted || unit.isUnitCompleted;
+
                               return (
                                 <AccordionItem
                                   value={`${unit.index}-${unitModule.index}`}
@@ -680,17 +661,23 @@ export function UnitsContent({
                                       <div
                                         className="text-[10px] font-semibold rounded-full px-2 py-0.5 shrink-0"
                                         style={{
-                                          color: unitModule.isCompleted
+                                          color: isModuleFinished
                                             ? "#16A34A"
-                                            : "#9CA3AF",
-                                          background: unitModule.isCompleted
+                                            : isActiveModule
+                                              ? "#1A56DB"
+                                              : "#9CA3AF",
+                                          background: isModuleFinished
                                             ? "#DCFCE7"
-                                            : "#F3F4F6",
+                                            : isActiveModule
+                                              ? "#EFF6FF"
+                                              : "#F3F4F6",
                                         }}
                                       >
-                                        {unitModule.isCompleted
+                                        {isModuleFinished
                                           ? "✓ Done"
-                                          : "Upcoming"}
+                                          : isActiveModule
+                                            ? "Active"
+                                            : "Upcoming"}
                                       </div>
                                     </div>
                                   </AccordionTrigger>
@@ -832,7 +819,8 @@ export function UnitsContent({
                                                                 1;
 
                                                             const pageStatus =
-                                                              unitModule.isCompleted
+                                                              unitModule.isCompleted ||
+                                                              unit.isUnitCompleted
                                                                 ? "done"
                                                                 : isActiveDocument
                                                                   ? page.pageNumber <
@@ -904,9 +892,7 @@ export function UnitsContent({
                                                                     )
                                                                   }
                                                                   disabled={
-                                                                    isQuizOn ||
-                                                                    pageStatus ===
-                                                                      "locked"
+                                                                    isQuizOn
                                                                   }
                                                                   className="flex-1 flex items-center gap-2.5 py-1.5 pl-2 text-left disabled:cursor-default"
                                                                 >
@@ -963,7 +949,7 @@ export function UnitsContent({
                                                                   )}
                                                                   {pageStatus ===
                                                                     "locked" && (
-                                                                    <LockIcon
+                                                                    <ClockIcon
                                                                       size={11}
                                                                       className="shrink-0 text-gray-400"
                                                                     />
