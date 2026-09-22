@@ -27,7 +27,7 @@ export const CompletionRateCard = ({
       const thisMonth = data.at(-1);
 
       if (lastMonth && thisMonth) {
-        return thisMonth.rate - lastMonth.rate;
+        return Math.round(thisMonth.rate - lastMonth.rate);
       }
     }
     return null;
