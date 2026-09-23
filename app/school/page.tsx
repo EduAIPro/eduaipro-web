@@ -32,7 +32,10 @@ function SchoolPage() {
             <AccredicationCard
               accreditationStatus={data?.accreditationStatus}
             />
-            <CompletionRateCard data={data?.completionRateHistory} />
+            <CompletionRateCard
+              progress={data?.courseProgress}
+              data={data?.completionRateHistory}
+            />
             <CertificateRenewalCard renewals={data?.renewals} />
           </div>
           <div className="grid xl:grid-cols-3 gap-5">
