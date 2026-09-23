@@ -42,14 +42,15 @@ export default function Navbar() {
         setIsLoggedIn(true);
       }
 
-      if (staff && staff !== null) {
+      console.log({ data: staff, bool: !!staff.staff });
+      if (staff && !!staff.staff) {
         const dashboardUrl =
           (staff as Staff).role === "TEACHER"
             ? "/dashboard"
             : (staff as Staff).role === "OWNER"
               ? "/school"
               : "/admin";
-
+        console.log({ dashboardUrl });
         setDashboardUrl(dashboardUrl);
       }
     }

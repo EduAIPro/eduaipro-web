@@ -118,7 +118,7 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
                       className={cn(
                         "w-full duration-300 flex max-sm:flex-col items-center px-3 gap-2 rounded-md py-2 text-left transition-all hover:bg-primary-100 hover:border hover:border-primary-200",
                         isActive
-                          ? "border-primary-200  bg-primary-300/20 !text-primary-400"
+                          ? "border-primary/50 border bg-primary-300/20 !text-primary-400"
                           : "",
                       )}
                     >

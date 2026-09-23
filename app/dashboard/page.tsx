@@ -8,11 +8,17 @@ import { CircularProgress } from "@/components/dashboard/common/ProgressTracker"
 import DashboardSkeleton from "@/components/dashboard/dashboard-skeleton";
 import { OnboardingWalkthrough } from "@/components/dashboard/onboarding";
 import PersonalDevPlan from "@/components/dashboard/PersonalDevPlan/PersonalDevPlan";
+import { PathwaySwitcher } from "@/components/dashboard/pathway-switcher";
+import { Button } from "@/components/ui/button";
 import DocumentIcon from "@/components/svgs/document.svg";
 import useCourse from "@/hooks/use-course";
+import useEnrollments from "@/hooks/use-enrollments";
+import useSubscription from "@/hooks/use-subscription";
 import { useIsMobile } from "@/hooks/use-mobile";
 import useUser from "@/hooks/use-user";
 import { Staff } from "@/types/user";
+import { PlusIcon } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
@@ -39,6 +45,19 @@ export default function OverviewPage() {
   } = useCourse({
     acceptedTermsAndConditions: !!(staff as Staff)?.acceptedTermsAndConditions,
   });
+  const {
+    enrollments,
+    activeCourseId,
+    entitlement,
+    isLoading: enrollmentsLoading,
+  } = useEnrollments({
+    acceptedTermsAndConditions: !!(staff as Staff)?.acceptedTermsAndConditions,
+  });
+  const { subscription } = useSubscription(
+    !!(staff as Staff)?.acceptedTermsAndConditions,
+  );
+  const canAddPathway =
+    entitlement?.canAddPathway ?? subscription?.canAddPathway ?? false;
   const isMobile = useIsMobile(768);
 
   const { trigger: updateProfile } = useSWRMutation(
@@ -148,7 +167,7 @@ export default function OverviewPage() {
     return Number(percent);
   }, [courseProgress, course]);
 
-  return isLoading || courseLoading ? (
+  return isLoading || courseLoading || enrollmentsLoading ? (
     <DashboardSkeleton />
   ) : staff && !(staff as Staff)?.acceptedTermsAndConditions ? (
     <MultiStepFormModal
@@ -167,9 +186,26 @@ export default function OverviewPage() {
         />
         <div className="flex flex-col gap-8">
           <div className="space-y-3">
-            <h2 id="course-title" className="text-2xl font-bold capitalize">
-              {course.title.replaceAll("_", " ").toLowerCase()}
-            </h2>
+            {enrollments.length > 1 && (
+              <PathwaySwitcher
+                enrollments={enrollments}
+                activeCourseId={activeCourseId}
+                onSwitched={refetch}
+              />
+            )}
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <h2 id="course-title" className="text-2xl font-bold capitalize">
+                {course.title.replaceAll("_", " ").toLowerCase()}
+              </h2>
+              {canAddPathway && (
+                <Link href="/dashboard/pathways">
+                  <Button variant="outline" size="sm">
+                    <PlusIcon size={14} />
+                    Add pathway
+                  </Button>
+                </Link>
+              )}
+            </div>
             {/* <div className="flex items-start gap-10">
               <div id="course-content-stats">
                 <h3 className="font-medium text-sm">Content</h3>
@@ -212,6 +248,7 @@ export default function OverviewPage() {
 
           <div id="personal-dev-plan">
             <PersonalDevPlan
+              key={course.id}
               introVideoUrl={course.introductoryVideoUrl}
               courseProgress={courseProgress}
               refetchCourse={refetch}

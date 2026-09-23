@@ -48,6 +48,16 @@ import { setAuthCookes } from "@/utils/auth";
 import { EditUserFormValue } from "@/utils/validation/teacher-profile/settings";
 import { toast } from "sonner";
 import { apiClient } from "./request";
+import api from "./base";
+import { AxiosError } from "axios";
+import {
+  EnrollPayload,
+  Enrollment,
+  SetActiveCoursePayload,
+  SetActiveCourseResponse,
+  SubscriptionRequiredError,
+} from "@/types/enrollment";
+import { SubscribePayload, SubscribeResponse } from "@/types/billing";
 
 // const isLocalhost = window.location.host.includes("localhost");
 
@@ -243,6 +253,61 @@ export async function submitAssessment(
     });
 
     return response.data?.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// pathways / enrollments (multi-pathway)
+export async function enrollInPathway(
+  url: string,
+  { arg }: { arg: EnrollPayload },
+): Promise<Enrollment> {
+  try {
+    const response = await api.post<Enrollment>(url, arg, {
+      headers: { "x-raw-error": "1" },
+    });
+
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<SubscriptionRequiredError>;
+
+    if (axiosError.response?.status === 402) {
+      throw axiosError.response.data;
+    }
+
+    const message =
+      (axiosError.response?.data as { message?: string })?.message ??
+      axiosError.message;
+    throw message;
+  }
+}
+
+export async function setActiveCourse(
+  url: string,
+  { arg }: { arg: SetActiveCoursePayload },
+): Promise<SetActiveCourseResponse> {
+  try {
+    const response = await apiClient<SetActiveCourseResponse>(
+      url,
+      arg,
+      "patch",
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function subscribeCheckout(
+  url: string,
+  { arg }: { arg: SubscribePayload },
+): Promise<SubscribeResponse> {
+  try {
+    const response = await apiClient<SubscribeResponse>(url, arg, "post");
+
+    return response.data;
   } catch (error) {
     throw error;
   }
