@@ -42,6 +42,7 @@ export type EnrollmentCertificateSummary = {
   id: string;
   certificateId: string;
   issuedAt: string;
+  expiresAt: string;
   certificateImageUrl: string;
 };
 

@@ -16,9 +16,9 @@ import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
 
 export type SubscribeTarget = {
-  courseId: string;
-  title: string;
-  reason: "add_pathway" | "issue_certificate";
+  courseId?: string;
+  title?: string;
+  reason: "add_pathway" | "issue_certificate" | "general";
 };
 
 type SubscribeModalProps = {
@@ -35,18 +35,22 @@ export function SubscribeModal({ target, onOpenChange }: SubscribeModalProps) {
   const handleSubscribe = async () => {
     if (!target) return;
     try {
-      const { authorizationUrl } = await trigger({ courseId: target.courseId });
+      const { authorizationUrl } = await trigger(
+        target.courseId ? { courseId: target.courseId } : {},
+      );
       window.location.href = authorizationUrl;
     } catch (error) {
       toast.error(error as string);
     }
   };
 
-  const title = target?.title.replaceAll("_", " ").toLowerCase();
+  const title = target?.title?.replaceAll("_", " ").toLowerCase();
   const description =
     target?.reason === "issue_certificate"
       ? `You completed "${title}". An active subscription issues the accredited certificate and keeps it downloadable.`
-      : `Subscribing lets you enrol in "${title}" and every other CPD pathway, with certificates included when you finish.`;
+      : target?.reason === "add_pathway"
+        ? `Subscribing lets you enrol in "${title}" and every other CPD pathway, with certificates included when you finish.`
+        : "Subscribing to EduAI Pro unlocks certificate issuance and every CPD pathway.";
 
   return (
     <Dialog open={!!target} onOpenChange={onOpenChange}>
@@ -58,7 +62,7 @@ export function SubscribeModal({ target, onOpenChange }: SubscribeModalProps) {
           <DialogTitle>An active subscription is required</DialogTitle>
           <DialogDescription>{target ? description : ""}</DialogDescription>
         </DialogHeader>
-        <p className="text-[11px] text-gray-400 leading-relaxed">
+        <p className="text-xs text-gray-500 leading-relaxed">
           Certificates already issued stay valid until their printed expiry
           date, whether or not the subscription is renewed.
         </p>
@@ -73,7 +77,9 @@ export function SubscribeModal({ target, onOpenChange }: SubscribeModalProps) {
           >
             {target?.reason === "issue_certificate"
               ? "Subscribe and issue certificate"
-              : "Subscribe and start pathway"}
+              : target?.reason === "add_pathway"
+                ? "Subscribe and start pathway"
+                : "Subscribe"}
           </Button>
         </DialogFooter>
       </DialogContent>

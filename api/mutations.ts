@@ -57,7 +57,12 @@ import {
   SetActiveCourseResponse,
   SubscriptionRequiredError,
 } from "@/types/enrollment";
-import { SubscribePayload, SubscribeResponse } from "@/types/billing";
+import {
+  CancelSubscriptionResponse,
+  ResumeSubscriptionResponse,
+  SubscribePayload,
+  SubscribeResponse,
+} from "@/types/billing";
 
 // const isLocalhost = window.location.host.includes("localhost");
 
@@ -306,6 +311,38 @@ export async function subscribeCheckout(
 ): Promise<SubscribeResponse> {
   try {
     const response = await apiClient<SubscribeResponse>(url, arg, "post");
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function cancelSubscription(
+  url: string,
+): Promise<CancelSubscriptionResponse> {
+  try {
+    const response = await apiClient<CancelSubscriptionResponse>(
+      url,
+      undefined,
+      "post",
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function resumeSubscription(
+  url: string,
+): Promise<ResumeSubscriptionResponse> {
+  try {
+    const response = await apiClient<ResumeSubscriptionResponse>(
+      url,
+      undefined,
+      "post",
+    );
 
     return response.data;
   } catch (error) {

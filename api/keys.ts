@@ -31,6 +31,8 @@ export const setActiveCourseKey = "/me/active-course";
 
 // billing
 export const subscribeKey = "/billing/subscribe";
+export const cancelSubscriptionKey = "/billing/cancel";
+export const resumeSubscriptionKey = "/billing/resume";
 
 // certificates
 export const listCertificates = "/school/staff/certificates";
