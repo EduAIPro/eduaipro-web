@@ -1,22 +1,12 @@
-"use client";
+import { getPageMetadata } from "@/utils/config";
+import LoginPageClient from "./login-client";
 
-import LoginForm from "@/components/auth/LoginForm";
-import { Suspense } from "react";
+export const metadata = getPageMetadata({
+  title: "Log In",
+  description: "Log in to your EduAIPro account to continue your CPD journey.",
+  path: "/login",
+});
 
 export default function LoginPage() {
-  return (
-    <div className="max-xs:mt-10 max-lg:mt-20 sm:justify-center flex flex-col h-full">
-      <div className="w-full space-y-6">
-        <div>
-          <h2 className="font-semibold text-grey-800 text-2xl">Welcome back</h2>
-          <p className="text-base font-medium text-grey-650">
-            Fill in your details
-          </p>
-        </div>
-        <Suspense>
-          <LoginForm />
-        </Suspense>
-      </div>
-    </div>
-  );
+  return <LoginPageClient />;
 }

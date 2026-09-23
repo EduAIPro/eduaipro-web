@@ -6,7 +6,12 @@ import CallToAction from "@/components/landing-page/CallToAction";
 import Footer from "@/components/navigation/Footer";
 import { getPageMetadata } from "@/utils/config";
 
-export const metadata = getPageMetadata("About Us");
+export const metadata = getPageMetadata({
+  title: "About Us",
+  description:
+    "Learn about EduAIPro's mission, our team, and the approach behind our accredited AI-powered CPD platform for educators.",
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (

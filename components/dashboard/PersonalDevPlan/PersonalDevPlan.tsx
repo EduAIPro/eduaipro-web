@@ -153,7 +153,9 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
     if (window) {
       if (unitInfo) {
         if (!pdfUrl) {
-          const lastPdf = window.localStorage.getItem("lastPdf");
+          const lastPdf = window.localStorage.getItem(
+            `lastPdf-${courseProgress.courseId}`,
+          );
           const items = unitInfo.modules.flatMap((mod, i) =>
             mod.moduleItems.map((modI) => [i, modI.id, modI.signedPdfUrl]),
           );

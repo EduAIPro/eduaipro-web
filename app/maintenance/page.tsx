@@ -1,4 +1,11 @@
+import { getPageMetadata } from "@/utils/config";
 import { Wrench } from "lucide-react";
+
+export const metadata = getPageMetadata({
+  title: "Scheduled Maintenance",
+  description: "EduAIPro is temporarily undergoing scheduled maintenance.",
+  noIndex: true,
+});
 
 export default function Maintenance() {
   return (

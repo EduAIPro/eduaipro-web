@@ -8,7 +8,12 @@ import Testimonials from "@/components/landing-page/Testimonials";
 import Footer from "@/components/navigation/Footer";
 import { getPageMetadata } from "@/utils/config";
 
-export const metadata = getPageMetadata("Home");
+export const metadata = getPageMetadata({
+  title: "AI-Powered Accredited CPD for Teachers",
+  description:
+    "EduAIPro delivers accredited, AI-powered Continuing Professional Development for mentors, teaching assistants, and primary, secondary and higher-education teachers.",
+  path: "/",
+});
 
 export default function Home() {
   return (

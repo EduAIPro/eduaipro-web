@@ -22,6 +22,18 @@ export const updateModuleKey = "/course/active/progress";
 export const generateUnitQuestions = "/course/active/unit/questions";
 export const submitAssessmentKey = "/course/active/unit/questions/submit";
 
+// pathways / enrollments (multi-pathway)
+export const getSubscriptionKey = "/me/subscription";
+export const getPathwaysKey = "/me/pathways";
+export const getEnrollmentsKey = "/me/enrollments";
+export const enrollPathwayKey = "/me/enrollments";
+export const setActiveCourseKey = "/me/active-course";
+
+// billing
+export const subscribeKey = "/billing/subscribe";
+export const cancelSubscriptionKey = "/billing/cancel";
+export const resumeSubscriptionKey = "/billing/resume";
+
 // certificates
 export const listCertificates = "/school/staff/certificates";
 

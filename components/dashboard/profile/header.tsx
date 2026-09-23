@@ -70,24 +70,12 @@ export const ProfileHeader = ({ user, refetch }: ProfileHeaderProps) => {
 
   return (
     <section
-      className="relative overflow-hidden py-10 md:-mx-12 -mx-6 px-6 md:px-12 max-md:-mt-6"
+      className="py-10 md:-mx-12 -mx-6 px-6 md:px-12 max-md:-mt-6"
       style={{
         background:
           "linear-gradient(135deg, #EFF6FF 0%, #F8FAFF 55%, #FFFFFF 100%)",
       }}
     >
-      {/* Decorative pattern */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <GraduationCapIcon
-          className="absolute -right-4 -top-6 rotate-12 text-[#1A56DB]/[0.06]"
-          size={160}
-        />
-        <SparklesIcon
-          className="absolute right-24 bottom-2 text-[#1A56DB]/[0.08] max-md:hidden"
-          size={40}
-        />
-      </div>
-
       {/* Hidden Input */}
       <input
         type="file"
@@ -97,7 +85,7 @@ export const ProfileHeader = ({ user, refetch }: ProfileHeaderProps) => {
         onChange={handleFileChange}
       />
 
-      <div className="relative flex items-center gap-5">
+      <div className="relative max-w-5xl mx-auto flex items-center gap-5">
         <div className="shrink-0 relative group">
           <div
             onClick={() => !isUploading && fileInputRef.current?.click()}
@@ -150,6 +138,17 @@ export const ProfileHeader = ({ user, refetch }: ProfileHeaderProps) => {
             <GraduationCapIcon size={12} />
             CPD Learner
           </span>
+        </div>
+        {/* Decorative pattern */}
+        <div className="max-sm:hidden pointer-events-none absolute inset-0">
+          <GraduationCapIcon
+            className="absolute -right-4 -top-6 rotate-12 text-[#1A56DB]/[0.06]"
+            size={160}
+          />
+          <SparklesIcon
+            className="absolute right-36 bottom-2 text-[#1A56DB]/[0.08] max-md:hidden"
+            size={40}
+          />
         </div>
       </div>
     </section>
