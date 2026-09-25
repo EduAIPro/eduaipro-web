@@ -1,3 +1,4 @@
+import { getSchoolStaffsKey } from "@/api/keys";
 import EmptyIcon from "@/components/svgs/school/empty-table.svg";
 import { InviteTeacherModal } from "../modals/invite-teacher.modal";
 
@@ -17,7 +18,7 @@ export const Empty = () => {
             inviting a teacher to manage their details and track their
             accreditation!
           </p>
-          <InviteTeacherModal />
+          <InviteTeacherModal swrKey={getSchoolStaffsKey} />
         </div>
       </div>
     </div>
