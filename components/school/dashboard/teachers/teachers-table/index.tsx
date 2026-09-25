@@ -69,7 +69,7 @@ export const TeachersTable = () => {
                 </Button>
               }
             />
-            <InviteTeacherModal key={getSchoolStaffsKey} />
+            <InviteTeacherModal swrKey={getSchoolStaffsKey} />
           </div>
         }
         meta={{
