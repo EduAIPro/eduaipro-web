@@ -1,13 +1,12 @@
 import { getOverdueRenewalsKey } from "@/api/keys";
 import { generalFetcher } from "@/api/queries";
 import { SchoolOverdueRenewals } from "@/types/school";
-import Link from "next/link";
+import { isBefore, isValid, parseISO, startOfDay, startOfToday } from "date-fns";
 import useSWR from "swr";
 import { OverdueItem } from "./table";
 
 import EmptyIcon from "@/components/svgs/school/empty-table.svg";
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
 
 type OverdueRenewalsProps = {};
 
@@ -16,21 +15,29 @@ export const OverdueRenewals = ({}: OverdueRenewalsProps) => {
     getOverdueRenewalsKey,
     generalFetcher
   );
+  const today = startOfToday();
+  const rows = (data?.data ?? [])
+    .map((item) => {
+      const dueDate = item.expiresAt
+        ? startOfDay(parseISO(item.expiresAt))
+        : new Date(NaN);
+      return {
+        item,
+        dueDate,
+        isOverdue: isValid(dueDate) && isBefore(dueDate, today),
+      };
+    })
+    .sort(
+      (a, b) =>
+        Number(isValid(b.dueDate)) - Number(isValid(a.dueDate)) ||
+        Number(b.isOverdue) - Number(a.isOverdue) ||
+        (isValid(a.dueDate) ? a.dueDate.getTime() - b.dueDate.getTime() : 0)
+    );
   return (
     <div className="bg-white p-5 border border-grey-400 rounded-xl space-y-5 h-full">
       <div className="space-y-6 h-full">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-lg">Overdue Renewals</h2>
-          <Link href="/school">
-            <p
-              className={cn(
-                "underline text-primary-300 font-medium",
-                !data?.data?.length ? "hidden" : ""
-              )}
-            >
-              View all
-            </p>
-          </Link>
+          <h2 className="font-semibold text-lg">Renewals</h2>
         </div>
         {isLoading ? (
           <div className="space-y-4">
@@ -49,8 +56,13 @@ export const OverdueRenewals = ({}: OverdueRenewalsProps) => {
           </div>
         ) : data?.data.length ? (
           <div className="space-y-4">
-            {data?.data.map((item) => (
-              <OverdueItem item={item} key={item.id} />
+            {rows.map(({ item, dueDate, isOverdue }) => (
+              <OverdueItem
+                item={item}
+                dueDate={dueDate}
+                isOverdue={isOverdue}
+                key={item.id}
+              />
             ))}
           </div>
         ) : (

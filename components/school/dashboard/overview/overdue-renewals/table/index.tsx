@@ -1,11 +1,14 @@
+import { Badge } from "@/components/ui/badge";
 import { Accreditation } from "@/types/certificates";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 
 type OverdueItemProps = {
   item: Accreditation;
+  dueDate: Date;
+  isOverdue: boolean;
 };
 
-export const OverdueItem = ({ item }: OverdueItemProps) => {
+export const OverdueItem = ({ item, dueDate, isOverdue }: OverdueItemProps) => {
   return (
     <div className="w-full flex items-center justify-between space-x-4">
       <div className="max-w-2/3">
@@ -14,11 +17,12 @@ export const OverdueItem = ({ item }: OverdueItemProps) => {
           {item.certificateName}
         </p>
       </div>
-      <div>
+      <div className="flex items-center gap-2">
+        {isOverdue && <Badge variant="destructive">Overdue</Badge>}
         <p className="text-sm font-medium text-grey-500">
-          Due
-          <span className="text-grey-12 pl-1">
-            {format(item.expiresAt, "dd/MM/yyy")}
+          Due{" "}
+          <span className="text-grey-12">
+            {isValid(dueDate) ? format(dueDate, "dd/MM/yyyy") : "—"}
           </span>
         </p>
       </div>
