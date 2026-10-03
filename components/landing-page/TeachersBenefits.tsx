@@ -33,7 +33,7 @@ const categories = [
     color: "#ff9800", // Orange
   },
   {
-    title: "Higher Education Teachers",
+    title: "Higher Institution Teachers",
     points: [
       "Master strategies like flipped classrooms.",
       "Design innovative courses and integrate research.",
