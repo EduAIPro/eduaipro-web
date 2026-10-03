@@ -44,7 +44,7 @@ import {
   UpdateSchoolInfoResponse,
 } from "@/types/school/auth";
 import { Staff } from "@/types/user";
-import { setAuthCookes } from "@/utils/auth";
+import { setAuthCookes, setRoleCookie } from "@/utils/auth";
 import { EditUserFormValue } from "@/utils/validation/teacher-profile/settings";
 import { toast } from "sonner";
 import { apiClient } from "./request";
@@ -60,6 +60,7 @@ export async function signup(
     const response = await apiClient<TeacherSignupResponse>(url, arg);
 
     await setAuthCookes(response.data.data.tokens.refresh);
+    await setRoleCookie("TEACHER");
 
     return response.data;
   } catch (error) {
@@ -75,6 +76,7 @@ export async function schoolSignup(
     const response = await apiClient<TeacherSignupResponse>(url, arg);
 
     await setAuthCookes(response.data.data.tokens.refresh);
+    await setRoleCookie("OWNER");
 
     return response.data;
   } catch (error) {
@@ -88,8 +90,10 @@ export async function login(
 ): Promise<TeacherLoginResponse> {
   try {
     const response = await apiClient<TeacherLoginResponse>(url, arg);
+    const { tokens, user, staff } = response.data.data;
 
-    await setAuthCookes(response.data.data.tokens.refresh);
+    await setAuthCookes(tokens.refresh);
+    await setRoleCookie(user.role === "ADMIN" ? "ADMIN" : staff.role);
 
     return response.data;
   } catch (error) {
