@@ -181,3 +181,60 @@ export const userRoles = [
   { title: "Higher Institution Teacher", icon: PiChalkboardTeacher },
   { title: "Institution", icon: RiSchoolLine },
 ];
+
+// One CPD pathway per teaching level — the credential a teacher earns.
+// `value` matches `teachingLevels` above 1:1 so it can be written straight
+// into the `teachingLevel` field.
+export const cpdPathways = [
+  {
+    value: "PRIMARY",
+    name: "Eduai Learning Primary Path",
+    short: "Primary",
+    role: "Primary Teacher",
+    icon: GiTeacher,
+    desc: "Pedagogy, classroom management and assessment for primary-phase teachers.",
+  },
+  {
+    value: "SECONDARY",
+    name: "Eduai Learning Secondary Path",
+    short: "Secondary",
+    role: "Secondary Teacher",
+    icon: SlBookOpen,
+    desc: "Subject pedagogy, adolescent learning and exam preparation for secondary teachers.",
+  },
+  {
+    value: "TERTIARY",
+    name: "Eduai Learning Higher Education Path",
+    short: "Higher Ed",
+    role: "Higher Institution Teacher",
+    icon: PiChalkboardTeacher,
+    desc: "Lecture design, research supervision and internationalisation in higher education.",
+  },
+  {
+    value: "TEACHER_ASSISTANT",
+    name: "Eduai Learning Teaching Assistant Path",
+    short: "Teaching Asst",
+    role: "Teaching Assistant (TA)",
+    icon: MdPeopleOutline,
+    desc: "Classroom support, differentiation and safeguarding for teaching assistants.",
+  },
+  {
+    value: "MENTOR",
+    name: "Eduai Learning Mentors Path",
+    short: "Mentors",
+    role: "Mentor",
+    icon: MdSchool,
+    desc: "Coaching, observation and developmental feedback for teacher mentors.",
+  },
+];
+
+// `userRole` in localStorage is set from the first word of the role title
+// chosen at sign-up (see app/(auth)/register/register-client.tsx) — map it
+// back to the teachingLevel/cpdPathways value it corresponds to.
+export const roleToTeachingLevel: Record<string, string> = {
+  Primary: "PRIMARY",
+  Secondary: "SECONDARY",
+  Higher: "TERTIARY",
+  Teaching: "TEACHER_ASSISTANT",
+  Mentor: "MENTOR",
+};
