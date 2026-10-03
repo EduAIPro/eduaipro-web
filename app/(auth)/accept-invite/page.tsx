@@ -7,6 +7,7 @@ import LoginForm from "@/components/auth/LoginForm";
 import TeacherSignup from "@/components/auth/TeacherSignup";
 import { CONFIG } from "@/constants/config";
 import { AcceptInvitePayload } from "@/types/auth";
+import { setRoleCookie } from "@/utils/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -50,6 +51,7 @@ function AcceptInviteContent() {
       })
         .then(() => {
           toast.success("Invitation accepted successfully!");
+          setRoleCookie("TEACHER");
           setInviteAccepted(true);
           router.replace("/dashboard");
         })
