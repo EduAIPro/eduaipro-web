@@ -33,7 +33,7 @@ export const teachingLevels = [
     value: "SECONDARY",
   },
   {
-    label: "Tertiary",
+    label: "Higher Institution",
     value: "TERTIARY",
   },
   {
@@ -122,7 +122,7 @@ export const schoolType = [
     value: "Secondary School",
   },
   {
-    label: "Higher Education",
+    label: "Higher Institution",
     value: "Higher Education",
   },
   {
@@ -204,7 +204,7 @@ export const cpdPathways = [
   },
   {
     value: "TERTIARY",
-    name: "Eduai Learning Higher Education Path",
+    name: "Eduai Learning Higher Institution Path",
     short: "Higher Ed",
     role: "Higher Institution Teacher",
     icon: PiChalkboardTeacher,
