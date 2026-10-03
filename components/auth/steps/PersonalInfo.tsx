@@ -25,6 +25,8 @@ export default function PersonalInfo({
         description="Please provide your basic details to help us personalize your
             experience."
         Icon={UserPlusIcon}
+        step={1}
+        totalSteps={3}
       />
 
       <div className="mt-6 flex-col flex gap-y-4">

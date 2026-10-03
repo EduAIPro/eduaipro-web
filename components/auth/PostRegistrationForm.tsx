@@ -146,15 +146,8 @@ export default function MultiStepFormModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 backdrop-blur-sm">
-      <div className="bg-white xs:rounded-lg shadow-xl w-full max-xs:h-screen xs:h-[500px] overflow-y-scroll no__scrollbar max-w-xl p-4 xs:p-6 relative">
-        {/* <button
-          onClick={() => setIsOpen(false)}
-          className="absolute top-4 right-4"
-        >
-          <CloseCircle className="text-gray-500" />
-        </button> */}
-
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
+      <div className="bg-white xs:rounded-xl shadow-[0_18px_50px_rgba(0,0,0,0.18)] w-full max-xs:h-screen xs:h-auto xs:max-h-[90vh] overflow-y-scroll no__scrollbar max-w-xl p-5 xs:p-6 relative">
         <Formik
           initialValues={defaultValues}
           validationSchema={validationSchemas[currentStep - 1]}

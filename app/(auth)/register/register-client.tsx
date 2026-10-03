@@ -70,13 +70,14 @@ const PickRole = () => {
           <button
             className="w-full rounded-[6px] group hover:bg-blue-500/10 duration-700 p-3 h-full flex items-center gap-3 border"
             key={idx + "hardman"}
-            onClick={() =>
+            onClick={() => {
+              localStorage.setItem("userRole", item.title.split(" ")[0]);
               router.replace(
                 idx !== 5
                   ? `${currentPath}?type=teacher`
-                  : `${currentPath}?type=institution`
-              )
-            }
+                  : `${currentPath}?type=institution`,
+              );
+            }}
           >
             <div className="w-fit rounded-full bg-blue-300/10 group-hover:bg-white/70 duration-500 p-2">
               <item.icon
