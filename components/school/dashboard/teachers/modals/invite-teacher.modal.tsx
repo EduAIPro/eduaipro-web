@@ -20,10 +20,10 @@ import useSWR, { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
 type InviteTeacherModalProps = {
-  key?: string;
+  swrKey?: string;
 };
 
-export const InviteTeacherModal = ({ key }: InviteTeacherModalProps) => {
+export const InviteTeacherModal = ({ swrKey }: InviteTeacherModalProps) => {
   const [email, setEmail] = useState("");
   const [step, setStep] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
@@ -107,8 +107,8 @@ export const InviteTeacherModal = ({ key }: InviteTeacherModalProps) => {
     try {
       if (email) {
         await trigger({ email });
-        if (key) {
-          mutate([key, 1]);
+        if (swrKey) {
+          mutate((k) => Array.isArray(k) && k[0] === swrKey);
         }
         toast.success("Invitation email sent successfully");
         setEmail("");
@@ -124,8 +124,8 @@ export const InviteTeacherModal = ({ key }: InviteTeacherModalProps) => {
   async function handleBulkInvite() {
     try {
       await triggerBulk({ staffs });
-      if (key) {
-        mutate([key, 1]);
+      if (swrKey) {
+        mutate((k) => Array.isArray(k) && k[0] === swrKey);
       }
       toast.success(`${staffs.length} invitations sent successfully`);
       setStaffs([]);
