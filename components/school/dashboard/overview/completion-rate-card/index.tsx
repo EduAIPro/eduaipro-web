@@ -1,16 +1,21 @@
 import ChartIcon from "@/components/svgs/school/chart.svg";
 import { cn } from "@/lib/utils";
 import { CourseCompletionRate, StaffCourseProgress } from "@/types/school";
+import { LoaderIcon } from "lucide-react";
 import { useMemo } from "react";
 
 type CompletionRateCardProps = {
   progress: StaffCourseProgress | undefined;
   data: CourseCompletionRate[] | undefined;
+  isLoading?: boolean;
+  hasError?: boolean;
 };
 
 export const CompletionRateCard = ({
   progress,
   data,
+  isLoading = false,
+  hasError = false,
 }: CompletionRateCardProps) => {
   const percentage = useMemo(() => {
     if (!progress) return 0;
@@ -38,7 +43,13 @@ export const CompletionRateCard = ({
         <p className="text-grey-500 text-base font-medium">
           Course Completion Rate
         </p>
-        <h2 className="text-2xl font-semibold">{percentage}%</h2>
+        {isLoading ? (
+          <LoaderIcon className="animate-spin size-5" />
+        ) : (
+          <h2 className="text-2xl font-semibold">
+            {hasError ? "—" : `${percentage}%`}
+          </h2>
+        )}
       </div>
       <div>
         <p

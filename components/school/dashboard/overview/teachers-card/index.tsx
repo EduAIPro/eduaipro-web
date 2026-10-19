@@ -1,11 +1,18 @@
 import { StaffActivity } from "@/types/school";
+import { LoaderIcon } from "lucide-react";
 import { useMemo } from "react";
 
 type TeachersCardProps = {
   staffActivity: StaffActivity | undefined;
+  isLoading?: boolean;
+  hasError?: boolean;
 };
 
-export const TeachersCard = ({ staffActivity }: TeachersCardProps) => {
+export const TeachersCard = ({
+  staffActivity,
+  isLoading = false,
+  hasError = false,
+}: TeachersCardProps) => {
   const totalStaff = useMemo(() => {
     if (staffActivity) {
       return (
@@ -32,30 +39,38 @@ export const TeachersCard = ({ staffActivity }: TeachersCardProps) => {
     <div className="school_card flex flex-col justify-between space-y-14">
       <div className="space-y-1">
         <p className="text-grey-500 text-base font-medium">Teachers</p>
-        <h2 className="text-2xl font-semibold">{totalStaff}</h2>
+        {isLoading ? (
+          <LoaderIcon className="animate-spin size-5" />
+        ) : (
+          <h2 className="text-2xl font-semibold">
+            {hasError ? "—" : totalStaff}
+          </h2>
+        )}
       </div>
-      <div className="space-y-1">
-        <div className="flex items-center gap-1 justify-between">
-          <div
-            style={{ width: `${percentage.percentActive}%` }}
-            className="rounded-full h-1.5 bg-success-600"
-          ></div>
-          <div
-            style={{ width: `${percentage.percentInactive}%` }}
-            className="rounded-full h-1.5 bg-[#FEA41F]"
-          ></div>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1">
-            <div className="size-2 rounded-full bg-success-600"></div>
-            <p>{staffActivity?.totalActiveStaffs ?? 0} active</p>
+      {isLoading || hasError ? null : (
+        <div className="space-y-1">
+          <div className="flex items-center gap-1 justify-between">
+            <div
+              style={{ width: `${percentage.percentActive}%` }}
+              className="rounded-full h-1.5 bg-success-600"
+            ></div>
+            <div
+              style={{ width: `${percentage.percentInactive}%` }}
+              className="rounded-full h-1.5 bg-[#FEA41F]"
+            ></div>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="size-2 rounded-full bg-[#FEA41F]"></div>
-            <p>{staffActivity?.totalInactiveStaffs ?? 0} inactive</p>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1">
+              <div className="size-2 rounded-full bg-success-600"></div>
+              <p>{staffActivity?.totalActiveStaffs ?? 0} active</p>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="size-2 rounded-full bg-[#FEA41F]"></div>
+              <p>{staffActivity?.totalInactiveStaffs ?? 0} inactive</p>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
