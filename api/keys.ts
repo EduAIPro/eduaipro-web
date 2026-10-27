@@ -125,3 +125,6 @@ export const retrieveCoursePublicKey = (slug: string) =>
   `/course/public/courses/${slug}`;
 export const retrieveCourseUnitPublicKey = (id: string) =>
   `/course/public/units/${id}`;
+
+// billing
+export const getAllPlans = "/billing/plans";

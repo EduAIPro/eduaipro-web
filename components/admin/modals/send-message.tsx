@@ -57,7 +57,7 @@ export const SendMessageModal = ({
 
   const { data: schools, isLoading: schoolsLoading } =
     useSWR<SchoolslistResponse>(
-      [getSchoolsKey, searchTerm],
+      isSchool ? null : [getSchoolsKey, searchTerm],
       fetchWithSearchQuery,
     );
   const { data } = useSWR<CountriesList>(getSupportedCountries, generalFetcher);
