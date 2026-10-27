@@ -4,7 +4,7 @@ import { generalFetcher } from "@/api/queries";
 import AppLayoutBase from "@/components/layout/app";
 import { Toaster } from "@/components/ui/sonner";
 import "@radix-ui/themes/styles.css";
-import { Montserrat, Work_Sans } from "next/font/google";
+import { Montserrat, Work_Sans, IBM_Plex_Sans } from "next/font/google";
 import Script from "next/script";
 import NextTopLoader from "nextjs-toploader";
 import { useEffect } from "react";
@@ -12,9 +12,10 @@ import { SWRConfig } from "swr";
 import "./globals.css";
 import { usePathname } from "next/navigation";
 
-const montserrat = Montserrat({
+const montserrat = IBM_Plex_Sans({
   subsets: ["latin"],
   variable: "--font-montserrat",
+  weight: "variable",
 });
 
 const workSans = Work_Sans({
@@ -43,7 +44,7 @@ export default function RootLayout({
   useEffect(() => {
     const toggleBubble = () => {
       (window as any).$chatwoot?.toggleBubbleVisibility(
-        isDashboard ? "hide" : "show"
+        isDashboard ? "hide" : "show",
       );
     };
 
