@@ -139,7 +139,10 @@ export default function PricingPageClient() {
               );
             })
           ) : (
-            <EmptyState description="We couldn't load the data you're looking for. Please try again later" />
+            <EmptyState
+              className="col-span-full"
+              description="We couldn't load the data you're looking for. Please try again later"
+            />
           )}
         </ul>
       </section>
