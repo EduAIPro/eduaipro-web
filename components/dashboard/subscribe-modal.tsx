@@ -35,9 +35,12 @@ export function SubscribeModal({ target, onOpenChange }: SubscribeModalProps) {
   const handleSubscribe = async () => {
     if (!target) return;
     try {
-      const { authorizationUrl } = await trigger(
-        target.courseId ? { courseId: target.courseId } : {},
-      );
+      const res = await trigger({
+        callbackUrl: "https://eduaipro.ng/dashboard/profile",
+        ...(target.courseId && { courseId: target.courseId }),
+      });
+
+      const { authorizationUrl } = res;
       window.location.href = authorizationUrl;
     } catch (error) {
       toast.error(error as string);

@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  cancelSubscriptionKey,
-  getSubscriptionKey,
-  resumeSubscriptionKey,
-} from "@/api/keys";
+import { cancelSubscriptionKey } from "@/api/keys";
 import { cancelSubscription, resumeSubscription } from "@/api/mutations";
 import {
   SubscribeModal,
@@ -46,29 +42,15 @@ export const SubscriptionCard = () => {
     cancelSubscriptionKey,
     cancelSubscription,
   );
-  const { trigger: triggerResume, isMutating: isResuming } = useSWRMutation(
-    resumeSubscriptionKey,
-    resumeSubscription,
-  );
 
   const handleCancel = async () => {
     try {
-      const updated = await triggerCancel();
-      mutate(updated, { revalidate: false });
+      await triggerCancel();
+      mutate();
       setConfirmingCancel(false);
       toast.success(
         "Your subscription will end on its next renewal date. You'll keep access until then.",
       );
-    } catch (error) {
-      toast.error(error as string);
-    }
-  };
-
-  const handleResume = async () => {
-    try {
-      const updated = await triggerResume();
-      mutate(updated, { revalidate: false });
-      toast.success("Your subscription will continue to renew as normal.");
     } catch (error) {
       toast.error(error as string);
     }
@@ -114,7 +96,7 @@ export const SubscriptionCard = () => {
       color: subscription?.canAddPathway ? "#16A34A" : "#B45309",
       bg: subscription?.canAddPathway ? "#DCFCE7" : "#FEF3C7",
     },
-    ...(isPro && subscription?.renewsAt && !subscription.cancelAtPeriodEnd
+    ...(isPro && subscription?.renewsAt && subscription.autoRenew === true
       ? [
           {
             title: "Renews on",
@@ -125,7 +107,7 @@ export const SubscriptionCard = () => {
           },
         ]
       : []),
-    ...(isPro && subscription?.cancelAtPeriodEnd && subscription?.renewsAt
+    ...(isPro && subscription?.renewsAt && subscription?.autoRenew === false
       ? [
           {
             title: "Cancels on",
@@ -185,7 +167,7 @@ export const SubscriptionCard = () => {
         ))}
       </ul>
 
-      <p className="text-[10.5px] text-gray-400 leading-relaxed">
+      <p className="text-xs text-gray-500 leading-relaxed">
         Certificates already issued stay valid until their printed expiry date,
         whether or not the subscription is renewed.
       </p>
@@ -201,15 +183,7 @@ export const SubscriptionCard = () => {
         >
           Subscribe
         </Button>
-      ) : subscription?.cancelAtPeriodEnd ? (
-        <Button
-          className="w-full bg-[#1A56DB] hover:bg-[#1A56DB]/90"
-          loading={isResuming}
-          onClick={handleResume}
-        >
-          Resume subscription
-        </Button>
-      ) : (
+      ) : subscription?.autoRenew ? (
         <Button
           variant="outline"
           className="w-full"
@@ -217,7 +191,7 @@ export const SubscriptionCard = () => {
         >
           Cancel subscription
         </Button>
-      )}
+      ) : null}
 
       <SubscribeModal
         target={upgradeTarget}

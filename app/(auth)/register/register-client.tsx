@@ -14,7 +14,7 @@ function RegisterForm() {
   const userTypes = ["institution", "teacher", "admin"];
 
   return (
-    <div className="lg:min-h-[85vh] max-sm:mt-10 sm:justify-center flex flex-col">
+    <div className="lg:min-h-[85vh] max-lg:mt-10 sm:justify-center flex flex-col">
       {!userType ? (
         <PickRole />
       ) : (
@@ -53,7 +53,7 @@ const PickRole = () => {
   const currentPath = usePathname();
 
   return (
-    <div className="h-full w-full lg:max-w-[80%] xl:max-w-[70%] mx-auto flex flex-col justify-center">
+    <div className="max-xs:mt-10 max-lg:mt-20 h-full w-full lg:max-w-[80%] xl:max-w-[70%] mx-auto flex flex-col justify-center">
       <div className="flex flex-col gap-1 mb-5">
         <Typography.H2 size="xl" weight="semibold">
           Welcome to EduAiPro

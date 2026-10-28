@@ -1,20 +1,16 @@
 "use client";
 import { getAllPlans } from "@/api/keys";
 import { generalFetcher } from "@/api/queries";
-import { pricingData } from "@/components/common/data";
-import Pill from "@/components/common/ui/Pill";
 import Typography from "@/components/common/ui/Typography";
 import { EmptyState } from "@/components/empty";
 import CallToAction from "@/components/landing-page/CallToAction";
 import Footer from "@/components/navigation/Footer";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatMoney } from "@/lib/utils";
 import { BillingPlan } from "@/types/billing";
-import { generateKey } from "@/utils/key";
-import { Button } from "@radix-ui/themes";
 import { CheckIcon, GraduationCapIcon, School2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { BsPatchCheckFill } from "react-icons/bs";
 import useSWR from "swr";
 
 export default function PricingPageClient() {

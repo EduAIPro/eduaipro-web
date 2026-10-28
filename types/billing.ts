@@ -23,32 +23,37 @@ export type SubscriptionSource = "PERSONAL" | `SCHOOL:${string}`;
 
 export type Subscription = {
   plan: "FREE" | "PRO" | string;
-  status: "active" | "canceled" | "past_due" | "trialing" | string;
+  status: "ACTIVE" | "PAST_DUE" | null;
   sources: SubscriptionSource[];
-  renewsAt: string | null;
-  cancelAtPeriodEnd: boolean;
+  renewsAt: string;
+  graceEndsAt: null | string;
+  autoRenew: boolean;
+  card: {
+    last4: string;
+    brand: string;
+    bank: string;
+  };
   canAccessContent: boolean;
   canIssueCertificate: boolean;
   canAddPathway: boolean;
   maxEnrollments: number;
   enforced: boolean;
-  billing: {
-    amount: number;
-    currency: string;
-    interval: "month" | "year" | string;
-    paymentMethod: { brand: string; last4: string } | null;
-  } | null;
+  coveredCourseIds: null | string[];
+  promptCancelPersonal: boolean;
 };
 
-export type SubscribePayload = { courseId?: string };
+export type SubscribePayload = { courseId?: string; callbackUrl?: string };
 
 export type SubscribeResponse = {
   authorizationUrl: string;
   reference: string;
 };
 
-export type CancelSubscriptionResponse = Subscription;
+export type CancelSubscriptionResponse = {
+  autoRenew: boolean;
+  accessUntil: string;
+};
 export type ResumeSubscriptionResponse = Subscription;
 
 export const isSchoolSeat = (subscription: Subscription | null) =>
-  !!subscription?.sources.some((s) => s.startsWith("SCHOOL:"));
+  !!subscription?.sources.some((s) => s.startsWith("SCHOOL"));

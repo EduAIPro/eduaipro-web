@@ -23,7 +23,7 @@ export const generateUnitQuestions = "/course/active/unit/questions";
 export const submitAssessmentKey = "/course/active/unit/questions/submit";
 
 // pathways / enrollments (multi-pathway)
-export const getSubscriptionKey = "/me/subscription";
+export const getSubscriptionKey = "/billing/subscription";
 export const getPathwaysKey = "/me/pathways";
 export const getEnrollmentsKey = "/me/enrollments";
 export const enrollPathwayKey = "/me/enrollments";
@@ -31,8 +31,9 @@ export const setActiveCourseKey = "/me/active-course";
 
 // billing
 export const subscribeKey = "/billing/subscribe";
-export const cancelSubscriptionKey = "/billing/cancel";
+export const cancelSubscriptionKey = "/billing/subscription/cancel";
 export const resumeSubscriptionKey = "/billing/resume";
+export const getAllPlans = "/billing/plans";
 
 // certificates
 export const listCertificates = "/school/staff/certificates";
@@ -125,6 +126,3 @@ export const retrieveCoursePublicKey = (slug: string) =>
   `/course/public/courses/${slug}`;
 export const retrieveCourseUnitPublicKey = (id: string) =>
   `/course/public/units/${id}`;
-
-// billing
-export const getAllPlans = "/billing/plans";
