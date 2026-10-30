@@ -51,6 +51,11 @@ import { apiClient } from "./request";
 import api from "./base";
 import { AxiosError } from "axios";
 import {
+  AdminBillingError,
+  SetPlanPricePayload,
+  SetPlanPriceResponse,
+} from "@/types/admin/billing";
+import {
   SchoolBillingCall,
   toSchoolBillingError,
 } from "@/lib/school-billing-errors";
@@ -826,4 +831,48 @@ export async function releaseSchoolSeat(
   { arg }: { arg: { seatId: string } },
 ): Promise<unknown> {
   return schoolBillingPost("release", url.replace(":seatId", arg.seatId));
+}
+
+// super admin billing. x-raw-error keeps the status so the UI can tell a
+// "needs confirm" 400 from a plain validation error.
+const toAdminBillingError = (error: unknown): AdminBillingError => {
+  const e = error as AxiosError<{ message?: string | string[] }>;
+  const raw = e.response?.data?.message;
+  const message = Array.isArray(raw) ? raw.join(", ") : (raw ?? e.message);
+  return {
+    status: e.response?.status,
+    message,
+    needsConfirm: e.response?.status === 400 && /confirm/i.test(message),
+  };
+};
+
+export async function setAdminPlanPrice(
+  url: string,
+  { arg }: { arg: SetPlanPricePayload & { planId: string } },
+): Promise<SetPlanPriceResponse> {
+  const { planId, ...body } = arg;
+  try {
+    const response = await api.post<{ data: SetPlanPriceResponse }>(
+      url.replace(":planId", planId),
+      body,
+      { headers: { "x-raw-error": "1" } },
+    );
+    return response.data?.data;
+  } catch (error) {
+    throw toAdminBillingError(error);
+  }
+}
+
+export async function deleteAdminPlanPrice(
+  url: string,
+  { arg }: { arg: { planId: string; priceId: string } },
+): Promise<void> {
+  try {
+    await api.delete(
+      url.replace(":planId", arg.planId).replace(":priceId", arg.priceId),
+      { headers: { "x-raw-error": "1" } },
+    );
+  } catch (error) {
+    throw toAdminBillingError(error);
+  }
 }

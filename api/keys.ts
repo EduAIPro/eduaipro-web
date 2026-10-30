@@ -107,6 +107,11 @@ export const getCoursesKey = "/admin/course/courses";
 export const getAllSystemStaffsKey = "/admin/school/staff/staffs";
 export const adminGetStaffKey = "/admin/school/staff/staffs";
 export const getAllSystemAdmins = "/admin/school/staff/owners";
+export const adminBillingPlansKey = "/admin/billing/plans";
+export const adminSetPlanPriceKey = "/admin/billing/plans/:planId/price";
+export const adminDeletePlanPriceKey =
+  "/admin/billing/plans/:planId/price/:priceId";
+export const adminBillingTransactionsKey = "/admin/billing/transactions";
 export const adminGetCourseUnit = (id: string) => `/admin/course/units/${id}`;
 
 // survey

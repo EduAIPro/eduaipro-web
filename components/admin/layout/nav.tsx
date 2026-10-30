@@ -1,5 +1,6 @@
 import {
   BookOpenIcon,
+  CreditCardIcon,
   GraduationCapIcon,
   HeadsetIcon,
   LayoutDashboardIcon,
@@ -33,6 +34,11 @@ export const AdminNavItems = [
     name: "Courses",
     url: "/admin/courses",
     icon: BookOpenIcon,
+  },
+  {
+    name: "Billing",
+    url: "/admin/billing",
+    icon: CreditCardIcon,
   },
   // {
   //   name: "Calendar",

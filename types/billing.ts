@@ -1,3 +1,5 @@
+import { AdminPlanPrice } from "./admin/billing";
+
 export type BillingPlan = {
   code: "SCHOOL_PRO" | "SCHOOL_BASIC" | "PERSONAL_PRO";
   name: string;
@@ -17,7 +19,7 @@ export type BillingPlan = {
     source: number;
   };
   since: number;
-  upcoming: number[];
+  upcoming: AdminPlanPrice[];
 };
 export type SubscriptionSource = "PERSONAL" | `SCHOOL:${string}`;
 
