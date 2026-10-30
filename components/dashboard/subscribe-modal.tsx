@@ -11,7 +11,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import useSubscriptionPlans from "@/hooks/use-subscription-plans";
+import { formatMoney } from "@/lib/utils";
 import { ShieldCheckIcon } from "lucide-react";
+import { useMemo } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
 
@@ -27,21 +30,28 @@ type SubscribeModalProps = {
 };
 
 export function SubscribeModal({ target, onOpenChange }: SubscribeModalProps) {
+  const { plans } = useSubscriptionPlans();
+
   const { trigger, isMutating } = useSWRMutation(
     subscribeKey,
     subscribeCheckout,
+  );
+
+  const planToSubscribe = useMemo(
+    () => plans?.find((i) => i.code === "PERSONAL_PRO"),
+    [plans],
   );
 
   const handleSubscribe = async () => {
     if (!target) return;
     try {
       const res = await trigger({
-        callbackUrl: "https://eduaipro.ng/dashboard/profile",
+        callbackUrl: `${window.location.origin}/dashboard/profile`,
         ...(target.courseId && { courseId: target.courseId }),
       });
 
       const { authorizationUrl } = res;
-      window.location.href = authorizationUrl;
+      window.open(authorizationUrl, "_blank");
     } catch (error) {
       toast.error(error as string);
     }
@@ -65,6 +75,20 @@ export function SubscribeModal({ target, onOpenChange }: SubscribeModalProps) {
           <DialogTitle>An active subscription is required</DialogTitle>
           <DialogDescription>{target ? description : ""}</DialogDescription>
         </DialogHeader>
+
+        {planToSubscribe ? (
+          <p className="text-sm text-gray-500 leading-relaxed">
+            You will be upgraded to the <strong>Personal Pro</strong> plan which
+            costs{" "}
+            <strong>
+              {formatMoney(
+                planToSubscribe?.current.amountKobo / 100,
+                planToSubscribe?.current.currency,
+              )}
+            </strong>
+          </p>
+        ) : null}
+
         <p className="text-xs text-gray-500 leading-relaxed">
           Certificates already issued stay valid until their printed expiry
           date, whether or not the subscription is renewed.

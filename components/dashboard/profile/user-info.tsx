@@ -61,10 +61,6 @@ export const UserInfo = ({ user }: UserInfoProps) => {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="font-bold text-grey-800">Profile details</h3>
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] rounded-full px-2.5 py-1">
-          <BadgeCheckIcon size={12} />
-          Active
-        </span>
       </div>
       <ul className="space-y-1">
         {userInfo?.length

@@ -176,25 +176,25 @@ export const CpdPathways = ({
         })}
       </div>
 
-      {canAddMore && (
-        <Link
-          href="/dashboard/pathways"
-          className="flex items-center duration-300 transition-all hover:scale-95 gap-3 p-3.5 rounded-xl w-full"
-          style={{ border: "1px dashed #CBD5E1" }}
-        >
-          <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-gray-500 bg-gray-100">
-            <PlusIcon size={16} />
-          </div>
-          <div className="flex-1">
-            <p className="font-semibold text-sm text-grey-800">
-              Add another pathway
-            </p>
-            <p className="text-xs text-gray-500">
-              Choose from the remaining CPD pathways available to you.
-            </p>
-          </div>
-        </Link>
-      )}
+      {/* {canAddMore && ( */}
+      <Link
+        href="/dashboard/pathways"
+        className="flex items-center duration-300 transition-all hover:scale-95 gap-3 p-3.5 rounded-xl w-full"
+        style={{ border: "1px dashed #CBD5E1" }}
+      >
+        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-gray-500 bg-gray-100">
+          <PlusIcon size={16} />
+        </div>
+        <div className="flex-1">
+          <p className="font-semibold text-sm text-grey-800">
+            Add another pathway
+          </p>
+          <p className="text-xs text-gray-500">
+            Choose from the remaining CPD pathways available to you.
+          </p>
+        </div>
+      </Link>
+      {/* )} */}
     </div>
   );
 };

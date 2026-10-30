@@ -9,7 +9,8 @@ import PDPIcon from "@/components/svgs/pdp.svg";
 import useUser from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
 import { UserRoles } from "@/types/auth";
-import { UserIcon } from "lucide-react";
+import { Staff } from "@/types/user";
+import { RouteIcon, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -27,7 +28,7 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { user: userData, isLoading } = useUser();
+  const { user: userData, staff, isLoading } = useUser();
 
   useEffect(() => {
     if (window && typeof window !== undefined) {
@@ -36,11 +37,11 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (!isLoading && userData) {
+    if (!isLoading && userData && staff) {
       if (!userData?.emailVerifiedAt) {
         router.push(
           `/verify-email?email=${encodeURIComponent(userData.email)}&role=${
-            userData.role
+            (staff as Staff).role
           }`,
         );
       }
@@ -53,6 +54,12 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
       path: "/dashboard",
       id: "dashboard",
       icon: PDPIcon,
+    },
+    {
+      name: "CPD Pathways",
+      path: "/dashboard/pathways",
+      id: "pathways",
+      icon: RouteIcon,
     },
     {
       name: "Certificates",
@@ -118,7 +125,7 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
                       className={cn(
                         "w-full duration-300 flex max-sm:flex-col items-center px-3 gap-2 rounded-md py-2 text-left transition-all hover:bg-primary-100 hover:border hover:border-primary-200",
                         isActive
-                          ? "border-primary/50 border bg-primary-300/20 !text-primary-400"
+                          ? "border-primary/50 border bg-primary-200/20 !text-primary-400"
                           : "",
                       )}
                     >
@@ -126,7 +133,7 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
                         color={isActive ? "#0043BE" : "#656565"}
                         size={18}
                       />
-                      <p className="font-medium whitespace-nowrap max-sm:!text-sm max-sm:text-grey-650">
+                      <p className="font-medium whitespace-nowrap text-sm max-sm:text-grey-650">
                         {index === 0 &&
                         documentWindow &&
                         documentWindow.screen.width < 640

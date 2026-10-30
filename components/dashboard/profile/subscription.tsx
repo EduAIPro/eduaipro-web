@@ -74,7 +74,7 @@ export const SubscriptionCard = () => {
   const planPill = seat
     ? { label: "Provided by your school", color: "#6D28D9", bg: "#EDE9FE" }
     : isPro
-      ? { label: "EduAI Pro", color: "#1A56DB", bg: "#EFF6FF" }
+      ? { label: "Personal Pro", color: "#1A56DB", bg: "#EFF6FF" }
       : { label: "Free plan", color: "#6B7280", bg: "#F3F4F6" };
 
   const rows = [

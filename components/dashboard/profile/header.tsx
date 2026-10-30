@@ -70,7 +70,7 @@ export const ProfileHeader = ({ user, refetch }: ProfileHeaderProps) => {
 
   return (
     <section
-      className="py-10 md:-mx-12 -mx-6 px-6 md:px-12 max-md:-mt-6"
+      className="py-10 px-6 md:px-12"
       style={{
         background:
           "linear-gradient(135deg, #EFF6FF 0%, #F8FAFF 55%, #FFFFFF 100%)",

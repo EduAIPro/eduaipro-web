@@ -197,14 +197,14 @@ export default function OverviewPage() {
               <h2 id="course-title" className="text-2xl font-bold capitalize">
                 {course.title.replaceAll("_", " ").toLowerCase()}
               </h2>
-              {canAddPathway && (
-                <Link href="/dashboard/pathways">
-                  <Button variant="outline" size="sm">
-                    <PlusIcon size={14} />
-                    Add pathway
-                  </Button>
-                </Link>
-              )}
+              {/* {canAddPathway && ( */}
+              <Link href="/dashboard/pathways">
+                <Button variant="outline" size="sm">
+                  <PlusIcon size={14} />
+                  Add pathway
+                </Button>
+              </Link>
+              {/* )} */}
             </div>
             {/* <div className="flex items-start gap-10">
               <div id="course-content-stats">

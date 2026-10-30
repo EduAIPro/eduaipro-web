@@ -314,9 +314,13 @@ export async function subscribeCheckout(
   { arg }: { arg: SubscribePayload },
 ): Promise<SubscribeResponse> {
   try {
-    const response = await apiClient<SubscribeResponse>(url, arg, "post");
+    const response = await apiClient<{ data: SubscribeResponse }>(
+      url,
+      arg,
+      "post",
+    );
 
-    return response.data;
+    return response.data?.data;
   } catch (error) {
     throw error;
   }
