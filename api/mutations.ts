@@ -51,6 +51,17 @@ import { apiClient } from "./request";
 import api from "./base";
 import { AxiosError } from "axios";
 import {
+  SchoolBillingCall,
+  toSchoolBillingError,
+} from "@/lib/school-billing-errors";
+import {
+  AssignSeatPayload,
+  AssignSeatResponse,
+  BuySeatsPayload,
+  BuySeatsResponse,
+  CancelSeatPurchaseResponse,
+} from "@/types/school/billing";
+import {
   EnrollPayload,
   Enrollment,
   SetActiveCoursePayload,
@@ -762,4 +773,57 @@ export async function declineSurveyResponse(
   } catch (error) {
     throw error;
   }
+}
+
+// school billing (owner only). x-raw-error keeps the HTTP status so the UI can
+// map it to a message; the thrown value is a SchoolBillingError.
+async function schoolBillingPost<T>(
+  call: SchoolBillingCall,
+  url: string,
+  body?: unknown,
+): Promise<T> {
+  try {
+    const response = await api.post<{ data: T }>(url, body ?? {}, {
+      headers: { "x-raw-error": "1" },
+    });
+
+    return response.data?.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<{ message?: string }>;
+    throw toSchoolBillingError(
+      call,
+      axiosError.response?.status,
+      axiosError.response?.data?.message ?? axiosError.message,
+    );
+  }
+}
+
+export async function buySchoolSeats(
+  url: string,
+  { arg }: { arg: BuySeatsPayload },
+): Promise<BuySeatsResponse> {
+  return schoolBillingPost("purchase", url, arg);
+}
+
+export async function cancelSchoolSeatPurchase(
+  url: string,
+  { arg }: { arg: { purchaseId: string } },
+): Promise<CancelSeatPurchaseResponse> {
+  return schoolBillingPost("cancel", url.replace(":purchaseId", arg.purchaseId));
+}
+
+export async function assignSchoolSeat(
+  url: string,
+  { arg }: { arg: AssignSeatPayload & { seatId: string } },
+): Promise<AssignSeatResponse> {
+  const { seatId, ...body } = arg;
+  return schoolBillingPost("assign", url.replace(":seatId", seatId), body);
+}
+
+// Release method/response not confirmed against the Postman collection.
+export async function releaseSchoolSeat(
+  url: string,
+  { arg }: { arg: { seatId: string } },
+): Promise<unknown> {
+  return schoolBillingPost("release", url.replace(":seatId", arg.seatId));
 }

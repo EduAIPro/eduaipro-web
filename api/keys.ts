@@ -65,6 +65,15 @@ export const getSchoolStaffsKey = "/school/staff/staffs";
 export const getSchoolInviteLinkKey = "/school/invite/link";
 export const getOverdueRenewalsKey = "/school/accreditation-renewals";
 
+// school billing (owner only)
+export const schoolSeatsKey = "/billing/school/seats";
+export const schoolSeatPurchasesKey = "/billing/school/seat-purchases";
+export const schoolTransactionsKey = "/billing/school/transactions";
+export const cancelSchoolSeatPurchaseKey =
+  "/billing/school/seat-purchases/:purchaseId/cancel";
+export const assignSchoolSeatKey = "/billing/school/seats/:seatId/assign";
+export const releaseSchoolSeatKey = "/billing/school/seats/:seatId/release";
+
 // ADMIN
 // mutations
 export const sendNotificationKey = "/admin/notification/send-message";
