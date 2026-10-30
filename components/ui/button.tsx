@@ -17,7 +17,7 @@ const buttonVariants = cva(
         outline:
           "border text-grey-500 border-[#DBDBDB] bg-white hover:bg-grey-400/50 font-medium hover:text-grey-800/80",
         secondary:
-          "bg-white border border-grey-400 text-zinc-900 hover:bg-white/80 dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-800/80",
+          "bg-white border border-primary-300 text-primary-300 hover:bg-white/80 dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-800/80 shadow-[inset_-1px_-2px_3px_#2E6BCE5a]",
         ghost:
           "hover:bg-zinc-100 bg-transparent shadow-none hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
         link: "text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-50",
@@ -33,11 +33,12 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   loading?: boolean;
@@ -46,7 +47,7 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     { className, variant, size, asChild = false, loading, children, ...props },
-    ref
+    ref,
   ) => {
     const Comp = asChild ? Slot : "button";
     return (
@@ -63,14 +64,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               "h-4 w-4 animate-spin text-white",
               variant === "outline" || variant === "ghost"
                 ? "text-primary-400"
-                : "text-white"
+                : "text-white",
             )}
           />
         )}
         <Slottable>{children}</Slottable>
       </Comp>
     );
-  }
+  },
 );
 Button.displayName = "Button";
 

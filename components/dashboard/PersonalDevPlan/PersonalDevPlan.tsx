@@ -34,9 +34,15 @@ type PersonalDevPlanProps = {
   courseProgress: CourseProgress;
   refetchCourse: VoidFunction;
   units: CourseUnit[];
+  /** Called when the teacher chooses to continue after passing the last unit */
+  onCourseFinished?: VoidFunction;
 };
 
-const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
+const PersonalDevPlan = ({
+  units,
+  onCourseFinished,
+  ...props
+}: PersonalDevPlanProps) => {
   const { courseProgress } = props;
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -153,7 +159,9 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
     if (window) {
       if (unitInfo) {
         if (!pdfUrl) {
-          const lastPdf = window.localStorage.getItem("lastPdf");
+          const lastPdf = window.localStorage.getItem(
+            `lastPdf-${courseProgress.courseId}`,
+          );
           const items = unitInfo.modules.flatMap((mod, i) =>
             mod.moduleItems.map((modI) => [i, modI.id, modI.signedPdfUrl]),
           );
@@ -263,6 +271,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
           questionsLoading={isMutating}
           closeModal={() => setIsViewingResults(false)}
           isLastUnit={isLastUnit}
+          onCourseFinished={onCourseFinished}
         />
       ) : (
         <div>

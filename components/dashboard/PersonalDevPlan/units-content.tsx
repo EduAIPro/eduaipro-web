@@ -1296,7 +1296,13 @@ export function UnitsContent({
                                 id="start-assessment-btn"
                                 loading={isGeneratingQuestions}
                                 onClick={generateQuestions}
-                                disabled={isQuizOn || isGeneratingQuestions}
+                                disabled={
+                                  isQuizOn ||
+                                  isGeneratingQuestions ||
+                                  !memoizedModules?.find(
+                                    (m) => m.id === courseProgress.module?.id,
+                                  )?.isCompleted
+                                }
                                 type="button"
                                 size="sm"
                                 className="shrink-0"

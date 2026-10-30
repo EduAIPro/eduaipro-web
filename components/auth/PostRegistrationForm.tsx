@@ -99,6 +99,8 @@ export default function MultiStepFormModal({
     },
   };
 
+  // TODO: FIX TOUCHED THAT TRIGGERS ERROR WHEN THE NEXT STEP MOUNTS
+
   const renderStep = (formik: FormikState<SurveyFormValues>) => {
     return (
       <motion.div

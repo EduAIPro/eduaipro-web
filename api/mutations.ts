@@ -48,6 +48,37 @@ import { setAuthCookes, setRoleCookie } from "@/utils/auth";
 import { EditUserFormValue } from "@/utils/validation/teacher-profile/settings";
 import { toast } from "sonner";
 import { apiClient } from "./request";
+import api from "./base";
+import { AxiosError } from "axios";
+import {
+  AdminBillingError,
+  SetPlanPricePayload,
+  SetPlanPriceResponse,
+} from "@/types/admin/billing";
+import {
+  SchoolBillingCall,
+  toSchoolBillingError,
+} from "@/lib/school-billing-errors";
+import {
+  AssignSeatPayload,
+  AssignSeatResponse,
+  BuySeatsPayload,
+  BuySeatsResponse,
+  CancelSeatPurchaseResponse,
+} from "@/types/school/billing";
+import {
+  EnrollPayload,
+  Enrollment,
+  SetActiveCoursePayload,
+  SetActiveCourseResponse,
+  SubscriptionRequiredError,
+} from "@/types/enrollment";
+import {
+  CancelSubscriptionResponse,
+  ResumeSubscriptionResponse,
+  SubscribePayload,
+  SubscribeResponse,
+} from "@/types/billing";
 
 // const isLocalhost = window.location.host.includes("localhost");
 
@@ -247,6 +278,97 @@ export async function submitAssessment(
     });
 
     return response.data?.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// pathways / enrollments (multi-pathway)
+export async function enrollInPathway(
+  url: string,
+  { arg }: { arg: EnrollPayload },
+): Promise<Enrollment> {
+  try {
+    const response = await api.post<Enrollment>(url, arg, {
+      headers: { "x-raw-error": "1" },
+    });
+
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<SubscriptionRequiredError>;
+
+    if (axiosError.response?.status === 402) {
+      throw axiosError.response.data;
+    }
+
+    const message =
+      (axiosError.response?.data as { message?: string })?.message ??
+      axiosError.message;
+    throw message;
+  }
+}
+
+export async function setActiveCourse(
+  url: string,
+  { arg }: { arg: SetActiveCoursePayload },
+): Promise<SetActiveCourseResponse> {
+  try {
+    const response = await apiClient<SetActiveCourseResponse>(
+      url,
+      arg,
+      "patch",
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function subscribeCheckout(
+  url: string,
+  { arg }: { arg: SubscribePayload },
+): Promise<SubscribeResponse> {
+  try {
+    const response = await apiClient<{ data: SubscribeResponse }>(
+      url,
+      arg,
+      "post",
+    );
+
+    return response.data?.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function cancelSubscription(
+  url: string,
+): Promise<CancelSubscriptionResponse> {
+  try {
+    const response = await apiClient<CancelSubscriptionResponse>(
+      url,
+      undefined,
+      "post",
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function resumeSubscription(
+  url: string,
+): Promise<ResumeSubscriptionResponse> {
+  try {
+    const response = await apiClient<ResumeSubscriptionResponse>(
+      url,
+      undefined,
+      "post",
+    );
+
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -655,5 +777,102 @@ export async function declineSurveyResponse(
     return true;
   } catch (error) {
     throw error;
+  }
+}
+
+// school billing (owner only). x-raw-error keeps the HTTP status so the UI can
+// map it to a message; the thrown value is a SchoolBillingError.
+async function schoolBillingPost<T>(
+  call: SchoolBillingCall,
+  url: string,
+  body?: unknown,
+): Promise<T> {
+  try {
+    const response = await api.post<{ data: T }>(url, body ?? {}, {
+      headers: { "x-raw-error": "1" },
+    });
+
+    return response.data?.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<{ message?: string }>;
+    throw toSchoolBillingError(
+      call,
+      axiosError.response?.status,
+      axiosError.response?.data?.message ?? axiosError.message,
+    );
+  }
+}
+
+export async function buySchoolSeats(
+  url: string,
+  { arg }: { arg: BuySeatsPayload },
+): Promise<BuySeatsResponse> {
+  return schoolBillingPost("purchase", url, arg);
+}
+
+export async function cancelSchoolSeatPurchase(
+  url: string,
+  { arg }: { arg: { purchaseId: string } },
+): Promise<CancelSeatPurchaseResponse> {
+  return schoolBillingPost("cancel", url.replace(":purchaseId", arg.purchaseId));
+}
+
+export async function assignSchoolSeat(
+  url: string,
+  { arg }: { arg: AssignSeatPayload & { seatId: string } },
+): Promise<AssignSeatResponse> {
+  const { seatId, ...body } = arg;
+  return schoolBillingPost("assign", url.replace(":seatId", seatId), body);
+}
+
+// Release method/response not confirmed against the Postman collection.
+export async function releaseSchoolSeat(
+  url: string,
+  { arg }: { arg: { seatId: string } },
+): Promise<unknown> {
+  return schoolBillingPost("release", url.replace(":seatId", arg.seatId));
+}
+
+// super admin billing. x-raw-error keeps the status so the UI can tell a
+// "needs confirm" 400 from a plain validation error.
+const toAdminBillingError = (error: unknown): AdminBillingError => {
+  const e = error as AxiosError<{ message?: string | string[] }>;
+  const raw = e.response?.data?.message;
+  const message = Array.isArray(raw) ? raw.join(", ") : (raw ?? e.message);
+  return {
+    status: e.response?.status,
+    message,
+    needsConfirm: e.response?.status === 400 && /confirm/i.test(message),
+  };
+};
+
+export async function setAdminPlanPrice(
+  url: string,
+  { arg }: { arg: SetPlanPricePayload & { planId: string } },
+): Promise<SetPlanPriceResponse> {
+  const { planId, ...body } = arg;
+  try {
+    const response = await api.post<{ data: SetPlanPriceResponse }>(
+      url.replace(":planId", planId),
+      body,
+      { headers: { "x-raw-error": "1" } },
+    );
+    return response.data?.data;
+  } catch (error) {
+    throw toAdminBillingError(error);
+  }
+}
+
+export async function deleteAdminPlanPrice(
+  url: string,
+  { arg }: { arg: { planId: string; priceId: string } },
+): Promise<void> {
+  try {
+    await api.delete(
+      url.replace(":planId", arg.planId).replace(":priceId", arg.priceId),
+      { headers: { "x-raw-error": "1" } },
+    );
+  } catch (error) {
+    throw toAdminBillingError(error);
   }
 }

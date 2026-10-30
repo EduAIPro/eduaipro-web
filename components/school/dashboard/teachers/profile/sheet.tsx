@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Accreditation } from "@/types/certificates";
+import { RosterStaff } from "@/lib/school-roster";
+import { Seat } from "@/types/school/billing";
 import { StaffDetail } from "@/types/school/teachers";
 import { format } from "date-fns";
 import { ChevronRightIcon } from "lucide-react";
@@ -19,12 +21,16 @@ import {
 // import { ConfirmDeleteTeacherModal } from "../modals/confirm-delete-teacher.modal";
 import { CertificateSheet } from "./certificate-sheet";
 import { TeacherLoading } from "./loading";
+import { RosterSection } from "./roster-section";
 
 type ProfileSheetProps = {
   open: boolean;
   toggleOpen: (v: boolean) => void;
   staff: StaffDetail | undefined;
   loading: boolean;
+  rosterStaff?: RosterStaff;
+  seats?: Seat[];
+  onAssignSeat?: (staff: RosterStaff) => void;
 };
 
 export const ProfileSheet = ({
@@ -32,6 +38,9 @@ export const ProfileSheet = ({
   toggleOpen,
   staff,
   loading = true,
+  rosterStaff,
+  seats = [],
+  onAssignSeat,
 }: ProfileSheetProps) => {
   const [selectedCert, setSelectedCert] = useState<null | Accreditation>(null);
 
@@ -69,6 +78,15 @@ export const ProfileSheet = ({
             <TeacherContent
               staff={staff}
               onSelectCert={(c) => setSelectedCert(c)}
+              roster={
+                rosterStaff && onAssignSeat ? (
+                  <RosterSection
+                    staff={rosterStaff}
+                    seats={seats}
+                    onAssignSeat={onAssignSeat}
+                  />
+                ) : null
+              }
             />
           ) : (
             <div className="text-center h-full flex items-center justify-center flex-col md:max-w-lg mx-auto min-h-[50vh]">
@@ -90,9 +108,10 @@ export const ProfileSheet = ({
 type TeacherContentProps = {
   staff: StaffDetail;
   onSelectCert: (cert: Accreditation) => void;
+  roster?: React.ReactNode;
 };
 
-const TeacherContent = ({ staff, onSelectCert }: TeacherContentProps) => {
+const TeacherContent = ({ staff, onSelectCert, roster }: TeacherContentProps) => {
   const { user, teacherLevel, accreditationHistory } = staff;
   const staffName = user.firstName + " " + user.lastName;
 
@@ -182,6 +201,7 @@ const TeacherContent = ({ staff, onSelectCert }: TeacherContentProps) => {
         </div>
       </div>
       <div className="pt-6 space-y-5">
+        {roster}
         <div className="space-y-3">
           <h2 className="text-grey-800 text-base font-medium">
             Personal profile

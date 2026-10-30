@@ -1,5 +1,12 @@
 import Footer from "@/components/navigation/Footer";
+import { getPageMetadata } from "@/utils/config";
 import React from "react";
+
+export const metadata = getPageMetadata({
+  title: "Terms of Service",
+  description: "The terms and conditions governing use of EduAIPro.",
+  path: "/terms-and-conditions",
+});
 
 export default function TermsAndConditions() {
   return (

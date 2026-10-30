@@ -45,6 +45,10 @@ api.interceptors.response.use(
   (error: AxiosError) => {
     const axiosError = error;
 
+    if (axiosError.config?.headers?.["x-raw-error"]) {
+      return Promise.reject(axiosError);
+    }
+
     if (error.status && error.status === 401) {
       sessionStorage.clear();
       deleteRefreshToken().then(() => (window.location.href = "/login"));
