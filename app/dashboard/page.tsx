@@ -4,6 +4,7 @@ import { editProfileKey, updatePersonalInfoKey } from "@/api/keys";
 import { updatePersonalInfo, updateTeacherProfile } from "@/api/mutations";
 import MultiStepFormModal from "@/components/auth/PostRegistrationForm";
 // import { ChatBot } from "@/components/chatbot";
+import { CertificateNoticeGate } from "@/components/dashboard/certificate-notice";
 import { CircularProgress } from "@/components/dashboard/common/ProgressTracker";
 import DashboardSkeleton from "@/components/dashboard/dashboard-skeleton";
 import { OnboardingWalkthrough } from "@/components/dashboard/onboarding";
@@ -19,7 +20,7 @@ import useUser from "@/hooks/use-user";
 import { Staff } from "@/types/user";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
 if (typeof Promise.withResolvers === "undefined") {
@@ -50,10 +51,11 @@ export default function OverviewPage() {
     activeCourseId,
     entitlement,
     isLoading: enrollmentsLoading,
+    mutate: mutateEnrollments,
   } = useEnrollments({
     acceptedTermsAndConditions: !!(staff as Staff)?.acceptedTermsAndConditions,
   });
-  const { subscription } = useSubscription(
+  const { subscription, isLoading: subscriptionLoading } = useSubscription(
     !!(staff as Staff)?.acceptedTermsAndConditions,
   );
   const canAddPathway =
@@ -66,6 +68,7 @@ export default function OverviewPage() {
   );
 
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [finishSignal, setFinishSignal] = useState(0);
 
   useEffect(() => {
     // Only show if user is loaded, valid, and hasn't seen onboarding
@@ -167,6 +170,27 @@ export default function OverviewPage() {
     return Number(percent);
   }, [courseProgress, course]);
 
+  const enrollment = useMemo(
+    () => enrollments.find((e) => e.course.id === course?.id) ?? null,
+    [enrollments, course?.id],
+  );
+
+  // Keep the enrolment's progress current as the teacher moves through units,
+  // so the certificate notices fire at the right milestone.
+  const unitIndex = courseProgress?.unit?.index;
+  const lastUnitIndex = useRef(unitIndex);
+  useEffect(() => {
+    if (lastUnitIndex.current === unitIndex) return;
+    lastUnitIndex.current = unitIndex;
+    mutateEnrollments();
+  }, [unitIndex, mutateEnrollments]);
+
+  // Does the current plan issue a certificate for this course?
+  const certificateCovered =
+    !!subscription?.canIssueCertificate &&
+    (subscription.coveredCourseIds == null ||
+      subscription.coveredCourseIds.includes(course?.id ?? ""));
+
   return isLoading || courseLoading || enrollmentsLoading ? (
     <DashboardSkeleton />
   ) : staff && !(staff as Staff)?.acceptedTermsAndConditions ? (
@@ -253,9 +277,24 @@ export default function OverviewPage() {
               courseProgress={courseProgress}
               refetchCourse={refetch}
               units={course.units}
+              onCourseFinished={() => setFinishSignal((n) => n + 1)}
             />
           </div>
         </div>
+        <CertificateNoticeGate
+          userId={user?.id}
+          courseId={course.id}
+          courseTitle={course.title}
+          progress={enrollment?.progress ?? percentage}
+          completed={
+            enrollment?.status?.toLowerCase() === "completed" ||
+            !!courseProgress.isCompleted
+          }
+          hasCertificate={!!enrollment?.certificate}
+          ready={!!user && !!enrollment && !subscriptionLoading && !!subscription}
+          needsSubscription={!certificateCovered}
+          finishSignal={finishSignal}
+        />
         {/* <ChatBot /> */}
       </>
     )

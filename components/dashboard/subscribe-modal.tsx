@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import useSubscriptionPlans from "@/hooks/use-subscription-plans";
 import { formatMoney } from "@/lib/utils";
+import { capitalizeAll } from "@/utils/text";
 import { ShieldCheckIcon } from "lucide-react";
 import { useMemo } from "react";
 import { toast } from "sonner";
@@ -57,7 +58,9 @@ export function SubscribeModal({ target, onOpenChange }: SubscribeModalProps) {
     }
   };
 
-  const title = target?.title?.replaceAll("_", " ").toLowerCase();
+  const title = capitalizeAll(
+    target?.title?.replaceAll("_", " ").toLowerCase() ?? "",
+  );
   const description =
     target?.reason === "issue_certificate"
       ? `You completed "${title}". An active subscription issues the accredited certificate and keeps it downloadable.`
@@ -85,7 +88,8 @@ export function SubscribeModal({ target, onOpenChange }: SubscribeModalProps) {
                 planToSubscribe?.current.amountKobo / 100,
                 planToSubscribe?.current.currency,
               )}
-            </strong>
+            </strong>{" "}
+            and lasts for 2 years
           </p>
         ) : null}
 

@@ -17,6 +17,7 @@ type AssessmentResultsProps = {
   questionsLoading: boolean;
   closeModal: VoidFunction;
   isLastUnit?: boolean;
+  onCourseFinished?: VoidFunction;
 };
 
 export const AssessmentResults = ({
@@ -25,6 +26,7 @@ export const AssessmentResults = ({
   questionsLoading,
   closeModal,
   isLastUnit = false,
+  onCourseFinished,
 }: AssessmentResultsProps) => {
   const router = useRouter();
 
@@ -217,7 +219,13 @@ export const AssessmentResults = ({
 
           {/* When the user passed the last unit, only show the certificate CTA */}
           {showCertificateCTA ? (
-            <Button onClick={() => router.push("/dashboard/certificates")}>
+            <Button
+              onClick={() =>
+                onCourseFinished
+                  ? onCourseFinished()
+                  : router.push("/dashboard/certificates")
+              }
+            >
               🎉 View my certificate
             </Button>
           ) : (

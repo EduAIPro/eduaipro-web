@@ -1,6 +1,9 @@
 import { listCertificates } from "@/api/keys";
 import { generalFetcher } from "@/api/queries";
-import { SubscribeModal, SubscribeTarget } from "@/components/dashboard/subscribe-modal";
+import {
+  SubscribeModal,
+  SubscribeTarget,
+} from "@/components/dashboard/subscribe-modal";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import useEnrollments from "@/hooks/use-enrollments";
@@ -45,7 +48,7 @@ export const Certificates = () => {
 
   const count = data?.data?.length ?? 0;
   const hasAny = count > 0 || pendingEnrollments.length > 0;
-
+  console.log({ pendingEnrollments });
   return (
     <section
       className="bg-white rounded-xl overflow-hidden"
@@ -69,7 +72,7 @@ export const Certificates = () => {
           <p className="text-[11px] text-gray-500 mt-0.5">
             {isLoading
               ? "Loading…"
-              : `${count} certificate${count !== 1 ? "s" : ""} earned`}
+              : `${count} certificate${count !== 1 ? "s" : ""} earned • ${pendingEnrollments.length} ready to issue`}
           </p>
         </div>
       </div>
@@ -91,30 +94,30 @@ export const Certificates = () => {
               {data?.data?.map((cert) => (
                 <CertificateItem key={cert.id} certificate={cert} />
               ))}
-              {entitlement?.canAddPathway && (
-                <Link
-                  href="/dashboard/pathways"
-                  className="rounded-xl flex flex-col items-center justify-center gap-2 text-center p-6 min-h-[280px]"
-                  style={{ border: "1px dashed #CBD5E1" }}
+              {/* {entitlement?.canAddPathway && ( */}
+              <Link
+                href="/dashboard/pathways"
+                className="rounded-xl flex flex-col items-center justify-center gap-2 text-center p-6 min-h-[280px]"
+                style={{ border: "1px dashed #CBD5E1" }}
+              >
+                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-[#1A56DB]">
+                  <PlusIcon size={20} />
+                </div>
+                <h3 className="text-[13px] font-semibold text-gray-900">
+                  Earn another certificate
+                </h3>
+                <p className="text-xs text-gray-500 max-w-[200px]">
+                  Choose from the remaining CPD pathways available to you.
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="mt-1 pointer-events-none"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-[#1A56DB]">
-                    <PlusIcon size={20} />
-                  </div>
-                  <h3 className="text-[13px] font-semibold text-gray-900">
-                    Earn another certificate
-                  </h3>
-                  <p className="text-[10.5px] text-gray-500 max-w-[200px]">
-                    Choose from the remaining CPD pathways available to you.
-                  </p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="mt-1 pointer-events-none"
-                  >
-                    Choose a pathway
-                  </Button>
-                </Link>
-              )}
+                  Choose a pathway
+                </Button>
+              </Link>
+              {/* )} */}
             </>
           ) : (
             <EmptyCertificates />
