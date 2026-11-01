@@ -6,12 +6,17 @@ import { EmptyState } from "@/components/empty";
 import CallToAction from "@/components/landing-page/CallToAction";
 import Footer from "@/components/navigation/Footer";
 import { Button } from "@/components/ui/button";
+import FinishSooner from "@/components/packages/finish-sooner";
+import ComparePlans from "@/components/packages/compare-plans";
+import TeacherPlans from "@/components/packages/teacher-plans";
+import SchoolPlans from "@/components/packages/school-plans";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatMoney } from "@/lib/utils";
 import { BillingPlan } from "@/types/billing";
 import { CheckIcon, GraduationCapIcon, School2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
+import Pill from "@/components/common/ui/Pill";
 
 export default function PricingPageClient() {
   const router = useRouter();
@@ -22,9 +27,9 @@ export default function PricingPageClient() {
 
   return (
     <>
-      <section className="max-w-full max-lg:px-5 pt-28 sm:pt-40 lg:max-w-[70%] xl:max-w-[60%] mx-auto flex flex-col gap-7 md:gap-14 animate-fade-in-up">
-        <div className="text-center md:max-w-[50%] mx-auto flex flex-col gap-3">
-          {/* <Pill text="Packages" pillBg="#F1F5FF" /> */}
+      <section className="max-w-full max-lg:px-5 pt-28 sm:pt-40 md:max-w-[90%] lg:max-w-[80%] mx-auto flex flex-col gap-7 md:gap-14 animate-fade-in-up">
+        <div className="text-center md:max-w-[50%] mx-auto flex flex-col gap-3 mb-10">
+          <Pill text="Packages" pillBg="#F1F5FF" />
           <h1 className="font-semibold text-2xl md:text-3xl lg:text-4xl">
             Pricing for teachers and schools
           </h1>
@@ -33,7 +38,7 @@ export default function PricingPageClient() {
             and schools buy a seat for each teacher they assign.
           </Typography.P>
         </div>
-        <ul className="grid md:grid-cols-3 gap-4 divide-x w-full border rounded-lg">
+        {/* <ul className="grid md:grid-cols-3 gap-4 divide-x w-full border rounded-lg">
           {isLoading ? (
             new Array(3).fill("").map((_, i) => <PlanColumnSkeleton key={i} />)
           ) : data ? (
@@ -144,7 +149,11 @@ export default function PricingPageClient() {
               description="We couldn't load the data you're looking for. Please try again later"
             />
           )}
-        </ul>
+        </ul> */}
+        <TeacherPlans />
+        <SchoolPlans />
+        <ComparePlans />
+        <FinishSooner />
       </section>
       <CallToAction />
       <Footer />
