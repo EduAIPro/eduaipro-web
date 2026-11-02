@@ -43,7 +43,8 @@ const SECTIONS: { title: string; rows: Row[] }[] = [
         values: ["Locked", true, true, true],
       },
       {
-        label: "Certificate valid until the plan's end date, owned by the teacher",
+        label:
+          "Certificate valid until the plan's end date, owned by the teacher",
         values: [false, true, true, true],
       },
       {
@@ -99,7 +100,7 @@ function CellValue({ value }: { value: Cell }) {
       <CheckIcon
         size={18}
         color="#0043be"
-        className="mx-auto"
+        className="mx-auto max-md:ml-auto max-md:mr-0"
         aria-label="Included"
       />
     );
@@ -108,7 +109,7 @@ function CellValue({ value }: { value: Cell }) {
     return (
       <MinusIcon
         size={18}
-        className="mx-auto text-gray-300"
+        className="mx-auto text-gray-300 max-md:ml-auto max-md:mr-0"
         aria-label="Not included"
       />
     );
@@ -156,7 +157,59 @@ export default function ComparePlans() {
           See exactly what each plan covers, side by side.
         </Typography.P>
       </div>
-      <div className="overflow-x-auto border rounded-lg">
+      {/* Phones: one card per plan, so nothing scrolls sideways. */}
+      <div className="grid gap-4 md:hidden">
+        {PLANS.map((plan, planIndex) => (
+          <div
+            key={plan.name}
+            role="group"
+            aria-label={`${plan.name} plan`}
+            className={cn(
+              "rounded-xl border overflow-hidden",
+              plan.highlight && "border-primary-150",
+            )}
+          >
+            <div
+              className={cn(
+                "px-4 py-3 border-b",
+                plan.highlight ? "bg-[#EBEFF9] text-primary" : "bg-gray-50",
+              )}
+            >
+              <h3 className="font-semibold text-base">{plan.name}</h3>
+              <p className="text-xs font-medium text-grey-10">{plan.price}</p>
+            </div>
+            {SECTIONS.map((section) => (
+              <div key={section.title}>
+                <p className="px-4 py-2 bg-gray-50 border-b text-xs font-semibold uppercase tracking-wide text-grey-10">
+                  {section.title}
+                </p>
+                <dl className="divide-y">
+                  {section.rows.map((row) => (
+                    <div
+                      key={row.label}
+                      className="flex items-start justify-between gap-4 px-4 py-3 text-sm font-medium"
+                    >
+                      <dt className="text-grey-12">
+                        {row.label}
+                        {row.note && (
+                          <span className="block text-xs text-grey-10">
+                            {row.note}
+                          </span>
+                        )}
+                      </dt>
+                      <dd className="shrink-0 max-w-[45%] text-right text-grey-11">
+                        <CellValue value={row.values[planIndex]} />
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden md:block overflow-x-auto border rounded-lg">
         <table className="w-full min-w-[760px] border-collapse text-sm">
           <thead>
             <tr>

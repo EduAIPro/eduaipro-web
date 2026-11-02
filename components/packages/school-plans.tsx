@@ -8,6 +8,7 @@ import { SeatBand } from "@/types/billing";
 import {
   BuildingIcon,
   CheckIcon,
+  CopyIcon,
   EyeIcon,
   LandmarkIcon,
   LightbulbIcon,
@@ -17,6 +18,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
+import { toast } from "sonner";
 
 const DEFAULT_SEATS = 20;
 const FALLBACK_LIMITS = { min: 5, max: 299 };
@@ -58,8 +60,11 @@ const bandLabel = (b: SeatBand) =>
     ? `${b.minQuantity}+ seats`
     : `${b.minQuantity} – ${b.maxQuantity} seats`;
 
-const mailto = (subject: string) =>
-  `mailto:support@eduaipro.ng?subject=${encodeURIComponent(subject)}`;
+const SUPPORT_EMAIL = "support@eduaipro.ng";
+
+// Two ticks closer than this (as a share of the slider) would overlap on a
+// phone, so the inner one is hidden below the sm breakpoint.
+const MIN_TICK_GAP_PCT = 10;
 
 export default function SchoolPlans() {
   return (
@@ -84,8 +89,8 @@ export default function SchoolPlans() {
       </div>
       <div className="flex flex-col gap-6">
         <SchoolProCard />
-        <CustomCard />
         <FreeDemo />
+        <CustomCard />
       </div>
     </section>
   );
@@ -111,11 +116,18 @@ function SchoolProCard() {
   const showSaving = !!quote && quote.savingKobo > 0;
   const nudge = quote?.nudge ?? null;
   const fill = ((seats - limits.min) / (limits.max - limits.min)) * 100;
+  const tickPct = (t: number) =>
+    ((t - limits.min) / (limits.max - limits.min)) * 100;
   const ticks = [
     limits.min,
     ...bands.slice(1).map((b) => b.minQuantity),
     limits.max,
   ];
+  const crowded = (t: number, i: number) =>
+    i > 0 &&
+    (tickPct(t) - tickPct(ticks[i - 1]) < MIN_TICK_GAP_PCT ||
+      (i < ticks.length - 1 &&
+        tickPct(ticks[ticks.length - 1]) - tickPct(t) < MIN_TICK_GAP_PCT));
 
   const buy = () => router.push(`/school/billing?seats=${clampSeats(seats)}`);
 
@@ -235,11 +247,10 @@ function SchoolProCard() {
                 {ticks.map((t, i) => (
                   <span
                     key={t}
-                    style={{
-                      left: `${((t - limits.min) / (limits.max - limits.min)) * 100}%`,
-                    }}
+                    style={{ left: `${tickPct(t)}%` }}
                     className={cn(
                       "absolute",
+                      crowded(t, i) && "max-sm:hidden",
                       i === ticks.length - 1
                         ? "-translate-x-full"
                         : i > 0 && "-translate-x-1/2",
@@ -281,7 +292,10 @@ function SchoolProCard() {
             <Reveal show={showSaving}>
               <p className="text-sm font-semibold text-green-600">
                 You save {quote ? formatKobo(quote.savingKobo, currency) : ""}{" "}
-                compared with {bands[0] ? formatKobo(bands[0].unitAmountKobo, currency) : "the first band"}{" "}
+                compared with{" "}
+                {bands[0]
+                  ? formatKobo(bands[0].unitAmountKobo, currency)
+                  : "the first band"}{" "}
                 per seat
               </p>
             </Reveal>
@@ -356,18 +370,10 @@ function SchoolProCard() {
 
       <div className="flex flex-col items-center md:max-w-1/2 mx-auto gap-3">
         <div className="flex flex-col sm:flex-row gap-3 w-full">
-          <Button
-            className="flex-1"
-            disabled={!quote || isStale}
-            onClick={buy}
-          >
+          <Button className="flex-1" disabled={!quote || isStale} onClick={buy}>
             Get {clampSeats(seats)} seats
           </Button>
-          <Button
-            variant="outline"
-            className="sm:w-auto"
-            onClick={buy}
-          >
+          <Button variant="outline" className="sm:w-auto" onClick={buy}>
             Request an invoice
           </Button>
         </div>
@@ -396,6 +402,45 @@ function Reveal({ show, children }: { show: boolean; children: ReactNode }) {
       )}
     >
       <div className="overflow-hidden">{children}</div>
+    </div>
+  );
+}
+
+// Shows the address as text, so it works with or without a mail app.
+function QuoteContact() {
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(SUPPORT_EMAIL);
+      setCopied(true);
+      toast.success("Support email address copied");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard blocked: the address is still on screen to copy by hand.
+    }
+  };
+
+  return (
+    <div className="mt-auto space-y-2">
+      <p className="text-sm font-semibold text-grey-11">Email us for a quote</p>
+      <div className="flex flex-wrap items-center gap-2">
+        <Button
+          type="button"
+          className="bg-[#0F1B3D] border-[#0F1B3D] hover:bg-[#0F1B3D]/90"
+          onClick={copy}
+        >
+          {SUPPORT_EMAIL}
+          {copied ? (
+            <CheckIcon size={16} aria-hidden="true" />
+          ) : (
+            <CopyIcon size={16} aria-hidden="true" />
+          )}
+        </Button>
+      </div>
+      <p className="text-xs font-medium text-grey-10">
+        Include how many teachers and schools you have.
+      </p>
     </div>
   );
 }
@@ -433,12 +478,7 @@ function CustomCard() {
             Tell us how many teachers and schools, and we&apos;ll send a quote.
           </p>
         </div>
-        <Button
-          className="w-full sm:w-fit mt-auto bg-[#0F1B3D] border-[#0F1B3D] hover:bg-[#0F1B3D]/90"
-          asChild
-        >
-          <a href={mailto("Custom plan quote")}>Contact us for a quote</a>
-        </Button>
+        <QuoteContact />
       </div>
       <div>
         <p className="text-sm font-semibold text-grey-11 mb-3">

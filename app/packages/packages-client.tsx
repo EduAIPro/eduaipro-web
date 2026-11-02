@@ -10,10 +10,18 @@ import FinishSooner from "@/components/packages/finish-sooner";
 import ComparePlans from "@/components/packages/compare-plans";
 import TeacherPlans from "@/components/packages/teacher-plans";
 import SchoolPlans from "@/components/packages/school-plans";
+import AudienceSwitch from "@/components/packages/audience-switch";
+import GoodToKnow from "@/components/packages/good-to-know";
+import ClosingCta from "@/components/packages/closing-cta";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatMoney } from "@/lib/utils";
 import { BillingPlan } from "@/types/billing";
-import { CheckIcon, GraduationCapIcon, School2Icon } from "lucide-react";
+import {
+  AwardIcon,
+  CheckIcon,
+  GraduationCapIcon,
+  School2Icon,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import Pill from "@/components/common/ui/Pill";
@@ -31,12 +39,21 @@ export default function PricingPageClient() {
         <div className="text-center md:max-w-[50%] mx-auto flex flex-col gap-3 mb-10">
           <Pill text="Packages" pillBg="#F1F5FF" />
           <h1 className="font-semibold text-2xl md:text-3xl lg:text-4xl">
-            Pricing for teachers and schools
+            Get certified.
+            <br />
+            <span className="text-grey-10">Stay certified.</span>
           </h1>
           <Typography.P weight="medium" fontColor="medium">
-            Pay once for 24 months, by card or bank transfer. Teachers can buy their
-            own plan, and schools buy a seat for each teacher they assign.
+            Pay once for 24 months, by card or bank transfer. Teachers can buy
+            their own plan, or their school can buy seats and invite them.
           </Typography.P>
+          <span className="mx-auto inline-flex items-center gap-2 rounded-full bg-[#EBEFF9] px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-[#0a2a6b]">
+            <AwardIcon size={16} color="#0043be" aria-hidden="true" />
+            Certificates accredited by The CPD Standards Office (UK)
+          </span>
+          <div className="mt-4">
+            <AudienceSwitch />
+          </div>
         </div>
         {/* <ul className="grid md:grid-cols-3 gap-4 divide-x w-full border rounded-lg">
           {isLoading ? (
@@ -154,6 +171,8 @@ export default function PricingPageClient() {
         <SchoolPlans />
         <ComparePlans />
         <FinishSooner />
+        <GoodToKnow />
+        <ClosingCta />
       </section>
       <CallToAction />
       <Footer />

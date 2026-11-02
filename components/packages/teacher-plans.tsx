@@ -21,7 +21,7 @@ const PRO_FACTS: Fact[] = [
   { label: "Certificate", value: "Issued automatically", strong: true },
   { label: "Certificate valid", value: "Until your plan ends" },
   { label: "Time to finish", value: "6 months + one extension" },
-  { label: "Refresher", value: "Needs an active plan" },
+  { label: "Refresher", value: "Included while your plan is active" },
 ];
 
 export default function TeacherPlans() {
@@ -196,9 +196,9 @@ function Facts({
       {facts.map((fact) => (
         <div
           key={fact.label}
-          className="flex items-center justify-between gap-4 py-3 text-sm font-medium"
+          className="flex items-center justify-between gap-4 py-2.5 text-sm font-medium md:min-h-[60px]"
         >
-          <dt className="text-grey-10">{fact.label}</dt>
+          <dt className="shrink-0 text-grey-10">{fact.label}</dt>
           <dd
             className={cn(
               "text-right",

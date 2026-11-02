@@ -45,8 +45,8 @@ export default function FinishSooner() {
       <div className="mt-2 mb-6 max-w-[720px]">
         <Typography.P weight="medium" fontColor="medium">
           Your certificate is valid until your plan ends, 24 months after you
-          pay. Finish in 6 months and you are certified for 18; finish in 12
-          and you are certified for 12.
+          pay. Finish in 6 months and you are certified for 18; finish in 12 and
+          you are certified for 12.
         </Typography.P>
       </div>
 
@@ -111,10 +111,10 @@ export default function FinishSooner() {
               style={{ left: pct(month) }}
               className={
                 month === 0
-                  ? "absolute pt-1"
+                  ? "absolute pt-1 whitespace-nowrap"
                   : month === SCALE_MONTHS
-                    ? "absolute pt-1 -translate-x-full"
-                    : "absolute pt-1 -translate-x-1/2"
+                    ? "absolute pt-1 whitespace-nowrap -translate-x-full"
+                    : "absolute pt-1 whitespace-nowrap -translate-x-1/2"
               }
             >
               {month === 0 ? "Day you pay" : `${month} mo`}
