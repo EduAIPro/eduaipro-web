@@ -22,6 +22,19 @@ export const updateModuleKey = "/course/active/progress";
 export const generateUnitQuestions = "/course/active/unit/questions";
 export const submitAssessmentKey = "/course/active/unit/questions/submit";
 
+// pathways / enrollments (multi-pathway)
+export const getSubscriptionKey = "/billing/subscription";
+export const getPathwaysKey = "/me/pathways";
+export const getEnrollmentsKey = "/me/enrollments";
+export const enrollPathwayKey = "/me/enrollments";
+export const setActiveCourseKey = "/me/active-course";
+
+// billing
+export const subscribeKey = "/billing/subscribe";
+export const getAllPlans = "/billing/plans";
+export const schoolProQuoteKey = "/billing/plans/school-pro/quote";
+export const transactionsKey = "/billing/transactions";
+
 // certificates
 export const listCertificates = "/school/staff/certificates";
 
@@ -51,6 +64,17 @@ export const getSchoolAnalyticsKey = "/school/aggregates";
 export const getSchoolStaffsKey = "/school/staff/staffs";
 export const getSchoolInviteLinkKey = "/school/invite/link";
 export const getOverdueRenewalsKey = "/school/accreditation-renewals";
+
+// school billing (owner only)
+export const schoolSeatsKey = "/billing/school/seats";
+export const schoolSeatPurchasesKey = "/billing/school/seat-purchases";
+export const schoolTransactionsKey = "/billing/school/transactions";
+export const renewSchoolSeatPurchaseKey =
+  "/billing/school/seat-purchases/:purchaseId/renew";
+export const schoolAccessKey = "/school/access";
+export const schoolDemoKey = "/school/demo";
+export const assignSchoolSeatKey = "/billing/school/seats/:seatId/assign";
+export const releaseSchoolSeatKey = "/billing/school/seats/:seatId/release";
 
 // ADMIN
 // mutations
@@ -85,6 +109,16 @@ export const getCoursesKey = "/admin/course/courses";
 export const getAllSystemStaffsKey = "/admin/school/staff/staffs";
 export const adminGetStaffKey = "/admin/school/staff/staffs";
 export const getAllSystemAdmins = "/admin/school/staff/owners";
+export const adminBillingPlansKey = "/admin/billing/plans";
+export const adminSetPlanPriceKey = "/admin/billing/plans/:planId/price";
+export const adminDeletePlanPriceKey =
+  "/admin/billing/plans/:planId/price/:priceId";
+export const adminBillingTransactionsKey = "/admin/billing/transactions";
+export const adminInvoicesKey = "/admin/billing/invoices";
+export const adminMarkInvoicePaidKey =
+  "/admin/billing/invoices/:purchaseId/paid";
+export const adminSchoolDemosKey = "/admin/school-demos";
+export const adminExtendSchoolDemoKey = "/admin/school-demos/:demoId/extend";
 export const adminGetCourseUnit = (id: string) => `/admin/course/units/${id}`;
 
 // survey
@@ -113,6 +147,3 @@ export const retrieveCoursePublicKey = (slug: string) =>
   `/course/public/courses/${slug}`;
 export const retrieveCourseUnitPublicKey = (id: string) =>
   `/course/public/units/${id}`;
-
-// billing
-export const getAllPlans = "/billing/plans";

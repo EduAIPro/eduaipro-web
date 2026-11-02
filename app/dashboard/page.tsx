@@ -4,16 +4,30 @@ import { editProfileKey, updatePersonalInfoKey } from "@/api/keys";
 import { updatePersonalInfo, updateTeacherProfile } from "@/api/mutations";
 import MultiStepFormModal from "@/components/auth/PostRegistrationForm";
 // import { ChatBot } from "@/components/chatbot";
+import { CertificateNoticeGate } from "@/components/dashboard/certificate-notice";
 import { CircularProgress } from "@/components/dashboard/common/ProgressTracker";
 import DashboardSkeleton from "@/components/dashboard/dashboard-skeleton";
 import { OnboardingWalkthrough } from "@/components/dashboard/onboarding";
 import PersonalDevPlan from "@/components/dashboard/PersonalDevPlan/PersonalDevPlan";
+import { PathwaySwitcher } from "@/components/dashboard/pathway-switcher";
+import { WindowNote } from "@/components/dashboard/pathway-window-note";
+import {
+  SubscribeModal,
+  SubscribeTarget,
+} from "@/components/dashboard/subscribe-modal";
+import { windowInfo } from "@/lib/pathway-window";
+import { isDemoTeacher, isSchoolProvided } from "@/types/billing";
+import { Button } from "@/components/ui/button";
 import DocumentIcon from "@/components/svgs/document.svg";
 import useCourse from "@/hooks/use-course";
+import useEnrollments from "@/hooks/use-enrollments";
+import useSubscription from "@/hooks/use-subscription";
 import { useIsMobile } from "@/hooks/use-mobile";
 import useUser from "@/hooks/use-user";
 import { Staff } from "@/types/user";
-import { useEffect, useMemo, useState } from "react";
+import { AlertTriangleIcon, PlusIcon } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useMemo, useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
 if (typeof Promise.withResolvers === "undefined") {
@@ -39,6 +53,17 @@ export default function OverviewPage() {
   } = useCourse({
     acceptedTermsAndConditions: !!(staff as Staff)?.acceptedTermsAndConditions,
   });
+  const {
+    enrollments,
+    activeCourseId,
+    isLoading: enrollmentsLoading,
+    mutate: mutateEnrollments,
+  } = useEnrollments({
+    acceptedTermsAndConditions: !!(staff as Staff)?.acceptedTermsAndConditions,
+  });
+  const { subscription, isLoading: subscriptionLoading } = useSubscription(
+    !!(staff as Staff)?.acceptedTermsAndConditions,
+  );
   const isMobile = useIsMobile(768);
 
   const { trigger: updateProfile } = useSWRMutation(
@@ -46,7 +71,11 @@ export default function OverviewPage() {
     updatePersonalInfo,
   );
 
+  const [upgradeTarget, setUpgradeTarget] = useState<SubscribeTarget | null>(
+    null,
+  );
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [finishSignal, setFinishSignal] = useState(0);
 
   useEffect(() => {
     // Only show if user is loaded, valid, and hasn't seen onboarding
@@ -148,7 +177,30 @@ export default function OverviewPage() {
     return Number(percent);
   }, [courseProgress, course]);
 
-  return isLoading || courseLoading ? (
+  const enrollment = useMemo(
+    () => enrollments.find((e) => e.course.id === course?.id) ?? null,
+    [enrollments, course?.id],
+  );
+
+  // Keep the enrolment's progress current as the teacher moves through units,
+  // so the certificate notices fire at the right milestone.
+  const unitIndex = courseProgress?.unit?.index;
+  const lastUnitIndex = useRef(unitIndex);
+  useEffect(() => {
+    if (lastUnitIndex.current === unitIndex) return;
+    lastUnitIndex.current = unitIndex;
+    mutateEnrollments();
+  }, [unitIndex, mutateEnrollments]);
+
+  // Every paid plan covers every pathway, so one flag decides.
+  const certificateCovered = !!subscription?.canIssueCertificate;
+
+  const pathwayWindow = enrollment
+    ? windowInfo(enrollment, subscription)
+    : null;
+  const demo = isDemoTeacher(subscription);
+
+  return isLoading || courseLoading || enrollmentsLoading ? (
     <DashboardSkeleton />
   ) : staff && !(staff as Staff)?.acceptedTermsAndConditions ? (
     <MultiStepFormModal
@@ -167,9 +219,62 @@ export default function OverviewPage() {
         />
         <div className="flex flex-col gap-8">
           <div className="space-y-3">
-            <h2 id="course-title" className="text-2xl font-bold capitalize">
-              {course.title.replaceAll("_", " ").toLowerCase()}
-            </h2>
+            {enrollments.length > 1 && (
+              <PathwaySwitcher
+                enrollments={enrollments}
+                activeCourseId={activeCourseId}
+                onSwitched={refetch}
+              />
+            )}
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <h2 id="course-title" className="text-2xl font-bold capitalize">
+                {course.title.replaceAll("_", " ").toLowerCase()}
+              </h2>
+              {/* {canAddPathway && ( */}
+              <Link href="/dashboard/pathways">
+                <Button variant="outline" size="sm">
+                  <PlusIcon size={14} />
+                  Add pathway
+                </Button>
+              </Link>
+              {/* )} */}
+            </div>
+            {pathwayWindow &&
+            (pathwayWindow.closed || pathwayWindow.tone === "warn") ? (
+              <WindowNote
+                info={pathwayWindow}
+                onAction={
+                  isSchoolProvided(subscription)
+                    ? undefined
+                    : () =>
+                        setUpgradeTarget({
+                          reason:
+                            pathwayWindow.cta === "renew"
+                              ? "locked"
+                              : "expired",
+                          courseId: course.id,
+                          title: course.title,
+                        })
+                }
+              />
+            ) : pathwayWindow && enrollment?.status !== "completed" ? (
+              <p className="text-xs font-medium text-grey-500">
+                {pathwayWindow.detail}
+              </p>
+            ) : null}
+            {demo ? (
+              <div className="rounded-xl bg-amber-100 p-3.5 text-sm text-amber-700 flex items-center gap-2">
+                <AlertTriangleIcon size={18} />
+                <p className="text-amber-800">
+                  Your school is trialling EduAI Pro, so Unit
+                  {subscription?.unitCap && subscription.unitCap > 1
+                    ? "s 1 to "
+                    : " "}
+                  {subscription?.unitCap ?? 1} is open. Ask your school to
+                  activate your seat, or get Personal Pro to open everything.
+                </p>
+              </div>
+            ) : null}
             {/* <div className="flex items-start gap-10">
               <div id="course-content-stats">
                 <h3 className="font-medium text-sm">Content</h3>
@@ -212,14 +317,36 @@ export default function OverviewPage() {
 
           <div id="personal-dev-plan">
             <PersonalDevPlan
+              key={course.id}
               introVideoUrl={course.introductoryVideoUrl}
               courseProgress={courseProgress}
               refetchCourse={refetch}
               units={course.units}
+              onCourseFinished={() => setFinishSignal((n) => n + 1)}
             />
           </div>
         </div>
+        <CertificateNoticeGate
+          userId={user?.id}
+          courseId={course.id}
+          courseTitle={course.title}
+          progress={enrollment?.progress ?? percentage}
+          completed={
+            enrollment?.status?.toLowerCase() === "completed" ||
+            !!courseProgress.isCompleted
+          }
+          hasCertificate={!!enrollment?.certificate}
+          ready={
+            !!user && !!enrollment && !subscriptionLoading && !!subscription
+          }
+          needsSubscription={!certificateCovered}
+          finishSignal={finishSignal}
+        />
         {/* <ChatBot /> */}
+        <SubscribeModal
+          target={upgradeTarget}
+          onOpenChange={(open) => !open && setUpgradeTarget(null)}
+        />
       </>
     )
   );
