@@ -2,6 +2,7 @@
 export const dynamic = "force-static";
 import { getMe } from "@/api/keys";
 import { generalFetcher } from "@/api/queries";
+import { BillingErrorGate } from "@/components/billing/billing-error-gate";
 import { ConfirmLogoutModal } from "@/components/dashboard/common";
 import { SurveyProvider } from "@/components/dashboard/survey-modal";
 import CertIcon from "@/components/svgs/cert-two.svg";
@@ -179,6 +180,7 @@ const DashboardLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
           {/* Content */}
           <main className="flex-1 overflow-y-auto p-4 md:p-6 max-sm:pb-20">
             <div>{children}</div>
+            <BillingErrorGate audience="teacher" />
           </main>
         </div>
       </SurveyProvider>

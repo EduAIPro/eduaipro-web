@@ -13,14 +13,14 @@ import { Enrollment } from "@/types/enrollment";
 import { Staff } from "@/types/user";
 import { FileBadgeIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { CertificateItem } from "./certificate-item";
 import { EmptyCertificates } from "./empty";
 import { PendingCertificateItem } from "./pending-certificate-item";
 
 export const Certificates = () => {
-  const { data, isLoading } = useSWR<ListCertificates>(
+  const { data, isLoading, mutate: refetchCerts } = useSWR<ListCertificates>(
     listCertificates,
     generalFetcher,
     {
@@ -28,7 +28,7 @@ export const Certificates = () => {
     },
   );
   const { staff } = useUser();
-  const { enrollments, entitlement } = useEnrollments({
+  const { enrollments, entitlement, refetch: refetchEnrollments } = useEnrollments({
     acceptedTermsAndConditions: !!(staff as Staff)?.acceptedTermsAndConditions,
   });
   const [upgradeTarget, setUpgradeTarget] = useState<SubscribeTarget | null>(
@@ -39,6 +39,22 @@ export const Certificates = () => {
     (e) => e.status === "completed" && !e.certificate,
   );
 
+  // After a payment the server renders certificates in the background. Poll
+  // every 5 seconds for up to a minute until they show up.
+  const covered = !!entitlement?.canIssueCertificate;
+  const waiting = covered && pendingEnrollments.length > 0;
+  useEffect(() => {
+    if (!waiting) return;
+    const startedAt = Date.now();
+    const id = setInterval(() => {
+      if (Date.now() - startedAt > 60_000) return clearInterval(id);
+      refetchEnrollments();
+      refetchCerts();
+    }, 5000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [waiting]);
+
   const openIssueUpgrade = (enrollment: Enrollment) =>
     setUpgradeTarget({
       courseId: enrollment.course.id,
@@ -48,7 +64,6 @@ export const Certificates = () => {
 
   const count = data?.data?.length ?? 0;
   const hasAny = count > 0 || pendingEnrollments.length > 0;
-  console.log({ pendingEnrollments });
   return (
     <section
       className="bg-white rounded-xl overflow-hidden"
@@ -72,7 +87,7 @@ export const Certificates = () => {
           <p className="text-[11px] text-gray-500 mt-0.5">
             {isLoading
               ? "Loading…"
-              : `${count} certificate${count !== 1 ? "s" : ""} earned • ${pendingEnrollments.length} ready to issue`}
+              : `${count} certificate${count !== 1 ? "s" : ""} earned • ${pendingEnrollments.length} ready to claim`}
           </p>
         </div>
       </div>
@@ -89,6 +104,7 @@ export const Certificates = () => {
                   key={enrollment.id}
                   enrollment={enrollment}
                   onSubscribe={openIssueUpgrade}
+                  generating={covered}
                 />
               ))}
               {data?.data?.map((cert) => (

@@ -1,7 +1,7 @@
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SchoolSeatsData } from "@/types/school/billing";
-import { format } from "date-fns";
 
 const Stat = ({ label, value }: { label: string; value: number }) => (
   <Card className="p-3.5">
@@ -22,10 +22,12 @@ export const SummaryCards = ({
     <div className="space-y-3">
       {empty ? (
         <Card className="flex flex-col items-center gap-3 p-8 text-center">
-          <h3 className="text-base font-semibold text-grey-800">No seats yet</h3>
+          <h3 className="text-base font-semibold text-grey-800">
+            No live seats
+          </h3>
           <p className="max-w-sm text-sm text-grey-500">
-            Buy seats to cover your teachers’ certificates. Course content stays
-            free for everyone.
+            Buy seats to give your teachers every pathway and their certificates
+            for 24 months. Nothing renews by itself.
           </p>
           <Button onClick={onBuy}>Buy seats</Button>
         </Card>
@@ -39,8 +41,8 @@ export const SummaryCards = ({
       )}
       {data.term ? (
         <p className="text-xs text-grey-500">
-          Term: {format(new Date(data.term.startsAt), "dd MMM yyyy")} →{" "}
-          {format(new Date(data.term.endsAt), "dd MMM yyyy")}
+          Term: {format(new Date(data.term.startsAt), "do MMM, yyyy")} →{" "}
+          {format(new Date(data.term.endsAt), "do MMM, yyyy")}
         </p>
       ) : null}
     </div>

@@ -2,6 +2,7 @@
 import {
   ChangePassword,
   CpdPathways,
+  PaymentHistoryCard,
   EditProfile,
   ProfessionalBackgroundCard,
   ProfileHeader,
@@ -62,6 +63,12 @@ const ProfilePage = () => {
         </div>
         <div className="bg-white rounded-xl p-5 h-fit" style={CARD_STYLE}>
           <SubscriptionCard />
+        </div>
+        <div
+          className="md:col-span-2 bg-white rounded-xl p-5 h-fit"
+          style={CARD_STYLE}
+        >
+          <PaymentHistoryCard />
         </div>
         <div
           className="md:col-span-2 bg-white rounded-xl p-5 h-fit"

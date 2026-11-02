@@ -1,13 +1,18 @@
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Enrollment } from "@/types/enrollment";
+import { claimDeadline } from "@/lib/pathway-window";
 import { LockIcon } from "lucide-react";
 
 export const PendingCertificateItem = ({
   enrollment,
   onSubscribe,
+  generating = false,
 }: {
   enrollment: Enrollment;
   onSubscribe: (enrollment: Enrollment) => void;
+  /** the plan already covers it; the certificate is still being rendered */
+  generating?: boolean;
 }) => {
   return (
     <div
@@ -24,7 +29,7 @@ export const PendingCertificateItem = ({
           className="absolute top-2.5 right-2.5 text-[10px] font-semibold rounded-full px-2.5 py-1"
           style={{ color: "#B45309", background: "#FEF3C7" }}
         >
-          Ready to issue
+          {generating ? "Preparing" : "Ready to claim"}
         </div>
       </div>
 
@@ -42,17 +47,25 @@ export const PendingCertificateItem = ({
                   { day: "2-digit", month: "short", year: "numeric" },
                 )}`
               : ""}
-            . Subscribe to issue and download the certificate.
+            {generating
+              ? ". Your certificate is being prepared and will appear here shortly"
+              : ". Upgrade to claim your certificate"}
+            {!generating && claimDeadline(enrollment.completedAt)
+              ? `. Claim by ${format(claimDeadline(enrollment.completedAt)!, "do MMM, yyyy")}; after that the final assessment must be retaken`
+              : ""}
+            .
           </p>
         </div>
 
-        <Button
-          className="w-full bg-[#1A56DB] hover:bg-[#1A56DB]/90"
-          onClick={() => onSubscribe(enrollment)}
-        >
-          <LockIcon size={14} />
-          Subscribe to issue
-        </Button>
+        {generating ? null : (
+          <Button
+            className="w-full bg-[#1A56DB] hover:bg-[#1A56DB]/90"
+            onClick={() => onSubscribe(enrollment)}
+          >
+            <LockIcon size={14} />
+            Upgrade to claim
+          </Button>
+        )}
       </div>
     </div>
   );

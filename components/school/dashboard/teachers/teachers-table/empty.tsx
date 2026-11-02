@@ -17,7 +17,7 @@ export const Empty = () => {
             inviting a teacher to manage their details and track their
             accreditation!
           </p>
-          <InviteTeacherModal />
+          <InviteTeacherModal gate />
         </div>
       </div>
     </div>

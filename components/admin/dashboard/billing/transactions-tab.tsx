@@ -20,6 +20,7 @@ import {
 import useAdminTransactions, {
   ADMIN_TRANSACTIONS_PAGE_SIZE,
 } from "@/hooks/use-admin-transactions";
+import { channelLabel } from "@/lib/billing-dates";
 import { kindLabel } from "@/lib/admin-billing";
 import { cn, formatMoney } from "@/lib/utils";
 import { AdminTransaction } from "@/types/admin/billing";
@@ -49,7 +50,7 @@ const StatusBadge = ({ status }: { status: string }) => (
 );
 
 const dateOf = (t: AdminTransaction) =>
-  format(new Date(t.paidAt ?? t.createdAt), "dd MMM yyyy, HH:mm");
+  format(new Date(t.paidAt ?? t.createdAt), "do MMM, yyyy, HH:mm");
 
 const columns: ColumnDef<AdminTransaction>[] = [
   {
@@ -76,6 +77,15 @@ const columns: ColumnDef<AdminTransaction>[] = [
     cell: ({ row }) => (
       <p className="text-sm text-grey-500">
         {row.original.schoolId ? "School" : "Teacher"}
+      </p>
+    ),
+  },
+  {
+    accessorKey: "channel",
+    header: "Method",
+    cell: ({ row }) => (
+      <p className="text-sm text-grey-500">
+        {channelLabel(row.original.channel)}
       </p>
     ),
   },
@@ -177,7 +187,10 @@ export const TransactionsTab = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger aria-label="Filter by status" className="w-40 bg-white">
+            <SelectTrigger
+              aria-label="Filter by status"
+              className="w-40 bg-white"
+            >
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -208,6 +221,7 @@ export const TransactionsTab = () => {
                     selected.currency,
                   )}
                 />
+                <Detail label="Method" value={channelLabel(selected.channel)} />
                 <div className="flex items-center justify-between py-2 text-sm">
                   <dt className="text-grey-500">Status</dt>
                   <dd>
@@ -215,26 +229,38 @@ export const TransactionsTab = () => {
                   </dd>
                 </div>
                 {selected.failureReason ? (
-                  <Detail label="Failure reason" value={selected.failureReason} />
+                  <Detail
+                    label="Failure reason"
+                    value={selected.failureReason}
+                  />
                 ) : null}
                 <Detail label="Reference" value={selected.reference} />
                 <Detail
                   label="Started"
-                  value={format(new Date(selected.createdAt), "dd MMM yyyy, HH:mm")}
+                  value={format(
+                    new Date(selected.createdAt),
+                    "do MMM, yyyy, HH:mm",
+                  )}
                 />
                 <Detail
                   label="Paid"
                   value={
                     selected.paidAt
-                      ? format(new Date(selected.paidAt), "dd MMM yyyy, HH:mm")
+                      ? format(new Date(selected.paidAt), "do MMM, yyyy, HH:mm")
                       : null
                   }
                 />
                 <Detail label="User ID" value={selected.userId} />
                 <Detail label="School ID" value={selected.schoolId} />
-                <Detail label="Seat purchase ID" value={selected.seatPurchaseId} />
+                <Detail
+                  label="Seat purchase ID"
+                  value={selected.seatPurchaseId}
+                />
               </dl>
-              <Button variant="outline" onClick={() => copy(selected.reference)}>
+              <Button
+                variant="outline"
+                onClick={() => copy(selected.reference)}
+              >
                 <CopyIcon /> Copy reference
               </Button>
             </>

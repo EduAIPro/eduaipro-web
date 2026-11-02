@@ -1,28 +1,41 @@
 import { Pagination } from ".";
+import type {
+  PaymentChannel,
+  SeatQuote,
+  Transaction,
+  TransactionsData,
+} from "../billing";
 
-export type SeatTier = "BASIC" | "PRO";
 export type SeatState = "AVAILABLE" | "ASSIGNED" | "CONSUMED";
-export type PurchaseStatus = "PENDING" | "ACTIVE";
+export type PurchaseStatus = "PENDING" | "ACTIVE" | "EXPIRED";
 
 export type Seat = {
   id: string;
-  tier: SeatTier;
-  courseId: string | null;
-  termEndsAt: string;
-  staff: { name: string; email: string } | null;
   state: SeatState;
+  staffId: string | null;
+  staff: {
+    id: string;
+    user: { firstName: string; lastName: string; email: string };
+  } | null;
+  assignedAt: string | null;
+  consumedAt: string | null;
+  termStartsAt: string;
+  termEndsAt: string;
+  seatPurchaseId: string;
 };
 
 export type SeatPurchase = {
   id: string;
-  tier: SeatTier;
   quantity: number;
-  unitPriceKobo: number;
+  termMonths: number;
   status: PurchaseStatus;
-  renewsAt: string | null;
-  autoRenew: boolean;
-  card: { last4: string; brand: string; bank: string } | null;
-  graceEndsAt: string | null;
+  unitPriceKobo: number | null;
+  activatedAt: string | null;
+  /** when the seats stop working */
+  endsAt: string | null;
+  invoiceNumber: string | null;
+  invoiceRequestedAt: string | null;
+  createdAt: string;
 };
 
 export type SchoolSeatsData = {
@@ -36,58 +49,83 @@ export type SchoolSeatsData = {
 };
 
 export type BuySeatsPayload = {
-  tier: SeatTier;
   quantity: number;
-  termMonths?: number;
+  invoice?: boolean;
   callbackUrl?: string;
 };
 
-export type BuySeatsResponse = {
+/** Online checkout and renewals. */
+export type CheckoutResponse = {
   authorizationUrl: string;
   reference: string;
   seatPurchaseId: string;
   amountKobo: number;
   currency: string;
+  quote: SeatQuote;
 };
 
-export type CancelSeatPurchaseResponse = {
-  autoRenew: boolean;
-  accessUntil: string;
+export type InvoiceResponse = {
+  invoiceNumber: string;
+  reference: string;
+  seatPurchaseId: string;
+  amountKobo: number;
+  currency: string;
+  quote: SeatQuote;
 };
 
-export type AssignSeatPayload = { staffId: string; courseId?: string };
+export type BuySeatsResponse = CheckoutResponse | InvoiceResponse;
+
+export const isInvoiceResponse = (r: BuySeatsResponse): r is InvoiceResponse =>
+  "invoiceNumber" in r;
+
+export type RenewSeatsPayload = { purchaseId: string; callbackUrl?: string };
+
+export type AssignSeatPayload = { staffId: string };
 export type AssignSeatResponse = {
   seat: Seat;
   certificatesQueued: number;
 };
 
-export type SchoolTransactionStatus = "PENDING" | "SUCCESS" | "FAILED" | string;
-
-export type SchoolTransaction = {
-  id: string;
-  reference: string;
-  kind: string;
-  status: SchoolTransactionStatus;
-  amountKobo: number;
-  currency: string;
-  failureReason: string | null;
-  paidAt: string | null;
-  createdAt: string;
-  userId: string | null;
-  schoolId: string | null;
-  seatPurchaseId: string | null;
-};
-
-export type SchoolTransactionsData = {
-  items: SchoolTransaction[];
-  total: number;
-  page: number;
-  limit: number;
-};
+export type SchoolTransactionStatus = Transaction["status"];
+export type SchoolTransaction = Transaction;
+export type SchoolTransactionsData = TransactionsData;
 
 export type StoredCheckout = {
   reference: string;
-  seatPurchaseId: string;
+  seatPurchaseId?: string;
 };
 
-export type { Pagination };
+export type SchoolAccessState =
+  | "PERSONAL"
+  | "PAID"
+  | "DEMO"
+  | "READ_ONLY"
+  | "UNPAID";
+
+export type DemoStatusValue = "ACTIVE" | "EXPIRED" | "CONVERTED";
+
+export type SchoolAccess = {
+  state: SchoolAccessState;
+  canView: boolean;
+  canWrite: boolean;
+  liveSeats: number;
+  demo: null | {
+    status: DemoStatusValue;
+    endsAt: string;
+    maxInvites: number;
+    maxUnitIndex: number;
+  };
+};
+
+export type DemoStatus = {
+  status: DemoStatusValue;
+  startedAt: string;
+  endsAt: string;
+  maxInvites: number;
+  maxUnitIndex: number;
+  /** teachers already in + invites still pending */
+  invitesUsed: number;
+  invitesRemaining: number;
+};
+
+export type { Pagination, PaymentChannel };

@@ -104,7 +104,7 @@ export function PathwayCard({
               onClick={() => onUpgrade(pathway)}
             >
               <LockIcon size={13} />
-              Upgrade to unlock
+              Upgrade to add this pathway
             </Button>
           )}
         </div>

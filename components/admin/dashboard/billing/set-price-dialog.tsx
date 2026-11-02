@@ -15,6 +15,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
+  BandRow,
+  bandsError,
+  bandsToRows,
+  isBandedPlan,
   isLargeChange,
   isPriceInRange,
   localDateTimeMin,
@@ -23,21 +27,17 @@ import {
   nairaToKobo,
   percentChange,
   planIdOf,
+  rowsToBands,
 } from "@/lib/admin-billing";
-import { formatMoney } from "@/lib/utils";
-import {
-  AdminBillingPlan,
-  isAdminBillingError,
-  SetPlanPriceResponse,
-} from "@/types/admin/billing";
+import { formatKobo } from "@/lib/utils";
+import { AdminBillingPlan, isAdminBillingError } from "@/types/admin/billing";
 import { format } from "date-fns";
-import { MegaphoneIcon } from "lucide-react";
-import Link from "next/link";
+import { PlusIcon, Trash2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
 
-type Step = "form" | "confirm" | "notify";
+type Step = "form" | "confirm";
 type Mode = "now" | "later";
 
 type SetPriceDialogProps = {
@@ -46,6 +46,8 @@ type SetPriceDialogProps = {
   onChanged: () => void;
 };
 
+const EMPTY_ROW: BandRow = { min: "", max: "", rate: "" };
+
 export const SetPriceDialog = ({
   plan,
   onOpenChange,
@@ -53,49 +55,72 @@ export const SetPriceDialog = ({
 }: SetPriceDialogProps) => {
   const [step, setStep] = useState<Step>("form");
   const [amount, setAmount] = useState("");
+  const [rows, setRows] = useState<BandRow[]>([EMPTY_ROW]);
   const [mode, setMode] = useState<Mode>("now");
   const [when, setWhen] = useState("");
-  const [result, setResult] = useState<SetPlanPriceResponse | null>(null);
 
   const { trigger, isMutating } = useSWRMutation(
     adminSetPlanPriceKey,
     setAdminPlanPrice,
   );
 
-  // fresh state every time the dialog opens for a plan
+  // fresh state every time the dialog opens for a plan; bands start from the
+  // ones in force so an admin edits rather than retypes
   useEffect(() => {
     if (!plan) return;
     setStep("form");
     setAmount("");
+    setRows(
+      plan.current?.bands?.length
+        ? bandsToRows(plan.current.bands)
+        : [EMPTY_ROW],
+    );
     setMode("now");
     setWhen("");
-    setResult(null);
   }, [plan]);
 
   if (!plan) {
     return <Dialog open={false} onOpenChange={onOpenChange} />;
   }
 
-  const current = plan.current.amountKobo;
-  const currency = plan.current.currency;
-  const newKobo = nairaToKobo(amount);
-  const amountOk = amount !== "" && isPriceInRange(newKobo);
-  const unchanged = amountOk && newKobo === current;
+  const banded = isBandedPlan(plan);
+  const currency = plan.current?.currency ?? plan.currency;
+  const termMonths = plan.details?.termMonths ?? 24;
+
+  // For banded plans the headline rate is the first band’s.
+  const current = plan.current
+    ? banded
+      ? (plan.current.bands?.[0]?.unitAmountKobo ?? plan.current.amountKobo)
+      : plan.current.amountKobo
+    : 0;
+  const newKobo = banded
+    ? (rowsToBands(rows)[0]?.unitAmountKobo ?? 0)
+    : nairaToKobo(amount);
+
+  const flatOk = amount !== "" && isPriceInRange(newKobo);
+  const flatUnchanged = flatOk && newKobo === current;
+  const bandsProblem = banded ? bandsError(rows) : null;
+  const priceOk = banded ? !bandsProblem : flatOk && !flatUnchanged;
+
   const whenDate = when ? new Date(when) : null;
-  const whenOk = mode === "now" || (!!whenDate && whenDate.getTime() > Date.now());
-  const canSubmit = amountOk && !unchanged && whenOk && !isMutating;
-  const isSchool = plan.details.payer === "SCHOOL";
+  const whenOk =
+    mode === "now" || (!!whenDate && whenDate.getTime() > Date.now());
+  const canSubmit = priceOk && whenOk && !isMutating;
+  const hasCurrent = current > 0;
+
+  const setRow = (i: number, patch: Partial<BandRow>) =>
+    setRows((rs) => rs.map((r, idx) => (idx === i ? { ...r, ...patch } : r)));
 
   const submit = async (confirm: boolean) => {
     if (!canSubmit) return;
-    if (!confirm && isLargeChange(current, newKobo)) {
+    if (!confirm && hasCurrent && isLargeChange(current, newKobo)) {
       setStep("confirm");
       return;
     }
     try {
-      const res = await trigger({
+      await trigger({
         planId: planIdOf(plan),
-        amountKobo: newKobo,
+        ...(banded ? { bands: rowsToBands(rows) } : { amountKobo: newKobo }),
         confirm,
         ...(mode === "later" && whenDate
           ? { effectiveAt: whenDate.toISOString() }
@@ -104,15 +129,10 @@ export const SetPriceDialog = ({
       onChanged();
       toast.success(
         mode === "later" && whenDate
-          ? `New price scheduled for ${format(whenDate, "dd MMM yyyy, HH:mm")}`
+          ? `New price scheduled for ${format(whenDate, "do MMM, yyyy, HH:mm")}`
           : "Price updated",
       );
-      if (res.affectedSubscribers > 0) {
-        setResult(res);
-        setStep("notify");
-      } else {
-        onOpenChange(false);
-      }
+      onOpenChange(false);
     } catch (error) {
       if (isAdminBillingError(error) && error.needsConfirm && !confirm) {
         // the server judged the change large even if our estimate did not
@@ -120,54 +140,141 @@ export const SetPriceDialog = ({
         return;
       }
       setStep("form");
-      toast.error(isAdminBillingError(error) ? error.message : "Couldn’t change the price");
+      toast.error(
+        isAdminBillingError(error)
+          ? error.message
+          : "Couldn’t change the price",
+      );
     }
   };
 
   return (
     <Dialog open onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-lg">
         {step === "form" ? (
           <>
             <DialogHeader>
               <DialogTitle>Change price: {plan.name}</DialogTitle>
               <DialogDescription>
-                Current price {formatMoney(current / 100, currency)} per{" "}
-                {plan.details.termMonths} months.
+                {hasCurrent
+                  ? banded
+                    ? `Prices are per seat, for ${termMonths} months.`
+                    : `Current price ${formatKobo(current, currency)} for ${termMonths} months.`
+                  : "No price is set yet."}
               </DialogDescription>
             </DialogHeader>
 
             <div className="space-y-4">
-              <div className="space-y-1.5">
-                <Label htmlFor="new-price">New price ({currency})</Label>
-                <Input
-                  id="new-price"
-                  type="number"
-                  inputMode="decimal"
-                  min={MIN_PRICE_KOBO / 100}
-                  max={MAX_PRICE_KOBO / 100}
-                  step="0.01"
-                  placeholder="e.g. 75000"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  aria-invalid={amount !== "" && !amountOk}
-                />
-                {amount !== "" && !amountOk ? (
-                  <p className="text-xs text-red-600">
-                    Enter an amount from {formatMoney(MIN_PRICE_KOBO / 100)} to{" "}
-                    {formatMoney(MAX_PRICE_KOBO / 100)}.
-                  </p>
-                ) : unchanged ? (
-                  <p className="text-xs text-amber-700">
-                    That’s the current price.
-                  </p>
-                ) : amountOk ? (
-                  <p className="text-xs text-grey-500">
-                    {percentChange(current, newKobo) >= 0 ? "+" : ""}
-                    {percentChange(current, newKobo)}% from the current price
-                  </p>
-                ) : null}
-              </div>
+              {banded ? (
+                <div className="space-y-2">
+                  <Label>Price per seat by order size</Label>
+                  <div className="grid grid-cols-[1fr_1fr_1.2fr_auto] items-center gap-2 text-[11px] font-medium text-grey-500">
+                    <span>From (seats)</span>
+                    <span>To (seats)</span>
+                    <span>Rate ({currency})</span>
+                    <span className="w-8" />
+                  </div>
+                  {rows.map((r, i) => (
+                    <div
+                      key={i}
+                      className="grid grid-cols-[1fr_1fr_1.2fr_auto] items-center gap-2"
+                    >
+                      <Input
+                        aria-label={`Band ${i + 1} minimum`}
+                        type="number"
+                        min={1}
+                        // later bands start where the previous one ends
+                        readOnly={i > 0}
+                        value={
+                          i === 0
+                            ? r.min
+                            : rows[i - 1].max !== ""
+                              ? String(Number(rows[i - 1].max) + 1)
+                              : ""
+                        }
+                        onChange={(e) => setRow(i, { min: e.target.value })}
+                        className={i > 0 ? "bg-grey-3" : undefined}
+                      />
+                      <Input
+                        aria-label={`Band ${i + 1} maximum`}
+                        type="number"
+                        min={1}
+                        placeholder="max"
+                        value={r.max}
+                        onChange={(e) => setRow(i, { max: e.target.value })}
+                      />
+                      <Input
+                        aria-label={`Band ${i + 1} rate per seat`}
+                        type="number"
+                        min={MIN_PRICE_KOBO / 100}
+                        step="0.01"
+                        placeholder="e.g. 25000"
+                        value={r.rate}
+                        onChange={(e) => setRow(i, { rate: e.target.value })}
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        aria-label={`Remove band ${i + 1}`}
+                        disabled={rows.length === 1}
+                        onClick={() =>
+                          setRows((rs) => rs.filter((_, idx) => idx !== i))
+                        }
+                      >
+                        <Trash2Icon className="size-4 text-red-600" />
+                      </Button>
+                    </div>
+                  ))}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setRows((rs) => [...rs, EMPTY_ROW])}
+                  >
+                    <PlusIcon className="size-4" /> Add band
+                  </Button>
+                  {bandsProblem && rows.some((r) => r.rate || r.max) ? (
+                    <p className="text-xs text-red-600">{bandsProblem}</p>
+                  ) : (
+                    <p className="text-xs text-grey-500">
+                      The first band’s minimum is the smallest order; the last
+                      band’s maximum is the largest. Bigger orders are Custom.
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-1.5">
+                  <Label htmlFor="new-price">New price ({currency})</Label>
+                  <Input
+                    id="new-price"
+                    type="number"
+                    inputMode="decimal"
+                    min={MIN_PRICE_KOBO / 100}
+                    max={MAX_PRICE_KOBO / 100}
+                    step="0.01"
+                    placeholder="e.g. 30000"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    aria-invalid={amount !== "" && !flatOk}
+                  />
+                  {amount !== "" && !flatOk ? (
+                    <p className="text-xs text-red-600">
+                      Enter an amount from {formatKobo(MIN_PRICE_KOBO)} to{" "}
+                      {formatKobo(MAX_PRICE_KOBO)}.
+                    </p>
+                  ) : flatUnchanged ? (
+                    <p className="text-xs text-amber-700">
+                      That’s the current price.
+                    </p>
+                  ) : flatOk && hasCurrent ? (
+                    <p className="text-xs text-grey-500">
+                      {percentChange(current, newKobo) >= 0 ? "+" : ""}
+                      {percentChange(current, newKobo)}% from the current price
+                    </p>
+                  ) : null}
+                </div>
+              )}
 
               <div className="space-y-2">
                 <Label>When should it apply?</Label>
@@ -186,7 +293,7 @@ export const SetPriceDialog = ({
                         Straight away
                       </span>
                       <span className="block text-xs font-normal text-grey-500">
-                        New purchases and renewals use it immediately.
+                        New purchases use it immediately.
                       </span>
                     </span>
                   </Label>
@@ -200,7 +307,7 @@ export const SetPriceDialog = ({
                         From a future date
                       </span>
                       <span className="block text-xs font-normal text-grey-500">
-                        Gives subscribers notice before they’re charged.
+                        Schedule the change; it can’t be in the past.
                       </span>
                     </span>
                   </Label>
@@ -224,9 +331,9 @@ export const SetPriceDialog = ({
               </div>
 
               <p className="rounded-lg bg-grey-3 p-3 text-xs leading-relaxed text-grey-500">
-                {isSchool
-                  ? "School seats already bought keep their price until they renew. The new price applies to new purchases and to renewals that run after it takes effect."
-                  : "Renewals charge whatever price is in force on the day they run. Schedule a future date to give Personal Pro subscribers notice."}
+                Nothing renews by itself and seats already bought keep the price
+                they were bought at. The new price applies to new orders and to
+                renewals started after it takes effect.
               </p>
             </div>
 
@@ -243,7 +350,7 @@ export const SetPriceDialog = ({
               </Button>
             </DialogFooter>
           </>
-        ) : step === "confirm" ? (
+        ) : (
           <>
             <DialogHeader>
               <DialogTitle>Are you sure?</DialogTitle>
@@ -254,10 +361,10 @@ export const SetPriceDialog = ({
             </DialogHeader>
             <div className="flex items-center justify-center gap-3 rounded-lg border p-4 text-lg font-bold">
               <span className="text-grey-500">
-                {formatMoney(current / 100, currency)}
+                {formatKobo(current, currency)}
               </span>
               <span aria-hidden>→</span>
-              <span>{formatMoney(newKobo / 100, currency)}</span>
+              <span>{formatKobo(newKobo, currency)}</span>
             </div>
             <DialogFooter className="gap-2 sm:gap-2">
               <Button variant="outline" onClick={() => setStep("form")}>
@@ -269,32 +376,6 @@ export const SetPriceDialog = ({
                 onClick={() => submit(true)}
               >
                 Yes, change the price
-              </Button>
-            </DialogFooter>
-          </>
-        ) : (
-          <>
-            <DialogHeader>
-              <div className="mb-2 flex size-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
-                <MegaphoneIcon size={20} />
-              </div>
-              <DialogTitle>Let your subscribers know</DialogTitle>
-              <DialogDescription>
-                {result?.affectedSubscribers} Personal Pro subscriber
-                {result?.affectedSubscribers === 1 ? "" : "s"} will be charged{" "}
-                {formatMoney(newKobo / 100, currency)} on their next renewal
-                {mode === "later" && whenDate
-                  ? ` after ${format(whenDate, "dd MMM yyyy")}`
-                  : ""}
-                . Send them a message so the change isn’t a surprise.
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter className="gap-2 sm:gap-2">
-              <Button variant="outline" onClick={() => onOpenChange(false)}>
-                Done
-              </Button>
-              <Button asChild>
-                <Link href="/admin/messages">Write a message</Link>
               </Button>
             </DialogFooter>
           </>

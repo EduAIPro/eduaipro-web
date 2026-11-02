@@ -37,7 +37,7 @@ export type SchoolStaff = {
   // nested (one call, no N+1); until it does they are undefined.
   enrollments?: Enrollment[];
   plan?: StaffPlan;
-  seat?: { id: string; tier: "BASIC" | "PRO"; state: string } | null;
+  seat?: { id: string; state: string } | null;
   school: {
     institutionName: string;
   };

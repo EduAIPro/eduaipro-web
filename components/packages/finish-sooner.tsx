@@ -1,9 +1,9 @@
 import Typography from "@/components/common/ui/Typography";
 
-// The scale runs from the day you pay to 36 months, so a certificate earned
-// at month 12 (valid for 24 months) just fits.
-const SCALE_MONTHS = 36;
-const CERT_MONTHS = 24;
+// A certificate is valid until the plan ends, 24 months after payment, so the
+// sooner you finish the longer you stay certified.
+const SCALE_MONTHS = 24;
+const PLAN_MONTHS = 24;
 
 const pct = (months: number) => `${(months / SCALE_MONTHS) * 100}%`;
 
@@ -12,12 +12,12 @@ const TIMELINE = [
   { who: "Finish in 12 months", finishMonth: 12, recommended: false },
 ];
 
-const AXIS = [0, 6, 12, 18, 24, 30, 36];
+const AXIS = [0, 6, 12, 18, 24];
 
 const REASONS = [
   {
     title: "Certified sooner.",
-    text: "Your certificate is issued the day you finish, and your 2 years start then.",
+    text: "Your certificate is issued the day you finish and stays valid until your plan ends, so every month you save is a month of certification.",
   },
   {
     title: "No extension needed.",
@@ -40,19 +40,19 @@ export default function FinishSooner() {
         id="sooner-heading"
         className="font-semibold text-xl md:text-2xl tracking-tight"
       >
-        Start your 2 years of certification today
+        Finish sooner, stay certified longer
       </h2>
       <div className="mt-2 mb-6 max-w-[720px]">
         <Typography.P weight="medium" fontColor="medium">
-          Complete your course to unlock your certificate immediately! Your
-          2-year certification period begins the day you finish, meaning you can
-          start showcasing your credentials right away.
+          Your certificate is valid until your plan ends, 24 months after you
+          pay. Finish in 6 months and you are certified for 18; finish in 12
+          and you are certified for 12.
         </Typography.P>
       </div>
 
       <div className="grid gap-5">
         {TIMELINE.map((row) => {
-          const certEnd = row.finishMonth + CERT_MONTHS;
+          const certMonths = PLAN_MONTHS - row.finishMonth;
           return (
             <div
               key={row.who}
@@ -69,7 +69,7 @@ export default function FinishSooner() {
               <div className="space-y-1.5">
                 <div
                   role="img"
-                  aria-label={`${row.who}: learn for ${row.finishMonth} months, certificate issued at month ${row.finishMonth} and valid until month ${certEnd}`}
+                  aria-label={`${row.who}: learn for ${row.finishMonth} months, certificate issued at month ${row.finishMonth} and valid until month ${PLAN_MONTHS}, ${certMonths} months of certification`}
                   className="relative flex h-[30px] rounded-lg overflow-hidden bg-white"
                 >
                   <span
@@ -79,16 +79,19 @@ export default function FinishSooner() {
                     Learning
                   </span>
                   <span
-                    style={{ width: pct(CERT_MONTHS) }}
+                    style={{ width: pct(certMonths) }}
                     className="flex items-center px-2.5 text-xs font-semibold whitespace-nowrap overflow-hidden bg-primary text-white"
                   >
-                    Certified for 2 years
+                    Certified for {certMonths} months
                   </span>
                 </div>
                 <p className="text-xs text-grey-10">
                   Certificate issued at month {row.finishMonth}, valid until
                   month{" "}
-                  <span className="font-semibold text-primary">{certEnd}</span>
+                  <span className="font-semibold text-primary">
+                    {PLAN_MONTHS}
+                  </span>{" "}
+                  (when your plan ends)
                 </p>
               </div>
             </div>

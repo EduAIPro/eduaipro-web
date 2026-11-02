@@ -1,24 +1,27 @@
 "use client";
 
+import { schoolAccessKey, schoolDemoKey } from "@/api/keys";
+import { failureCopy } from "@/lib/billing-dates";
 import { clearCheckout, readCheckout } from "@/lib/school-checkout";
-import { invalidateRoster } from "@/lib/school-invalidate";
-import { SchoolSeatsData, SchoolTransaction } from "@/types/school/billing";
+import { invalidateRoster, invalidateSeats } from "@/lib/school-invalidate";
+import { SchoolTransaction } from "@/types/school/billing";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { mutate } from "swr";
 import { toast } from "sonner";
 
 export const POLL_INTERVAL_MS = 3000;
-const POLL_TIMEOUT_MS = 60_000;
+const POLL_TIMEOUT_MS = 120_000;
 
 export type CheckoutPhase = "idle" | "confirming" | "timeout" | "failed";
 
 /**
- * Handles the return from Paystack (?checkout=return). Seats only exist once
- * the payment is confirmed server-side, so the caller polls GET /seats while
- * `phase === "confirming"` and passes the latest data and transactions in.
+ * Handles the return from Paystack (?checkout=return). Access is granted by a
+ * server webhook, not by the browser landing here, and bank transfers can take
+ * minutes. The payment’s own transaction row is the source of truth, so the
+ * caller polls the transactions list while `phase === "confirming"`.
  */
 export default function useCheckoutReturn(
-  seats: SchoolSeatsData | null,
   transactions: SchoolTransaction[] | undefined,
 ) {
   const router = useRouter();
@@ -49,30 +52,25 @@ export default function useCheckoutReturn(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [returning]);
 
-  // success
+  // resolve from the transaction row
   useEffect(() => {
     const s = stored.current;
-    if (!s || (phase !== "confirming" && phase !== "timeout")) return;
-    const purchase = seats?.purchases.find((p) => p.id === s.seatPurchaseId);
-    if (purchase?.status === "ACTIVE") {
-      toast.success("Seats added");
+    if (!s || phase === "idle" || phase === "failed" || !transactions) return;
+    const tx = transactions.find((t) => t.reference === s.reference);
+    if (tx?.status === "SUCCESS") {
+      toast.success("Payment confirmed");
       clearCheckout();
+      invalidateSeats();
       invalidateRoster();
+      mutate(schoolAccessKey);
+      mutate(schoolDemoKey);
       setPhase("idle");
       strip();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [seats, phase]);
-
-  // failure
-  useEffect(() => {
-    const s = stored.current;
-    if (!s || phase === "idle" || !transactions) return;
-    const tx = transactions.find((t) => t.reference === s.reference);
-    if (tx?.status === "FAILED") {
-      setFailureReason(tx.failureReason ?? "The payment did not go through.");
+    } else if (tx?.status === "FAILED") {
+      setFailureReason(failureCopy(tx.failureReason, tx.reference));
       setPhase("failed");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transactions, phase]);
 
   const dismiss = () => {

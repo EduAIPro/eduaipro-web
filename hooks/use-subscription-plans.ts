@@ -1,7 +1,6 @@
-import { getAllPlans, getPathwaysKey } from "@/api/keys";
+import { getAllPlans } from "@/api/keys";
 import { generalFetcher } from "@/api/queries";
 import { BillingPlan } from "@/types/billing";
-import { GetPathwaysResponse } from "@/types/enrollment";
 import useSWR from "swr";
 
 export default function useSubscriptionPlans() {
@@ -10,8 +9,12 @@ export default function useSubscriptionPlans() {
     generalFetcher,
   );
 
+  const plans = data ?? [];
+
   return {
-    plans: data ?? [],
+    plans,
+    personalPro: plans.find((p) => p.code === "PERSONAL_PRO") ?? null,
+    schoolPro: plans.find((p) => p.code === "SCHOOL_PRO") ?? null,
     isLoading,
     isError: !!error,
     refetch: () => mutate(),

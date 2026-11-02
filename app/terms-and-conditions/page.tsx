@@ -381,10 +381,7 @@ export default function TermsAndConditions() {
                 If you don&apos;t pay, we&apos;ll freeze access to premium
                 features until payment is made.
               </li>
-              <li>
-                Subscriptions renew automatically unless you cancel before the
-                renewal date.
-              </li>
+              <li>Subscriptions will not renew automatically.</li>
               <li>
                 Prices are presented as tax-inclusive where required by law.
               </li>

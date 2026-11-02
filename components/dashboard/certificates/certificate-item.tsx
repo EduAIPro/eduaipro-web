@@ -22,12 +22,12 @@ export const CertificateItem = ({
   const metadata = [
     {
       title: "Issued on",
-      value: format(certificate.issuedAt ?? new Date(), "dd MMM yyyy"),
+      value: format(certificate.issuedAt ?? new Date(), "do MMM, yyyy"),
       icon: CalendarDaysIcon,
     },
     {
       title: "Valid till",
-      value: format(certificate.expiresAt ?? new Date(), "dd MMM yyyy"),
+      value: format(certificate.expiresAt ?? new Date(), "do MMM, yyyy"),
       icon: CalendarDaysIcon,
     },
   ];

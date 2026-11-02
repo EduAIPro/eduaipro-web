@@ -2,6 +2,7 @@
 
 import {
   SubscribeModal,
+  SubscribeModalReason,
   SubscribeTarget,
 } from "@/components/dashboard/subscribe-modal";
 import { Button } from "@/components/ui/button";
@@ -55,17 +56,17 @@ const NOTICE_COPY: Record<
 > = {
   start: {
     title: "Your course content is free",
-    body: "You can learn every unit at no cost. To be issued your certificate when you finish this course, you will need a subscription.",
+    body: "You can learn every unit at no cost, and you have 6 months from your first unit to finish. To be issued your certificate when you finish, you will need to upgrade to the Personal Pro subscription plan.",
     primary: "dismiss",
   },
   halfway: {
     title: "You're past halfway",
-    body: "All your course content stays free. When you finish, you will need a subscription to be issued your certificate.",
+    body: "All your course content stays free. When you finish, you will need to upgrade to the Personal Pro subscription plan to be issued your certificate.",
     primary: "dismiss",
   },
   almost: {
     title: "Almost there",
-    body: "You're on the final stretch. You will need a subscription to be issued your certificate, so set it up now and it's ready the moment you finish.",
+    body: "You're on the final stretch. You will need to upgrade to the Personal Pro subscription plan to be issued your certificate, so get it now and it's ready the moment you finish.",
     primary: "subscribe",
   },
 };
@@ -172,11 +173,11 @@ export const CertificateNoticeGate = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [finishSignal]);
 
-  const openSubscribe = () =>
+  const openSubscribe = (reason?: SubscribeModalReason) =>
     setSubscribeTarget({
       courseId,
       title: courseTitle,
-      reason: "issue_certificate",
+      reason: reason ?? "general",
     });
 
   const copy = notice ? NOTICE_COPY[notice] : null;
@@ -206,7 +207,7 @@ export const CertificateNoticeGate = ({
                 openSubscribe();
               }}
             >
-              Subscribe now
+              Get Personal Pro
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -220,8 +221,8 @@ export const CertificateNoticeGate = ({
             </div>
             <DialogTitle>Congratulations, you finished the course!</DialogTitle>
             <DialogDescription>
-              You completed “{title}”. Subscribe to be issued your accredited
-              certificate.
+              You completed “{title}”. Upgrade to Personal Pro to claim your
+              accredited certificate within 6 months.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -231,7 +232,7 @@ export const CertificateNoticeGate = ({
             <Button
               onClick={() => {
                 setCongratsOpen(false);
-                openSubscribe();
+                openSubscribe("issue_certificate");
               }}
             >
               Continue

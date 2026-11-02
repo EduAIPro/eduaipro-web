@@ -12,6 +12,8 @@ export default function usePathways(shouldFetch = true) {
   return {
     pathways: data?.pathways ?? [],
     entitlement: data?.entitlement ?? null,
+    planEndsAt: data?.planEndsAt ?? null,
+    shortPlan: data?.shortPlan ?? false,
     isLoading,
     isError: !!error,
     refetch: () => mutate(),

@@ -1,16 +1,15 @@
 "use client";
 
+import { format } from "date-fns";
 import { releaseSchoolSeatKey } from "@/api/keys";
 import { releaseSchoolSeat } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SimpleTooltip } from "@/components/ui/simple-tooltip";
-import useSchoolPathways from "@/hooks/use-school-pathways";
 import { schoolBillingMessage } from "@/lib/school-billing-errors";
 import { invalidateSeatsAndRoster } from "@/lib/school-invalidate";
 import { cn } from "@/lib/utils";
 import { Seat, SeatState } from "@/types/school/billing";
-import { format } from "date-fns";
 import { useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
@@ -22,6 +21,11 @@ const STATE_STYLE: Record<SeatState, string> = {
   CONSUMED: "bg-grey-3 text-grey-500",
 };
 
+const seatHolder = (s: Seat) =>
+  s.staff
+    ? `${s.staff.user.firstName} ${s.staff.user.lastName}`
+    : "This teacher";
+
 type SeatsTableProps = {
   seats: Seat[];
   onAssign: (seat: Seat) => void;
@@ -29,7 +33,6 @@ type SeatsTableProps = {
 
 export const SeatsTable = ({ seats, onAssign }: SeatsTableProps) => {
   const [releasing, setReleasing] = useState<Seat | null>(null);
-  const { nameOf } = useSchoolPathways();
   const { trigger, isMutating } = useSWRMutation(
     releaseSchoolSeatKey,
     releaseSchoolSeat,
@@ -57,8 +60,11 @@ export const SeatsTable = ({ seats, onAssign }: SeatsTableProps) => {
         <table className="w-full text-sm">
           <thead className="bg-grey-3 text-xs text-grey-500">
             <tr>
-              {["Tier", "Pathway", "Assigned to", "Term ends", "State", ""].map((h) => (
-                <th key={h} className="px-4 py-2.5 text-left font-semibold whitespace-nowrap">
+              {["Assigned to", "Term ends", "State", ""].map((h) => (
+                <th
+                  key={h}
+                  className="px-4 py-2.5 text-left font-semibold whitespace-nowrap"
+                >
                   {h}
                 </th>
               ))}
@@ -68,24 +74,22 @@ export const SeatsTable = ({ seats, onAssign }: SeatsTableProps) => {
             {seats.length ? (
               seats.map((s) => (
                 <tr key={s.id} className="border-t">
-                  <td className="px-4 py-2.5 font-medium">
-                    {s.tier === "BASIC" ? "Basic" : "Pro"}
-                  </td>
-                  <td className="px-4 py-2.5 text-grey-500">
-                    {s.tier === "BASIC" ? (nameOf(s.courseId) ?? "—") : "All pathways"}
-                  </td>
                   <td className="px-4 py-2.5">
                     {s.staff ? (
                       <>
-                        <p className="font-medium text-grey-800">{s.staff.name}</p>
-                        <p className="text-xs text-grey-500">{s.staff.email}</p>
+                        <p className="font-medium text-grey-800">
+                          {seatHolder(s)}
+                        </p>
+                        <p className="text-xs text-grey-500">
+                          {s.staff.user.email}
+                        </p>
                       </>
                     ) : (
                       <span className="text-grey-500">—</span>
                     )}
                   </td>
                   <td className="px-4 py-2.5 whitespace-nowrap text-grey-500">
-                    {format(new Date(s.termEndsAt), "dd MMM yyyy")}
+                    {format(new Date(s.termEndsAt), "do MMM, yyyy")}
                   </td>
                   <td className="px-4 py-2.5">
                     <span
@@ -103,7 +107,11 @@ export const SeatsTable = ({ seats, onAssign }: SeatsTableProps) => {
                         Assign
                       </Button>
                     ) : s.state === "ASSIGNED" ? (
-                      <Button variant="outline" size="sm" onClick={() => setReleasing(s)}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setReleasing(s)}
+                      >
                         Release
                       </Button>
                     ) : (
@@ -116,7 +124,10 @@ export const SeatsTable = ({ seats, onAssign }: SeatsTableProps) => {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="p-6 text-center text-xs text-grey-500">
+                <td
+                  colSpan={4}
+                  className="p-6 text-center text-xs text-grey-500"
+                >
                   No seats yet
                 </td>
               </tr>
@@ -128,7 +139,7 @@ export const SeatsTable = ({ seats, onAssign }: SeatsTableProps) => {
         open={!!releasing}
         onOpenChange={(v) => !v && setReleasing(null)}
         title="Release this seat?"
-        description={`${releasing?.staff?.name ?? "This teacher"} will lose this seat and it returns to your available pool.`}
+        description={`${releasing ? seatHolder(releasing) : "This teacher"} will lose this seat and it returns to your available pool.`}
         confirmLabel="Release seat"
         destructive
         loading={isMutating}

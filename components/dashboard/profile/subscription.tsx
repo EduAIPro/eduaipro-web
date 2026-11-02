@@ -1,60 +1,32 @@
 "use client";
 
-import { cancelSubscriptionKey } from "@/api/keys";
-import { cancelSubscription, resumeSubscription } from "@/api/mutations";
 import {
   SubscribeModal,
   SubscribeTarget,
 } from "@/components/dashboard/subscribe-modal";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import useSubscription from "@/hooks/use-subscription";
-import { isSchoolSeat } from "@/types/billing";
+import useTransactions from "@/hooks/use-transactions";
+import { daysUntil, isFreshPending } from "@/lib/billing-dates";
 import { format } from "date-fns";
+import { isDemoTeacher, isSchoolProvided } from "@/types/billing";
 import {
   BadgeCheckIcon,
   CalendarClockIcon,
-  ClockAlertIcon,
   CreditCardIcon,
+  Loader2Icon,
   SchoolIcon,
   ShieldCheckIcon,
 } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
-import useSWRMutation from "swr/mutation";
 
 export const SubscriptionCard = () => {
-  const { subscription, isLoading, mutate } = useSubscription();
+  const { subscription, isLoading } = useSubscription();
+  const { transactions } = useTransactions({ limit: 10 });
   const [upgradeTarget, setUpgradeTarget] = useState<SubscribeTarget | null>(
     null,
   );
-  const [confirmingCancel, setConfirmingCancel] = useState(false);
-
-  const { trigger: triggerCancel, isMutating: isCancelling } = useSWRMutation(
-    cancelSubscriptionKey,
-    cancelSubscription,
-  );
-
-  const handleCancel = async () => {
-    try {
-      await triggerCancel();
-      mutate();
-      setConfirmingCancel(false);
-      toast.success(
-        "Your subscription will end on its next renewal date. You'll keep access until then.",
-      );
-    } catch (error) {
-      toast.error(error as string);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -69,9 +41,16 @@ export const SubscriptionCard = () => {
 
   const plan = subscription?.plan ?? "FREE";
   const isPro = plan === "PRO";
-  const seat = isSchoolSeat(subscription);
+  const schoolOnly = isSchoolProvided(subscription);
+  const demo = isDemoTeacher(subscription);
+  const hasPersonal = !!subscription?.sources.includes("PERSONAL");
+  const endsIn = daysUntil(subscription?.endsAt);
+  const endingSoon = isPro && endsIn !== null && endsIn <= 90;
+  const pending = transactions?.items.find(
+    (t) => t.status === "PENDING" && isFreshPending(t.createdAt),
+  );
 
-  const planPill = seat
+  const planPill = schoolOnly
     ? { label: "Provided by your school", color: "#6D28D9", bg: "#EDE9FE" }
     : isPro
       ? { label: "Personal Pro", color: "#1A56DB", bg: "#EFF6FF" }
@@ -82,39 +61,28 @@ export const SubscriptionCard = () => {
       title: "Certificate issuance",
       value: subscription?.canIssueCertificate
         ? "Included"
-        : "Needs a subscription",
+        : "Locked until you upgrade",
       icon: <BadgeCheckIcon size={15} />,
-      color: subscription?.canIssueCertificate ? "#16A34A" : "#B45309",
-      bg: subscription?.canIssueCertificate ? "#DCFCE7" : "#FEF3C7",
+      ok: !!subscription?.canIssueCertificate,
     },
     {
-      title: "Additional pathways",
+      title: "Pathways",
       value: subscription?.canAddPathway
         ? "All five included"
-        : "Needs a subscription",
+        : demo
+          ? "Unit 1 only while your school trials EduAI Pro"
+          : "1 pathway",
       icon: <ShieldCheckIcon size={15} />,
-      color: subscription?.canAddPathway ? "#16A34A" : "#B45309",
-      bg: subscription?.canAddPathway ? "#DCFCE7" : "#FEF3C7",
+      ok: !!subscription?.canAddPathway,
     },
-    ...(isPro && subscription?.renewsAt && subscription.autoRenew === true
+    ...(isPro && subscription?.endsAt
       ? [
           {
-            title: "Renews on",
-            value: format(new Date(subscription.renewsAt), "dd MMM yyyy"),
+            title: schoolOnly ? "Provided until" : "Pro until",
+            value: format(new Date(subscription.endsAt), "do MMM, yyyy"),
             icon: <CalendarClockIcon size={15} />,
-            color: "#1A56DB",
-            bg: "#EFF6FF",
-          },
-        ]
-      : []),
-    ...(isPro && subscription?.renewsAt && subscription?.autoRenew === false
-      ? [
-          {
-            title: "Cancels on",
-            value: format(new Date(subscription.renewsAt), "dd MMM yyyy"),
-            icon: <ClockAlertIcon size={15} />,
-            color: "#B45309",
-            bg: "#FEF3C7",
+            ok: true,
+            info: true,
           },
         ]
       : []),
@@ -131,9 +99,13 @@ export const SubscriptionCard = () => {
               background: isPro ? "#EFF6FF" : "#F3F4F6",
             }}
           >
-            {seat ? <SchoolIcon size={16} /> : <CreditCardIcon size={16} />}
+            {schoolOnly ? (
+              <SchoolIcon size={16} />
+            ) : (
+              <CreditCardIcon size={16} />
+            )}
           </div>
-          <h3 className="font-bold text-grey-800 md:text-lg">Subscription</h3>
+          <h3 className="font-bold text-grey-800 md:text-lg">Plan</h3>
         </div>
         <span
           className="inline-flex items-center gap-1 text-[11px] font-semibold rounded-full px-2.5 py-1"
@@ -144,90 +116,79 @@ export const SubscriptionCard = () => {
       </div>
 
       <ul className="space-y-1">
-        {rows.map((row) => (
-          <li
-            key={row.title}
-            className="flex items-center gap-3 py-2.5 border-b border-grey-3 last:border-b-0"
-          >
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-              style={{ background: row.bg, color: row.color }}
+        {rows.map((row) => {
+          const color =
+            "info" in row ? "#1A56DB" : row.ok ? "#16A34A" : "#B45309";
+          const bg = "info" in row ? "#EFF6FF" : row.ok ? "#DCFCE7" : "#FEF3C7";
+          return (
+            <li
+              key={row.title}
+              className="flex items-center gap-3 py-2.5 border-b border-grey-3 last:border-b-0"
             >
-              {row.icon}
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-[11px] font-medium text-grey-500">
-                {row.title}
-              </p>
-              <p className="text-grey-800 font-semibold text-sm truncate">
-                {row.value}
-              </p>
-            </div>
-          </li>
-        ))}
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                style={{ background: bg, color }}
+              >
+                {row.icon}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] font-medium text-grey-500">
+                  {row.title}
+                </p>
+                <p className="text-grey-800 font-semibold text-sm">
+                  {row.value}
+                </p>
+              </div>
+            </li>
+          );
+        })}
       </ul>
 
+      {pending ? (
+        <div
+          role="status"
+          className="flex items-start gap-2 rounded-lg bg-amber-50 p-3 text-xs text-amber-800"
+        >
+          <Loader2Icon size={14} className="mt-0.5 shrink-0 animate-spin" />
+          <span>
+            Payment pending. Bank transfers can take a few minutes; your plan
+            activates by itself once the money arrives.
+          </span>
+        </div>
+      ) : null}
+
+      {endingSoon && !schoolOnly ? (
+        <p className="rounded-lg bg-amber-50 p-3 text-xs text-amber-800">
+          Your plan ends on{" "}
+          {subscription?.endsAt
+            ? format(new Date(subscription.endsAt), "do MMM, yyyy")
+            : "—"}
+          . Add 24 months any time and the new term starts where this one ends.
+        </p>
+      ) : null}
+
       <p className="text-xs text-gray-500 leading-relaxed">
-        Certificates already issued stay valid until their printed expiry date,
-        whether or not the subscription is renewed.
+        A certificate is valid until your plan ends, so finishing sooner keeps
+        it valid for longer. Certificates already issued stay valid after that.
       </p>
 
-      {seat ? (
+      {schoolOnly ? (
         <p className="text-[11.5px] text-gray-500">
           Managed by your school administrator.
         </p>
-      ) : !isPro ? (
+      ) : subscription?.enforced === false ? null : (
         <Button
           className="w-full bg-[#1A56DB] hover:bg-[#1A56DB]/90"
           onClick={() => setUpgradeTarget({ reason: "general" })}
         >
-          Subscribe
+          {hasPersonal ? "Add 24 months" : "Get Personal Pro"}
         </Button>
-      ) : subscription?.autoRenew ? (
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={() => setConfirmingCancel(true)}
-        >
-          Cancel subscription
-        </Button>
-      ) : null}
+      )}
 
       <SubscribeModal
         target={upgradeTarget}
         onOpenChange={(open) => !open && setUpgradeTarget(null)}
       />
-
-      <Dialog open={confirmingCancel} onOpenChange={setConfirmingCancel}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Cancel your subscription?</DialogTitle>
-            <DialogDescription>
-              You{"'"}ll keep certificate issuance and access to every pathway
-              until{" "}
-              {subscription?.renewsAt
-                ? format(new Date(subscription.renewsAt), "dd MMM yyyy")
-                : "your next renewal date"}
-              . Certificates already issued stay valid regardless.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setConfirmingCancel(false)}
-            >
-              Keep subscription
-            </Button>
-            <Button
-              variant="destructive"
-              loading={isCancelling}
-              onClick={handleCancel}
-            >
-              Cancel subscription
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

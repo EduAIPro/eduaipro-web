@@ -9,7 +9,14 @@ import { setActiveCourse } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import useEnrollments from "@/hooks/use-enrollments";
-import { isSchoolSeat } from "@/types/billing";
+import { isSchoolProvided } from "@/types/billing";
+import { WindowPill } from "@/components/dashboard/pathway-window-note";
+import {
+  SubscribeModal,
+  SubscribeTarget,
+} from "@/components/dashboard/subscribe-modal";
+import { claimDeadline, windowInfo } from "@/lib/pathway-window";
+import { useState } from "react";
 import useSubscription from "@/hooks/use-subscription";
 import { Enrollment } from "@/types/enrollment";
 import { format } from "date-fns";
@@ -36,14 +43,18 @@ export const CpdPathways = ({
   const router = useRouter();
   const { mutate: globalMutate } = useSWRConfig();
   const { subscription } = useSubscription(acceptedTermsAndConditions);
-  const { enrollments, activeCourseId, entitlement, isLoading } =
-    useEnrollments({ acceptedTermsAndConditions });
+  const { enrollments, activeCourseId, isLoading } = useEnrollments({
+    acceptedTermsAndConditions,
+  });
   const { trigger, isMutating } = useSWRMutation(
     setActiveCourseKey,
     setActiveCourse,
   );
 
-  const seat = isSchoolSeat(subscription);
+  const seat = isSchoolProvided(subscription);
+  const [upgradeTarget, setUpgradeTarget] = useState<SubscribeTarget | null>(
+    null,
+  );
 
   const handleOpen = async (enrollment: Enrollment) => {
     if (enrollment.course.id === activeCourseId) {
@@ -71,8 +82,6 @@ export const CpdPathways = ({
       </div>
     );
   }
-
-  const canAddMore = !!entitlement?.canAddPathway && !seat;
 
   return (
     <div className="space-y-4">
@@ -129,7 +138,7 @@ export const CpdPathways = ({
                         enrollment.completedAt
                           ? ` ${format(
                               new Date(enrollment.completedAt),
-                              "dd MMM yyyy",
+                              "do MMM, yyyy",
                             )}`
                           : ""
                       }`
@@ -141,7 +150,15 @@ export const CpdPathways = ({
                 </p>
               </div>
 
-              <div className="min-w-full sm:min-w-[140px] text-xs">
+              <div className="min-w-full sm:min-w-[140px] text-xs space-y-1">
+                {windowInfo(enrollment, subscription) ? (
+                  <div className="space-y-1">
+                    <WindowPill info={windowInfo(enrollment, subscription)!} />
+                    <p className="text-[11px] text-gray-500">
+                      {windowInfo(enrollment, subscription)!.detail}
+                    </p>
+                  </div>
+                ) : null}
                 {enrollment.certificate ? (
                   <div className="flex items-center gap-1 text-gray-600">
                     <HashIcon size={11} className="text-gray-500" />
@@ -156,21 +173,44 @@ export const CpdPathways = ({
                   >
                     <LockIcon size={10} />
                     Ready to issue
+                    {claimDeadline(enrollment.completedAt)
+                      ? ` · claim by ${format(claimDeadline(enrollment.completedAt)!, "do MMM, yyyy")}`
+                      : ""}
                   </span>
                 ) : (
                   <span className="text-gray-500">Not yet earned</span>
                 )}
               </div>
 
-              <Button
-                variant={isActive ? "outline" : "default"}
-                size="sm"
-                disabled={isActive || (isMutating && !isActive)}
-                loading={isMutating && !isActive}
-                onClick={() => handleOpen(enrollment)}
-              >
-                {isActive ? "Active" : "Open"}
-              </Button>
+              {windowInfo(enrollment, subscription)?.cta && !seat ? (
+                <Button
+                  size="sm"
+                  onClick={() =>
+                    setUpgradeTarget({
+                      courseId: enrollment.course.id,
+                      title: enrollment.course.title,
+                      reason:
+                        windowInfo(enrollment, subscription)!.cta === "renew"
+                          ? "locked"
+                          : "expired",
+                    })
+                  }
+                >
+                  {windowInfo(enrollment, subscription)!.cta === "renew"
+                    ? "Renew"
+                    : "Upgrade"}
+                </Button>
+              ) : (
+                <Button
+                  variant={isActive ? "outline" : "default"}
+                  size="sm"
+                  disabled={isActive || (isMutating && !isActive)}
+                  loading={isMutating && !isActive}
+                  onClick={() => handleOpen(enrollment)}
+                >
+                  {isActive ? "Active" : "Open"}
+                </Button>
+              )}
             </div>
           );
         })}
@@ -195,6 +235,11 @@ export const CpdPathways = ({
         </div>
       </Link>
       {/* )} */}
+
+      <SubscribeModal
+        target={upgradeTarget}
+        onOpenChange={(open) => !open && setUpgradeTarget(null)}
+      />
     </div>
   );
 };

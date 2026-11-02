@@ -5,3 +5,4 @@ export { ProfileHeader } from "./header";
 export { ProfessionalBackgroundCard } from "./professional-background";
 export { SubscriptionCard } from "./subscription";
 export { UserInfo } from "./user-info";
+export { PaymentHistoryCard } from "./payment-history";

@@ -12,7 +12,7 @@ import { LockIcon } from "lucide-react";
 import { Chip } from "../roster/pathway-chips";
 
 const fmt = (iso: string | null | undefined) =>
-  iso ? format(new Date(iso), "dd MMM yyyy") : "—";
+  iso ? format(new Date(iso), "do MMM, yyyy") : "—";
 
 type RosterSectionProps = {
   staff: RosterStaff;
@@ -21,7 +21,11 @@ type RosterSectionProps = {
 };
 
 /** School-only enrolment record, shown inside the shared profile sheet. */
-export const RosterSection = ({ staff, seats, onAssignSeat }: RosterSectionProps) => {
+export const RosterSection = ({
+  staff,
+  seats,
+  onAssignSeat,
+}: RosterSectionProps) => {
   const enrollments = enrollmentsOf(staff);
   const plan = planOf(staff, seats);
 
@@ -47,13 +51,22 @@ export const RosterSection = ({ staff, seats, onAssignSeat }: RosterSectionProps
           <table className="w-full text-xs">
             <thead className="bg-grey-3 text-grey-500">
               <tr>
-                {["Pathway", "Status", "Progress", "Started", "Completed", "Certificate", "Valid till"].map(
-                  (h) => (
-                    <th key={h} className="px-3 py-2 text-left font-semibold whitespace-nowrap">
-                      {h}
-                    </th>
-                  ),
-                )}
+                {[
+                  "Pathway",
+                  "Status",
+                  "Progress",
+                  "Started",
+                  "Completed",
+                  "Certificate",
+                  "Valid till",
+                ].map((h) => (
+                  <th
+                    key={h}
+                    className="px-3 py-2 text-left font-semibold whitespace-nowrap"
+                  >
+                    {h}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
@@ -62,15 +75,21 @@ export const RosterSection = ({ staff, seats, onAssignSeat }: RosterSectionProps
                   const done = e.status.toLowerCase() === "completed";
                   return (
                     <tr key={e.id} className="border-t">
-                      <td className="px-3 py-2 font-semibold text-grey-800">{e.course.title}</td>
+                      <td className="px-3 py-2 font-semibold text-grey-800">
+                        {e.course.title}
+                      </td>
                       <td className="px-3 py-2">
                         <Chip kind={done ? "done" : "prog"}>
                           {done ? "Completed" : "In progress"}
                         </Chip>
                       </td>
                       <td className="px-3 py-2">{e.progress}%</td>
-                      <td className="px-3 py-2 whitespace-nowrap">{fmt(e.startedAt)}</td>
-                      <td className="px-3 py-2 whitespace-nowrap">{fmt(e.completedAt)}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        {fmt(e.startedAt)}
+                      </td>
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        {fmt(e.completedAt)}
+                      </td>
                       <td className="px-3 py-2">
                         {e.certificate?.certificateId ?? (
                           <span className="text-grey-500">Not issued</span>

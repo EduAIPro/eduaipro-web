@@ -1,5 +1,6 @@
 import Typography from "@/components/common/ui/Typography";
-import { cn } from "@/lib/utils";
+import useSubscriptionPlans from "@/hooks/use-subscription-plans";
+import { cn, formatKobo } from "@/lib/utils";
 import { CheckIcon, MinusIcon } from "lucide-react";
 import { Fragment } from "react";
 
@@ -12,12 +13,7 @@ type Row = {
   values: [Cell, Cell, Cell, Cell];
 };
 
-const PLANS = [
-  { name: "Free", price: "₦0" },
-  { name: "Personal Pro", price: "₦30,000 / 2 years", highlight: true },
-  { name: "School Pro", price: "From ₦20,000 per seat" },
-  { name: "Custom", price: "Quoted" },
-];
+type PlanColumn = { name: string; price: string; highlight?: boolean };
 
 const SECTIONS: { title: string; rows: Row[] }[] = [
   {
@@ -121,6 +117,28 @@ function CellValue({ value }: { value: Cell }) {
 }
 
 export default function ComparePlans() {
+  const { personalPro, schoolPro } = useSubscriptionPlans();
+  const bands = schoolPro?.current?.bands ?? [];
+  const cheapest = bands.length
+    ? Math.min(...bands.map((b) => b.unitAmountKobo))
+    : null;
+  // Prices are data; only the Free and Custom columns are static copy.
+  const PLANS: PlanColumn[] = [
+    { name: "Free", price: "₦0" },
+    {
+      name: "Personal Pro",
+      price: personalPro?.current
+        ? `${formatKobo(personalPro.current.amountKobo, personalPro.current.currency)} / ${(personalPro.details?.termMonths ?? 24) / 12} years`
+        : "—",
+      highlight: true,
+    },
+    {
+      name: "School Pro",
+      price: cheapest !== null ? `From ${formatKobo(cheapest)} per seat` : "—",
+    },
+    { name: "Custom", price: "Quoted" },
+  ];
+
   return (
     <section
       id="compare"

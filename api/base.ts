@@ -1,8 +1,17 @@
 import { deleteRefreshToken } from "@/utils/auth";
 import { access_token_retrieve } from "@/utils/auth/helpers";
+import {
+  emitBillingError,
+  isBillingErrorCode,
+  messageText,
+} from "@/lib/billing-errors";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
-type ErrorResponse = { statusCode: number; message: string };
+type ErrorResponse = {
+  statusCode?: number;
+  message: string | string[];
+  code?: string;
+};
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const PUBLIC_ROUTES = [
@@ -58,7 +67,15 @@ api.interceptors.response.use(
       (axiosError.response.data as ErrorResponse)?.message
     ) {
       // Handle HTTP errors (4xx, 5xx)
-      throw (axiosError.response.data as ErrorResponse)?.message;
+      const data = axiosError.response.data as ErrorResponse;
+      const message = messageText(data.message);
+
+      // Pricing v3 402s are handled once, globally (see BillingErrorGate).
+      if (axiosError.response.status === 402 && isBillingErrorCode(data.code)) {
+        emitBillingError({ code: data.code, message });
+      }
+
+      throw message;
     } else if (axiosError.request) {
       const message = (axiosError.response?.data as ErrorResponse)?.message;
 

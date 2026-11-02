@@ -5,18 +5,20 @@ import { fetchPaginatedData } from "@/api/queries";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import useCheckoutReturn, { POLL_INTERVAL_MS } from "@/hooks/use-checkout-return";
+import useSchoolAccess from "@/hooks/use-school-access";
 import useSchoolSeats from "@/hooks/use-school-seats";
 import useSchoolTransactions from "@/hooks/use-school-transactions";
 import { Seat } from "@/types/school/billing";
 import { SchoolStaffsData } from "@/types/school/teachers";
+import { isFreshPending } from "@/lib/billing-dates";
 import { Loader2Icon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { AssignSeatModal } from "./assign-seat-modal";
 import { BuySeatsModal } from "./buy-seats-modal";
-import { PaymentFailedBanner } from "./payment-failed-banner";
 import { PurchasesList } from "./purchases-list";
+import { SeatPaywall } from "./seat-paywall";
 import { SeatsTable } from "./seats-table";
 import { SummaryCards } from "./summary-cards";
 import { TransactionsTable } from "./transactions-table";
@@ -26,6 +28,7 @@ export const SchoolBilling = () => {
   const [assignSeat, setAssignSeat] = useState<Seat | null>(null);
   const [polling, setPolling] = useState(false);
 
+  const { access, isLoading: accessLoading } = useSchoolAccess();
   const { seats, isLoading, forbidden, isError, refetch } = useSchoolSeats({
     refreshInterval: polling ? POLL_INTERVAL_MS : 0,
   });
@@ -35,7 +38,7 @@ export const SchoolBilling = () => {
     fetchPaginatedData,
   );
 
-  const checkout = useCheckoutReturn(seats, transactions?.items);
+  const checkout = useCheckoutReturn(transactions?.items);
   useEffect(() => setPolling(checkout.polling), [checkout.polling]);
   useEffect(() => {
     if (!checkout.polling) return;
@@ -43,6 +46,19 @@ export const SchoolBilling = () => {
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkout.polling]);
+
+  // A returning checkout must keep showing its status even though the school
+  // is still UNPAID until the webhook lands.
+  if (access?.state === "UNPAID" && checkout.phase === "idle") {
+    return <SeatPaywall />;
+  }
+
+  const pendingPayment = transactions?.items.find(
+    (t) =>
+      t.status === "PENDING" &&
+      t.channel !== "INVOICE" &&
+      isFreshPending(t.createdAt),
+  );
 
   return (
     <div className="space-y-5">
@@ -62,7 +78,9 @@ export const SchoolBilling = () => {
       {checkout.phase === "timeout" ? (
         <div role="status" className="flex flex-wrap items-center gap-3 rounded-xl border bg-amber-50 p-3.5 text-sm">
           <span className="flex-1">
-            Payment is still processing. Seats will appear once it’s confirmed.
+            We haven’t received your payment yet. Bank transfers can take a few
+            minutes. You can leave this page; your seats appear automatically
+            once the payment arrives.
           </span>
           <Button variant="outline" size="sm" onClick={() => refetch()}>
             Refresh
@@ -81,14 +99,23 @@ export const SchoolBilling = () => {
         </div>
       ) : null}
 
-      {isLoading ? (
+      {pendingPayment && checkout.phase === "idle" ? (
+        <div role="status" className="flex items-center gap-3 rounded-xl border bg-amber-50 p-3.5 text-sm">
+          <Loader2Icon className="size-4 shrink-0 animate-spin text-amber-700" />
+          <span className="flex-1">
+            Payment pending. If you paid by bank transfer, your seats appear
+            automatically once the money arrives.
+          </span>
+        </div>
+      ) : null}
+
+      {isLoading || accessLoading ? (
         <div className="space-y-3">
           <Skeleton className="h-24 w-full" />
           <Skeleton className="h-48 w-full" />
         </div>
       ) : seats ? (
         <>
-          <PaymentFailedBanner purchases={seats.purchases} />
           <SummaryCards data={seats} onBuy={() => setBuyOpen(true)} />
           <PurchasesList purchases={seats.purchases} />
           <SeatsTable seats={seats.seats} onAssign={setAssignSeat} />

@@ -7,6 +7,8 @@ import {
   schoolInviteKey,
 } from "@/api/keys";
 import { sendInvitation, StaffInvite } from "@/api/mutations";
+import useSchoolAccess from "@/hooks/use-school-access";
+import useSchoolDemo from "@/hooks/use-school-demo";
 import { generalFetcher } from "@/api/queries";
 import UploadIcon from "@/components/svgs/school/upload.svg";
 import { Button } from "@/components/ui/button";
@@ -21,9 +23,28 @@ import useSWRMutation from "swr/mutation";
 
 type InviteTeacherModalProps = {
   key?: string;
+  /**
+   * School owners only: disable invites when the school is read-only or the
+   * demo already has its 5 teachers. The admin uses this modal too, and must
+   * not call school-only routes.
+   */
+  gate?: boolean;
 };
 
-export const InviteTeacherModal = ({ key }: InviteTeacherModalProps) => {
+export const InviteTeacherModal = ({ key, gate = false }: InviteTeacherModalProps) => {
+  const { access } = useSchoolAccess(gate);
+  const { demo, refetch: refetchDemo } = useSchoolDemo(
+    gate && access?.state === "DEMO",
+  );
+  const readOnly = gate && !!access && !access.canWrite;
+  const demoFull =
+    gate && access?.state === "DEMO" && !!demo && demo.invitesRemaining <= 0;
+  const blockedReason = readOnly
+    ? "Renew seats to invite more teachers"
+    : demoFull
+      ? "Buy seats to add more"
+      : null;
+
   const [email, setEmail] = useState("");
   const [step, setStep] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
@@ -111,6 +132,7 @@ export const InviteTeacherModal = ({ key }: InviteTeacherModalProps) => {
           mutate([key, 1]);
         }
         toast.success("Invitation email sent successfully");
+        refetchDemo();
         setEmail("");
         setIsOpen(false);
       } else {
@@ -128,6 +150,7 @@ export const InviteTeacherModal = ({ key }: InviteTeacherModalProps) => {
         mutate([key, 1]);
       }
       toast.success(`${staffs.length} invitations sent successfully`);
+      refetchDemo();
       setStaffs([]);
       setStep(1);
       setIsOpen(false);
@@ -150,9 +173,11 @@ export const InviteTeacherModal = ({ key }: InviteTeacherModalProps) => {
         <Button
           onClick={() => setIsOpen(!isOpen)}
           className="max-sm:w-full flex-1"
+          disabled={!!blockedReason}
+          title={blockedReason ?? undefined}
         >
           <PlusIcon strokeWidth={2} />
-          <p className="font-medium">Invite teacher</p>
+          <p className="font-medium">{blockedReason ?? "Invite teacher"}</p>
         </Button>
       }
       toggleModal={(v) => {

@@ -7,7 +7,19 @@ import {
   SubscribeModal,
   SubscribeTarget,
 } from "@/components/dashboard/subscribe-modal";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
+import { monthsUntil } from "@/lib/billing-dates";
+import { format } from "date-fns";
+import { isSchoolProvided } from "@/types/billing";
 import usePathways from "@/hooks/use-pathways";
 import { isSubscriptionRequiredError, Pathway } from "@/types/enrollment";
 import { GraduationCapIcon } from "lucide-react";
@@ -20,7 +32,8 @@ import useSWRMutation from "swr/mutation";
 export default function PathwaysPage() {
   const router = useRouter();
   const { mutate } = useSWRConfig();
-  const { pathways, entitlement, isLoading } = usePathways();
+  const { pathways, entitlement, planEndsAt, shortPlan, isLoading } =
+    usePathways();
   const { trigger, isMutating } = useSWRMutation(
     enrollPathwayKey,
     enrollInPathway,
@@ -30,6 +43,9 @@ export default function PathwaysPage() {
     null,
   );
 
+  const [shortPlanFor, setShortPlanFor] = useState<Pathway | null>(null);
+  const schoolOnly = isSchoolProvided(entitlement);
+
   const openUpgrade = (pathway: Pathway) =>
     setUpgradeTarget({
       courseId: pathway.id,
@@ -37,7 +53,14 @@ export default function PathwaysPage() {
       reason: "add_pathway",
     });
 
-  const handleEnroll = async (pathway: Pathway) => {
+  // A certificate expires with the plan, so warn before starting a pathway
+  // the plan can barely outlast.
+  const handleEnroll = async (pathway: Pathway, skipWarning = false) => {
+    if (shortPlan && planEndsAt && !skipWarning) {
+      setShortPlanFor(pathway);
+      return;
+    }
+    setShortPlanFor(null);
     setEnrollingId(pathway.id);
     try {
       await trigger({ courseId: pathway.id });
@@ -63,7 +86,7 @@ export default function PathwaysPage() {
         <p className="text-sm text-gray-500 mt-1">
           Your completed pathways and certificates stay exactly as they are.
           {entitlement && !entitlement.canAddPathway
-            ? " Enrolling in another pathway needs an active subscription."
+            ? " Adding another pathway needs Personal Pro."
             : ""}
         </p>
       </div>
@@ -109,6 +132,47 @@ export default function PathwaysPage() {
           </div>
         </div>
       </section>
+
+      <Dialog
+        open={!!shortPlanFor}
+        onOpenChange={(open) => !open && setShortPlanFor(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Your plan ends soon</DialogTitle>
+            <DialogDescription>
+              Your plan ends on{" "}
+              {planEndsAt ? format(new Date(planEndsAt), "do MMM, yyyy") : "—"},
+              so a certificate from this pathway would be valid for about{" "}
+              {planEndsAt ? Math.max(monthsUntil(planEndsAt), 0) : 0} month
+              {planEndsAt && monthsUntil(planEndsAt) === 1 ? "" : "s"}.
+              {schoolOnly
+                ? " Ask your school to renew the seats to get a longer certificate."
+                : " Renew now to add 24 months."}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => shortPlanFor && handleEnroll(shortPlanFor, true)}
+            >
+              Continue
+            </Button>
+            {schoolOnly ? null : (
+              <Button
+                className="bg-[#1A56DB] hover:bg-[#1A56DB]/90"
+                onClick={() => {
+                  const p = shortPlanFor;
+                  setShortPlanFor(null);
+                  if (p) openUpgrade(p);
+                }}
+              >
+                Renew
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <SubscribeModal
         target={upgradeTarget}

@@ -6,7 +6,7 @@ export const SITE_URL = "https://eduaipro.ng";
 export const SITE_NAME = "EduAIPro";
 export const DEFAULT_DESCRIPTION =
   "Transform your teaching with EduAIPro's Accredited Continued Professional Development (CPD) courses. Designed for mentors, teaching assistants, primary, secondary, and higher institution educators, our AI-powered platform equips you with the tools to thrive and make a lasting impact.";
-export const DEFAULT_OG_IMAGE = "/og.png";
+export const DEFAULT_OG_IMAGE = "/assets/og.png";
 
 /**
  * Root-level metadata. This must live on a Server Component (app/layout.tsx) —
@@ -70,7 +70,7 @@ export type PageMetadataInput = {
   description?: string;
   /** Path from the site root, e.g. "/about" — used for the canonical URL and OG url. */
   path?: string;
-  /** Path or absolute URL to a page-specific social share image. Defaults to /og.png. */
+  /** Path or absolute URL to a page-specific social share image. Defaults to /assets/og.png. */
   image?: string;
   /** Set true for pages that should not be indexed (auth flows, transactional pages). */
   noIndex?: boolean;

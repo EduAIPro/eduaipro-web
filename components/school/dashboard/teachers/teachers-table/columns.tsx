@@ -20,9 +20,7 @@ const planStyle = {
   school: "text-purple-700 bg-purple-100",
 };
 
-export const getTeachersColumns = (
-  seats: Seat[],
-): ColumnDef<RosterStaff>[] => [
+export const getTeachersColumns = (seats: Seat[]): ColumnDef<RosterStaff>[] => [
   {
     accessorKey: "name",
     header: "Name",
@@ -44,7 +42,9 @@ export const getTeachersColumns = (
   {
     accessorKey: "pathways",
     header: "Pathways",
-    cell: ({ row }) => <PathwayChips enrollments={enrollmentsOf(row.original)} />,
+    cell: ({ row }) => (
+      <PathwayChips enrollments={enrollmentsOf(row.original)} />
+    ),
   },
   {
     accessorKey: "activeProgress",
@@ -85,7 +85,7 @@ export const getTeachersColumns = (
           {expiry ? (
             <span className="text-[11px] text-grey-500">
               {" "}
-              · exp {format(new Date(expiry), "dd MMM yyyy")}
+              · exp {format(new Date(expiry), "do MMM, yyyy")}
             </span>
           ) : null}
         </p>

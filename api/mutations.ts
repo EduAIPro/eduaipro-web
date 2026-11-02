@@ -55,6 +55,7 @@ import {
   SetPlanPricePayload,
   SetPlanPriceResponse,
 } from "@/types/admin/billing";
+import { messageText } from "@/lib/billing-errors";
 import {
   SchoolBillingCall,
   toSchoolBillingError,
@@ -64,7 +65,9 @@ import {
   AssignSeatResponse,
   BuySeatsPayload,
   BuySeatsResponse,
-  CancelSeatPurchaseResponse,
+  CheckoutResponse,
+  DemoStatus,
+  RenewSeatsPayload,
 } from "@/types/school/billing";
 import {
   EnrollPayload,
@@ -73,12 +76,7 @@ import {
   SetActiveCourseResponse,
   SubscriptionRequiredError,
 } from "@/types/enrollment";
-import {
-  CancelSubscriptionResponse,
-  ResumeSubscriptionResponse,
-  SubscribePayload,
-  SubscribeResponse,
-} from "@/types/billing";
+import { SubscribePayload, SubscribeResponse } from "@/types/billing";
 
 // const isLocalhost = window.location.host.includes("localhost");
 
@@ -337,38 +335,6 @@ export async function subscribeCheckout(
     );
 
     return response.data?.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function cancelSubscription(
-  url: string,
-): Promise<CancelSubscriptionResponse> {
-  try {
-    const response = await apiClient<CancelSubscriptionResponse>(
-      url,
-      undefined,
-      "post",
-    );
-
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function resumeSubscription(
-  url: string,
-): Promise<ResumeSubscriptionResponse> {
-  try {
-    const response = await apiClient<ResumeSubscriptionResponse>(
-      url,
-      undefined,
-      "post",
-    );
-
-    return response.data;
   } catch (error) {
     throw error;
   }
@@ -794,11 +760,15 @@ async function schoolBillingPost<T>(
 
     return response.data?.data;
   } catch (error) {
-    const axiosError = error as AxiosError<{ message?: string }>;
+    const axiosError = error as AxiosError<{
+      message?: string | string[];
+      code?: string;
+    }>;
     throw toSchoolBillingError(
       call,
       axiosError.response?.status,
       axiosError.response?.data?.message ?? axiosError.message,
+      axiosError.response?.data?.code,
     );
   }
 }
@@ -810,11 +780,20 @@ export async function buySchoolSeats(
   return schoolBillingPost("purchase", url, arg);
 }
 
-export async function cancelSchoolSeatPurchase(
+export async function renewSchoolSeats(
   url: string,
-  { arg }: { arg: { purchaseId: string } },
-): Promise<CancelSeatPurchaseResponse> {
-  return schoolBillingPost("cancel", url.replace(":purchaseId", arg.purchaseId));
+  { arg }: { arg: RenewSeatsPayload },
+): Promise<CheckoutResponse> {
+  const { purchaseId, ...body } = arg;
+  return schoolBillingPost(
+    "renew",
+    url.replace(":purchaseId", purchaseId),
+    body,
+  );
+}
+
+export async function startSchoolDemo(url: string): Promise<DemoStatus> {
+  return schoolBillingPost("demo", url);
 }
 
 export async function assignSchoolSeat(
@@ -825,7 +804,6 @@ export async function assignSchoolSeat(
   return schoolBillingPost("assign", url.replace(":seatId", seatId), body);
 }
 
-// Release method/response not confirmed against the Postman collection.
 export async function releaseSchoolSeat(
   url: string,
   { arg }: { arg: { seatId: string } },
@@ -837,8 +815,7 @@ export async function releaseSchoolSeat(
 // "needs confirm" 400 from a plain validation error.
 const toAdminBillingError = (error: unknown): AdminBillingError => {
   const e = error as AxiosError<{ message?: string | string[] }>;
-  const raw = e.response?.data?.message;
-  const message = Array.isArray(raw) ? raw.join(", ") : (raw ?? e.message);
+  const message = messageText(e.response?.data?.message, e.message);
   return {
     status: e.response?.status,
     message,
@@ -852,7 +829,7 @@ export async function setAdminPlanPrice(
 ): Promise<SetPlanPriceResponse> {
   const { planId, ...body } = arg;
   try {
-    const response = await api.post<{ data: SetPlanPriceResponse }>(
+    const response = await api.put<{ data: SetPlanPriceResponse }>(
       url.replace(":planId", planId),
       body,
       { headers: { "x-raw-error": "1" } },
@@ -872,6 +849,39 @@ export async function deleteAdminPlanPrice(
       url.replace(":planId", arg.planId).replace(":priceId", arg.priceId),
       { headers: { "x-raw-error": "1" } },
     );
+  } catch (error) {
+    throw toAdminBillingError(error);
+  }
+}
+
+export async function markInvoicePaid(
+  url: string,
+  { arg }: { arg: { purchaseId: string } },
+): Promise<{ invoiceNumber: string; status: string }> {
+  try {
+    const response = await api.post<{
+      data: { invoiceNumber: string; status: string };
+    }>(url.replace(":purchaseId", arg.purchaseId), {}, {
+      headers: { "x-raw-error": "1" },
+    });
+    return response.data?.data;
+  } catch (error) {
+    throw toAdminBillingError(error);
+  }
+}
+
+export async function extendSchoolDemo(
+  url: string,
+  { arg }: { arg: { demoId: string; days: number } },
+): Promise<unknown> {
+  const { demoId, ...body } = arg;
+  try {
+    const response = await api.post<{ data: unknown }>(
+      url.replace(":demoId", demoId),
+      body,
+      { headers: { "x-raw-error": "1" } },
+    );
+    return response.data?.data;
   } catch (error) {
     throw toAdminBillingError(error);
   }

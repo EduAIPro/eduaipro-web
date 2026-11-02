@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import useSubscriptionPlans from "@/hooks/use-subscription-plans";
+import { cn, formatKobo } from "@/lib/utils";
 import { GraduationCapIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,13 +19,16 @@ const FREE_FACTS: Fact[] = [
 const PRO_FACTS: Fact[] = [
   { label: "Pathways", value: "All 5", strong: true },
   { label: "Certificate", value: "Issued automatically", strong: true },
-  { label: "Certificate valid", value: "2 years from the day you finish" },
+  { label: "Certificate valid", value: "Until your plan ends" },
   { label: "Time to finish", value: "6 months + one extension" },
-  { label: "Refresher", value: "Included" },
+  { label: "Refresher", value: "Needs an active plan" },
 ];
 
 export default function TeacherPlans() {
   const router = useRouter();
+  const { personalPro } = useSubscriptionPlans();
+  const price = personalPro?.current ?? null;
+  const termMonths = personalPro?.details?.termMonths ?? 24;
 
   return (
     <section
@@ -71,7 +75,7 @@ export default function TeacherPlans() {
           <Button
             variant="outline"
             className="w-full"
-            onClick={() => router.push("/dashboard/pathways")}
+            onClick={() => router.push("/register?type=teacher")}
           >
             Start learning free
           </Button>
@@ -108,17 +112,30 @@ export default function TeacherPlans() {
             </p>
           </div>
           <PriceBlock
-            amount="₦30,000"
-            unit="for 2 years"
+            amount={price ? formatKobo(price.amountKobo, price.currency) : "—"}
+            unit={`for ${termMonths / 12} years`}
             note={
               <>
-                About <b className="text-grey-11">₦1,250 a month</b> · paid once
-                · card or bank transfer
+                {price ? (
+                  <>
+                    About{" "}
+                    <b className="text-grey-11">
+                      {formatKobo(
+                        Math.round(price.amountKobo / termMonths),
+                        price.currency,
+                      )}{" "}
+                      a month
+                    </b>{" "}
+                    ·{" "}
+                  </>
+                ) : null}
+                paid once · card or bank transfer · nothing renews by itself
               </>
             }
           />
           <Button
             className="w-full"
+            disabled={!price}
             onClick={() => router.push("/dashboard/profile")}
           >
             Get Personal Pro

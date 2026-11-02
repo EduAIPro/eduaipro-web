@@ -1,10 +1,8 @@
+import { Subscription } from "./billing";
 import { TeacherLevelType } from "./course";
 
-export type Entitlement = {
-  canAddPathway: boolean;
-  maxEnrollments: number;
-  enrolledCount?: number;
-};
+/** Resolved entitlement, same shape as GET billing/subscription. */
+export type Entitlement = Subscription;
 
 export type Pathway = {
   id: string;
@@ -24,10 +22,15 @@ export type Pathway = {
 
 export type GetPathwaysResponse = {
   entitlement: Entitlement;
+  planEndsAt: string | null;
+  /** true when less than 6 months of plan remain */
+  shortPlan: boolean;
   pathways: Pathway[];
 };
 
 export type EnrollmentStatus = "in_progress" | "completed" | string;
+
+export type PathwayWindow = "OPEN" | "EXTENDED" | "EXPIRED" | "LOCKED";
 
 export type EnrollmentCourseSummary = {
   id: string;
@@ -39,7 +42,8 @@ export type EnrollmentCourseSummary = {
 };
 
 export type EnrollmentCertificateSummary = {
-  id: string;
+  id?: string;
+  courseId?: string;
   certificateId: string;
   issuedAt: string;
   expiresAt: string;
@@ -55,6 +59,11 @@ export type Enrollment = {
   currentUnit: { id: string; index: number; title: string } | null;
   startedAt: string;
   completedAt: string | null;
+  window?: PathwayWindow;
+  /** null until the teacher opens the first unit */
+  clockStartedAt?: string | null;
+  deadlineAt?: string | null;
+  extendedAt?: string | null;
   isActive: boolean;
   certificate: EnrollmentCertificateSummary | null;
 };

@@ -8,7 +8,7 @@ import {
 import { setActiveCourse } from "@/api/mutations";
 import { cn } from "@/lib/utils";
 import { Enrollment } from "@/types/enrollment";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, LockIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useSWRConfig } from "swr";
@@ -70,6 +70,11 @@ export function PathwaySwitcher({
             )}
           >
             {isActive && <CheckIcon size={12} />}
+            {!isActive &&
+            (enrollment.window === "EXPIRED" ||
+              enrollment.window === "LOCKED") ? (
+              <LockIcon size={11} />
+            ) : null}
             <span className="capitalize">
               {enrollment.course.title.replaceAll("_", " ").toLowerCase()}
             </span>

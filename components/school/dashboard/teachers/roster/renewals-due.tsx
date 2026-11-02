@@ -32,7 +32,9 @@ export const RenewalsDue = ({ renewals }: { renewals: Stats["renewals"] }) => (
               <span
                 className={cn(
                   "rounded-full px-2.5 py-0.5 text-[10.5px] font-semibold whitespace-nowrap",
-                  days < 30 ? "bg-red-100 text-red-700" : "bg-grey-3 text-grey-500",
+                  days < 30
+                    ? "bg-red-100 text-red-700"
+                    : "bg-grey-3 text-grey-500",
                 )}
               >
                 {days < 0 ? "Expired" : `${days} days`}
@@ -46,7 +48,7 @@ export const RenewalsDue = ({ renewals }: { renewals: Stats["renewals"] }) => (
                 </p>
               </div>
               <span className="whitespace-nowrap text-xs text-grey-500">
-                Valid till {format(new Date(cert.expiresAt), "dd MMM yyyy")}
+                Valid till {format(new Date(cert.expiresAt), "do MMM, yyyy")}
               </span>
             </li>
           );

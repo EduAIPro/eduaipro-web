@@ -10,6 +10,13 @@ import DashboardSkeleton from "@/components/dashboard/dashboard-skeleton";
 import { OnboardingWalkthrough } from "@/components/dashboard/onboarding";
 import PersonalDevPlan from "@/components/dashboard/PersonalDevPlan/PersonalDevPlan";
 import { PathwaySwitcher } from "@/components/dashboard/pathway-switcher";
+import { WindowNote } from "@/components/dashboard/pathway-window-note";
+import {
+  SubscribeModal,
+  SubscribeTarget,
+} from "@/components/dashboard/subscribe-modal";
+import { windowInfo } from "@/lib/pathway-window";
+import { isDemoTeacher, isSchoolProvided } from "@/types/billing";
 import { Button } from "@/components/ui/button";
 import DocumentIcon from "@/components/svgs/document.svg";
 import useCourse from "@/hooks/use-course";
@@ -18,7 +25,7 @@ import useSubscription from "@/hooks/use-subscription";
 import { useIsMobile } from "@/hooks/use-mobile";
 import useUser from "@/hooks/use-user";
 import { Staff } from "@/types/user";
-import { PlusIcon } from "lucide-react";
+import { AlertTriangleIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
@@ -49,7 +56,6 @@ export default function OverviewPage() {
   const {
     enrollments,
     activeCourseId,
-    entitlement,
     isLoading: enrollmentsLoading,
     mutate: mutateEnrollments,
   } = useEnrollments({
@@ -58,8 +64,6 @@ export default function OverviewPage() {
   const { subscription, isLoading: subscriptionLoading } = useSubscription(
     !!(staff as Staff)?.acceptedTermsAndConditions,
   );
-  const canAddPathway =
-    entitlement?.canAddPathway ?? subscription?.canAddPathway ?? false;
   const isMobile = useIsMobile(768);
 
   const { trigger: updateProfile } = useSWRMutation(
@@ -67,6 +71,9 @@ export default function OverviewPage() {
     updatePersonalInfo,
   );
 
+  const [upgradeTarget, setUpgradeTarget] = useState<SubscribeTarget | null>(
+    null,
+  );
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [finishSignal, setFinishSignal] = useState(0);
 
@@ -185,11 +192,13 @@ export default function OverviewPage() {
     mutateEnrollments();
   }, [unitIndex, mutateEnrollments]);
 
-  // Does the current plan issue a certificate for this course?
-  const certificateCovered =
-    !!subscription?.canIssueCertificate &&
-    (subscription.coveredCourseIds == null ||
-      subscription.coveredCourseIds.includes(course?.id ?? ""));
+  // Every paid plan covers every pathway, so one flag decides.
+  const certificateCovered = !!subscription?.canIssueCertificate;
+
+  const pathwayWindow = enrollment
+    ? windowInfo(enrollment, subscription)
+    : null;
+  const demo = isDemoTeacher(subscription);
 
   return isLoading || courseLoading || enrollmentsLoading ? (
     <DashboardSkeleton />
@@ -230,6 +239,42 @@ export default function OverviewPage() {
               </Link>
               {/* )} */}
             </div>
+            {pathwayWindow &&
+            (pathwayWindow.closed || pathwayWindow.tone === "warn") ? (
+              <WindowNote
+                info={pathwayWindow}
+                onAction={
+                  isSchoolProvided(subscription)
+                    ? undefined
+                    : () =>
+                        setUpgradeTarget({
+                          reason:
+                            pathwayWindow.cta === "renew"
+                              ? "locked"
+                              : "expired",
+                          courseId: course.id,
+                          title: course.title,
+                        })
+                }
+              />
+            ) : pathwayWindow && enrollment?.status !== "completed" ? (
+              <p className="text-xs font-medium text-grey-500">
+                {pathwayWindow.detail}
+              </p>
+            ) : null}
+            {demo ? (
+              <div className="rounded-xl bg-amber-100 p-3.5 text-sm text-amber-700 flex items-center gap-2">
+                <AlertTriangleIcon size={18} />
+                <p className="text-amber-800">
+                  Your school is trialling EduAI Pro, so Unit
+                  {subscription?.unitCap && subscription.unitCap > 1
+                    ? "s 1 to "
+                    : " "}
+                  {subscription?.unitCap ?? 1} is open. Ask your school to
+                  activate your seat, or get Personal Pro to open everything.
+                </p>
+              </div>
+            ) : null}
             {/* <div className="flex items-start gap-10">
               <div id="course-content-stats">
                 <h3 className="font-medium text-sm">Content</h3>
@@ -291,11 +336,17 @@ export default function OverviewPage() {
             !!courseProgress.isCompleted
           }
           hasCertificate={!!enrollment?.certificate}
-          ready={!!user && !!enrollment && !subscriptionLoading && !!subscription}
+          ready={
+            !!user && !!enrollment && !subscriptionLoading && !!subscription
+          }
           needsSubscription={!certificateCovered}
           finishSignal={finishSignal}
         />
         {/* <ChatBot /> */}
+        <SubscribeModal
+          target={upgradeTarget}
+          onOpenChange={(open) => !open && setUpgradeTarget(null)}
+        />
       </>
     )
   );

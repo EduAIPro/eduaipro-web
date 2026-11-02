@@ -43,7 +43,7 @@ export const hasSchoolSeat = (s: RosterStaff, seats: Seat[] = []) => {
   return seats.some(
     (seat) =>
       (seat.state === "ASSIGNED" || seat.state === "CONSUMED") &&
-      seat.staff?.email.toLowerCase() === email,
+      seat.staff?.user.email.toLowerCase() === email,
   );
 };
 

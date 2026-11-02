@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { isCompleted } from "@/lib/school-roster";
 
 const fmt = (iso: string | null | undefined) =>
-  iso ? format(new Date(iso), "dd MMM yyyy") : "—";
+  iso ? format(new Date(iso), "do MMM, yyyy") : "—";
 
 const chipStyle = {
   done: "text-green-700 bg-green-100",
@@ -64,7 +64,11 @@ const EnrollmentTip = ({ e }: { e: Enrollment }) => {
   );
 };
 
-export const PathwayChips = ({ enrollments }: { enrollments: Enrollment[] }) => {
+export const PathwayChips = ({
+  enrollments,
+}: {
+  enrollments: Enrollment[];
+}) => {
   if (!enrollments.length) return <span className="text-grey-500">—</span>;
   const shown = enrollments.slice(0, 2);
   const rest = enrollments.slice(2);
@@ -87,7 +91,8 @@ export const PathwayChips = ({ enrollments }: { enrollments: Enrollment[] }) => 
               </b>
               {rest.map((e) => (
                 <span key={e.id} className="block">
-                  {e.course.title} — {isCompleted(e) ? "complete" : `${e.progress}%`}
+                  {e.course.title} —{" "}
+                  {isCompleted(e) ? "complete" : `${e.progress}%`}
                 </span>
               ))}
             </>
@@ -104,7 +109,8 @@ export const ChipLegend = () => (
   <div className="flex flex-wrap items-center gap-4 rounded-t-xl border border-b-0 bg-white px-3.5 py-2.5 text-[11px] text-grey-500">
     <span className="flex items-center gap-1.5">
       <Chip kind="done">Primary ✓</Chip>
-      <b className="font-semibold text-grey-800">Complete</b> — all units finished
+      <b className="font-semibold text-grey-800">Complete</b> — all units
+      finished
     </span>
     <span className="flex items-center gap-1.5">
       <Chip kind="prog">Mentors ●</Chip>
@@ -112,8 +118,8 @@ export const ChipLegend = () => (
     </span>
     <span className="flex items-center gap-1.5">
       <Chip kind="more">+2</Chip>
-      <b className="font-semibold text-grey-800">More</b> — hover or focus a chip
-      for detail
+      <b className="font-semibold text-grey-800">More</b> — hover or focus a
+      chip for detail
     </span>
   </div>
 );

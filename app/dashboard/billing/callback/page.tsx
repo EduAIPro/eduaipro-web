@@ -1,19 +1,26 @@
 "use client";
 
-import { getPathwaysKey, getSubscriptionKey } from "@/api/keys";
-import { generalFetcher } from "@/api/queries";
+import {
+  getEnrollmentsKey,
+  getPathwaysKey,
+  getSubscriptionKey,
+  transactionsKey,
+} from "@/api/keys";
+import api from "@/api/base";
 import { Button } from "@/components/ui/button";
-import { GetPathwaysResponse } from "@/types/enrollment";
-import { Subscription } from "@/types/billing";
-import { CheckCircle2Icon, Loader2Icon } from "lucide-react";
+import { failureCopy } from "@/lib/billing-dates";
+import { clearTeacherCheckout, readTeacherCheckout } from "@/lib/school-checkout";
+import { Transaction } from "@/types/billing";
+import { CheckCircle2Icon, Loader2Icon, XCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
+import { useSWRConfig } from "swr";
 
-const MAX_ATTEMPTS = 15;
-const POLL_INTERVAL_MS = 2000;
+const POLL_INTERVAL_MS = 3000;
+const POLL_TIMEOUT_MS = 120_000;
 
-type PollState = "polling" | "confirmed" | "timeout";
+type PollState = "polling" | "confirmed" | "failed" | "pending";
 
 export default function BillingCallbackPage() {
   return (
@@ -25,76 +32,88 @@ export default function BillingCallbackPage() {
 
 function BillingCallbackContent() {
   const router = useRouter();
+  const { mutate } = useSWRConfig();
   const searchParams = useSearchParams();
-  const courseId = searchParams.get("courseId");
   const intent = searchParams.get("intent"); // "enroll" | "certificate"
+  // Paystack returns ?trxref=<ref>&reference=<ref>
+  const reference =
+    searchParams.get("reference") ??
+    searchParams.get("trxref") ??
+    readTeacherCheckout()?.reference ??
+    null;
 
   const [state, setState] = useState<PollState>("polling");
+  const [failure, setFailure] = useState<string | null>(null);
   const [pollKey, setPollKey] = useState(0);
-  const attemptsRef = useRef(0);
+  const startedAt = useRef(Date.now());
 
   useEffect(() => {
     let cancelled = false;
+    let timer: ReturnType<typeof setTimeout>;
+    startedAt.current = Date.now();
 
-    const checkEntitlement = async () => {
+    const check = async () => {
+      let tx: Transaction | undefined;
       try {
-        const subscription: Subscription | null = await generalFetcher(
-          getSubscriptionKey,
-        ).catch(() => null);
-
-        let unlocked = false;
-
-        if (courseId) {
-          const pathwaysResponse: GetPathwaysResponse | null =
-            await generalFetcher(getPathwaysKey).catch(() => null);
-          const target = pathwaysResponse?.pathways?.find(
-            (p) => p.id === courseId,
-          );
-          unlocked = !!(target && (target.enrolled || target.entitled));
-        } else {
-          unlocked = !!subscription?.canAddPathway;
-        }
-
-        if (cancelled) return;
-
-        if (unlocked) {
-          setState("confirmed");
-          return;
-        }
-
-        attemptsRef.current += 1;
-        if (attemptsRef.current >= MAX_ATTEMPTS) {
-          setState("timeout");
-          return;
-        }
-
-        setTimeout(checkEntitlement, POLL_INTERVAL_MS);
+        const res = await api.get(transactionsKey, { params: { limit: 10 } });
+        tx = (res.data.data?.items as Transaction[] | undefined)?.find(
+          (t) => t.reference === reference,
+        );
       } catch {
-        if (cancelled) return;
-        attemptsRef.current += 1;
-        if (attemptsRef.current >= MAX_ATTEMPTS) {
-          setState("timeout");
-          return;
-        }
-        setTimeout(checkEntitlement, POLL_INTERVAL_MS);
+        // keep polling; a blip should not read as a failed payment
       }
+      if (cancelled) return;
+
+      if (tx?.status === "SUCCESS") {
+        clearTeacherCheckout();
+        await Promise.all([
+          mutate(getSubscriptionKey),
+          mutate(getPathwaysKey),
+          mutate(getEnrollmentsKey),
+        ]);
+        if (!cancelled) setState("confirmed");
+        return;
+      }
+      if (tx?.status === "FAILED") {
+        clearTeacherCheckout();
+        setFailure(failureCopy(tx.failureReason, tx.reference));
+        setState("failed");
+        return;
+      }
+      // PENDING, or not listed yet: bank transfers can take minutes, so keep
+      // going until the timeout and then say so without calling it a failure.
+      if (Date.now() - startedAt.current >= POLL_TIMEOUT_MS) {
+        setState("pending");
+        return;
+      }
+      timer = setTimeout(check, POLL_INTERVAL_MS);
     };
 
-    checkEntitlement();
+    if (!reference) {
+      setState("pending");
+      return;
+    }
+    setState("polling");
+    check();
 
     return () => {
       cancelled = true;
+      clearTimeout(timer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [courseId, pollKey]);
+  }, [reference, pollKey]);
 
   useEffect(() => {
     if (state !== "confirmed") return;
     const timer = setTimeout(() => {
       router.replace(
-        intent === "certificate" ? "/dashboard/certificates" : "/dashboard/pathways",
+        intent === "certificate"
+          ? "/dashboard/certificates"
+          : intent === "enroll"
+            ? "/dashboard/pathways"
+            : "/dashboard/profile",
       );
-    }, 1200);
+    }, 1500);
     return () => clearTimeout(timer);
   }, [state, intent, router]);
 
@@ -108,8 +127,8 @@ function BillingCallbackContent() {
               Confirming your payment…
             </h3>
             <p className="text-[12.5px] text-gray-500 mt-1 max-w-sm">
-              This usually takes a few seconds. Please don{"'"}t close this
-              page.
+              Card payments usually confirm in a few seconds. Bank transfers
+              can take a few minutes.
             </p>
           </div>
         </>
@@ -122,41 +141,59 @@ function BillingCallbackContent() {
           </div>
           <div>
             <h3 className="text-sm font-bold text-gray-900">
-              Subscription active
+              Payment confirmed
             </h3>
-            <p className="text-[12.5px] text-gray-500 mt-1">
-              Taking you back now…
+            <p className="text-[12.5px] text-gray-500 mt-1 max-w-sm">
+              {intent === "certificate"
+                ? "Your certificate is being prepared and will appear shortly."
+                : "Taking you back now…"}
             </p>
           </div>
         </>
       )}
 
-      {state === "timeout" && (
+      {state === "failed" && (
         <>
+          <div className="w-14 h-14 rounded-full bg-red-100 text-red-600 flex items-center justify-center">
+            <XCircleIcon size={28} />
+          </div>
           <div className="max-w-sm space-y-1">
             <h3 className="text-sm font-bold text-gray-900">
-              This is taking longer than expected
+              {failure}
+            </h3>
+          </div>
+          <Link href="/dashboard/profile">
+            <Button className="bg-[#1A56DB] hover:bg-[#1A56DB]/90">
+              Back to my account
+            </Button>
+          </Link>
+        </>
+      )}
+
+      {state === "pending" && (
+        <>
+          <div className="max-w-md space-y-1">
+            <h3 className="text-sm font-bold text-gray-900">
+              We haven{"'"}t received your payment yet
             </h3>
             <p className="text-[12.5px] text-gray-500">
-              Your payment may still be processing. Refresh to check again, or
-              head back to your dashboard — we{"'"}ll unlock everything as
-              soon as it{"'"}s confirmed.
+              Bank transfers can take a few minutes. You can leave this page;
+              your plan will activate automatically once the payment arrives.
+              Check your billing page later.
             </p>
           </div>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={() => {
-                attemptsRef.current = 0;
-                setState("polling");
-                setPollKey((k) => k + 1);
-              }}
-            >
-              Refresh
-            </Button>
-            <Link href="/dashboard">
+            {reference ? (
+              <Button
+                variant="outline"
+                onClick={() => setPollKey((k) => k + 1)}
+              >
+                Check again
+              </Button>
+            ) : null}
+            <Link href="/dashboard/profile">
               <Button className="bg-[#1A56DB] hover:bg-[#1A56DB]/90">
-                Go to dashboard
+                Go to billing
               </Button>
             </Link>
           </div>

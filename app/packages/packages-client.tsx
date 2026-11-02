@@ -34,8 +34,8 @@ export default function PricingPageClient() {
             Pricing for teachers and schools
           </h1>
           <Typography.P weight="medium" fontColor="medium">
-            Every plan includes certificates. Teachers can buy their own plan,
-            and schools buy a seat for each teacher they assign.
+            Pay once for 24 months, by card or bank transfer. Teachers can buy their
+            own plan, and schools buy a seat for each teacher they assign.
           </Typography.P>
         </div>
         {/* <ul className="grid md:grid-cols-3 gap-4 divide-x w-full border rounded-lg">
@@ -134,7 +134,7 @@ export default function PricingPageClient() {
                       if (payer === "you") {
                         router.push("/dashboard/profile");
                       } else {
-                        router.push("/school/settings?tab=billing");
+                        router.push("/school/billing");
                       }
                     }}
                   >

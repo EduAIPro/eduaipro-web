@@ -1,7 +1,10 @@
 "use client";
 import Typography from "@/components/common/ui/Typography";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import useSeatQuote from "@/hooks/use-seat-quote";
+import useSubscriptionPlans from "@/hooks/use-subscription-plans";
+import { cn, formatKobo } from "@/lib/utils";
+import { SeatBand } from "@/types/billing";
 import {
   BuildingIcon,
   CheckIcon,
@@ -13,17 +16,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
-const BANDS = [
-  { id: 1, min: 5, label: "5 – 24 seats", rate: 25000 },
-  { id: 2, min: 25, label: "25 – 99 seats", rate: 22500 },
-  { id: 3, min: 100, label: "100 – 299 seats", rate: 20000 },
-];
-const MIN_SEATS = 5;
-const MAX_SEATS = 299;
-const TICKS = [5, 25, 100, 299];
 const DEFAULT_SEATS = 20;
+const FALLBACK_LIMITS = { min: 5, max: 299 };
 
 const INCLUDED = [
   {
@@ -36,7 +32,7 @@ const INCLUDED = [
 
 const STEPS = [
   "Create your school account and verify your email",
-  "Choose your seats and pay by card or bank transfer",
+  "Choose your seats and pay by card, bank transfer or invoice",
   "Open your dashboard and invite your teachers",
 ];
 
@@ -57,11 +53,10 @@ const DEMO_LIMITS = [
   "No card needed",
 ];
 
-const naira = (v: number) => `₦${v.toLocaleString("en-NG")}`;
-const bandFor = (n: number) =>
-  [...BANDS].reverse().find((b) => n >= b.min) ?? BANDS[0];
-const clampSeats = (n: number) =>
-  Math.max(MIN_SEATS, Math.min(MAX_SEATS, Math.round(n) || MIN_SEATS));
+const bandLabel = (b: SeatBand) =>
+  b.maxQuantity === null
+    ? `${b.minQuantity}+ seats`
+    : `${b.minQuantity} – ${b.maxQuantity} seats`;
 
 const mailto = (subject: string) =>
   `mailto:support@eduaipro.ng?subject=${encodeURIComponent(subject)}`;
@@ -98,26 +93,31 @@ export default function SchoolPlans() {
 
 function SchoolProCard() {
   const router = useRouter();
+  const { schoolPro } = useSubscriptionPlans();
   const [seats, setSeats] = useState(DEFAULT_SEATS);
 
-  const band = bandFor(seats);
-  const total = seats * band.rate;
-  const saved = seats * BANDS[0].rate - total;
+  // Prices, band edges and limits are data: they come from the plan and the
+  // quote endpoint, never from this file.
+  const bands = schoolPro?.current?.bands ?? [];
+  const currency = schoolPro?.current?.currency ?? "NGN";
+  const { quote, isStale } = useSeatQuote(seats);
+  const limits = quote?.limits ?? {
+    min: bands[0]?.minQuantity ?? FALLBACK_LIMITS.min,
+    max: bands[bands.length - 1]?.maxQuantity ?? FALLBACK_LIMITS.max,
+  };
+  const clampSeats = (n: number) =>
+    Math.max(limits.min, Math.min(limits.max, Math.round(n) || limits.min));
 
-  // Nudge: the next band is reachable for the same or less money.
-  const next = BANDS.find((b) => b.min > seats);
-  const nextTotal = next ? next.min * next.rate : 0;
-  const showNudge = !!next && nextTotal <= total;
-  // Keep the last content around so text doesn't vanish mid fade-out.
-  const lastSaved = useRef(saved);
-  const lastNext = useRef(next);
-  if (saved > 0) lastSaved.current = saved;
-  if (showNudge) lastNext.current = next;
-  const shownNext = lastNext.current;
-  const shownNextTotal = shownNext ? shownNext.min * shownNext.rate : 0;
-  const fill = ((seats - MIN_SEATS) / (MAX_SEATS - MIN_SEATS)) * 100;
+  const showSaving = !!quote && quote.savingKobo > 0;
+  const nudge = quote?.nudge ?? null;
+  const fill = ((seats - limits.min) / (limits.max - limits.min)) * 100;
+  const ticks = [
+    limits.min,
+    ...bands.slice(1).map((b) => b.minQuantity),
+    limits.max,
+  ];
 
-  const buy = () => router.push("/school/settings?tab=billing");
+  const buy = () => router.push(`/school/billing?seats=${clampSeats(seats)}`);
 
   return (
     <div
@@ -148,31 +148,33 @@ function SchoolProCard() {
           <div>
             <p className="flex items-baseline gap-2">
               <span className="text-4xl font-semibold tracking-tight">
-                {naira(BANDS[0].rate)}
+                {bands[0] ? formatKobo(bands[0].unitAmountKobo, currency) : "—"}
               </span>
               <span className="text-sm font-medium text-grey-11">per seat</span>
             </p>
             <p className="text-xs font-medium text-grey-10 mt-1">
               1 seat = 1 teacher · covers{" "}
-              <b className="text-grey-11">2 years</b> · from 5 seats
+              <b className="text-grey-11">2 years</b> · from {limits.min} seats
             </p>
           </div>
           <div
             className="grid gap-2"
             aria-label="Price per seat by number of seats"
           >
-            {BANDS.map((b) => (
+            {bands.map((b) => (
               <div
-                key={b.id}
+                key={b.minQuantity}
                 className={cn(
                   "flex items-center justify-between rounded-lg border px-4 py-2.5 text-sm font-medium bg-white/70 transition-all",
-                  b.id === band.id
+                  b.minQuantity === quote?.band.minQuantity
                     ? "border-primary bg-white ring-1 ring-primary text-primary"
                     : "border-[#D3DCF1]",
                 )}
               >
-                <span>{b.label}</span>
-                <b className="font-semibold text-gray-800">{naira(b.rate)}</b>
+                <span>{bandLabel(b)}</span>
+                <b className="font-semibold text-gray-800">
+                  {formatKobo(b.unitAmountKobo, currency)}
+                </b>
               </div>
             ))}
           </div>
@@ -198,9 +200,9 @@ function SchoolProCard() {
                   id="seat-num"
                   type="number"
                   inputMode="numeric"
-                  min={MIN_SEATS}
-                  max={MAX_SEATS}
-                  value={seats}
+                  min={limits.min}
+                  max={limits.max}
+                  value={Number.isNaN(seats) ? "" : seats}
                   onChange={(e) => setSeats(Number(e.target.value))}
                   onBlur={() => setSeats(clampSeats(seats))}
                   className="w-[72px] h-8 border-x text-center font-semibold outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
@@ -220,9 +222,9 @@ function SchoolProCard() {
               <input
                 type="range"
                 aria-label="Number of seats"
-                min={MIN_SEATS}
-                max={MAX_SEATS}
-                value={seats}
+                min={limits.min}
+                max={limits.max}
+                value={clampSeats(seats)}
                 onChange={(e) => setSeats(Number(e.target.value))}
                 style={{
                   background: `linear-gradient(to right, #0043be ${fill}%, #E3E8F4 ${fill}%)`,
@@ -230,15 +232,15 @@ function SchoolProCard() {
                 className="w-full h-2 rounded-full appearance-none cursor-pointer accent-[#0043be]"
               />
               <div className="relative h-5 mt-2 text-xs font-medium text-grey-10">
-                {TICKS.map((t, i) => (
+                {ticks.map((t, i) => (
                   <span
                     key={t}
                     style={{
-                      left: `${((t - MIN_SEATS) / (MAX_SEATS - MIN_SEATS)) * 100}%`,
+                      left: `${((t - limits.min) / (limits.max - limits.min)) * 100}%`,
                     }}
                     className={cn(
                       "absolute",
-                      i === TICKS.length - 1
+                      i === ticks.length - 1
                         ? "-translate-x-full"
                         : i > 0 && "-translate-x-1/2",
                     )}
@@ -249,7 +251,13 @@ function SchoolProCard() {
               </div>
             </div>
 
-            <dl className="grid sm:grid-cols-3 gap-2.5" aria-live="polite">
+            <dl
+              className={cn(
+                "grid sm:grid-cols-3 gap-2.5 transition-opacity",
+                isStale && "opacity-60",
+              )}
+              aria-live="polite"
+            >
               <div className="rounded-lg bg-[#F7F9FD] p-3">
                 <dt className="text-xs font-medium text-grey-10">Teachers</dt>
                 <dd className="font-semibold text-lg mt-0.5">{seats}</dd>
@@ -257,50 +265,55 @@ function SchoolProCard() {
               <div className="rounded-lg bg-[#F7F9FD] p-3">
                 <dt className="text-xs font-medium text-grey-10">Per seat</dt>
                 <dd className="font-semibold text-lg mt-0.5">
-                  {naira(band.rate)}
+                  {quote ? formatKobo(quote.unitAmountKobo, currency) : "—"}
                 </dd>
               </div>
               <div className="rounded-lg bg-primary text-white p-3">
                 <dt className="text-xs font-medium text-[#C7D6F5]">
                   Total, 2 years
                 </dt>
-                <dd className="font-semibold text-lg mt-0.5">{naira(total)}</dd>
+                <dd className="font-semibold text-lg mt-0.5">
+                  {quote ? formatKobo(quote.totalKobo, currency) : "—"}
+                </dd>
               </div>
             </dl>
 
-            <Reveal show={saved > 0}>
+            <Reveal show={showSaving}>
               <p className="text-sm font-semibold text-green-600">
-                You save {naira(lastSaved.current)} compared with{" "}
-                {naira(BANDS[0].rate)} per seat
+                You save {quote ? formatKobo(quote.savingKobo, currency) : ""}{" "}
+                compared with {bands[0] ? formatKobo(bands[0].unitAmountKobo, currency) : "the first band"}{" "}
+                per seat
               </p>
             </Reveal>
-            <Reveal show={showNudge}>
-              {shownNext && (
+            <Reveal show={!!nudge}>
+              {nudge && (
                 <div
                   role="status"
                   className="flex items-start gap-2.5 rounded-lg border border-[#F3E2B8] bg-[#FFF8E6] p-3 text-sm font-medium text-[#6B4700]"
                 >
                   <LightbulbIcon size={16} className="shrink-0 mt-0.5" />
                   <span>
-                    Add {shownNext.min - seats} more seat
-                    {shownNext.min - seats > 1 ? "s" : ""} and pay{" "}
-                    {total === shownNextTotal
-                      ? "the same"
-                      : `${naira(total - shownNextTotal)} less`}{" "}
-                    in total, at {naira(shownNext.rate)} per seat.{" "}
+                    Add {nudge.addSeats} more seat
+                    {nudge.addSeats > 1 ? "s" : ""} and pay{" "}
+                    {nudge.savesKobo > 0
+                      ? `${formatKobo(nudge.savesKobo, currency)} less`
+                      : "the same"}{" "}
+                    in total, at {formatKobo(nudge.unitAmountKobo, currency)}{" "}
+                    per seat.{" "}
                     <button
                       type="button"
-                      onClick={() => setSeats(shownNext.min)}
+                      onClick={() => setSeats(nudge.quantity)}
                       className="font-bold underline underline-offset-2"
                     >
-                      Switch to {shownNext.min} seats
+                      Switch to {nudge.quantity} seats
                     </button>
                   </span>
                 </div>
               )}
             </Reveal>
             <p className="text-xs font-medium text-grey-10">
-              Buying for 300 or more teachers, or for several schools?{" "}
+              Buying for {limits.max + 1} or more teachers, or for several
+              schools?{" "}
               <a href="#custom" className="text-primary font-semibold">
                 See Custom
               </a>
@@ -343,13 +356,19 @@ function SchoolProCard() {
 
       <div className="flex flex-col items-center md:max-w-1/2 mx-auto gap-3">
         <div className="flex flex-col sm:flex-row gap-3 w-full">
-          <Button className="flex-1" onClick={buy}>
-            Get {seats} seats
+          <Button
+            className="flex-1"
+            disabled={!quote || isStale}
+            onClick={buy}
+          >
+            Get {clampSeats(seats)} seats
           </Button>
-          <Button variant="outline" className="sm:w-auto" asChild>
-            <a href={mailto("School Pro invoice request")}>
-              Request an invoice
-            </a>
+          <Button
+            variant="outline"
+            className="sm:w-auto"
+            onClick={buy}
+          >
+            Request an invoice
           </Button>
         </div>
         <Link
@@ -470,7 +489,7 @@ function FreeDemo() {
         ))}
       </ul>
       <Button variant="outline" asChild>
-        <a href={mailto("Free school demo request")}>Start a free demo</a>
+        <Link href="/school/billing">Start a free demo</Link>
       </Button>
     </div>
   );

@@ -1,55 +1,51 @@
-import { BillingPlan } from "../billing";
+import { BillingPlan, SeatBand, Transaction, UpcomingPrice } from "../billing";
 
-export type AdminPlanPrice = {
-  id: string;
-  amountKobo: number;
-  currency?: string;
-  effectiveAt: string;
-  createdAt?: string;
-};
+export type AdminPlanPrice = UpcomingPrice;
 
-// `id` is what the price endpoints take as :planId. The sample response only
-// shows `code`, so code is the fallback (see planIdOf).
-export type AdminBillingPlan = Omit<BillingPlan, "since" | "upcoming"> & {
-  id?: string;
-  since: string;
-  upcoming: AdminPlanPrice[];
-};
+// `id` is what the price endpoints take as :planId.
+export type AdminBillingPlan = BillingPlan;
 
 export type SetPlanPricePayload = {
-  amountKobo: number;
+  /** Personal Pro. Ignored for School Pro, which sends `bands`. */
+  amountKobo?: number;
+  bands?: SeatBand[];
   effectiveAt?: string;
   confirm?: boolean;
 };
 
 export type SetPlanPriceResponse = {
   price: AdminPlanPrice;
-  affectedSubscribers: number;
 };
 
-export type AdminTransactionKind = "SEAT_PURCHASE" | "PERSONAL_PLAN" | string;
-export type AdminTransactionStatus = "SUCCESS" | "PENDING" | "FAILED" | string;
-
-export type AdminTransaction = {
-  id: string;
-  reference: string;
-  kind: AdminTransactionKind;
-  status: AdminTransactionStatus;
-  amountKobo: number;
-  currency: string;
-  failureReason: string | null;
-  paidAt: string | null;
-  createdAt: string;
-  userId: string | null;
-  schoolId: string | null;
-  seatPurchaseId: string | null;
-};
+export type AdminTransactionKind = Transaction["kind"];
+export type AdminTransactionStatus = Transaction["status"];
+export type AdminTransaction = Transaction;
 
 export type AdminTransactionsData = {
   items: AdminTransaction[];
   total: number;
   page: number;
   limit: number;
+};
+
+export type AdminInvoice = {
+  id: string;
+  invoiceNumber: string;
+  requestedAt: string;
+  quantity: number;
+  unitPriceKobo: number;
+  totalKobo: number;
+  school: { id: string; institutionName: string };
+};
+
+export type AdminDemo = {
+  id: string;
+  status: "ACTIVE" | "EXPIRED" | "CONVERTED";
+  startedAt: string;
+  endsAt: string;
+  maxInvites: number;
+  maxUnitIndex: number;
+  school: { id: string; institutionName: string; contactEmail: string };
 };
 
 export type AdminBillingError = {
