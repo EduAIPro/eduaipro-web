@@ -350,6 +350,17 @@ export type StaffInvite = {
   level: string;
 };
 
+export async function deleteSchoolInvite(
+  url: string,
+  { arg }: { arg: { inviteId: string } },
+): Promise<void> {
+  try {
+    await api.delete(url.replace(":inviteId", arg.inviteId));
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function sendInvitation(
   url: string,
   { arg }: { arg: { email?: string; staffs?: StaffInvite[] } },

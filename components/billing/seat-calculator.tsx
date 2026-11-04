@@ -1,6 +1,7 @@
 "use client";
 
 import useSeatQuote from "@/hooks/use-seat-quote";
+import useSubscriptionPlans from "@/hooks/use-subscription-plans";
 import { cn, formatKobo } from "@/lib/utils";
 import { SeatQuote } from "@/types/billing";
 import { LightbulbIcon, MinusIcon, PlusIcon } from "lucide-react";
@@ -29,6 +30,12 @@ export function SeatCalculator({
   stale,
   limits = quote?.limits ?? DEFAULT_LIMITS,
 }: SeatCalculatorProps) {
+  // Band edges are data from the School Pro plan, never typed in here.
+  const { schoolPro } = useSubscriptionPlans();
+  const dropAt = (schoolPro?.current?.bands ?? [])
+    .slice(1)
+    .map((b) => b.minQuantity)
+    .filter((n) => n > limits.min && n <= limits.max);
   const clamp = (n: number) =>
     Math.max(limits.min, Math.min(limits.max, Math.round(n) || limits.min));
   const fill = ((quantity - limits.min) / (limits.max - limits.min)) * 100;
@@ -76,7 +83,10 @@ export function SeatCalculator({
           aria-label="Number of seats"
           min={limits.min}
           max={limits.max}
-          value={Math.min(Math.max(quantity || limits.min, limits.min), limits.max)}
+          value={Math.min(
+            Math.max(quantity || limits.min, limits.min),
+            limits.max,
+          )}
           onChange={(e) => onQuantityChange(Number(e.target.value))}
           style={{
             background: `linear-gradient(to right, #0043be ${fill}%, #E3E8F4 ${fill}%)`,
@@ -87,6 +97,11 @@ export function SeatCalculator({
           <span>{limits.min}</span>
           <span>{limits.max}</span>
         </div>
+        {dropAt.length ? (
+          <p className="mt-2 text-xs font-medium text-grey-500">
+            Price drops at {dropAt.join(" and ")} seats
+          </p>
+        ) : null}
       </div>
 
       <dl
@@ -98,7 +113,9 @@ export function SeatCalculator({
       >
         <div className="rounded-lg bg-[#F7F9FD] p-3">
           <dt className="text-xs font-medium text-grey-500">Teachers</dt>
-          <dd className="mt-0.5 text-lg font-semibold">{quote?.quantity ?? "—"}</dd>
+          <dd className="mt-0.5 text-lg font-semibold">
+            {quote?.quantity ?? "—"}
+          </dd>
         </div>
         <div className="rounded-lg bg-[#F7F9FD] p-3">
           <dt className="text-xs font-medium text-grey-500">Price per seat</dt>
@@ -107,7 +124,9 @@ export function SeatCalculator({
           </dd>
         </div>
         <div className="rounded-lg bg-primary p-3 text-white">
-          <dt className="text-xs font-medium text-[#C7D6F5]">Total for 2 years</dt>
+          <dt className="text-xs font-medium text-[#C7D6F5]">
+            Total for 2 years
+          </dt>
           <dd className="mt-0.5 text-lg font-semibold">
             {quote ? formatKobo(quote.totalKobo, quote.currency) : "—"}
           </dd>
@@ -133,8 +152,8 @@ export function SeatCalculator({
             {quote.nudge.savesKobo > 0
               ? `${formatKobo(quote.nudge.savesKobo, quote.currency)} less`
               : "the same"}{" "}
-            in total, at {formatKobo(quote.nudge.unitAmountKobo, quote.currency)}{" "}
-            per seat.{" "}
+            in total, at{" "}
+            {formatKobo(quote.nudge.unitAmountKobo, quote.currency)} per seat.{" "}
             <button
               type="button"
               onClick={() => onQuantityChange(quote.nudge!.quantity)}

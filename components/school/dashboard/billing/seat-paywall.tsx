@@ -9,8 +9,12 @@ import useSchoolDemo from "@/hooks/use-school-demo";
 import useSchoolSeats from "@/hooks/use-school-seats";
 import { schoolBillingMessage } from "@/lib/school-billing-errors";
 import { invalidateSeats } from "@/lib/school-invalidate";
-import { schoolAccessKey } from "@/api/keys";
-import { EyeIcon } from "lucide-react";
+import { getSchoolInfo, schoolAccessKey } from "@/api/keys";
+import { generalFetcher } from "@/api/queries";
+import { PAYWALL_HINT } from "@/components/school/layout/access-gate";
+import { RetrieveSchoolInfoResponse } from "@/types/school/auth";
+import useSWR from "swr";
+import { EyeIcon, LockIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { mutate } from "swr";
 import { toast } from "sonner";
@@ -33,6 +37,10 @@ export const SeatPaywall = () => {
   // The pricing page sends the seat count the visitor chose.
   const requested = Number(useSearchParams().get("seats"));
   const { demo, isLoading: demoLoading } = useSchoolDemo();
+  const { data: school } = useSWR<RetrieveSchoolInfoResponse>(
+    getSchoolInfo,
+    generalFetcher,
+  );
   const { seats } = useSchoolSeats();
   const openInvoices =
     seats?.purchases.filter((p) => p.status === "PENDING" && p.invoiceNumber) ??
@@ -55,6 +63,17 @@ export const SeatPaywall = () => {
 
   return (
     <div className="mx-auto max-w-3xl space-y-5">
+      <p className="text-sm font-semibold text-primary">
+        Welcome{school?.institutionName ? `, ${school.institutionName}` : ""}.
+        One last step before your dashboard.
+      </p>
+      <div
+        role="status"
+        className="flex items-center gap-2.5 rounded-xl border border-blue-200 bg-blue-50 p-3.5 text-sm font-medium text-[#0a2a6b]"
+      >
+        <LockIcon className="size-4 shrink-0" />
+        {PAYWALL_HINT}
+      </div>
       <div>
         <h1 className="text-2xl font-semibold sm:text-3xl sm:font-bold">
           Choose your seats

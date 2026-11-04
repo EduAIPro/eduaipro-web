@@ -9,9 +9,17 @@ import { AlertTriangleIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
+import { toast } from "sonner";
 
 // The owner must always be able to pay, and to reach settings and support.
-const OPEN_PATHS = ["/school/billing", "/school/settings", "/school/support"];
+export const OPEN_PATHS = [
+  "/school/billing",
+  "/school/settings",
+  "/school/support",
+];
+
+export const PAYWALL_HINT =
+  "Choose your seats or start a free demo to open your dashboard";
 
 /**
  * Schools are pay-first. An UNPAID school only sees the seat paywall; a school
@@ -27,7 +35,11 @@ export function SchoolAccessGate({ children }: { children: ReactNode }) {
   const open = OPEN_PATHS.some((p) => path.startsWith(p));
 
   useEffect(() => {
-    if (unpaid && !open) router.replace("/school/billing");
+    if (unpaid && !open) {
+      // say why the page changed, so it doesn’t feel like something broke
+      toast.info(PAYWALL_HINT, { id: "school-paywall" });
+      router.replace("/school/billing");
+    }
   }, [unpaid, open, router]);
 
   // don’t flash gated pages while we redirect

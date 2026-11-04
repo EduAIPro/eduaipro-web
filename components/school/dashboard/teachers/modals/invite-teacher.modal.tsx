@@ -5,6 +5,7 @@ import {
   getSchoolInviteLinkKey,
   getSchoolStaffsKey,
   schoolInviteKey,
+  schoolPendingInvitesKey,
 } from "@/api/keys";
 import { sendInvitation, StaffInvite } from "@/api/mutations";
 import useSchoolAccess from "@/hooks/use-school-access";
@@ -131,6 +132,7 @@ export const InviteTeacherModal = ({ key, gate = false }: InviteTeacherModalProp
         if (key) {
           mutate([key, 1]);
         }
+        mutate(schoolPendingInvitesKey);
         toast.success("Invitation email sent successfully");
         refetchDemo();
         setEmail("");
@@ -149,6 +151,7 @@ export const InviteTeacherModal = ({ key, gate = false }: InviteTeacherModalProp
       if (key) {
         mutate([key, 1]);
       }
+      mutate(schoolPendingInvitesKey);
       toast.success(`${staffs.length} invitations sent successfully`);
       refetchDemo();
       setStaffs([]);

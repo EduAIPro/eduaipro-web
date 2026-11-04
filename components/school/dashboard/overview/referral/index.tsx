@@ -10,7 +10,7 @@ import useSWR from "swr";
 export const Referral = () => {
   const { data, isLoading } = useSWR<SchoolInviteToken>(
     getSchoolInviteLinkKey,
-    generalFetcher
+    generalFetcher,
   );
   return (
     <div className="bg-white p-5 border border-grey-400 rounded-xl space-y-5">
@@ -26,14 +26,14 @@ export const Referral = () => {
             <Skeleton className="w-full h-6 rounded-lg mr-3" />
           ) : (
             <p className="truncate mr-3">
-              {process.env.NEXT_PUBLIC_TEACHER_SIGNUP_LINK}&token={data?.token}
+              {process.env.NEXT_PUBLIC_SCHOOL_SIGNUP_LINK}&token={data?.token}
             </p>
           )}
           <Button
             disabled={isLoading}
             onClick={() => {
               navigator.clipboard.writeText(
-                `${process.env.NEXT_PUBLIC_TEACHER_SIGNUP_LINK}&token=${data?.token}`
+                `${process.env.NEXT_PUBLIC_SCHOOL_SIGNUP_LINK}&token=${data?.token}`,
               );
               toast.success("Invite link copied successfully");
             }}

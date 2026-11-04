@@ -99,8 +99,6 @@ export default function MultiStepFormModal({
     },
   };
 
-  // TODO: FIX TOUCHED THAT TRIGGERS ERROR WHEN THE NEXT STEP MOUNTS
-
   const renderStep = (formik: FormikState<SurveyFormValues>) => {
     return (
       <motion.div
@@ -154,8 +152,12 @@ export default function MultiStepFormModal({
           initialValues={defaultValues}
           validationSchema={validationSchemas[currentStep - 1]}
           validateOnMount
-          onSubmit={(values) => {
+          onSubmit={(values, helpers) => {
             if (currentStep < 3) {
+              // Formik's submit marks every field touched, which would make the
+              // next step open with all of its errors already showing.
+              helpers.setTouched({}, false);
+              helpers.setSubmitting(false);
               setCurrentStep(currentStep + 1);
             } else {
               onSubmit(values);
