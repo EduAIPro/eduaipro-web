@@ -361,6 +361,17 @@ export async function deleteSchoolInvite(
   }
 }
 
+export async function resendSchoolInvite(
+  url: string,
+  { arg }: { arg: { inviteId: string } },
+): Promise<void> {
+  try {
+    await api.post(url.replace(":inviteId", arg.inviteId));
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function sendInvitation(
   url: string,
   { arg }: { arg: { email?: string; staffs?: StaffInvite[] } },

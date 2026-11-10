@@ -1,7 +1,11 @@
 "use client";
 
-import { getSchoolStaffsKey, schoolDeleteInviteKey } from "@/api/keys";
-import { deleteSchoolInvite } from "@/api/mutations";
+import {
+  getSchoolStaffsKey,
+  schoolDeleteInviteKey,
+  schoolResendInviteKey,
+} from "@/api/keys";
+import { deleteSchoolInvite, resendSchoolInvite } from "@/api/mutations";
 import { ConfirmDialog } from "@/components/school/dashboard/billing/confirm-dialog";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
@@ -13,7 +17,7 @@ import { PendingInvite } from "@/types/school/invites";
 import { cpdPathways } from "@/utils/data";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { MailIcon, Trash2Icon } from "lucide-react";
+import { Loader2Icon, MailIcon, SendIcon, Trash2Icon } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
@@ -37,6 +41,8 @@ const expiry = (iso: string) => {
 
 const getColumns = (
   onDelete: (invite: PendingInvite) => void,
+  onResend: (invite: PendingInvite) => void,
+  resendingId: string | null,
 ): ColumnDef<PendingInvite>[] => [
   {
     accessorKey: "name",
@@ -94,16 +100,38 @@ const getColumns = (
   {
     id: "actions",
     header: "",
-    cell: ({ row }) => (
-      <Button
-        variant="ghost"
-        size="icon"
-        aria-label={`Delete invite for ${row.original.email}`}
-        onClick={() => onDelete(row.original)}
-      >
-        <Trash2Icon className="size-4 text-red-600" />
-      </Button>
-    ),
+    cell: ({ row }) => {
+      const resending = resendingId === row.original.id;
+      return (
+        <div className="flex items-center justify-end gap-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label={`Resend invite to ${row.original.email}`}
+            disabled={resendingId !== null}
+            onClick={() => onResend(row.original)}
+            className="gap-1.5 text-[#1A56DB]"
+          >
+            {resending ? (
+              <Loader2Icon className="size-4 animate-spin" />
+            ) : (
+              <SendIcon className="size-4" />
+            )}
+            <span className="text-xs font-semibold">
+              {resending ? "Sending…" : "Resend"}
+            </span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label={`Delete invite for ${row.original.email}`}
+            onClick={() => onDelete(row.original)}
+          >
+            <Trash2Icon className="size-4 text-red-600" />
+          </Button>
+        </div>
+      );
+    },
   },
 ];
 
@@ -128,7 +156,34 @@ export const PendingInvitesTable = () => {
     deleteSchoolInvite,
   );
 
-  const columns = useMemo(() => getColumns(setRemoving), []);
+  const [resendingId, setResendingId] = useState<string | null>(null);
+  const { trigger: triggerResend } = useSWRMutation(
+    schoolResendInviteKey,
+    resendSchoolInvite,
+  );
+
+  const onResend = async (invite: PendingInvite) => {
+    if (resendingId) return;
+    setResendingId(invite.id);
+    try {
+      await triggerResend({ inviteId: invite.id });
+      toast.success(`Invite resent to ${invite.email}`);
+      // resending may refresh the expiry, so pull the latest list
+      mutate();
+    } catch (error) {
+      toast.error(
+        typeof error === "string" ? error : "Couldn’t resend that invite",
+      );
+    } finally {
+      setResendingId(null);
+    }
+  };
+
+  const columns = useMemo(
+    () => getColumns(setRemoving, onResend, resendingId),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [resendingId],
+  );
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return invites;
@@ -197,8 +252,8 @@ export const PendingInvitesTable = () => {
         }}
       />
       <p className="text-[11px] text-grey-500">
-        Delete an invite to cancel it. You can invite the same teacher again
-        later.
+        Resend an invite if it hasn’t arrived, or delete it to cancel. You can
+        invite the same teacher again later.
       </p>
 
       <ConfirmDialog

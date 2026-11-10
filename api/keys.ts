@@ -55,6 +55,7 @@ export const bulkSchoolInviteKey = "/school/invite/bulk";
 export const schoolInviteKey = "/school/invite";
 export const schoolPendingInvitesKey = "/school/invite/pending";
 export const schoolDeleteInviteKey = "/school/invite/:inviteId";
+export const schoolResendInviteKey = "/school/invite/:inviteId/resend";
 export const updateSchoolInfoKey = "/school";
 export const updatePersonalInfoKey = "/school/staff";
 export const sendSchoolNotificationKey = "/notification/notify-staff";
