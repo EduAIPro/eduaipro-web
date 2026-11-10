@@ -18,7 +18,7 @@ import {
   GeneratedQuestions,
 } from "@/types/assessment";
 import { CourseProgress, CourseUnit } from "@/types/course";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { Assessment } from "./assessment";
 import { AssessmentCompletedModal } from "./assessment/completed-modal";
@@ -32,6 +32,8 @@ import { useSWRConfig } from "swr";
 type PersonalDevPlanProps = {
   introVideoUrl?: string;
   courseProgress: CourseProgress;
+  /** Same figure the pathway chip shows, so the two never disagree. */
+  overallProgress?: number;
   refetchCourse: VoidFunction;
   units: CourseUnit[];
   /** Called when the teacher chooses to continue after passing the last unit */
@@ -126,6 +128,10 @@ const PersonalDevPlan = ({
     }
   };
 
+  // Keep exactly one module open: the one holding the active document. Only
+  // re-run when the active module changes so a manual toggle isn't undone by
+  // data revalidation.
+  const lastSyncedModuleRef = useRef<string | null>(null);
   useEffect(() => {
     if (unitInfo && moduleId && activeUnitId) {
       const unitIndex = units.findIndex((u) => u.id === activeUnitId);
@@ -135,14 +141,11 @@ const PersonalDevPlan = ({
         );
         if (activeModule) {
           const accValue = `${units[unitIndex].index}-${activeModule.index}`;
+          if (lastSyncedModuleRef.current === accValue) return;
+          lastSyncedModuleRef.current = accValue;
           setModuleAccValues((prev) => {
             const next = [...prev];
-            if (!next[unitIndex]) {
-              next[unitIndex] = [];
-            }
-            if (!next[unitIndex].includes(accValue)) {
-              next[unitIndex] = [...next[unitIndex], accValue];
-            }
+            next[unitIndex] = [accValue];
             return next;
           });
         }
@@ -245,6 +248,7 @@ const PersonalDevPlan = ({
       setModuleValues={setModuleAccValues}
       setValues={setAccordionValues}
       courseProgress={props.courseProgress}
+      overallProgress={props.overallProgress}
       generateQuestions={startAssessment}
       isGeneratingQuestions={isMutating}
       isQuizOn={isQuizOn}

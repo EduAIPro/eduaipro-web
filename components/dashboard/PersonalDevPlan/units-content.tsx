@@ -243,6 +243,8 @@ function SlideThumbnail({
   );
 }
 
+const DEFAULT_OPEN_SECTION = "CONTENT";
+
 // ─── Section accordion with local open/close state ────────────────────────────
 function SectionAccordion({
   label,
@@ -251,7 +253,8 @@ function SectionAccordion({
   bg,
   count,
   children,
-  defaultOpen = false,
+  open,
+  onToggle,
 }: {
   label: string;
   icon: ReactNode;
@@ -259,15 +262,14 @@ function SectionAccordion({
   bg: string;
   count: number;
   children: ReactNode;
-  defaultOpen?: boolean;
+  open: boolean;
+  onToggle: () => void;
 }) {
-  const [open, setOpen] = useState(defaultOpen);
-
   return (
     <div className="mb-1.5">
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={onToggle}
         className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left transition-all"
         style={{
           background: open ? bg : "transparent",
@@ -333,6 +335,7 @@ type UnitsContentProps = {
   setModuleId: Dispatch<SetStateAction<string | null>>;
   setActiveUnitId: Dispatch<SetStateAction<string | null>>;
   courseProgress: CourseProgress;
+  overallProgress?: number;
   units: CourseUnit[];
   pdfUrl: string | null;
   generateQuestions: VoidFunction;
@@ -354,6 +357,7 @@ export function UnitsContent({
   units,
   isQuizOn,
   courseProgress,
+  overallProgress,
   isGeneratingQuestions,
   isLoading,
   values,
@@ -379,6 +383,10 @@ export function UnitsContent({
   const [viewedPageIds, setViewedPageIds] = useState<Record<string, true>>({});
   const [completedDocumentIds, setCompletedDocumentIds] = useState<
     Record<string, true>
+  >({});
+  // moduleId -> title of the single open section (null = all collapsed).
+  const [openSections, setOpenSections] = useState<
+    Record<string, string | null>
   >({});
   const [confirmDialogDoc, setConfirmDialogDoc] = useState<{
     item: ModuleItemDoc;
@@ -465,6 +473,24 @@ export function UnitsContent({
     [orderedDocuments, setModuleId, setPdfUrl, setCurrentPage],
   );
 
+  // Keep the section that holds the active document open (and, because only
+  // one section per module is open at a time, close the one that was open).
+  useEffect(() => {
+    if (!pdfUrl || !unitInfo) return;
+    const publicId = extractPublicId(pdfUrl);
+    for (const m of unitInfo.modules) {
+      const hit = m.moduleItems.find(
+        (item) => extractPublicId(item.signedPdfUrl) === publicId,
+      );
+      if (hit) {
+        setOpenSections((prev) =>
+          prev[m.id] === hit.type ? prev : { ...prev, [m.id]: hit.type },
+        );
+        return;
+      }
+    }
+  }, [pdfUrl, unitInfo]);
+
   // Track how long the active slide has been on screen; mark it "viewed"
   // after a continuous 3s dwell, regardless of how the learner navigated to it.
   useEffect(() => {
@@ -519,12 +545,22 @@ export function UnitsContent({
     }));
   }, [units, courseProgress.unit.index]);
 
+  // The server's "current module" can be stale right after a unit change
+  // (still pointing at the previous unit's module). Only trust it when it
+  // actually belongs to the unit being displayed; otherwise treat the unit
+  // as having no backend progress yet.
+  const currentModuleIndex = useMemo(
+    () =>
+      unitInfo?.modules.find((m) => m.id === courseProgress.module?.id)
+        ?.index ?? null,
+    [unitInfo, courseProgress.module?.id],
+  );
+
   const memoizedModules = useMemo(() => {
     if (!unitInfo) return [];
     return unitInfo.modules.map((unitModule) => {
-      const backendCompleted = courseProgress.module
-        ? unitModule.index < courseProgress.module?.index
-        : false;
+      const backendCompleted =
+        currentModuleIndex !== null && unitModule.index < currentModuleIndex;
       const moduleItems = groupByType(unitModule.moduleItems).map(
         (section) => ({
           ...section,
@@ -544,7 +580,10 @@ export function UnitsContent({
       );
       return { ...unitModule, isCompleted, isOpened, moduleItems };
     });
-  }, [unitInfo, courseProgress.module, isDocumentComplete, viewedPageIds]);
+  }, [unitInfo, currentModuleIndex, isDocumentComplete, viewedPageIds]);
+
+  const allModulesComplete =
+    memoizedModules.length > 0 && memoizedModules.every((m) => m.isCompleted);
 
   useEffect(() => {
     if (!unitInfo || !pdfUrl) return;
@@ -556,7 +595,7 @@ export function UnitsContent({
       );
       if (
         activeModule &&
-        (!courseProgress.module || m.index > courseProgress.module?.index)
+        (currentModuleIndex === null || m.index > currentModuleIndex)
       ) {
         modulesToUpdate.push(m.id);
         processedModulesRef.current.add(`${m.id}-${pdfUrl}`);
@@ -567,7 +606,7 @@ export function UnitsContent({
         modulesToUpdate.map((moduleId) => trigger({ moduleId })),
       ).catch(console.error);
     }
-  }, [pdfUrl, unitInfo?.modules, courseProgress.module?.index]);
+  }, [pdfUrl, unitInfo?.modules, currentModuleIndex]);
 
   const handleUnitClick = useCallback(
     (unit: CourseUnit, index: number) => {
@@ -588,9 +627,14 @@ export function UnitsContent({
     }
   };
 
+  // Uses the pathway chip's figure so the two always match; the fallback
+  // counts completed units only (not the in-progress one).
   const progressPct = Math.min(
     100,
-    Math.round((courseProgress.unit.index / units.length) * 100),
+    Math.round(
+      overallProgress ??
+        (Math.max(0, courseProgress.unit.index - 1) / units.length) * 100,
+    ),
   );
 
   return (
@@ -929,7 +973,22 @@ export function UnitsContent({
                                               color={cfg.color}
                                               bg={cfg.bg}
                                               count={moduleItem.items.length}
-                                              defaultOpen={cfg.defaultOpen}
+                                              open={
+                                                (openSections[unitModule.id] ??
+                                                  DEFAULT_OPEN_SECTION) ===
+                                                moduleItem.title
+                                              }
+                                              onToggle={() =>
+                                                setOpenSections((prev) => ({
+                                                  ...prev,
+                                                  [unitModule.id]:
+                                                    (prev[unitModule.id] ??
+                                                      DEFAULT_OPEN_SECTION) ===
+                                                    moduleItem.title
+                                                      ? null
+                                                      : moduleItem.title,
+                                                }))
+                                              }
                                             >
                                               {moduleItem.items.map(
                                                 (contentItem) => {
@@ -1289,7 +1348,9 @@ export function UnitsContent({
                                   Unit Assessment
                                 </p>
                                 <p className="text-[11px] text-gray-500">
-                                  Complete all modules to unlock
+                                  {allModulesComplete
+                                    ? "Ready to start"
+                                    : "Complete all modules to unlock"}
                                 </p>
                               </div>
                               <Button
@@ -1299,9 +1360,7 @@ export function UnitsContent({
                                 disabled={
                                   isQuizOn ||
                                   isGeneratingQuestions ||
-                                  !memoizedModules?.find(
-                                    (m) => m.id === courseProgress.module?.id,
-                                  )?.isCompleted
+                                  !allModulesComplete
                                 }
                                 type="button"
                                 size="sm"

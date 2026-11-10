@@ -320,6 +320,7 @@ export default function OverviewPage() {
               key={course.id}
               introVideoUrl={course.introductoryVideoUrl}
               courseProgress={courseProgress}
+              overallProgress={enrollment?.progress ?? percentage}
               refetchCourse={refetch}
               units={course.units}
               onCourseFinished={() => setFinishSignal((n) => n + 1)}
