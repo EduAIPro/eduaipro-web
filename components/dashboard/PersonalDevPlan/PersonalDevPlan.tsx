@@ -28,6 +28,7 @@ import { UnitsContent } from "./units-content";
 import useUser from "@/hooks/use-user";
 import { updatePersonalInfo } from "@/api/mutations";
 import { useSWRConfig } from "swr";
+import { AssessmentLoading } from "./assessment/loading-messages";
 
 type PersonalDevPlanProps = {
   introVideoUrl?: string;

@@ -4,7 +4,6 @@ import { getCourseWithProgress, submitAssessmentKey } from "@/api/keys";
 import { submitAssessment } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import {
   AssessmentSubmitResponse,
@@ -16,6 +15,7 @@ import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 import { useSurvey } from "../../survey-modal/survey-context";
 import { AssessmentError } from "./error";
+import { AssessmentLoading } from "./loading-messages";
 
 type AssessmentProps = {
   data?: GeneratedQuestions;
@@ -137,45 +137,9 @@ export const Assessment: React.FC<AssessmentProps> = ({
     );
   };
 
-  // ── Skeleton ──────────────────────────────────────────────────────────────
+  // ── Loading ───────────────────────────────────────────────────────────────
   if (isLoading) {
-    return (
-      <Card className="w-full mx-auto mt-10 shadow-none border-0">
-        <CardHeader className="flex flex-row items-start justify-between pb-4">
-          <div className="space-y-2">
-            <Skeleton className="h-5 w-36" />
-            <Skeleton className="h-4 w-48" />
-          </div>
-          <Skeleton className="h-8 w-20 rounded-full" />
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <Skeleton className="h-4 w-28" />
-              <Skeleton className="h-4 w-20" />
-            </div>
-            <Skeleton className="h-[3px] w-full rounded-full" />
-          </div>
-          <Skeleton className="h-14 w-4/5" />
-          <div className="space-y-3">
-            {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-14 w-full rounded-xl" />
-            ))}
-          </div>
-          <div className="flex justify-between pt-4 border-t border-border/30">
-            <div className="flex gap-1.5">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Skeleton key={i} className="h-1.5 w-1.5 rounded-full" />
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <Skeleton className="h-9 w-24 rounded-md" />
-              <Skeleton className="h-9 w-24 rounded-md" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
+    return <AssessmentLoading />;
   }
 
   // ── Error ─────────────────────────────────────────────────────────────────
