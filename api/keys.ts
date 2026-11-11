@@ -116,6 +116,8 @@ export const adminBillingPlansKey = "/admin/billing/plans";
 export const adminSetPlanPriceKey = "/admin/billing/plans/:planId/price";
 export const adminDeletePlanPriceKey =
   "/admin/billing/plans/:planId/price/:priceId";
+export const adminGrantSeatsKey = (schoolId: string) =>
+  `/admin/billing/schools/${schoolId}/seats`;
 export const adminBillingTransactionsKey = "/admin/billing/transactions";
 export const adminInvoicesKey = "/admin/billing/invoices";
 export const adminMarkInvoicePaidKey =

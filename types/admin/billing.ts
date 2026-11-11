@@ -57,3 +57,21 @@ export type AdminBillingError = {
 
 export const isAdminBillingError = (e: unknown): e is AdminBillingError =>
   typeof e === "object" && e !== null && "needsConfirm" in e && "message" in e;
+
+export type GrantSeatsPayload = {
+  quantity: number;
+  amountKobo?: number;
+  termMonths?: number;
+  paymentReference?: string;
+  note?: string;
+};
+
+export type GrantSeatsResponse = {
+  seatPurchaseId: string;
+  reference: string;
+  quantity: number;
+  amountKobo: number;
+  currency: "NGN";
+  status: "ACTIVE";
+  endsAt: string;
+};

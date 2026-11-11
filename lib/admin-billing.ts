@@ -85,3 +85,6 @@ export const KIND_LABEL: Record<string, string> = {
 
 export const kindLabel = (kind: string) =>
   KIND_LABEL[kind] ?? kind.toLowerCase().replaceAll("_", " ");
+
+export const isAdminGrant = (reference: string) =>
+  reference.startsWith("eduai_grant_");
