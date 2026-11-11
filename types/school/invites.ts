@@ -23,3 +23,17 @@ export type InviteStaffBulkPayload = {
     level: UserRoles;
   }[];
 };
+
+/** GET /school/invite/pending */
+export type PendingInvite = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  /** CPD pathway chosen for the teacher, e.g. SECONDARY */
+  level: string;
+  courseId: string | null;
+  type: "SINGLE" | "BULK" | string;
+  expiresAt: string;
+  createdAt: string;
+};

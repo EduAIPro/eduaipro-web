@@ -6,7 +6,7 @@ import SettingsActiveIcon from "@/components/svgs/school/settings-active.svg";
 import SettingsIcon from "@/components/svgs/school/settings.svg";
 import TeachersActiveIcon from "@/components/svgs/school/teachers-active.svg";
 import TeachersIcon from "@/components/svgs/school/teachers.svg";
-import { HeadsetIcon } from "lucide-react";
+import { CreditCardIcon, HeadsetIcon } from "lucide-react";
 
 export const NavItems = [
   {
@@ -20,6 +20,12 @@ export const NavItems = [
     url: "/school/teachers",
     icon: TeachersIcon,
     activeIcon: TeachersActiveIcon,
+  },
+  {
+    name: "Billing",
+    url: "/school/billing",
+    icon: CreditCardIcon,
+    activeIcon: CreditCardIcon,
   },
   {
     name: "Support",

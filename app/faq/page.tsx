@@ -13,7 +13,12 @@ import { getPageMetadata } from "@/utils/config";
 import { generateKey } from "@/utils/key";
 import { ArrowRight } from "iconsax-react";
 
-export const metadata = getPageMetadata("FAQs");
+export const metadata = getPageMetadata({
+  title: "Frequently Asked Questions",
+  description:
+    "Answers to common questions about EduAIPro's accredited CPD courses, certification, pricing and how the platform works.",
+  path: "/faq",
+});
 
 export default function FaqPage() {
   return (

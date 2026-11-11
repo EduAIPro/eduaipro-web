@@ -1,23 +1,69 @@
 import { listCertificates } from "@/api/keys";
 import { generalFetcher } from "@/api/queries";
+import {
+  SubscribeModal,
+  SubscribeTarget,
+} from "@/components/dashboard/subscribe-modal";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import useEnrollments from "@/hooks/use-enrollments";
+import useUser from "@/hooks/use-user";
 import { ListCertificates } from "@/types/certificates";
-import { FileBadgeIcon } from "lucide-react";
+import { Enrollment } from "@/types/enrollment";
+import { Staff } from "@/types/user";
+import { FileBadgeIcon, PlusIcon } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { CertificateItem } from "./certificate-item";
 import { EmptyCertificates } from "./empty";
+import { PendingCertificateItem } from "./pending-certificate-item";
 
 export const Certificates = () => {
-  const { data, isLoading } = useSWR<ListCertificates>(
+  const { data, isLoading, mutate: refetchCerts } = useSWR<ListCertificates>(
     listCertificates,
     generalFetcher,
     {
       revalidateOnFocus: false,
     },
   );
+  const { staff } = useUser();
+  const { enrollments, entitlement, refetch: refetchEnrollments } = useEnrollments({
+    acceptedTermsAndConditions: !!(staff as Staff)?.acceptedTermsAndConditions,
+  });
+  const [upgradeTarget, setUpgradeTarget] = useState<SubscribeTarget | null>(
+    null,
+  );
+
+  const pendingEnrollments = enrollments.filter(
+    (e) => e.status === "completed" && !e.certificate,
+  );
+
+  // After a payment the server renders certificates in the background. Poll
+  // every 5 seconds for up to a minute until they show up.
+  const covered = !!entitlement?.canIssueCertificate;
+  const waiting = covered && pendingEnrollments.length > 0;
+  useEffect(() => {
+    if (!waiting) return;
+    const startedAt = Date.now();
+    const id = setInterval(() => {
+      if (Date.now() - startedAt > 60_000) return clearInterval(id);
+      refetchEnrollments();
+      refetchCerts();
+    }, 5000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [waiting]);
+
+  const openIssueUpgrade = (enrollment: Enrollment) =>
+    setUpgradeTarget({
+      courseId: enrollment.course.id,
+      title: enrollment.course.title,
+      reason: "issue_certificate",
+    });
 
   const count = data?.data?.length ?? 0;
-
+  const hasAny = count > 0 || pendingEnrollments.length > 0;
   return (
     <section
       className="bg-white rounded-xl overflow-hidden"
@@ -41,7 +87,7 @@ export const Certificates = () => {
           <p className="text-[11px] text-gray-500 mt-0.5">
             {isLoading
               ? "Loading…"
-              : `${count} certificate${count !== 1 ? "s" : ""} earned`}
+              : `${count} certificate${count !== 1 ? "s" : ""} earned • ${pendingEnrollments.length} ready to claim`}
           </p>
         </div>
       </div>
@@ -51,15 +97,54 @@ export const Certificates = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {isLoading ? (
             <CertificatesSkeleton />
-          ) : data?.data?.length ? (
-            data.data.map((cert) => (
-              <CertificateItem key={cert.id} certificate={cert} />
-            ))
+          ) : hasAny ? (
+            <>
+              {pendingEnrollments.map((enrollment) => (
+                <PendingCertificateItem
+                  key={enrollment.id}
+                  enrollment={enrollment}
+                  onSubscribe={openIssueUpgrade}
+                  generating={covered}
+                />
+              ))}
+              {data?.data?.map((cert) => (
+                <CertificateItem key={cert.id} certificate={cert} />
+              ))}
+              {/* {entitlement?.canAddPathway && ( */}
+              <Link
+                href="/dashboard/pathways"
+                className="rounded-xl flex flex-col items-center justify-center gap-2 text-center p-6 min-h-[280px]"
+                style={{ border: "1px dashed #CBD5E1" }}
+              >
+                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-[#1A56DB]">
+                  <PlusIcon size={20} />
+                </div>
+                <h3 className="text-[13px] font-semibold text-gray-900">
+                  Earn another certificate
+                </h3>
+                <p className="text-xs text-gray-500 max-w-[200px]">
+                  Choose from the remaining CPD pathways available to you.
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="mt-1 pointer-events-none"
+                >
+                  Choose a pathway
+                </Button>
+              </Link>
+              {/* )} */}
+            </>
           ) : (
             <EmptyCertificates />
           )}
         </div>
       </div>
+
+      <SubscribeModal
+        target={upgradeTarget}
+        onOpenChange={(open) => !open && setUpgradeTarget(null)}
+      />
     </section>
   );
 };

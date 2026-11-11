@@ -1,8 +1,20 @@
 import * as Yup from "yup";
 import { InferType } from "yup";
 
+const eighteenYearsAgo = () => {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() - 18);
+  return date;
+};
+
 export const personalInfoValidation = Yup.object().shape({
-  dateOfBirth: Yup.string().required("Date of birth is required"),
+  dateOfBirth: Yup.string()
+    .required("Date of birth is required")
+    .test(
+      "is-18-or-older",
+      "You must be at least 18 years old",
+      (value) => !!value && new Date(value) <= eighteenYearsAgo()
+    ),
   schoolName: Yup.string().optional(),
   phone: Yup.string()
     .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")

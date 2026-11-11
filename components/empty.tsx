@@ -1,8 +1,15 @@
 import EmptyIcon from "@/components/svgs/school/empty-table.svg";
+import { cn } from "@/lib/utils";
 
-export const EmptyState = ({ description }: { description?: string }) => {
+export const EmptyState = ({
+  description,
+  className,
+}: {
+  description?: string;
+  className?: string;
+}) => {
   return (
-    <div className="h-full py-20 flex flex-col justify-center">
+    <div className={cn("h-full py-20 flex flex-col justify-center", className)}>
       <div className="w-fit mx-auto">
         <EmptyIcon className="w-full h-28" />
       </div>
