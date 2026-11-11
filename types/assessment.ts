@@ -58,6 +58,9 @@ export type AssessmentSubmitResponse = {
     gradePercentage: number;
   };
   accredited: boolean;
+  /** true: show the certificate. false: see certificateBlockedReason. null/undefined: this submit did not finish the pathway */
+  certificateIssued?: boolean | null;
+  certificateBlockedReason?: "SUBSCRIPTION_REQUIRED" | string | null;
   result: Result[];
   surveys: Survey[];
 };

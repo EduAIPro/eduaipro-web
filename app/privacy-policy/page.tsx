@@ -1,4 +1,11 @@
 import Footer from "@/components/navigation/Footer";
+import { getPageMetadata } from "@/utils/config";
+
+export const metadata = getPageMetadata({
+  title: "Privacy Policy",
+  description: "How EduAIPro collects, uses and protects your data.",
+  path: "/privacy-policy",
+});
 
 export default function PrivacyPolicy() {
   return (
