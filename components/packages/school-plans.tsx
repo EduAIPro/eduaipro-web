@@ -96,7 +96,7 @@ export default function SchoolPlans() {
   );
 }
 
-function SchoolProCard() {
+export function SchoolProCard() {
   const router = useRouter();
   const { schoolPro } = useSubscriptionPlans();
   const [seats, setSeats] = useState(DEFAULT_SEATS);
@@ -445,7 +445,7 @@ function QuoteContact() {
   );
 }
 
-function CustomCard() {
+export function CustomCard() {
   return (
     <div
       role="group"

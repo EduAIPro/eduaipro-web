@@ -57,6 +57,10 @@ import {
   SetPlanPricePayload,
   SetPlanPriceResponse,
 } from "@/types/admin/billing";
+import {
+  CreateConsultationRequest,
+  CreateConsultationResponse,
+} from "@/types/consultation";
 import { messageText } from "@/lib/billing-errors";
 import {
   SchoolBillingCall,
@@ -922,5 +926,28 @@ export async function grantSchoolSeats(
     return response.data?.data;
   } catch (error) {
     throw toAdminBillingError(error);
+  }
+}
+
+export type ConsultationError = { status: number | undefined; messages: string[] };
+
+export async function createConsultation(
+  url: string,
+  { arg }: { arg: CreateConsultationRequest },
+): Promise<CreateConsultationResponse> {
+  try {
+    const response = await api.post<{ data: CreateConsultationResponse }>(
+      url,
+      arg,
+      { headers: { "x-raw-error": "1" } },
+    );
+    return response.data?.data;
+  } catch (error) {
+    const e = error as AxiosError<{ message?: string | string[] }>;
+    const m = e.response?.data?.message;
+    throw {
+      status: e.response?.status,
+      messages: Array.isArray(m) ? m : m ? [m] : [],
+    } satisfies ConsultationError;
   }
 }

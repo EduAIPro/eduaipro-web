@@ -1,8 +1,11 @@
+"use client";
 import BespokeImg from "@/public/assets/images/bespoke.webp";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 export const HeroSection = () => {
+  const router = useRouter();
   return (
     <section className="pt-32 sm:pt-40 pb-20 max-md:px-5 md:max-w-[90%] lg:max-w-[80%] mx-auto space-y-12 animate-fade-in-up">
       <div className="md:max-w-[80%] xl:max-w-[60%] space-y-5">
@@ -17,7 +20,7 @@ export const HeroSection = () => {
           educators with targeted CPD designed to meet your school’s exact
           needs—efficient, flexible, and certified.
         </p>
-        <Button>
+        <Button onClick={() => router.push("/packages#schools")}>
           <p className="font-medium">Start customizing your program</p>
         </Button>
       </div>

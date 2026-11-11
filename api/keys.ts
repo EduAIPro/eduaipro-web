@@ -152,3 +152,7 @@ export const retrieveCoursePublicKey = (slug: string) =>
   `/course/public/courses/${slug}`;
 export const retrieveCourseUnitPublicKey = (id: string) =>
   `/course/public/units/${id}`;
+
+// consultation
+export const createConsultationKey = "/consultation";
+export const adminConsultationsKey = "/admin/consultation";

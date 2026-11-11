@@ -31,7 +31,10 @@ export const Chip = ({
 );
 
 const shortTitle = (e: Enrollment) =>
-  e.course.title.replace(/^Eduai Learning\s*/i, "").replace(/\s*Path$/i, "");
+  e.course.title
+    .replace(/^Eduai Learning\s*/i, "")
+    .replace(/\s*Path$/i, "")
+    .replaceAll("_", " ");
 
 const EnrollmentTip = ({ e }: { e: Enrollment }) => {
   const done = isCompleted(e);
@@ -39,7 +42,7 @@ const EnrollmentTip = ({ e }: { e: Enrollment }) => {
   return (
     <>
       <b className="block text-[11.5px] font-semibold text-white">
-        {e.course.title}
+        {e.course.title.replaceAll("_", " ")}
       </b>
       {done ? (
         <>
@@ -91,7 +94,7 @@ export const PathwayChips = ({
               </b>
               {rest.map((e) => (
                 <span key={e.id} className="block">
-                  {e.course.title} —{" "}
+                  {e.course.title.replaceAll("_", " ")} —{" "}
                   {isCompleted(e) ? "complete" : `${e.progress}%`}
                 </span>
               ))}

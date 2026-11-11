@@ -56,7 +56,7 @@ export const footerLinks = [
       },
       {
         title: "Accreditation and Verification",
-        href: "/dashboard/certificated",
+        href: "/dashboard/certificates",
       },
     ],
   },
