@@ -3,7 +3,6 @@ import { Link2Icon, PlusIcon } from "lucide-react";
 import {
   bulkSchoolInviteKey,
   getSchoolInviteLinkKey,
-  getSchoolStaffsKey,
   schoolInviteKey,
   schoolPendingInvitesKey,
 } from "@/api/keys";
@@ -32,7 +31,10 @@ type InviteTeacherModalProps = {
   gate?: boolean;
 };
 
-export const InviteTeacherModal = ({ key, gate = false }: InviteTeacherModalProps) => {
+export const InviteTeacherModal = ({
+  key,
+  gate = false,
+}: InviteTeacherModalProps) => {
   const { access } = useSchoolAccess(gate);
   const { demo, refetch: refetchDemo } = useSchoolDemo(
     gate && access?.state === "DEMO",
@@ -130,7 +132,7 @@ export const InviteTeacherModal = ({ key, gate = false }: InviteTeacherModalProp
       if (email) {
         await trigger({ email });
         if (key) {
-          mutate([key, 1]);
+          mutate((k) => Array.isArray(k) && k[0] === key);
         }
         mutate(schoolPendingInvitesKey);
         toast.success("Invitation email sent successfully");
@@ -149,7 +151,7 @@ export const InviteTeacherModal = ({ key, gate = false }: InviteTeacherModalProp
     try {
       await triggerBulk({ staffs });
       if (key) {
-        mutate([key, 1]);
+        mutate((k) => Array.isArray(k) && k[0] === key);
       }
       mutate(schoolPendingInvitesKey);
       toast.success(`${staffs.length} invitations sent successfully`);
