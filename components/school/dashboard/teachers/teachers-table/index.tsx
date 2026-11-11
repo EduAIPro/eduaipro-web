@@ -190,7 +190,7 @@ export const TeachersTable = () => {
                   </Button>
                 }
               />
-              <InviteTeacherModal key={getSchoolStaffsKey} gate />
+              <InviteTeacherModal swrKey={getSchoolStaffsKey} gate />
             </div>
 
             <div>
