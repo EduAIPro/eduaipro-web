@@ -2,12 +2,13 @@
 import { getTeachersColumns } from "./columns";
 
 import { getSchoolStaffsKey } from "@/api/keys";
-import { fetchPaginatedData } from "@/api/queries";
+import { fetchPaginatedSearchQuery } from "@/api/queries";
 import { SendMessageModal } from "@/components/admin/modals";
 import { AssignSeatModal } from "@/components/school/dashboard/billing/assign-seat-modal";
 import { BuySeatsModal } from "@/components/school/dashboard/billing/buy-seats-modal";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
+import useDebounce from "@/hooks/use-debounce";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useSchoolPendingInvites from "@/hooks/use-school-pending-invites";
@@ -50,13 +51,16 @@ export const TeachersTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setOpen] = useState(false);
   const [teacherId, setTeacherId] = useState<null | string>(null);
+  const { value } = useDebounce(searchValue, 500);
   const [assignStaffId, setAssignStaffId] = useState<string | null>(null);
   const [assignOpen, setAssignOpen] = useState(false);
   const [buyOpen, setBuyOpen] = useState(false);
 
+  const searchTerm = value.trim();
+
   const { data, isLoading, error } = useSWR<SchoolStaffsData>(
-    [getSchoolStaffsKey, currentPage],
-    fetchPaginatedData,
+    [getSchoolStaffsKey, currentPage, encodeURIComponent(searchTerm)],
+    fetchPaginatedSearchQuery,
   );
   const { invites: pendingInvites } = useSchoolPendingInvites();
   const { seats } = useSchoolSeats();
@@ -190,7 +194,7 @@ export const TeachersTable = () => {
                   </Button>
                 }
               />
-              <InviteTeacherModal key={getSchoolStaffsKey} gate />
+              <InviteTeacherModal swrKey={getSchoolStaffsKey} gate />
             </div>
 
             <div>
@@ -203,6 +207,14 @@ export const TeachersTable = () => {
                 columns={columns}
                 onPageChange={(page) => setCurrentPage(page)}
                 onRefresh={() => mutate(getSchoolStaffsKey)}
+                searchInput={{
+                  placeholder: "Search teacher",
+                  value: searchValue,
+                  setValue: (val: string) => {
+                    setSearchValue(val);
+                    setCurrentPage(1);
+                  },
+                }}
                 emptyComponent={
                   roster.length ? (
                     <p className="py-16 text-center text-sm text-grey-500">
