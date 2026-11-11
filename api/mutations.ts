@@ -52,6 +52,8 @@ import api from "./base";
 import { AxiosError } from "axios";
 import {
   AdminBillingError,
+  GrantSeatsPayload,
+  GrantSeatsResponse,
   SetPlanPricePayload,
   SetPlanPriceResponse,
 } from "@/types/admin/billing";
@@ -903,6 +905,20 @@ export async function extendSchoolDemo(
       body,
       { headers: { "x-raw-error": "1" } },
     );
+    return response.data?.data;
+  } catch (error) {
+    throw toAdminBillingError(error);
+  }
+}
+
+export async function grantSchoolSeats(
+  url: string,
+  { arg }: { arg: GrantSeatsPayload },
+): Promise<GrantSeatsResponse> {
+  try {
+    const response = await api.post<{ data: GrantSeatsResponse }>(url, arg, {
+      headers: { "x-raw-error": "1" },
+    });
     return response.data?.data;
   } catch (error) {
     throw toAdminBillingError(error);

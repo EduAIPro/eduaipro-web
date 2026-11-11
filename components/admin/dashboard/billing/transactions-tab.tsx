@@ -21,7 +21,7 @@ import useAdminTransactions, {
   ADMIN_TRANSACTIONS_PAGE_SIZE,
 } from "@/hooks/use-admin-transactions";
 import { channelLabel } from "@/lib/billing-dates";
-import { kindLabel } from "@/lib/admin-billing";
+import { isAdminGrant, kindLabel } from "@/lib/admin-billing";
 import { cn, formatMoney } from "@/lib/utils";
 import { AdminTransaction } from "@/types/admin/billing";
 import { ColumnDef } from "@tanstack/react-table";
@@ -68,6 +68,7 @@ const columns: ColumnDef<AdminTransaction>[] = [
     cell: ({ row }) => (
       <p className="text-sm font-medium text-grey-500">
         {kindLabel(row.original.kind)}
+        {isAdminGrant(row.original.reference) ? " · Admin grant" : ""}
       </p>
     ),
   },

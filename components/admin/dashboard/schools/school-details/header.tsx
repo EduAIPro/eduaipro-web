@@ -3,6 +3,7 @@ import {
   ConfirmDeactivateSchoolModal,
   ConfirmDeleteSchoolModal,
 } from "@/components/admin/dashboard/schools/modals";
+import { GrantSeatsDialog } from "@/components/admin/dashboard/schools/modals/grant-seats-dialog";
 import UserProfile from "@/components/svgs/school/profile.svg";
 import { Skeleton } from "@/components/ui/skeleton";
 import { RetrieveSchoolDetails } from "@/types/admin/schools";
@@ -60,6 +61,13 @@ export const SchoolDetailsHeader = ({
           ) : (
             <ConfirmActivateSchoolModal schoolId={data.id} refetch={refetch} />
           )
+        ) : null}
+        {data ? (
+          <GrantSeatsDialog
+            schoolId={data.id}
+            schoolName={data.institutionName}
+            refetch={refetch}
+          />
         ) : null}
         <ConfirmDeleteSchoolModal />
       </div>
