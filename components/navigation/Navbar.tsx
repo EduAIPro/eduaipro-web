@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import Typography from "../common/ui/Typography";
 import { Button } from "../ui/button";
 import { navLinks } from "./data";
-import { getRefreshToken } from "@/utils/auth";
+import { hasSession } from "@/utils/auth";
 import useUser from "@/hooks/use-user";
 import { Staff } from "@/types/user";
 
@@ -36,9 +36,9 @@ export default function Navbar() {
 
   useEffect(() => {
     async function checkAuth() {
-      const refreshToken = await getRefreshToken();
+      const loggedIn = await hasSession();
 
-      if (refreshToken && !isLoggedIn) {
+      if (loggedIn && !isLoggedIn) {
         setIsLoggedIn(true);
       }
 
