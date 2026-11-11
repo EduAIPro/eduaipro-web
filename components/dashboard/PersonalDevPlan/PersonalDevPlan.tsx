@@ -18,7 +18,7 @@ import {
   GeneratedQuestions,
 } from "@/types/assessment";
 import { CourseProgress, CourseUnit } from "@/types/course";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import { Assessment } from "./assessment";
 import { AssessmentCompletedModal } from "./assessment/completed-modal";
@@ -28,15 +28,24 @@ import { UnitsContent } from "./units-content";
 import useUser from "@/hooks/use-user";
 import { updatePersonalInfo } from "@/api/mutations";
 import { useSWRConfig } from "swr";
+import { AssessmentLoading } from "./assessment/loading-messages";
 
 type PersonalDevPlanProps = {
   introVideoUrl?: string;
   courseProgress: CourseProgress;
+  /** Same figure the pathway chip shows, so the two never disagree. */
+  overallProgress?: number;
   refetchCourse: VoidFunction;
   units: CourseUnit[];
+  /** Called when the teacher chooses to continue after passing the last unit */
+  onCourseFinished?: VoidFunction;
 };
 
-const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
+const PersonalDevPlan = ({
+  units,
+  onCourseFinished,
+  ...props
+}: PersonalDevPlanProps) => {
   const { courseProgress } = props;
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -120,6 +129,10 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
     }
   };
 
+  // Keep exactly one module open: the one holding the active document. Only
+  // re-run when the active module changes so a manual toggle isn't undone by
+  // data revalidation.
+  const lastSyncedModuleRef = useRef<string | null>(null);
   useEffect(() => {
     if (unitInfo && moduleId && activeUnitId) {
       const unitIndex = units.findIndex((u) => u.id === activeUnitId);
@@ -129,14 +142,11 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
         );
         if (activeModule) {
           const accValue = `${units[unitIndex].index}-${activeModule.index}`;
+          if (lastSyncedModuleRef.current === accValue) return;
+          lastSyncedModuleRef.current = accValue;
           setModuleAccValues((prev) => {
             const next = [...prev];
-            if (!next[unitIndex]) {
-              next[unitIndex] = [];
-            }
-            if (!next[unitIndex].includes(accValue)) {
-              next[unitIndex] = [...next[unitIndex], accValue];
-            }
+            next[unitIndex] = [accValue];
             return next;
           });
         }
@@ -153,7 +163,9 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
     if (window) {
       if (unitInfo) {
         if (!pdfUrl) {
-          const lastPdf = window.localStorage.getItem("lastPdf");
+          const lastPdf = window.localStorage.getItem(
+            `lastPdf-${courseProgress.courseId}`,
+          );
           const items = unitInfo.modules.flatMap((mod, i) =>
             mod.moduleItems.map((modI) => [i, modI.id, modI.signedPdfUrl]),
           );
@@ -237,6 +249,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
       setModuleValues={setModuleAccValues}
       setValues={setAccordionValues}
       courseProgress={props.courseProgress}
+      overallProgress={props.overallProgress}
       generateQuestions={startAssessment}
       isGeneratingQuestions={isMutating}
       isQuizOn={isQuizOn}
@@ -263,6 +276,7 @@ const PersonalDevPlan = ({ units, ...props }: PersonalDevPlanProps) => {
           questionsLoading={isMutating}
           closeModal={() => setIsViewingResults(false)}
           isLastUnit={isLastUnit}
+          onCourseFinished={onCourseFinished}
         />
       ) : (
         <div>

@@ -32,6 +32,33 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/maintenance", request.url));
   }
 
+  // The backend links to /billing (reminder emails) and uses /billing/callback
+  // as Paystack's default return. Send each role to its own billing screen.
+  if (pathname === "/billing" || pathname.startsWith("/billing/")) {
+    const rt = request.cookies.get(REFRESH_TOKEN)?.value;
+    const r = request.cookies.get(ROLE_COOKIE)?.value as UserRoles | undefined;
+    if (!rt || !r) {
+      return NextResponse.redirect(
+        new URL("/login?redirect=" + pathname, request.url),
+      );
+    }
+    const isCallback = pathname.startsWith("/billing/callback");
+    const target =
+      r === "ADMIN"
+        ? "/admin/billing"
+        : r === "TEACHER" || r === "USER"
+          ? isCallback
+            ? "/dashboard/billing/callback"
+            : "/dashboard/profile"
+          : isCallback
+            ? "/school/billing?checkout=return"
+            : "/school/billing";
+    const url = new URL(target, request.url);
+    // keep Paystack's ?trxref=&reference= for the callback page
+    if (isCallback && !url.search) url.search = request.nextUrl.search;
+    return NextResponse.redirect(url);
+  }
+
   // Protected routes - require authentication
   const protectedRoutes = ["/dashboard", "/school", "/admin"];
   const isProtectedRoute = protectedRoutes.some((route) =>
@@ -84,6 +111,7 @@ export function middleware(request: NextRequest) {
 // Specify which routes should trigger the middleware
 export const config = {
   matcher: [
+    "/billing/:path*",
     "/dashboard/:path*",
     "/school/:path*",
     "/admin/:path*",

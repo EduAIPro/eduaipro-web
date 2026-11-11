@@ -9,4 +9,9 @@ export const formatMoney = (amount: number, currency = "NGN") =>
   new Intl.NumberFormat("en-NG", {
     style: "currency",
     currency,
+    minimumFractionDigits: 0,
   }).format(amount);
+
+/** Money arrives as integer kobo. */
+export const formatKobo = (kobo: number, currency = "NGN") =>
+  formatMoney(kobo / 100, currency);

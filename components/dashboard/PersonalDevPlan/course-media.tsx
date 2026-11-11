@@ -355,9 +355,12 @@ const CourseMedia: React.FC<CourseMediaProps> = ({
 
   useEffect(() => {
     if (pdfUrl) {
-      window.localStorage.setItem("lastPdf", pdfUrl);
+      window.localStorage.setItem(
+        `lastPdf-${courseProgress.courseId}`,
+        pdfUrl,
+      );
     }
-  }, [pdfUrl]);
+  }, [pdfUrl, courseProgress.courseId]);
 
   const handleStartCourse = useCallback(() => {
     handleIntroPlayed();

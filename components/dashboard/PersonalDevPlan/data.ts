@@ -1235,5 +1235,3 @@ export const course = {
     },
   ],
 };
-
-export const coursesFiles = ["unit_1.pdf", "test.pdf"];
