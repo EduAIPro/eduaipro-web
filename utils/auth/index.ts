@@ -2,7 +2,7 @@
 
 import api from "@/api/base";
 import { CONFIG } from "@/constants/config";
-import { RefreshTokenResponse } from "@/types/auth";
+import { RefreshTokenResponse, UserRoles } from "@/types/auth";
 import { cookies } from "next/headers";
 
 type Response = {
@@ -49,6 +49,7 @@ export const deleteRefreshToken = async () => {
   const _cookies = await cookies();
 
   _cookies.delete("eduaipro:refresh-token");
+  _cookies.delete("eduaipro:role");
 };
 
 export const setAuthCookes = async (refresh: string) => {
@@ -58,5 +59,18 @@ export const setAuthCookes = async (refresh: string) => {
     ...CONFIG.BASE_COOKIE_OPTION,
     name: "eduaipro:refresh-token",
     value: refresh,
+  });
+};
+
+// The middleware can only read cookies (it runs on the edge, before any
+// client state exists) — so the role it routes on has to be written here,
+// at login/signup, rather than decoded from the access/refresh token.
+export const setRoleCookie = async (role: UserRoles) => {
+  const _cookies = await cookies();
+
+  _cookies.set({
+    ...CONFIG.BASE_COOKIE_OPTION,
+    name: "eduaipro:role",
+    value: role,
   });
 };

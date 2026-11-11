@@ -24,6 +24,8 @@ export default function GoalsAndSecurity({
         title="Professional Goals and Security"
         description="Tell us about your goals and background to personalize your learning experience."
         Icon={TrophyIcon}
+        step={3}
+        totalSteps={3}
       />
 
       <div className="mt-6 flex-col flex gap-y-4">

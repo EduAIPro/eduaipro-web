@@ -2,9 +2,10 @@
 import FormInput, { SelectInput } from "@/components/common/ui/FormInput";
 import { cn } from "@/lib/utils";
 import {
+  cpdPathways,
   educationalLevels,
   interestedSkills,
-  teachingLevels,
+  roleToTeachingLevel,
   yearsOfExperienceData,
 } from "@/utils/data";
 import { ProfessionalBackgroundFormValue } from "@/utils/validation/auth";
@@ -14,8 +15,15 @@ import {
   useField,
   useFormikContext,
 } from "formik";
-import { BriefcaseIcon, ChevronDownIcon, XIcon } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  BriefcaseIcon,
+  ChevronDownIcon,
+  GraduationCapIcon,
+  XIcon,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import ModalTitleAndDesc from "../ModalTitleAndDesc";
 
 type ProfessionalBackgroundProps = {
@@ -23,6 +31,145 @@ type ProfessionalBackgroundProps = {
   errors: FormikErrors<ProfessionalBackgroundFormValue>;
   values: ProfessionalBackgroundFormValue;
 };
+
+// ─── CPD pathway confirm + picker ─────────────────────────────────────────
+// The pathway is set from the role chosen at sign-up and written straight
+// into `teachingLevel`. Teachers can override it here if sign-up guessed
+// wrong, but there is no separate "Professional Level" dropdown any more —
+// it duplicated this same field.
+
+function CpdPathwaySection({ error }: { error?: string | null }) {
+  const { values, setFieldValue } =
+    useFormikContext<ProfessionalBackgroundFormValue>();
+  const [pickerOpen, setPickerOpen] = useState(false);
+
+  useEffect(() => {
+    if (values.teachingLevel) return;
+    const storedRole =
+      typeof window !== "undefined" ? localStorage.getItem("userRole") : null;
+    const fallback = storedRole ? roleToTeachingLevel[storedRole] : undefined;
+    setFieldValue("teachingLevel", fallback ?? cpdPathways[0].value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const pathway =
+    cpdPathways.find((p) => p.value === values.teachingLevel) ??
+    cpdPathways[0];
+  const Icon = pathway.icon;
+
+  return (
+    <div>
+      <p className="font-medium text-base mb-1 text-grey-650">
+        CPD pathway
+      </p>
+      <div className="flex items-center gap-3 rounded-lg border border-primary-300/30 bg-primary-300/5 p-3.5">
+        <span className="shrink-0 rounded-full bg-white p-2 text-primary-300 shadow-sm">
+          <Icon size={20} />
+        </span>
+        <div className="flex-1">
+          <p className="text-xs text-grey-500">Your CPD pathway</p>
+          <p className="text-sm font-semibold text-primary-300">
+            {pathway.name}
+          </p>
+          <p className="mt-0.5 text-xs text-grey-500 leading-relaxed">
+            Set from the role you chose at sign-up ({pathway.role}). This is
+            the certificate you&apos;ll earn.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setPickerOpen(true)}
+          className="shrink-0 rounded-md border border-grey-4/50 bg-white px-3 py-1.5 text-xs font-medium text-grey-650 hover:bg-grey-50 transition-colors"
+        >
+          Change
+        </button>
+      </div>
+      {error && (
+        <div className="mt-2">
+          <p className="text-sm text-red-500 capitalize">{error}</p>
+        </div>
+      )}
+
+      {pickerOpen &&
+        createPortal(
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 p-4"
+              onClick={(e) => {
+                if (e.target === e.currentTarget) setPickerOpen(false);
+              }}
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                className="w-full max-w-md rounded-xl bg-white shadow-[0_18px_50px_rgba(0,0,0,0.18)] max-h-[85vh] overflow-y-auto"
+              >
+                <div className="flex items-start gap-3 border-b border-grey-3 p-4">
+                  <span className="rounded-full bg-primary-300/10 p-2 text-primary-300">
+                    <GraduationCapIcon size={18} />
+                  </span>
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-grey-900">
+                      Change your CPD pathway
+                    </p>
+                    <p className="text-xs text-grey-500">
+                      This is the credential you&apos;ll earn
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setPickerOpen(false)}
+                    className="text-grey-400 hover:text-grey-600 transition-colors"
+                  >
+                    <XIcon size={18} />
+                  </button>
+                </div>
+                <div className="flex flex-col gap-2 p-4">
+                  {cpdPathways.map((p) => {
+                    const PIcon = p.icon;
+                    const active = p.value === pathway.value;
+                    return (
+                      <button
+                        key={p.value}
+                        type="button"
+                        onClick={() => {
+                          setFieldValue("teachingLevel", p.value);
+                          setPickerOpen(false);
+                        }}
+                        className={cn(
+                          "flex w-full items-center gap-3 rounded-lg border p-3 text-left transition-colors",
+                          active
+                            ? "border-primary-300 bg-primary-300/5"
+                            : "border-grey-4/50 hover:bg-grey-50",
+                        )}
+                      >
+                        <span className="shrink-0 rounded-full bg-primary-300/10 p-2 text-primary-300">
+                          <PIcon size={18} />
+                        </span>
+                        <span>
+                          <p className="text-sm font-medium text-grey-900">
+                            {p.name}
+                          </p>
+                          <p className="text-xs text-grey-500">
+                            12 units · 30 CPD hours
+                          </p>
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>,
+          document.body,
+        )}
+    </div>
+  );
+}
 
 // ─── Skills Picker ────────────────────────────────────────────────────────────
 
@@ -287,13 +434,12 @@ export default function ProfessionalBackground({
         title="Professional Background"
         description="Please provide your professional and educational background to help us better understand your experience."
         Icon={BriefcaseIcon}
+        step={2}
+        totalSteps={3}
       />
 
       <div className="mt-6 flex-col flex gap-y-4">
-        <SelectInput
-          name="teachingLevel"
-          label="Professional Level"
-          options={teachingLevels}
+        <CpdPathwaySection
           error={
             touched.teachingLevel && errors.teachingLevel
               ? errors.teachingLevel

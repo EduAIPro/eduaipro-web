@@ -44,10 +44,39 @@ import {
   UpdateSchoolInfoResponse,
 } from "@/types/school/auth";
 import { Staff } from "@/types/user";
-import { setAuthCookes } from "@/utils/auth";
+import { setAuthCookes, setRoleCookie } from "@/utils/auth";
 import { EditUserFormValue } from "@/utils/validation/teacher-profile/settings";
 import { toast } from "sonner";
 import { apiClient } from "./request";
+import api from "./base";
+import { AxiosError } from "axios";
+import {
+  AdminBillingError,
+  SetPlanPricePayload,
+  SetPlanPriceResponse,
+} from "@/types/admin/billing";
+import { messageText } from "@/lib/billing-errors";
+import {
+  SchoolBillingCall,
+  toSchoolBillingError,
+} from "@/lib/school-billing-errors";
+import {
+  AssignSeatPayload,
+  AssignSeatResponse,
+  BuySeatsPayload,
+  BuySeatsResponse,
+  CheckoutResponse,
+  DemoStatus,
+  RenewSeatsPayload,
+} from "@/types/school/billing";
+import {
+  EnrollPayload,
+  Enrollment,
+  SetActiveCoursePayload,
+  SetActiveCourseResponse,
+  SubscriptionRequiredError,
+} from "@/types/enrollment";
+import { SubscribePayload, SubscribeResponse } from "@/types/billing";
 
 // const isLocalhost = window.location.host.includes("localhost");
 
@@ -60,6 +89,7 @@ export async function signup(
     const response = await apiClient<TeacherSignupResponse>(url, arg);
 
     await setAuthCookes(response.data.data.tokens.refresh);
+    await setRoleCookie("TEACHER");
 
     return response.data;
   } catch (error) {
@@ -75,6 +105,7 @@ export async function schoolSignup(
     const response = await apiClient<TeacherSignupResponse>(url, arg);
 
     await setAuthCookes(response.data.data.tokens.refresh);
+    await setRoleCookie("OWNER");
 
     return response.data;
   } catch (error) {
@@ -88,8 +119,10 @@ export async function login(
 ): Promise<TeacherLoginResponse> {
   try {
     const response = await apiClient<TeacherLoginResponse>(url, arg);
+    const { tokens, user, staff } = response.data.data;
 
-    await setAuthCookes(response.data.data.tokens.refresh);
+    await setAuthCookes(tokens.refresh);
+    await setRoleCookie(user.role === "ADMIN" ? "ADMIN" : staff.role);
 
     return response.data;
   } catch (error) {
@@ -248,6 +281,65 @@ export async function submitAssessment(
   }
 }
 
+// pathways / enrollments (multi-pathway)
+export async function enrollInPathway(
+  url: string,
+  { arg }: { arg: EnrollPayload },
+): Promise<Enrollment> {
+  try {
+    const response = await api.post<Enrollment>(url, arg, {
+      headers: { "x-raw-error": "1" },
+    });
+
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<SubscriptionRequiredError>;
+
+    if (axiosError.response?.status === 402) {
+      throw axiosError.response.data;
+    }
+
+    const message =
+      (axiosError.response?.data as { message?: string })?.message ??
+      axiosError.message;
+    throw message;
+  }
+}
+
+export async function setActiveCourse(
+  url: string,
+  { arg }: { arg: SetActiveCoursePayload },
+): Promise<SetActiveCourseResponse> {
+  try {
+    const response = await apiClient<SetActiveCourseResponse>(
+      url,
+      arg,
+      "patch",
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function subscribeCheckout(
+  url: string,
+  { arg }: { arg: SubscribePayload },
+): Promise<SubscribeResponse> {
+  try {
+    const response = await apiClient<{ data: SubscribeResponse }>(
+      url,
+      arg,
+      "post",
+    );
+
+    return response.data?.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // SCHOOL
 export type StaffInvite = {
   firstName: string;
@@ -257,6 +349,28 @@ export type StaffInvite = {
   phoneNumber: string;
   level: string;
 };
+
+export async function deleteSchoolInvite(
+  url: string,
+  { arg }: { arg: { inviteId: string } },
+): Promise<void> {
+  try {
+    await api.delete(url.replace(":inviteId", arg.inviteId));
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function resendSchoolInvite(
+  url: string,
+  { arg }: { arg: { inviteId: string } },
+): Promise<void> {
+  try {
+    await api.post(url.replace(":inviteId", arg.inviteId));
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function sendInvitation(
   url: string,
@@ -651,5 +765,146 @@ export async function declineSurveyResponse(
     return true;
   } catch (error) {
     throw error;
+  }
+}
+
+// school billing (owner only). x-raw-error keeps the HTTP status so the UI can
+// map it to a message; the thrown value is a SchoolBillingError.
+async function schoolBillingPost<T>(
+  call: SchoolBillingCall,
+  url: string,
+  body?: unknown,
+): Promise<T> {
+  try {
+    const response = await api.post<{ data: T }>(url, body ?? {}, {
+      headers: { "x-raw-error": "1" },
+    });
+
+    return response.data?.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<{
+      message?: string | string[];
+      code?: string;
+    }>;
+    throw toSchoolBillingError(
+      call,
+      axiosError.response?.status,
+      axiosError.response?.data?.message ?? axiosError.message,
+      axiosError.response?.data?.code,
+    );
+  }
+}
+
+export async function buySchoolSeats(
+  url: string,
+  { arg }: { arg: BuySeatsPayload },
+): Promise<BuySeatsResponse> {
+  return schoolBillingPost("purchase", url, arg);
+}
+
+export async function renewSchoolSeats(
+  url: string,
+  { arg }: { arg: RenewSeatsPayload },
+): Promise<CheckoutResponse> {
+  const { purchaseId, ...body } = arg;
+  return schoolBillingPost(
+    "renew",
+    url.replace(":purchaseId", purchaseId),
+    body,
+  );
+}
+
+export async function startSchoolDemo(url: string): Promise<DemoStatus> {
+  return schoolBillingPost("demo", url);
+}
+
+export async function assignSchoolSeat(
+  url: string,
+  { arg }: { arg: AssignSeatPayload & { seatId: string } },
+): Promise<AssignSeatResponse> {
+  const { seatId, ...body } = arg;
+  return schoolBillingPost("assign", url.replace(":seatId", seatId), body);
+}
+
+export async function releaseSchoolSeat(
+  url: string,
+  { arg }: { arg: { seatId: string } },
+): Promise<unknown> {
+  return schoolBillingPost("release", url.replace(":seatId", arg.seatId));
+}
+
+// super admin billing. x-raw-error keeps the status so the UI can tell a
+// "needs confirm" 400 from a plain validation error.
+const toAdminBillingError = (error: unknown): AdminBillingError => {
+  const e = error as AxiosError<{ message?: string | string[] }>;
+  const message = messageText(e.response?.data?.message, e.message);
+  return {
+    status: e.response?.status,
+    message,
+    needsConfirm: e.response?.status === 400 && /confirm/i.test(message),
+  };
+};
+
+export async function setAdminPlanPrice(
+  url: string,
+  { arg }: { arg: SetPlanPricePayload & { planId: string } },
+): Promise<SetPlanPriceResponse> {
+  const { planId, ...body } = arg;
+  try {
+    const response = await api.put<{ data: SetPlanPriceResponse }>(
+      url.replace(":planId", planId),
+      body,
+      { headers: { "x-raw-error": "1" } },
+    );
+    return response.data?.data;
+  } catch (error) {
+    throw toAdminBillingError(error);
+  }
+}
+
+export async function deleteAdminPlanPrice(
+  url: string,
+  { arg }: { arg: { planId: string; priceId: string } },
+): Promise<void> {
+  try {
+    await api.delete(
+      url.replace(":planId", arg.planId).replace(":priceId", arg.priceId),
+      { headers: { "x-raw-error": "1" } },
+    );
+  } catch (error) {
+    throw toAdminBillingError(error);
+  }
+}
+
+export async function markInvoicePaid(
+  url: string,
+  { arg }: { arg: { purchaseId: string } },
+): Promise<{ invoiceNumber: string; status: string }> {
+  try {
+    const response = await api.post<{
+      data: { invoiceNumber: string; status: string };
+    }>(url.replace(":purchaseId", arg.purchaseId), {}, {
+      headers: { "x-raw-error": "1" },
+    });
+    return response.data?.data;
+  } catch (error) {
+    throw toAdminBillingError(error);
+  }
+}
+
+export async function extendSchoolDemo(
+  url: string,
+  { arg }: { arg: { demoId: string; days: number } },
+): Promise<unknown> {
+  const { demoId, ...body } = arg;
+  try {
+    const response = await api.post<{ data: unknown }>(
+      url.replace(":demoId", demoId),
+      body,
+      { headers: { "x-raw-error": "1" } },
+    );
+    return response.data?.data;
+  } catch (error) {
+    throw toAdminBillingError(error);
   }
 }
