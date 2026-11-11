@@ -3,6 +3,7 @@ import {
   activeEnrollment,
   certificatesOf,
   earliestExpiry,
+  isCompleted,
   enrollmentsOf,
   PLAN_LABEL,
   planOf,
@@ -50,24 +51,30 @@ export const getTeachersColumns = (seats: Seat[]): ColumnDef<RosterStaff>[] => [
     accessorKey: "activeProgress",
     header: "Active progress",
     cell: ({ row }) => {
-      const active = activeEnrollment(row.original);
+      const active =
+        activeEnrollment(row.original) ??
+        enrollmentsOf(row.original).findLast(isCompleted);
       if (!active) return <span className="text-grey-500">—</span>;
       return (
         <div className="flex min-w-32 flex-col gap-1">
           <div
             role="progressbar"
-            aria-valuenow={active.progress}
+            aria-valuenow={Math.round(active.progress)}
             aria-valuemin={0}
             aria-valuemax={100}
             className="h-1.5 rounded-full bg-grey-4"
           >
             <div
-              className="h-full rounded-full bg-[#1A56DB]"
-              style={{ width: `${active.progress}%` }}
+              className={cn(
+                "h-full rounded-full",
+                isCompleted(active) ? "bg-green-600" : "bg-[#1A56DB]",
+              )}
+              style={{ width: `${Math.round(active.progress)}%` }}
             />
           </div>
           <span className="text-[10.5px] text-grey-500">
-            {active.progress}% · {active.course.title}
+            {Math.round(active.progress)}% ·{" "}
+            {active.course.title.replaceAll("_", " ")}
           </span>
         </div>
       );

@@ -3,6 +3,7 @@ import {
   CreditCardIcon,
   GraduationCapIcon,
   HeadsetIcon,
+  CalendarCheckIcon,
   LayoutDashboardIcon,
   NotepadTextIcon,
   UserIcon,
@@ -39,6 +40,11 @@ export const AdminNavItems = [
     name: "Billing",
     url: "/admin/billing",
     icon: CreditCardIcon,
+  },
+  {
+    name: "Consultations",
+    url: "/admin/consultations",
+    icon: CalendarCheckIcon,
   },
   // {
   //   name: "Calendar",

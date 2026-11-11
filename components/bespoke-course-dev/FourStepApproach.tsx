@@ -1,6 +1,6 @@
 import { generateKey } from "@/utils/key";
 import Pill from "../common/ui/Pill";
-import { Button } from "../ui/button";
+import { ConsultationDialog } from "./ConsultationDialog";
 
 const approaches = [
   {
@@ -49,9 +49,7 @@ export const FourStepApproach = () => {
             ))}
           </ul>
           <div className="w-fit mx-auto">
-            <Button>
-              <p>Schedule a consultation</p>
-            </Button>
+            <ConsultationDialog />
           </div>
         </div>
       </div>
