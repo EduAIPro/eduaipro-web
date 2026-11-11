@@ -1,12 +1,19 @@
 import { StaffCourseProgress } from "@/types/school";
+import { LoaderIcon } from "lucide-react";
 import { useMemo } from "react";
 import { CourseProgressChart } from "./chart";
 
 type CourseProgressProps = {
   progress: StaffCourseProgress | undefined;
+  isLoading?: boolean;
+  hasError?: boolean;
 };
 
-export const CourseProgress = ({ progress }: CourseProgressProps) => {
+export const CourseProgress = ({
+  progress,
+  isLoading = false,
+  hasError = false,
+}: CourseProgressProps) => {
   const legend = useMemo(
     () => [
       {
@@ -31,20 +38,32 @@ export const CourseProgress = ({ progress }: CourseProgressProps) => {
     <div className="bg-white p-5 md:h-[400px] relative overflow-hidden border border-grey-400 rounded-xl space-y-5">
       <div className="space-y-3">
         <h2 className="font-semibold text-lg">Course Progress</h2>
-        <CourseProgressChart progress={progress} />
-        <div className="flex items-center absolute bottom-6 w-full inset-x-0 justify-center gap-6">
-          {legend.map((i) => (
-            <div key={i.label} className="gap-1 flex items-center">
-              <div
-                style={{ backgroundColor: i.color }}
-                className="size-2 rounded-full"
-              ></div>
-              <p className="font-medium text-base text-grey-500 lowercase">
-                {i.count} {i.label}
-              </p>
+        {isLoading || hasError ? (
+          <div className="flex h-[350px] items-center justify-center">
+            {isLoading ? (
+              <LoaderIcon className="animate-spin size-5" />
+            ) : (
+              <p className="text-center text-base">—</p>
+            )}
+          </div>
+        ) : (
+          <>
+            <CourseProgressChart progress={progress} />
+            <div className="flex items-center absolute bottom-6 w-full inset-x-0 justify-center gap-6">
+              {legend.map((i) => (
+                <div key={i.label} className="gap-1 flex items-center">
+                  <div
+                    style={{ backgroundColor: i.color }}
+                    className="size-2 rounded-full"
+                  ></div>
+                  <p className="font-medium text-base text-grey-500 lowercase">
+                    {i.count} {i.label}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </div>
     </div>
   );
