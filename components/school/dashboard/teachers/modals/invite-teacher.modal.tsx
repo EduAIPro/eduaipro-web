@@ -22,7 +22,7 @@ import useSWR, { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
 type InviteTeacherModalProps = {
-  key?: string;
+  swrKey?: string;
   /**
    * School owners only: disable invites when the school is read-only or the
    * demo already has its 5 teachers. The admin uses this modal too, and must
@@ -32,7 +32,7 @@ type InviteTeacherModalProps = {
 };
 
 export const InviteTeacherModal = ({
-  key,
+  swrKey,
   gate = false,
 }: InviteTeacherModalProps) => {
   const { access } = useSchoolAccess(gate);
@@ -131,8 +131,8 @@ export const InviteTeacherModal = ({
     try {
       if (email) {
         await trigger({ email });
-        if (key) {
-          mutate((k) => Array.isArray(k) && k[0] === key);
+        if (swrKey) {
+          mutate((k) => Array.isArray(k) && k[0] === swrKey);
         }
         mutate(schoolPendingInvitesKey);
         toast.success("Invitation email sent successfully");
@@ -150,8 +150,8 @@ export const InviteTeacherModal = ({
   async function handleBulkInvite() {
     try {
       await triggerBulk({ staffs });
-      if (key) {
-        mutate((k) => Array.isArray(k) && k[0] === key);
+      if (swrKey) {
+        mutate((k) => Array.isArray(k) && k[0] === swrKey);
       }
       mutate(schoolPendingInvitesKey);
       toast.success(`${staffs.length} invitations sent successfully`);
