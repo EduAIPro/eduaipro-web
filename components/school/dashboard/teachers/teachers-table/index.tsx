@@ -207,6 +207,14 @@ export const TeachersTable = () => {
                 columns={columns}
                 onPageChange={(page) => setCurrentPage(page)}
                 onRefresh={() => mutate(getSchoolStaffsKey)}
+                searchInput={{
+                  placeholder: "Search teacher",
+                  value: searchValue,
+                  setValue: (val: string) => {
+                    setSearchValue(val);
+                    setCurrentPage(1);
+                  },
+                }}
                 emptyComponent={
                   roster.length ? (
                     <p className="py-16 text-center text-sm text-grey-500">
