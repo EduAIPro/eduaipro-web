@@ -199,7 +199,11 @@ export const SetupSchoolProfile = ({
                 />
               </div>
               <div className="grid grid-cols-3 gap-2">
-                <Button variant="outline" onClick={() => setStep(1)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setStep(1)}
+                >
                   <ArrowLeftIcon />
                   <h3>Back</h3>
                 </Button>

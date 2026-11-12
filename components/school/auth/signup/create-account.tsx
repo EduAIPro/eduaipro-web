@@ -38,7 +38,7 @@ export const CreateSchoolAccount = ({
   }
 
   const PasswordIcon = () => (
-    <Button size="icon" variant="ghost" onClick={togglePassword}>
+    <Button type="button" size="icon" variant="ghost" onClick={togglePassword}>
       {showPassword ? <EyeIcon /> : <EyeClosedIcon />}
     </Button>
   );
