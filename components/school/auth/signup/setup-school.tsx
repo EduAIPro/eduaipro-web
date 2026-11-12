@@ -14,7 +14,7 @@ import {
   SetupAccountFormValue,
   setupAccountValidation,
 } from "@/utils/validation/auth/school";
-import { Form, Formik } from "formik";
+import { Form, Formik, getIn } from "formik";
 import { ArrowLeftIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useMemo } from "react";
@@ -125,15 +125,12 @@ export const SetupSchoolProfile = ({
         initialValues={initialValues}
         validationSchema={setupAccountValidation}
       >
-        {({ touched, errors, setFieldValue, isValid }) => {
+        {({ touched, errors, setFieldValue, setFieldTouched, isValid }) => {
           const fieldError = (fieldNames: string[]) => {
             const errorMessages = fieldNames
               .map((field) => {
-                if (
-                  touched[field as keyof SetupAccountFormValue] &&
-                  errors[field as keyof SetupAccountFormValue]
-                ) {
-                  return errors[field as keyof SetupAccountFormValue];
+                if (getIn(touched, field) && getIn(errors, field)) {
+                  return getIn(errors, field) as string;
                 } else {
                   return null;
                 }
@@ -189,18 +186,24 @@ export const SetupSchoolProfile = ({
                 error={fieldError(["contactEmail"])}
               />
 
-              <PhoneInput
-                label="Contact phone"
-                name="contactPhone.digits"
-                dialCodeName="contactPhone.dialCode"
-                setFieldValue={setFieldValue}
-                error={fieldError([
-                  "contactPhone.digits",
-                  "contactPhone.dialCode",
-                ])}
-              />
+              <div onBlur={() => setFieldTouched("contactPhone.digits")}>
+                <PhoneInput
+                  label="Contact phone"
+                  name="contactPhone.digits"
+                  dialCodeName="contactPhone.dialCode"
+                  setFieldValue={setFieldValue}
+                  error={fieldError([
+                    "contactPhone.digits",
+                    "contactPhone.dialCode",
+                  ])}
+                />
+              </div>
               <div className="grid grid-cols-3 gap-2">
-                <Button variant="outline" onClick={() => setStep(1)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setStep(1)}
+                >
                   <ArrowLeftIcon />
                   <h3>Back</h3>
                 </Button>

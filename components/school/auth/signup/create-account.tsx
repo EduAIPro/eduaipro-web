@@ -5,7 +5,7 @@ import {
   CreateAccountFormValue,
   createAccountValidation,
 } from "@/utils/validation/auth/school";
-import { Form, Formik } from "formik";
+import { Form, Formik, getIn } from "formik";
 import { EyeClosedIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -23,10 +23,6 @@ export const CreateSchoolAccount = ({
   const [showPassword, setShowPassword] = useState(false);
 
   function handleSubmit(values: CreateAccountFormValue) {
-    if (values.password !== values.confirmPassword) {
-      toast.error("Your password must match");
-      return;
-    }
     const [firstName, ...lastName] = values.name.trim().split(" ");
     if (!firstName.length || !lastName.length) {
       toast.error("First and last names are both required");
@@ -42,7 +38,7 @@ export const CreateSchoolAccount = ({
   }
 
   const PasswordIcon = () => (
-    <Button size="icon" variant="ghost" onClick={togglePassword}>
+    <Button type="button" size="icon" variant="ghost" onClick={togglePassword}>
       {showPassword ? <EyeIcon /> : <EyeClosedIcon />}
     </Button>
   );
@@ -59,15 +55,12 @@ export const CreateSchoolAccount = ({
         initialValues={defaultValues}
         validationSchema={createAccountValidation}
       >
-        {({ touched, errors, setFieldValue, isValid }) => {
+        {({ touched, errors, setFieldValue, setFieldTouched, isValid }) => {
           const fieldError = (fieldNames: string[]) => {
             const errorMessages = fieldNames
               .map((field) => {
-                if (
-                  touched[field as keyof CreateAccountFormValue] &&
-                  errors[field as keyof CreateAccountFormValue]
-                ) {
-                  return errors[field as keyof CreateAccountFormValue];
+                if (getIn(touched, field) && getIn(errors, field)) {
+                  return getIn(errors, field) as string;
                 } else {
                   return null;
                 }
@@ -93,13 +86,15 @@ export const CreateSchoolAccount = ({
                 error={fieldError(["email"])}
               />
 
-              <PhoneInput
-                label="Phone number"
-                name="phone.digits"
-                dialCodeName="phone.dialCode"
-                setFieldValue={setFieldValue}
-                error={fieldError(["phone.digits", "phone.dialCode"])}
-              />
+              <div onBlur={() => setFieldTouched("phone.digits")}>
+                <PhoneInput
+                  label="Phone number"
+                  name="phone.digits"
+                  dialCodeName="phone.dialCode"
+                  setFieldValue={setFieldValue}
+                  error={fieldError(["phone.digits", "phone.dialCode"])}
+                />
+              </div>
 
               <FormInput
                 label="Position"
@@ -113,6 +108,7 @@ export const CreateSchoolAccount = ({
                 placeholder="Enter password"
                 name="password"
                 error={fieldError(["password"])}
+                note="At least 8 characters, with an uppercase letter, a number and a symbol"
                 type={showPassword ? "text" : "password"}
                 rightIcon={<PasswordIcon />}
               />
@@ -125,10 +121,6 @@ export const CreateSchoolAccount = ({
                   type={showPassword ? "text" : "password"}
                   rightIcon={<PasswordIcon />}
                 />
-                <p className="text-grey-500 text-sm mt-2">
-                  Your password must contain at least 8 characters including at
-                  least one digit, symbol, uppercase and lowercase letter
-                </p>
               </div>
 
               <Button disabled={!isValid} className="w-full" type="submit">
