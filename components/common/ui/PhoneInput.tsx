@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { Country as CountryData } from "country-state-city";
 import { Field, useFormikContext } from "formik";
 import Typography from "./Typography";
 
@@ -19,10 +20,24 @@ interface Country {
   name: string;
 }
 
+// Pinned first: the default (countries[0]) and the match for shared dial codes
+// (+1 → US, +44 → GB).
+const PINNED_COUNTRY_CODES = ["NG", "GB", "US"];
+
+const dialDigits = (dialCode: string) => String(dialCode).replace(/\D/g, "");
+
+const allCountries: Country[] = CountryData.getAllCountries().map((c) => ({
+  code: c.isoCode,
+  name: c.name,
+  dialCode: `+${dialDigits(c.phonecode)}`,
+  flag: c.flag,
+}));
+
 const countries: Country[] = [
-  { code: "US", name: "United States of America", dialCode: "+1", flag: "🇺🇸" },
-  { code: "NG", name: "Nigeria", dialCode: "+234", flag: "🇳🇬" },
-  { code: "UK", name: "United Kingdom", dialCode: "+44", flag: "🇬🇧" },
+  ...PINNED_COUNTRY_CODES.map(
+    (code) => allCountries.find((c) => c.code === code)!,
+  ),
+  ...allCountries.filter((c) => !PINNED_COUNTRY_CODES.includes(c.code)),
 ];
 
 type PhoneInputProps = {
@@ -50,7 +65,9 @@ export default function PhoneInput({
   const defaultCountry = useMemo(() => {
     if (phoneField && phoneField.dialCode) {
       return (
-        countries.find((c) => c.dialCode === phoneField.dialCode) ??
+        countries.find(
+          (c) => dialDigits(c.dialCode) === dialDigits(phoneField.dialCode),
+        ) ??
         countries[0]
       );
     } else {
@@ -62,7 +79,7 @@ export default function PhoneInput({
   const [selectedCountry, setSelectedCountry] =
     useState<Country>(defaultCountry);
 
-  const [rawPhone, setRawPhone] = useState<string>(phoneField.digits ?? "");
+  const [rawPhone, setRawPhone] = useState<string>(phoneField?.digits ?? "");
 
   // Updates the selected country and re-formats the phone number
   const handleCountryChange = (code: string) => {
@@ -132,6 +149,7 @@ export default function PhoneInput({
               <SelectItem
                 key={country.code}
                 value={country.code}
+                textValue={country.name}
                 className="gap-2"
               >
                 {country.flag}
