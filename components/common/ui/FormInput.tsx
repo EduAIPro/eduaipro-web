@@ -12,6 +12,7 @@ import {
   HTMLInputTypeAttribute,
   ReactNode,
   useEffect,
+  useId,
   useRef,
   useState,
 } from "react";
@@ -31,6 +32,7 @@ interface FormInputProps {
   disabled?: boolean;
   autoFocus?: boolean;
   as?: string;
+  required?: boolean;
 }
 
 export default function FormInput({
@@ -47,13 +49,31 @@ export default function FormInput({
   disabled,
   autoFocus,
   as,
+  required,
 }: FormInputProps) {
   const [isFocused, setIsFocused] = useState(false);
+
+  // Unique, valid id even for dotted or repeated names (e.g. "phone.digits").
+  const reactId = useId();
+  const id = `${name.replace(/[^A-Za-z0-9_-]/g, "-")}-${reactId.replace(/[^A-Za-z0-9_-]/g, "")}`;
+  const noteId = note ? `${id}-note` : undefined;
+  const errorId = error ? `${id}-error` : undefined;
+  const describedBy = [errorId, noteId].filter(Boolean).join(" ") || undefined;
 
   return (
     <div className={`${className}`}>
       {label && (
-        <p className="font-medium text-base mb-1 text-grey-650">{label}</p>
+        <label
+          htmlFor={id}
+          className="block font-medium text-base mb-1 text-grey-650"
+        >
+          {label}
+          {required ? (
+            <span aria-hidden="true" className="text-error ml-0.5">
+              *
+            </span>
+          ) : null}
+        </label>
       )}
       <div
         className={cn(
@@ -81,6 +101,10 @@ export default function FormInput({
             return (
               <Component
                 {...field}
+                id={id}
+                aria-required={required || undefined}
+                aria-invalid={!!error}
+                aria-describedby={describedBy}
                 type={type}
                 disabled={disabled}
                 placeholder={placeholder}
@@ -99,10 +123,18 @@ export default function FormInput({
         </Field>
         {rightIcon}
       </div>
-      {note ? <span className="text-sm text-grey-9">{note}</span> : null}
+      {note ? (
+        <span id={noteId} className="text-sm text-grey-9">
+          {note}
+        </span>
+      ) : null}
       {error ? (
-        <div className="mt-2">
-          <Typography.P size="small" fontColor="error" className="capitalize">
+        <div className="mt-2" id={errorId}>
+          <Typography.P
+            size="small"
+            fontColor="error"
+            className="first-letter:uppercase"
+          >
             {error}
           </Typography.P>
         </div>

@@ -1,16 +1,12 @@
-import { logoutKey } from "@/api/keys";
-import { logOut } from "@/api/mutations";
 import WarningIcon from "@/components/svgs/warning.svg";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { cn } from "@/lib/utils";
-import { deleteRefreshToken, getRefreshToken } from "@/utils/auth";
+import { logoutAction } from "@/utils/auth";
 import { deleteAccessToken } from "@/utils/auth/helpers";
 import { LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
-import useSWRMutation from "swr/mutation";
 
 export const ConfirmLogoutModal = ({
   isAdmin = false,
@@ -19,7 +15,7 @@ export const ConfirmLogoutModal = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { trigger, isMutating } = useSWRMutation(logoutKey, logOut);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
 
   function onClose(v: boolean) {
@@ -27,19 +23,17 @@ export const ConfirmLogoutModal = ({
   }
 
   async function onLogout() {
+    setIsLoggingOut(true);
     try {
-      const refreshToken = await getRefreshToken();
-
-      if (refreshToken) {
-        await trigger({ refreshToken });
-        await deleteRefreshToken();
-      }
-      deleteAccessToken();
-      sessionStorage.clear();
-      router.push("/login");
-    } catch (error: any) {
-      toast.error(error.toString());
+      const { error } = await logoutAction();
+      if (error) console.error("[logout] /auth/logout failed:", error);
+    } catch (error) {
+      console.error("[logout] logoutAction failed:", error);
     }
+    setIsLoggingOut(false);
+    deleteAccessToken();
+    sessionStorage.clear();
+    router.push("/login");
   }
   return (
     <Modal
@@ -49,7 +43,7 @@ export const ConfirmLogoutModal = ({
           <Button variant="outline" onClick={() => onClose(false)}>
             Cancel
           </Button>
-          <Button onClick={onLogout} loading={isMutating}>
+          <Button onClick={onLogout} loading={isLoggingOut}>
             Logout
           </Button>
         </>

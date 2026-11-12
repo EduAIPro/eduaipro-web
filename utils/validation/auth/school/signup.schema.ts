@@ -11,13 +11,15 @@ export const createAccountValidation = Yup.object().shape({
     .required("Name is a required value")
     .min(2, "Your name must be at least two characters long"),
   position: Yup.string().required("Your official position is a required value"),
-  email: Yup.string().email().required("Email address is required"),
+  email: Yup.string()
+    .email("Enter a valid email address")
+    .required("Email address is required"),
   password: passwordValidation.required("Password is a required value"),
-  confirmPassword: passwordValidation.required(
-    "Password confirmation is a required value"
-  ),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Please confirm your password"),
   phone: Yup.object().shape({
-    dialCode: Yup.string().required("Your country dialcode"),
+    dialCode: Yup.string().required("Select a country code"),
     digits: phoneValidation.required("Your phone number is a required value"),
   }),
 });
@@ -28,8 +30,8 @@ export type CreateAccountFormValue = Yup.InferType<
 
 export const setupAccountValidation = Yup.object().shape({
   institutionName: Yup.string()
-    .required("Name is a required value")
-    .min(2, "Your name must be at least two characters long"),
+    .required("Institution name is required")
+    .min(2, "Institution name must be at least 2 characters"),
   state: Yup.string()
     .required("State is a required value")
     .min(2, "State must be at least two characters long"),
@@ -41,10 +43,10 @@ export const setupAccountValidation = Yup.object().shape({
     .required("Address is a required value")
     .min(2, "Address must be at least two characters long"),
   contactEmail: Yup.string()
-    .email()
+    .email("Enter a valid email address")
     .required("Email address is a required value"),
   contactPhone: Yup.object().shape({
-    dialCode: Yup.string().required("Country dialcode is required"),
+    dialCode: Yup.string().required("Select a country code"),
     digits: phoneValidation.required(
       "Contact phone number is a required value"
     ),

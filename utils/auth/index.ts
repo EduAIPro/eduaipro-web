@@ -37,12 +37,33 @@ export async function authRefreshAction(): Promise<Response> {
   }
 }
 
-export const getRefreshToken = async () => {
+export const hasSession = async (): Promise<boolean> => {
   const _cookies = await cookies();
 
-  const refreshCookie = _cookies.get("eduaipro:refresh-token");
+  return !!_cookies.get("eduaipro:refresh-token")?.value;
+};
 
-  return refreshCookie?.value;
+export const logoutAction = async (): Promise<{ error?: string }> => {
+  const _cookies = await cookies();
+  const refreshCookie = _cookies.get("eduaipro:refresh-token");
+  let error: string | undefined;
+
+  if (refreshCookie?.value) {
+    try {
+      await api.post(
+        "/auth/logout",
+        { refreshToken: refreshCookie.value },
+        { timeout: 10000 },
+      );
+    } catch (err) {
+      error = `${err}`;
+    }
+  }
+
+  // Never trap a user: cookies go whether or not the API call succeeded.
+  await deleteRefreshToken();
+
+  return { error };
 };
 
 export const deleteRefreshToken = async () => {

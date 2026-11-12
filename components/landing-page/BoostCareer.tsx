@@ -1,12 +1,17 @@
 "use client";
 import { generateKey } from "@/utils/key";
-import { useRef } from "react";
-import ReactPlayer from "react-player";
+import dynamic from "next/dynamic";
 import { BaseCard } from "./BaseCard";
 import { categories } from "./data";
 
+const ReactPlayer = dynamic(() => import("react-player"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[403px] rounded-lg animate-pulse bg-gray-200/60"></div>
+  ),
+});
+
 export default function BoostCareer() {
-  const playerRef = useRef<ReactPlayer>(null);
   return (
     <section className="py-10 md:py-20 max-md:px-5">
       <div className="md:max-w-[90%] lg:max-w-[80%] xl:max-w-[70%] mx-auto">
@@ -40,7 +45,6 @@ export default function BoostCareer() {
             <div className="w-full">
               <div className="rounded-2xl xl:w-fit xl:mx-auto overflow-hidden">
                 <ReactPlayer
-                  ref={playerRef}
                   // playing
                   controls
                   style={{ borderRadius: "12px" }}
