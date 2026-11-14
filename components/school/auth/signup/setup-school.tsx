@@ -166,6 +166,7 @@ export const SetupSchoolProfile = ({
                 placeholder="Enter institution name"
                 name="institutionName"
                 error={fieldError(["institutionName"])}
+                required
               />
 
               <LocationFields countries={countries} fieldError={fieldError} />
@@ -175,6 +176,7 @@ export const SetupSchoolProfile = ({
                 className="w-full"
                 name="address"
                 error={fieldError(["address"])}
+                required
               />
 
               <FormInput
@@ -182,6 +184,7 @@ export const SetupSchoolProfile = ({
                 placeholder="Enter an email address we can reach the institution with"
                 name="contactEmail"
                 error={fieldError(["contactEmail"])}
+                required
               />
 
               <div onBlur={() => setFieldTouched("contactPhone.digits")}>
@@ -194,6 +197,7 @@ export const SetupSchoolProfile = ({
                     "contactPhone.digits",
                     "contactPhone.dialCode",
                   ])}
+                  required
                 />
               </div>
               <div className="grid grid-cols-3 gap-2">
@@ -281,6 +285,9 @@ const LocationFields = ({ countries, fieldError }: LocationFieldsProps) => {
       <div>
         <label htmlFor="country" className={selectLabelClassName}>
           Country
+          <span aria-hidden="true" className="text-error ml-0.5">
+            *
+          </span>
         </label>
         <Select
           value={values.country}
@@ -295,6 +302,7 @@ const LocationFields = ({ countries, fieldError }: LocationFieldsProps) => {
         >
           <SelectTrigger
             id="country"
+            aria-required
             className={cn(
               selectTriggerClassName,
               countryError ? "border-red-400" : "border-grey-4/50",
@@ -325,11 +333,15 @@ const LocationFields = ({ countries, fieldError }: LocationFieldsProps) => {
             name="state"
             className="w-full"
             error={stateError}
+            required
           />
         ) : (
           <div className="w-full">
             <label htmlFor="state" className={selectLabelClassName}>
               State
+              <span aria-hidden="true" className="text-error ml-0.5">
+                *
+              </span>
             </label>
             <Select
               value={values.state}
@@ -341,6 +353,7 @@ const LocationFields = ({ countries, fieldError }: LocationFieldsProps) => {
             >
               <SelectTrigger
                 id="state"
+                aria-required
                 className={cn(
                   selectTriggerClassName,
                   stateError ? "border-red-400" : "border-grey-4/50",
@@ -374,6 +387,7 @@ const LocationFields = ({ countries, fieldError }: LocationFieldsProps) => {
           name="city"
           className="w-full"
           error={fieldError(["city"])}
+          required
         />
       </div>
     </>

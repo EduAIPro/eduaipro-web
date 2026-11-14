@@ -77,6 +77,7 @@ export const CreateSchoolAccount = ({
                 name="name"
                 error={fieldError(["name"])}
                 note="Enter your first and last name"
+                required
               />
 
               <FormInput
@@ -84,6 +85,7 @@ export const CreateSchoolAccount = ({
                 placeholder="Enter your email"
                 name="email"
                 error={fieldError(["email"])}
+                required
               />
 
               <div onBlur={() => setFieldTouched("phone.digits")}>
@@ -93,6 +95,7 @@ export const CreateSchoolAccount = ({
                   dialCodeName="phone.dialCode"
                   setFieldValue={setFieldValue}
                   error={fieldError(["phone.digits", "phone.dialCode"])}
+                  required
                 />
               </div>
 
@@ -101,6 +104,7 @@ export const CreateSchoolAccount = ({
                 placeholder="Enter your position"
                 name="position"
                 error={fieldError(["position"])}
+                required
               />
 
               <FormInput
@@ -111,6 +115,7 @@ export const CreateSchoolAccount = ({
                 note="At least 8 characters, with an uppercase letter, a number and a symbol"
                 type={showPassword ? "text" : "password"}
                 rightIcon={<PasswordIcon />}
+                required
               />
               <div>
                 <FormInput
@@ -120,6 +125,7 @@ export const CreateSchoolAccount = ({
                   error={fieldError(["confirmPassword"])}
                   type={showPassword ? "text" : "password"}
                   rightIcon={<PasswordIcon />}
+                  required
                 />
               </div>
 
