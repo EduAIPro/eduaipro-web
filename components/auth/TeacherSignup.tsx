@@ -116,7 +116,7 @@ export default function TeacherSignup({
         validateOnBlur
         validateOnMount
       >
-        {({ touched, errors, setFieldValue, isValid }) => (
+        {({ touched, errors, setFieldValue, setFieldTouched, isValid }) => (
           <Form className="flex-col flex gap-y-4">
             <div className="flex items-center justify-between gap-x-3">
               <FormInput
@@ -125,6 +125,7 @@ export default function TeacherSignup({
                 className="w-full"
                 name="firstName"
                 disabled={isMutating}
+                required
                 error={
                   touched.firstName && errors.firstName
                     ? errors.firstName
@@ -137,6 +138,7 @@ export default function TeacherSignup({
                 className="w-full"
                 name="lastName"
                 disabled={isMutating}
+                required
                 error={
                   touched.lastName && errors.lastName ? errors.lastName : null
                 }
@@ -148,6 +150,7 @@ export default function TeacherSignup({
               className="w-full"
               name="username"
               disabled={isMutating}
+              required
               error={
                 touched.username && errors.username ? errors.username : null
               }
@@ -158,19 +161,23 @@ export default function TeacherSignup({
               placeholder="name@example.com"
               type="email"
               disabled={!!userEmail || isMutating}
+              required
               error={touched.email && errors.email ? errors.email : null}
             />
-            <PhoneInput
-              label="Phone number"
-              name="phoneNumber.digits"
-              setFieldValue={setFieldValue}
-              dialCodeName="phoneNumber.dialCode"
-              error={
-                touched.phoneNumber?.digits && errors.phoneNumber?.digits
-                  ? errors.phoneNumber.digits
-                  : null
-              }
-            />
+            <div onBlur={() => setFieldTouched("phoneNumber.digits")}>
+              <PhoneInput
+                label="Phone number"
+                name="phoneNumber.digits"
+                setFieldValue={setFieldValue}
+                dialCodeName="phoneNumber.dialCode"
+                required
+                error={
+                  touched.phoneNumber?.digits && errors.phoneNumber?.digits
+                    ? errors.phoneNumber.digits
+                    : null
+                }
+              />
+            </div>
             <FormInput
               label="Password"
               name="password"
@@ -178,6 +185,7 @@ export default function TeacherSignup({
               type={showPassword ? "text" : "password"}
               rightIcon={<PasswordIcon />}
               disabled={isMutating}
+              required
               error={
                 touched.password && errors.password ? errors.password : null
               }
@@ -188,6 +196,7 @@ export default function TeacherSignup({
                 label="Confirm password"
                 placeholder="Enter your password again"
                 disabled={isMutating}
+                required
                 error={
                   touched.confirmPassword && errors.confirmPassword
                     ? errors.confirmPassword
