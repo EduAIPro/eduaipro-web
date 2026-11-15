@@ -16,7 +16,7 @@ import { ArrowRight } from "iconsax-react";
 export const metadata = getPageMetadata({
   title: "Frequently Asked Questions",
   description:
-    "Answers to common questions about EduAIPro's accredited CPD courses, certification, pricing and how the platform works.",
+    "Answers to common questions about EduAiPro's accredited CPD courses, certification, pricing and how the platform works.",
   path: "/faq",
 });
 

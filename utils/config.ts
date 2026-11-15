@@ -3,9 +3,9 @@
 import { Metadata } from "next";
 
 export const SITE_URL = "https://eduaipro.ng";
-export const SITE_NAME = "EduAIPro";
+export const SITE_NAME = "EduAiPro";
 export const DEFAULT_DESCRIPTION =
-  "Transform your teaching with EduAIPro's Accredited Continued Professional Development (CPD) courses. Designed for mentors, teaching assistants, primary, secondary, and higher institution educators, our AI-powered platform equips you with the tools to thrive and make a lasting impact.";
+  "Transform your teaching with EduAiPro's Accredited Continuing Professional Development (CPD) courses. Designed for mentors, teaching assistants, primary, secondary, and higher institution educators, our AI-powered platform equips you with the tools to thrive and make a lasting impact.";
 export const DEFAULT_OG_IMAGE = "/assets/og.png";
 
 /**
@@ -65,7 +65,7 @@ export const baseMetadata: Metadata = {
 };
 
 export type PageMetadataInput = {
-  /** Plain page title — merges into the root layout's "%s | EduAIPro" template. */
+  /** Plain page title — merges into the root layout's "%s | EduAiPro" template. */
   title: string;
   description?: string;
   /** Path from the site root, e.g. "/about" — used for the canonical URL and OG url. */

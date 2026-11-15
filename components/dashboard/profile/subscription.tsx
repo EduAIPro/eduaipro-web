@@ -70,7 +70,7 @@ export const SubscriptionCard = () => {
       value: subscription?.canAddPathway
         ? "All five included"
         : demo
-          ? "Unit 1 only while your school trials EduAI Pro"
+          ? "Unit 1 only while your school trials EduAiPro"
           : "1 pathway",
       icon: <ShieldCheckIcon size={15} />,
       ok: !!subscription?.canAddPathway,

@@ -11,7 +11,7 @@ import { getPageMetadata } from "@/utils/config";
 export const metadata = getPageMetadata({
   title: "AI-Powered Accredited CPD for Teachers",
   description:
-    "EduAIPro delivers accredited, AI-powered Continuing Professional Development for mentors, teaching assistants, and primary, secondary and higher-education teachers.",
+    "EduAiPro delivers accredited, AI-powered Continuing Professional Development for mentors, teaching assistants, and primary, secondary and higher-education teachers.",
   path: "/",
 });
 

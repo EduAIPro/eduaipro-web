@@ -58,9 +58,9 @@ export const WhySchoolsTrustUs = () => {
     <section className="py-10 sm:py-20 max-md:px-5 md:max-w-[90%] lg:max-w-[80%] mx-auto">
       <div className="space-y-8 md:space-y-16">
         <div className="space-y-2.5 text-center">
-          <Pill text="Benefits of Partnering with EduAI Pro" pillBg="#F1F5FF" />
+          <Pill text="Benefits of Partnering with EduAiPro" pillBg="#F1F5FF" />
           <h2 className="font-medium text-2xl sm:text-3xl md:text-4xl">
-            Why Schools Trust EduAI Pro for Smarter CPD
+            Why Schools Trust EduAiPro for Smarter CPD
           </h2>
         </div>
         <div className="space-y-10">

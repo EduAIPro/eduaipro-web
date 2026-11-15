@@ -3,7 +3,7 @@ import RegisterSuccessClient from "./success-client";
 
 export const metadata = getPageMetadata({
   title: "Account Created",
-  description: "Your EduAIPro school account has been created successfully.",
+  description: "Your EduAiPro school account has been created successfully.",
   path: "/register/success",
   noIndex: true,
 });

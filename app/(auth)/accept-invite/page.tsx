@@ -3,7 +3,7 @@ import AcceptInvitePageClient from "./accept-invite-client";
 
 export const metadata = getPageMetadata({
   title: "Accept Invitation",
-  description: "Accept your invitation to join EduAIPro.",
+  description: "Accept your invitation to join EduAiPro.",
   path: "/accept-invite",
   noIndex: true,
 });

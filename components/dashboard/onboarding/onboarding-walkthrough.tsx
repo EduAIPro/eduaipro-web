@@ -377,7 +377,7 @@ export function OnboardingWalkthrough({
               {"You're"} All Set!
             </h2>
             <p className="text-gray-600 mb-8 leading-relaxed text-sm">
-              Welcome to the <strong>EduAI Pro</strong> learning platform. You
+              Welcome to the <strong>EduAiPro</strong> learning platform. You
               now have the tools to track your progress, access modules, and
               take assessments.
             </p>
@@ -388,6 +388,6 @@ export function OnboardingWalkthrough({
         )}
       </div>
     </AnimatePresence>,
-    document.body
+    document.body,
   );
 }

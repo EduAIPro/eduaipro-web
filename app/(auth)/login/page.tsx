@@ -3,7 +3,7 @@ import LoginPageClient from "./login-client";
 
 export const metadata = getPageMetadata({
   title: "Log In",
-  description: "Log in to your EduAIPro account to continue your CPD journey.",
+  description: "Log in to your EduAiPro account to continue your CPD journey.",
   path: "/login",
 });
 

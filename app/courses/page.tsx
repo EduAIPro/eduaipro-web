@@ -7,7 +7,7 @@ import { getPageMetadata } from "@/utils/config";
 export const metadata = getPageMetadata({
   title: "CPD Courses & Pathways",
   description:
-    "Browse EduAIPro's accredited CPD pathways for mentors, teaching assistants, and primary, secondary and higher-education teachers.",
+    "Browse EduAiPro's accredited CPD pathways for mentors, teaching assistants, and primary, secondary and higher-education teachers.",
   path: "/courses",
 });
 

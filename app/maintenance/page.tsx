@@ -3,7 +3,7 @@ import { Wrench } from "lucide-react";
 
 export const metadata = getPageMetadata({
   title: "Scheduled Maintenance",
-  description: "EduAIPro is temporarily undergoing scheduled maintenance.",
+  description: "EduAiPro is temporarily undergoing scheduled maintenance.",
   noIndex: true,
 });
 
@@ -12,7 +12,7 @@ export default function Maintenance() {
     <main className="min-h-screen w-full bg-[linear-gradient(180deg,_#E1EAFF_0%,_#FFFFFF_100%)] flex flex-col items-center justify-center px-5 text-center">
       {/* <Image
         src="/assets/images/logo-outline.png"
-        alt="EduAI Pro"
+        alt="EduAiPro"
         width={160}
         height={40}
         className="mb-10"
@@ -27,7 +27,7 @@ export default function Maintenance() {
       </h1>
 
       <p className="text-base text-grey-500 font-medium max-w-md">
-        EduAI Pro is currently undergoing scheduled maintenance to improve your
+        EduAiPro is currently undergoing scheduled maintenance to improve your
         experience. We&apos;ll be back online shortly. Thank you for your
         patience.
       </p>

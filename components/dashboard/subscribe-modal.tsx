@@ -116,7 +116,7 @@ export function SubscribeModal({ target, onOpenChange }: SubscribeModalProps) {
           : target.reason === "locked"
             ? "This pathway has closed. Renew your plan to reopen it with a fresh 6 months. Your progress is saved."
             : target.reason === "demo_locked"
-              ? "Your school is trialling EduAI Pro. Ask your school to activate your seat, or get a Personal Pro subscription plan."
+              ? "Your school is trialling EduAiPro. Ask your school to activate your seat, or get a Personal Pro subscription plan."
               : "Personal Pro unlocks accredited certificates and all five CPD pathways.";
 
   const copy = target ? COPY[target.reason] : COPY.general;

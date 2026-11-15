@@ -137,12 +137,10 @@ function AcceptInviteContent() {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-gray-50">
         <div className="p-8 bg-white rounded-lg shadow-md text-center max-w-md">
-          <h2 className="text-red-500 text-xl font-bold mb-2">
-            Wrong Account
-          </h2>
+          <h2 className="text-red-500 text-xl font-bold mb-2">Wrong Account</h2>
           <p className="text-gray-600">
-            This invitation was sent to a different account. Sign out and
-            open the link again.
+            This invitation was sent to a different account. Sign out and open
+            the link again.
           </p>
         </div>
       </div>
@@ -167,7 +165,7 @@ function AcceptInviteContent() {
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="mb-6 text-center">
                 <h1 className="text-2xl font-bold text-gray-900">
-                  Join EduAI Pro
+                  Join EduAiPro
                 </h1>
                 <p className="text-gray-500 mt-2">
                   Create your account to accept the invitation

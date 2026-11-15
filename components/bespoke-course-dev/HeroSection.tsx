@@ -14,10 +14,10 @@ export const HeroSection = () => {
         </h1>
         <p className="text-base font-medium text-grey-650">
           In today’s dynamic education landscape, one-size-fits-all training
-          doesn’t work. That’s why EduAI Pro partners with schools, colleges,
-          and educational organizations to create bespoke CPD programs tailored
-          to their specific goals, challenges, and values. Empower your
-          educators with targeted CPD designed to meet your school’s exact
+          doesn’t work. That’s why EduAiPro partners with schools, colleges, and
+          educational organizations to create bespoke CPD programs tailored to
+          their specific goals, challenges, and values. Empower your educators
+          with targeted CPD designed to meet your school’s exact
           needs—efficient, flexible, and certified.
         </p>
         <Button onClick={() => router.push("/packages#schools")}>

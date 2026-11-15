@@ -10,7 +10,7 @@ import { getPageMetadata } from "@/utils/config";
 export const metadata = getPageMetadata({
   title: "Bespoke Course Development",
   description:
-    "Partner with EduAIPro to design a bespoke, accredited CPD course tailored to your school or institution's training needs.",
+    "Partner with EduAiPro to design a bespoke, accredited CPD course tailored to your school or institution's training needs.",
   path: "/bespoke-course-development",
 });
 

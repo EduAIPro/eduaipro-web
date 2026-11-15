@@ -12,17 +12,17 @@ import { Button } from "../ui/button";
 
 const faq = [
   {
-    question: "What is EduAI Pro?",
+    question: "What is EduAiPro?",
     answer:
-      "EduAI Pro is an accredited, AI-powered Continuing Professional Development (CPD) platform designed specifically for educators, mentors, and teaching assistants in primary, secondary, and higher education. The platform provides personalized learning experiences, collaborative community forums, and recognized certifications.",
+      "EduAiPro is an accredited, AI-powered Continuing Professional Development (CPD) platform designed specifically for educators, mentors, and teaching assistants in primary, secondary, and higher education. The platform provides personalized learning experiences, collaborative community forums, and recognized certifications.",
   },
   {
-    question: "Who can benefit from EduAI Pro?",
+    question: "Who can benefit from EduAiPro?",
     answer:
-      "EduAI Pro caters primarily to educational professionals such as teachers, mentors, teaching assistants, and school administrators seeking to enhance their skills, maintain professional certification, or advance their careers.",
+      "EduAiPro caters primarily to educational professionals such as teachers, mentors, teaching assistants, and school administrators seeking to enhance their skills, maintain professional certification, or advance their careers.",
   },
   {
-    question: "How do I create an EduAI Pro account?",
+    question: "How do I create an EduAiPro account?",
     answer:
       "You can create an account directly from the login page by providing your email address, choosing a secure password, and filling in your professional details to customize your learning experience.",
   },
@@ -32,9 +32,9 @@ const faq = [
       'Use the "Forgot Password" link on the login page. Follow the instructions sent to your registered email address to reset your password.',
   },
   {
-    question: "What types of CPD courses does EduAI Pro offer?",
+    question: "What types of CPD courses does EduAiPro offer?",
     answer:
-      "EduAI Pro offers tailored CPD courses for primary, secondary, and higher education educators, covering areas like pedagogy, inclusive education, lesson differentiation, curriculum design, and technology integration.",
+      "EduAiPro offers tailored CPD courses for primary, secondary, and higher education educators, covering areas like pedagogy, inclusive education, lesson differentiation, curriculum design, and technology integration.",
   },
 ];
 
