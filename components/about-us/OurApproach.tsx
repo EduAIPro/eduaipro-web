@@ -5,7 +5,7 @@ import Image from "next/image";
 type OurApproachProps = {};
 
 const approaches = [
-  "At EduAI Pro, we believe in a personalized and flexible approach to professional development, which is enhanced through the use of cutting-edge AI technology.",
+  "At EduAiPro, we believe in a personalized and flexible approach to professional development, which is enhanced through the use of cutting-edge AI technology.",
   "Our platform is designed to meet the unique needs of each learner, using artificial intelligence to create tailored learning paths and development plans.",
   "Whether you're seeking to advance your career or improve specific skills, our AI-driven approach ensures that your learning experience is relevant, efficient, and aligned with your goals.",
 ];

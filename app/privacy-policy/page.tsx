@@ -3,7 +3,7 @@ import { getPageMetadata } from "@/utils/config";
 
 export const metadata = getPageMetadata({
   title: "Privacy Policy",
-  description: "How EduAIPro collects, uses and protects your data.",
+  description: "How EduAiPro collects, uses and protects your data.",
   path: "/privacy-policy",
 });
 
@@ -22,10 +22,10 @@ export default function PrivacyPolicy() {
       <div className="max-w-4xl mx-auto px-4 py-16 sm:px-6 lg:px-8 bg-white shadow-xl -mt-8 rounded-2xl mb-16 border border-gray-100">
         <div className="prose prose-lg prose-blue max-w-none text-gray-700 space-y-8">
           <p className="text-xl font-medium leading-relaxed text-gray-800">
-            This Privacy Policy applies to EduAI Pro Limited (&quot;EduAI
+            This Privacy Policy applies to EduAiPro Limited (&quot;EduAI
             Pro&quot;, &quot;Company&quot;, &quot;we&quot;, &quot;our&quot;, or
             &quot;us&quot;) and governs the personal data we process when you
-            access or use the EduAI Pro platform including our website,
+            access or use the EduAiPro platform including our website,
             applications, AI tools, and related services (the
             &quot;Services&quot;). By using the Services, you agree to the
             practices described here.
@@ -70,8 +70,8 @@ export default function PrivacyPolicy() {
               2. ABOUT EDUAI PRO
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro is an AI-powered platform designed to help educators
-              with instructional planning, teaching support, and professional
+              EduAiPro is an AI-powered platform designed to help educators with
+              instructional planning, teaching support, and professional
               development. Because our platform is used by educators and
               institutions, and indirectly touches the educational environments
               of students, we apply heightened care to how we handle data.
@@ -164,7 +164,7 @@ export default function PrivacyPolicy() {
                 </p>
                 <p className="leading-relaxed">
                   This data is processed to generate responses, maintain system
-                  reliability, and detect misuse. EduAI Pro does not
+                  reliability, and detect misuse. EduAiPro does not
                   intentionally use personally identifiable prompts to train
                   publicly available AI models without your consent. Section 7
                   covers our specific AI providers and how they handle this
@@ -214,7 +214,7 @@ export default function PrivacyPolicy() {
               4. INFORMATION FROM INSTITUTIONS
             </h2>
             <p className="leading-relaxed mb-4">
-              If you access EduAI Pro through a school, university, or
+              If you access EduAiPro through a school, university, or
               organisation, your institution may provide us with information
               including educator names, email addresses, role assignments, and
               training participation data. This is used to set up and manage
@@ -223,8 +223,8 @@ export default function PrivacyPolicy() {
             <p className="leading-relaxed">
               Institutions may access aggregated analytics about training
               participation. They do not have access to your individual content,
-              AI interactions, or personal communications with EduAI Pro and
-              they cannot access personal user data beyond what is authorised by
+              AI interactions, or personal communications with EduAiPro and they
+              cannot access personal user data beyond what is authorised by
               applicable data protection law.
             </p>
           </section>
@@ -329,7 +329,7 @@ export default function PrivacyPolicy() {
               6. THIRD-PARTY SUBPROCESSORS
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro relies on trusted third-party providers to operate the
+              EduAiPro relies on trusted third-party providers to operate the
               platform. These subprocessors access only the data they need to
               perform their specific function. All are required to implement
               appropriate technical and organisational safeguards to protect
@@ -358,11 +358,11 @@ export default function PrivacyPolicy() {
                   7.1 Google AI (Gemini)
                 </h3>
                 <p className="leading-relaxed mb-4">
-                  EduAI Pro currently uses Google AI (Gemini) as its primary AI
+                  EduAiPro currently uses Google AI (Gemini) as its primary AI
                   model provider. When you interact with our AI features, your
                   prompts are processed by Gemini&apos;s infrastructure. Google
                   may retain request data for abuse and misuse monitoring for a
-                  limited period, after which it is deleted. EduAI Pro has
+                  limited period, after which it is deleted. EduAiPro has
                   configured our use of Google AI to disable model training
                   using your data. We do not share personally identifiable
                   information with Google AI beyond what is contained in the
@@ -370,7 +370,7 @@ export default function PrivacyPolicy() {
                 </p>
                 <p className="leading-relaxed">
                   We encourage you to review Google&apos;s API Privacy Policy to
-                  understand how they handle API usage data. EduAI Pro does not
+                  understand how they handle API usage data. EduAiPro does not
                   control Google&apos;s practices; questions about their data
                   handling should be directed to Google directly.
                 </p>
@@ -381,10 +381,10 @@ export default function PrivacyPolicy() {
                   7.2 Future AI Providers
                 </h3>
                 <p className="leading-relaxed">
-                  If EduAI Pro adopts additional AI model providers in future,
-                  we will update this section and notify users. We apply the
-                  same data minimisation and model training opt-out requirements
-                  to any new AI provider we onboard.
+                  If EduAiPro adopts additional AI model providers in future, we
+                  will update this section and notify users. We apply the same
+                  data minimisation and model training opt-out requirements to
+                  any new AI provider we onboard.
                 </p>
               </div>
             </div>
@@ -395,14 +395,14 @@ export default function PrivacyPolicy() {
               8. STUDENT DATA
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro is designed for educators and institutional users. It is
+              EduAiPro is designed for educators and institutional users. It is
               not designed for, directed at, or intended for use by anyone under
-              the age of 18. Using EduAI Pro as a minor is a violation of our
+              the age of 18. Using EduAiPro as a minor is a violation of our
               Terms of Service.
             </p>
             <p className="leading-relaxed mb-4">
               We do not require, request, or encourage users to enter student
-              personally identifiable information when using EduAI Pro. If you
+              personally identifiable information when using EduAiPro. If you
               accidentally submit student personal data through any feature on
               our platform, contact us immediately at{" "}
               <a
@@ -435,9 +435,9 @@ export default function PrivacyPolicy() {
               9. COOKIES AND TRACKING TECHNOLOGIES
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro uses cookies and similar technologies for three
-              purposes: maintaining secure sessions, remembering your
-              preferences, and analysing platform performance.
+              EduAiPro uses cookies and similar technologies for three purposes:
+              maintaining secure sessions, remembering your preferences, and
+              analysing platform performance.
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li>
@@ -467,7 +467,7 @@ export default function PrivacyPolicy() {
               10. HOW WE SHARE YOUR INFORMATION
             </h2>
             <p className="leading-relaxed mb-6">
-              EduAI Pro does not sell personal data. We do not share your
+              EduAiPro does not sell personal data. We do not share your
               information for advertising purposes. Information is disclosed
               only in the specific circumstances described below.
             </p>
@@ -516,7 +516,7 @@ export default function PrivacyPolicy() {
                   Business Transfers
                 </h3>
                 <p className="leading-relaxed">
-                  If EduAI Pro is involved in a merger, acquisition,
+                  If EduAiPro is involved in a merger, acquisition,
                   restructuring, or sale of assets, we don&apos;t anticipate
                   this, but if it happens, your personal information may be
                   transferred as part of that transaction. We will notify users
@@ -531,7 +531,7 @@ export default function PrivacyPolicy() {
                 </h3>
                 <p className="leading-relaxed">
                   Our platform may link to third-party websites or services that
-                  EduAI Pro does not operate. This Privacy Policy does not cover
+                  EduAiPro does not operate. This Privacy Policy does not cover
                   those sites. We encourage you to review the privacy policy of
                   any third-party site you visit.
                 </p>
@@ -549,7 +549,7 @@ export default function PrivacyPolicy() {
               our retention approach by data category.
             </p>
             <p className="leading-relaxed">
-              When you delete content within your EduAI Pro account, it is
+              When you delete content within your EduAiPro account, it is
               removed from our active database. Non-identifying references may
               persist briefly in operational logs before being purged. When you
               close your account entirely, personal data is removed subject to
@@ -603,7 +603,7 @@ export default function PrivacyPolicy() {
               13. SECURITY INCIDENT RESPONSE
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro follows a structured incident response process aligned
+              EduAiPro follows a structured incident response process aligned
               with the NIST Computer Security Incident Handling Guide (SP 800-61
               Rev. 2). If a security incident affects personal data, our
               response proceeds through the following steps:
@@ -645,9 +645,9 @@ export default function PrivacyPolicy() {
               14. WHEN OUR TEAM ACCESSES YOUR DATA
             </h2>
             <p className="leading-relaxed mb-4">
-              We want to be honest about when EduAI Pro employees may access
-              your account data. Access is restricted to authorised personnel
-              and occurs only in these four situations:
+              We want to be honest about when EduAiPro employees may access your
+              account data. Access is restricted to authorised personnel and
+              occurs only in these four situations:
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li>
@@ -664,7 +664,7 @@ export default function PrivacyPolicy() {
               </li>
               <li>
                 <strong>
-                  To protect EduAI Pro from abuse, fraud, or security threats.
+                  To protect EduAiPro from abuse, fraud, or security threats.
                 </strong>
               </li>
               <li>
@@ -686,7 +686,7 @@ export default function PrivacyPolicy() {
               15. INTERNATIONAL DATA TRANSFERS
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro is operated primarily from Nigeria, and our platform
+              EduAiPro is operated primarily from Nigeria, and our platform
               infrastructure may involve servers in other jurisdictions. If you
               access our Services from the European Union, European Economic
               Area, or United Kingdom, your data may be transferred to and
@@ -782,8 +782,8 @@ export default function PrivacyPolicy() {
               17. CHILDREN&apos;S PRIVACY
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro is a teacher-facing Service. It is not designed for, or
-              directed at, individuals under 18. Using EduAI Pro as a minor is a
+              EduAiPro is a teacher-facing Service. It is not designed for, or
+              directed at, individuals under 18. Using EduAiPro as a minor is a
               violation of our Terms of Service, and we reserve the right to
               terminate any account in accordance with those Terms.
             </p>
@@ -792,7 +792,7 @@ export default function PrivacyPolicy() {
               age of 13. If we discover that a child has submitted personal
               information to our platform, we will remove it promptly and take
               appropriate action. If you believe a child has submitted data to
-              EduAI Pro, please contact us immediately at{" "}
+              EduAiPro, please contact us immediately at{" "}
               <a
                 href="mailto:contact@eduaipro.ng"
                 className="text-primary-600 hover:underline"
@@ -808,7 +808,7 @@ export default function PrivacyPolicy() {
               18. SUPPLEMENTAL STATEMENT FOR EU, EEA, AND UK USERS
             </h2>
             <p className="leading-relaxed mb-6">
-              If you are accessing EduAI Pro from the European Union, European
+              If you are accessing EduAiPro from the European Union, European
               Economic Area, United Kingdom, or Switzerland, this supplemental
               section applies to you in addition to the rest of this policy.
             </p>
@@ -819,7 +819,7 @@ export default function PrivacyPolicy() {
                   18.1 Data Controller
                 </h3>
                 <p className="leading-relaxed">
-                  For the purposes of the GDPR and UK GDPR, EduAI Pro Limited is
+                  For the purposes of the GDPR and UK GDPR, EduAiPro Limited is
                   the data controller of your personal information.
                 </p>
               </div>
@@ -829,9 +829,9 @@ export default function PrivacyPolicy() {
                   18.2 EU and UK Data Protection Representative
                 </h3>
                 <p className="leading-relaxed mb-4">
-                  EduAI Pro has appointed a representative for EU/EEA and UK
-                  data protection matters. For privacy enquiries intended for
-                  our representative, please direct correspondence accordingly:
+                  EduAiPro has appointed a representative for EU/EEA and UK data
+                  protection matters. For privacy enquiries intended for our
+                  representative, please direct correspondence accordingly:
                 </p>
                 <ul className="list-disc pl-6 space-y-2 mb-4">
                   <li>
@@ -907,7 +907,7 @@ export default function PrivacyPolicy() {
               19. NIGERIA DATA PROTECTION ACT (NDPA) 2023
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro is incorporated in Nigeria and operates in compliance
+              EduAiPro is incorporated in Nigeria and operates in compliance
               with the Nigeria Data Protection Act (NDPA) 2023 as our primary
               governing data protection law. As a data controller under the
               NDPA, we maintain records of our data processing activities and
@@ -928,11 +928,11 @@ export default function PrivacyPolicy() {
               20. PROFILING AND AUTOMATED DECISION-MAKING
             </h2>
             <p className="leading-relaxed">
-              EduAI Pro does not engage in profiling or automated
-              decision-making that could have a legal or similarly significant
-              effect on you. Our AI tools are designed to assist educators in
-              generating instructional content. They produce suggestions for
-              your professional review. All substantive decisions about how
+              EduAiPro does not engage in profiling or automated decision-making
+              that could have a legal or similarly significant effect on you.
+              Our AI tools are designed to assist educators in generating
+              instructional content. They produce suggestions for your
+              professional review. All substantive decisions about how
               AI-generated content is used remain entirely with you, as the
               qualified educator.
             </p>
@@ -987,8 +987,8 @@ export default function PrivacyPolicy() {
               </li>
             </ul>
             <p className="text-lg font-medium text-center italic text-gray-700 bg-gray-50 py-6 rounded-lg border">
-              Thank you for trusting EduAI Pro. We take that trust seriously,
-              and this policy is our commitment to you in writing.
+              Thank you for trusting EduAiPro. We take that trust seriously, and
+              this policy is our commitment to you in writing.
             </p>
           </section>
         </div>

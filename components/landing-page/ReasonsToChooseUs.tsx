@@ -11,9 +11,9 @@ export default function ReasonsToChooseUs() {
       <div className="md:max-w-[80%] mx-auto space-y-20">
         <div className="space-y-3 text-center lg:max-w-[60%] mx-auto">
           <Pill text="Why choose us" pillBg="#F5F8FF" />
-          <h1 className="text-grey-800 font-medium text-2xl sm:text-3xl md:text-4xl">
+          <h2 className="text-grey-800 font-medium text-2xl sm:text-3xl md:text-4xl">
             A Platform Designed for Educators Supercharged by AI
-          </h1>
+          </h2>
         </div>
         <div className="grid md:grid-cols-2 gap-5">
           {features.map((f) => (

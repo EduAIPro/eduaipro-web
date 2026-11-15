@@ -57,7 +57,7 @@ export const planOf = (s: RosterStaff, seats: Seat[] = []): PlanKind => {
 
 export const PLAN_LABEL: Record<PlanKind, string> = {
   free: "Free",
-  pro: "EduAI Pro",
+  pro: "EduAiPro",
   school: "School seat",
 };
 

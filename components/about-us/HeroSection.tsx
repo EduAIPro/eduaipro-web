@@ -8,7 +8,7 @@ export const HeroSection = () => {
         <div className="text-center md:max-w-[70%] mx-auto">
           <h2 className="font-semibold text-2xl md:text-3xl">
             Our mission is to empower educators and professionals by providing
-            high-quality, accessible Continued Professional Development (CPD)
+            high-quality, accessible Continuing Professional Development (CPD)
             opportunities.
           </h2>
         </div>

@@ -4,7 +4,7 @@ import React from "react";
 
 export const metadata = getPageMetadata({
   title: "Terms of Service",
-  description: "The terms and conditions governing use of EduAIPro.",
+  description: "The terms and conditions governing use of EduAiPro.",
   path: "/terms-and-conditions",
 });
 
@@ -13,7 +13,7 @@ export default function TermsAndConditions() {
     <div className="min-h-screen bg-gray-50/30 font-work-sans">
       <div className="bg-primary-900 text-white py-16 px-4 sm:px-6 lg:px-8 text-center pt-32">
         <h1 className="text-4xl md:text-5xl font-bold montserrat mb-4 text-primary">
-          EduAI Pro Terms of Service
+          EduAiPro Terms of Service
         </h1>
         <p className="text-lg text-grey-11 font-medium">
           Effective Date: 11th March, 2026.
@@ -24,8 +24,8 @@ export default function TermsAndConditions() {
         <div className="prose prose-lg prose-blue max-w-none text-gray-700 space-y-8">
           <p className="text-xl font-medium leading-relaxed text-gray-800">
             These Terms of Service (&quot;Terms&quot;) govern your access to and
-            use of the EduAI Pro platform including our website, applications,
-            AI tools, educational services, and related products (together, the
+            use of the EduAiPro platform including our website, applications, AI
+            tools, educational services, and related products (together, the
             &quot;Services&quot;).
           </p>
 
@@ -33,10 +33,10 @@ export default function TermsAndConditions() {
             Throughout these Terms:
             <br />
             <strong>
-              &quot;EduAI Pro&quot;, &quot;Company&quot;, &quot;we&quot;,
+              &quot;EduAiPro&quot;, &quot;Company&quot;, &quot;we&quot;,
               &quot;our&quot;, or &quot;us&quot;
             </strong>{" "}
-            means EduAI Pro Limited.
+            means EduAiPro Limited.
             <br />
             <strong>&quot;You&quot; or &quot;your&quot;</strong> means any
             educator, institution, organisation, or individual accessing or
@@ -68,9 +68,9 @@ export default function TermsAndConditions() {
               2. WHAT WE OFFER
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro provides digital tools designed to support educators
-              with instructional planning, teaching, and professional
-              development. Our Services currently include:
+              EduAiPro provides digital tools designed to support educators with
+              instructional planning, teaching, and professional development.
+              Our Services currently include:
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-6">
               <li>AI-powered lesson planning and content generation tools</li>
@@ -81,7 +81,7 @@ export default function TermsAndConditions() {
               <li>Institutional dashboards and analytics</li>
             </ul>
             <p className="bg-blue-50/50 p-4 rounded-lg border-l-4 border-primary-500 italic text-sm">
-              One thing worth being clear about: EduAI Pro provides technology
+              One thing worth being clear about: EduAiPro provides technology
               tools for educators. We are not an accreditation body, a
               university, or a government teacher licensing authority. Our
               platform is designed to support great teaching, not to replace the
@@ -94,7 +94,7 @@ export default function TermsAndConditions() {
               3. ELIGIBILITY
             </h2>
             <p className="leading-relaxed mb-4">
-              To use EduAI Pro&apos;s Services, you must:
+              To use EduAiPro&apos;s Services, you must:
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li>
@@ -137,9 +137,9 @@ export default function TermsAndConditions() {
               5. ACCEPTABLE USE
             </h2>
             <p className="leading-relaxed mb-4">
-              We built EduAI Pro for educators and institutions doing
-              legitimate, valuable work. To keep it that way for everyone, you
-              agree to use the Services only for lawful and authorised purposes.
+              We built EduAiPro for educators and institutions doing legitimate,
+              valuable work. To keep it that way for everyone, you agree to use
+              the Services only for lawful and authorised purposes.
             </p>
             <p className="font-semibold mb-2">
               You may not, and may not allow others to:
@@ -168,7 +168,7 @@ export default function TermsAndConditions() {
               <li>
                 Bypass product limits, safety controls, or access restrictions
               </li>
-              <li>Impersonate other users, institutions, or EduAI Pro staff</li>
+              <li>Impersonate other users, institutions, or EduAiPro staff</li>
               <li>
                 Share login credentials or use another user&apos;s account
                 without authorisation
@@ -185,7 +185,7 @@ export default function TermsAndConditions() {
               6. FAIR USE & SYSTEM PROTECTION
             </h2>
             <p className="leading-relaxed mb-4">
-              We want EduAI Pro to perform reliably for every user, and that
+              We want EduAiPro to perform reliably for every user, and that
               means protecting the platform from usage patterns that could drag
               it down for everyone else.
             </p>
@@ -217,7 +217,7 @@ export default function TermsAndConditions() {
                   Human Oversight
                 </h3>
                 <p className="leading-relaxed">
-                  EduAI Pro is not a substitute for the expertise and contextual
+                  EduAiPro is not a substitute for the expertise and contextual
                   judgement of skilled educators. You should always review and
                   adapt AI-generated outputs to fit your students&apos; specific
                   needs, your school&apos;s standards, and your professional
@@ -269,8 +269,8 @@ export default function TermsAndConditions() {
             </h2>
             <p className="leading-relaxed mb-4">
               When you use our AI tools, the prompts and inputs you provide are
-              processed by EduAI Pro&apos;s systems to generate responses. We
-              may also analyse aggregated interaction data to improve platform
+              processed by EduAiPro&apos;s systems to generate responses. We may
+              also analyse aggregated interaction data to improve platform
               performance and reliability.
             </p>
             <p className="font-semibold text-gray-900 mb-6 bg-green-50/50 p-4 rounded-lg border-l-4 border-green-500">
@@ -285,7 +285,7 @@ export default function TermsAndConditions() {
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li>To help with support requests you make to us</li>
               <li>Where required by applicable law</li>
-              <li>To protect EduAI Pro from abuse or security threats</li>
+              <li>To protect EduAiPro from abuse or security threats</li>
               <li>
                 On rare occasions when a technical error stops an automated
                 process partway through
@@ -303,7 +303,7 @@ export default function TermsAndConditions() {
               9. PROFESSIONAL DEVELOPMENT & CERTIFICATIONS
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro offers professional development courses and digital CPD
+              EduAiPro offers professional development courses and digital CPD
               certifications. Our certifications are UK-accredited through the
               CPD standards office, a recognised accreditation that carries
               formal standing in the United Kingdom and is acknowledged by many
@@ -402,7 +402,7 @@ export default function TermsAndConditions() {
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li>
-                You tried EduAI Pro and it simply wasn&apos;t the right fit for
+                You tried EduAiPro and it simply wasn&apos;t the right fit for
                 you
               </li>
               <li>You experienced a billing error on our end</li>
@@ -449,7 +449,7 @@ export default function TermsAndConditions() {
             <p className="leading-relaxed">
               Institutions may not access individual user data beyond what is
               permitted by applicable data protection laws. Institutional use of
-              EduAI Pro must comply with all applicable privacy regulations.
+              EduAiPro must comply with all applicable privacy regulations.
             </p>
           </section>
 
@@ -458,7 +458,7 @@ export default function TermsAndConditions() {
               13. STUDENT DATA
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro is a platform for educators, not a student data system.
+              EduAiPro is a platform for educators, not a student data system.
               As such:
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
@@ -497,15 +497,15 @@ export default function TermsAndConditions() {
               15. INTELLECTUAL PROPERTY
             </h2>
             <p className="leading-relaxed mb-4">
-              All rights, title, and interest in the EduAI Pro platform and
-              Services remain the property of EduAI Pro Limited or its
-              licensors. This includes our software, platform design, AI models
-              and algorithms, and branding.
+              All rights, title, and interest in the EduAiPro platform and
+              Services remain the property of EduAiPro Limited or its licensors.
+              This includes our software, platform design, AI models and
+              algorithms, and branding.
             </p>
             <p className="leading-relaxed mb-4">
               Your content is yours. Any materials you upload or create on the
               platform remain your property. By using the Services, you grant
-              EduAI Pro a limited licence to host, process, and display your
+              EduAiPro a limited licence to host, process, and display your
               content solely to provide the Services to you. We claim no
               ownership over what you create.
             </p>
@@ -521,7 +521,7 @@ export default function TermsAndConditions() {
               16. COPYRIGHT COMPLAINTS
             </h2>
             <p className="leading-relaxed mb-4">
-              If you believe that content on EduAI Pro infringes your copyright,
+              If you believe that content on EduAiPro infringes your copyright,
               you may submit a notice to our designated copyright contact at{" "}
               <a
                 href="mailto:copyright@eduaipro.ng"
@@ -555,7 +555,7 @@ export default function TermsAndConditions() {
               17. THIRD-PARTY SERVICES
             </h2>
             <p className="leading-relaxed">
-              EduAI Pro relies on third-party providers for hosting, cloud
+              EduAiPro relies on third-party providers for hosting, cloud
               infrastructure, payment processing, and AI technologies. We work
               hard to choose reliable partners, but we cannot be responsible for
               service interruptions or performance issues that originate with
@@ -569,7 +569,7 @@ export default function TermsAndConditions() {
               18. SERVICE AVAILABILITY
             </h2>
             <p className="leading-relaxed mb-4">
-              Your use of EduAI Pro is at your own risk. We provide the Services
+              Your use of EduAiPro is at your own risk. We provide the Services
               on an &quot;as is&quot; and &quot;as available&quot; basis. We
               design our platform carefully and test features before releasing
               them, but like any software, things sometimes go wrong.
@@ -582,7 +582,7 @@ export default function TermsAndConditions() {
               prioritising anything affecting security or privacy.
             </p>
             <p className="leading-relaxed font-medium">
-              We make a commitment to our users: as long as EduAI Pro continues
+              We make a commitment to our users: as long as EduAiPro continues
               to operate, we will maintain our core Services, including
               security, privacy, and customer support.
             </p>
@@ -593,7 +593,7 @@ export default function TermsAndConditions() {
               19. CHANGES TO THE SERVICES & PRICING
             </h2>
             <p className="leading-relaxed">
-              We&apos;re always working to improve EduAI Pro. Sometimes that
+              We&apos;re always working to improve EduAiPro. Sometimes that
               means modifying features, redesigning parts of the platform, or in
               rare cases, closing down a particular feature or product line. We
               reserve the right to modify or discontinue any part of the
@@ -606,7 +606,7 @@ export default function TermsAndConditions() {
               20. PRIVACY & DATA PROTECTION
             </h2>
             <p className="leading-relaxed mb-4">
-              EduAI Pro processes personal data in accordance with applicable
+              EduAiPro processes personal data in accordance with applicable
               laws, including the Nigeria Data Protection Act (NDPA) 2023. Our
               full data practices are set out in our Privacy Policy, which forms
               part of these Terms.
@@ -625,7 +625,7 @@ export default function TermsAndConditions() {
               21. FEATURES & KNOWN LIMITATIONS
             </h2>
             <p className="leading-relaxed mb-4">
-              We design EduAI Pro&apos;s features with care, based on our own
+              We design EduAiPro&apos;s features with care, based on our own
               experience and the feedback of educators who take the time to
               share it. But no platform pleases everyone, and we make no
               guarantees that the Services will meet every specific requirement
@@ -647,7 +647,7 @@ export default function TermsAndConditions() {
             </h2>
             <p className="leading-relaxed mb-4">
               To the fullest extent permitted by law, and without limiting
-              liability that cannot be excluded under applicable law, EduAI Pro
+              liability that cannot be excluded under applicable law, EduAiPro
               shall not be liable for:
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-4">
@@ -680,7 +680,7 @@ export default function TermsAndConditions() {
             </h2>
             <p className="leading-relaxed mb-4">
               To the maximum extent permitted by law, you agree to defend,
-              indemnify, and hold harmless EduAI Pro Limited, its affiliates,
+              indemnify, and hold harmless EduAiPro Limited, its affiliates,
               officers, directors, employees, and agents from and against any
               claims, liabilities, damages, losses, and expenses (including
               reasonable legal fees) arising out of or related to:
@@ -709,7 +709,7 @@ export default function TermsAndConditions() {
               the final billing cycle.
             </p>
             <p className="leading-relaxed mb-4">
-              EduAI Pro may suspend or terminate accounts that violate these
+              EduAiPro may suspend or terminate accounts that violate these
               Terms, present security risks, or engage in abusive behaviour,
               including verbal, written, or other abuse directed at our team. We
               also reserve the right to refuse use of the Services to anyone, at
@@ -730,7 +730,7 @@ export default function TermsAndConditions() {
               25. FORCE MAJEURE
             </h2>
             <p className="leading-relaxed">
-              EduAI Pro is not liable for delays or failure to perform
+              EduAiPro is not liable for delays or failure to perform
               obligations caused by events beyond our reasonable control,
               including natural disasters, internet or infrastructure failures,
               cyber incidents, acts of government, or labour disputes.
@@ -752,7 +752,7 @@ export default function TermsAndConditions() {
                 <span>
                   These Terms, together with our Privacy Policy and any
                   additional terms incorporated by reference, constitute the
-                  entire agreement between you and EduAI Pro regarding the
+                  entire agreement between you and EduAiPro regarding the
                   Services.
                 </span>
               </li>
@@ -828,8 +828,8 @@ export default function TermsAndConditions() {
               account, please reach out.
             </p>
             <p className="text-lg font-medium text-center italic text-gray-700 bg-gray-50 py-6 rounded-lg border">
-              Thank you for trusting EduAI Pro. We take that trust seriously,
-              and we&apos;ll keep working to deserve it.
+              Thank you for trusting EduAiPro. We take that trust seriously, and
+              we&apos;ll keep working to deserve it.
             </p>
           </section>
         </div>

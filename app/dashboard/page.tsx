@@ -121,7 +121,7 @@ export default function OverviewPage() {
     () => [
       {
         targetId: "center",
-        title: "Welcome to EduAI Pro!",
+        title: "Welcome to EduAiPro!",
         description:
           "We're excited to have you here. Let's take a quick tour of your dashboard to get you started.",
         position: "center",
@@ -266,7 +266,7 @@ export default function OverviewPage() {
               <div className="rounded-xl bg-amber-100 p-3.5 text-sm text-amber-700 flex items-center gap-2">
                 <AlertTriangleIcon size={18} />
                 <p className="text-amber-800">
-                  Your school is trialling EduAI Pro, so Unit
+                  Your school is trialling EduAiPro, so Unit
                   {subscription?.unitCap && subscription.unitCap > 1
                     ? "s 1 to "
                     : " "}

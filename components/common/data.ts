@@ -133,7 +133,7 @@ export const pricingData = [
         icon: CircleUserIcon,
         title: "Dedicated Account Manager",
         description:
-          "Personalized support to help implement and manage EduAI Pro effectively",
+          "Personalized support to help implement and manage EduAiPro effectively",
       },
       {
         icon: CalendarDaysIcon,

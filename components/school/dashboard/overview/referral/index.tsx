@@ -17,7 +17,7 @@ export const Referral = () => {
       <div>
         <h2 className="font-semibold text-lg">Referral</h2>
         <p className="font-medium text-grey-500">
-          Encourage other schools to become part of the EduAI Pro community
+          Encourage other schools to become part of the EduAiPro community
         </p>
       </div>
       <div>

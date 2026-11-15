@@ -9,7 +9,7 @@ import { getPageMetadata } from "@/utils/config";
 export const metadata = getPageMetadata({
   title: "About Us",
   description:
-    "Learn about EduAIPro's mission, our team, and the approach behind our accredited AI-powered CPD platform for educators.",
+    "Learn about EduAiPro's mission, our team, and the approach behind our accredited AI-powered CPD platform for educators.",
   path: "/about",
 });
 

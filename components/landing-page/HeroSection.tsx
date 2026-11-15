@@ -24,7 +24,7 @@ export default function HeroSection() {
           </Button> */}
           <div>
             <p className="text-base text-grey-800 font-medium">
-              Transform your teaching with {"EduAIPro's"} Accredited Continued
+              Transform your teaching with {"EduAiPro's"} Accredited Continuing
               Professional Development (CPD) courses. Designed for mentors,
               teaching assistants, primary, secondary, and higher institution
               educators, our AI-powered platform equips you with the tools to

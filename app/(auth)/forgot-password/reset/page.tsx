@@ -3,7 +3,7 @@ import ResetPasswordClient from "./reset-client";
 
 export const metadata = getPageMetadata({
   title: "Set a New Password",
-  description: "Choose a new password for your EduAIPro account.",
+  description: "Choose a new password for your EduAiPro account.",
   path: "/forgot-password/reset",
   noIndex: true,
 });

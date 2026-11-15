@@ -28,7 +28,7 @@ export default function InstitutionSignup() {
     <div className="flex-col flex gap-y-6 h-[80vh] overflow-y-scroll no-scrollbar">
       <div className="text-left">
         <Typography.H2 size="basePro" weight="semibold">
-          Welcome to EduAI Pro!
+          Welcome to EduAiPro!
         </Typography.H2>
         <Typography.P weight="medium" size="large" fontColor="medium">
           Empowering Institutions for Professional Development Excellence.

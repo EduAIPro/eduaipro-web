@@ -29,8 +29,8 @@ export default function GlobalError({
           </h1>
 
           <p className="text-base text-grey-500 font-medium max-w-md mb-8">
-            EduAI Pro ran into an unexpected error. Our team has been
-            notified — please try reloading the page.
+            EduAiPro ran into an unexpected error. Our team has been notified —
+            please try reloading the page.
             {error.digest && (
               <span className="block text-xs text-grey-400 mt-2">
                 Reference: {error.digest}

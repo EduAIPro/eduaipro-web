@@ -4,7 +4,7 @@ import RegisterPageClient from "./register-client";
 export const metadata = getPageMetadata({
   title: "Sign Up",
   description:
-    "Create your free EduAIPro account and start an accredited CPD pathway today.",
+    "Create your free EduAiPro account and start an accredited CPD pathway today.",
   path: "/register",
 });
 
