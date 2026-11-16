@@ -15,7 +15,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { nairaToKobo } from "@/lib/admin-billing";
+import { formatKobo } from "@/lib/utils";
 import { isAdminBillingError } from "@/types/admin/billing";
+import { formatDate } from "date-fns";
 import { useState } from "react";
 import { toast } from "sonner";
 import { mutate as globalMutate } from "swr";
@@ -29,14 +31,6 @@ type Props = {
 
 const DEFAULT_TERM = 24;
 const REF_RE = /^[A-Za-z0-9_-]+$/;
-
-const naira = (kobo: number) => `₦${(kobo / 100).toLocaleString("en-NG")}`;
-
-const lagosDate = (iso: string) =>
-  new Intl.DateTimeFormat("en-NG", {
-    dateStyle: "long",
-    timeZone: "Africa/Lagos",
-  }).format(new Date(iso));
 
 export const GrantSeatsDialog = ({ schoolId, schoolName, refetch }: Props) => {
   const [open, setOpen] = useState(false);
@@ -70,8 +64,7 @@ export const GrantSeatsDialog = ({ schoolId, schoolName, refetch }: Props) => {
 
   const errors = {
     quantity:
-      quantity !== "" &&
-      (!Number.isInteger(qty) || qty < 1 || qty > 5000)
+      quantity !== "" && (!Number.isInteger(qty) || qty < 1 || qty > 5000)
         ? "Enter a whole number from 1 to 5000."
         : null,
     amount:
@@ -88,8 +81,7 @@ export const GrantSeatsDialog = ({ schoolId, schoolName, refetch }: Props) => {
         : null,
     note: note.length > 500 ? "Max 500 characters." : null,
   };
-  const valid =
-    quantity !== "" && !Object.values(errors).some(Boolean);
+  const valid = quantity !== "" && !Object.values(errors).some(Boolean);
 
   const submit = async () => {
     if (!valid || isMutating) return;
@@ -103,15 +95,14 @@ export const GrantSeatsDialog = ({ schoolId, schoolName, refetch }: Props) => {
         ...(note.trim() ? { note: note.trim() } : {}),
       });
       toast.success(
-        `Seats granted. Reference ${res.reference}, valid until ${lagosDate(res.endsAt)}.`,
+        `Seats granted. Reference ${res.reference}, valid until ${formatDate(res.endsAt, "do MM, yyyy")}.`,
         { duration: 8000 },
       );
       setOpen(false);
       reset();
       refetch();
       globalMutate(
-        (key) =>
-          Array.isArray(key) && key[0] === adminBillingTransactionsKey,
+        (key) => Array.isArray(key) && key[0] === adminBillingTransactionsKey,
       );
     } catch (error) {
       setStep("form");
@@ -267,7 +258,7 @@ export const GrantSeatsDialog = ({ schoolId, schoolName, refetch }: Props) => {
                 {months} month{months === 1 ? "" : "s"}.
               </p>
               <p className="text-grey-500">
-                Amount recorded: {naira(kobo)}
+                Amount recorded: {formatKobo(kobo)}
                 {kobo === 0 ? " (sponsorship)" : ""}
               </p>
               {ref ? (
@@ -284,7 +275,11 @@ export const GrantSeatsDialog = ({ schoolId, schoolName, refetch }: Props) => {
               >
                 Go back
               </Button>
-              <Button loading={isMutating} disabled={isMutating} onClick={submit}>
+              <Button
+                loading={isMutating}
+                disabled={isMutating}
+                onClick={submit}
+              >
                 Grant seats
               </Button>
             </DialogFooter>
