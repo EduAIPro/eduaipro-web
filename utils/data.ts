@@ -193,6 +193,7 @@ export const cpdPathways = [
     role: "Primary Teacher",
     icon: GiTeacher,
     desc: "Pedagogy, classroom management and assessment for primary-phase teachers.",
+    unitsCount: 12,
   },
   {
     value: "SECONDARY",
@@ -201,6 +202,7 @@ export const cpdPathways = [
     role: "Secondary Teacher",
     icon: SlBookOpen,
     desc: "Subject pedagogy, adolescent learning and exam preparation for secondary teachers.",
+    unitsCount: 12,
   },
   {
     value: "TERTIARY",
@@ -209,6 +211,7 @@ export const cpdPathways = [
     role: "Higher Institution Teacher",
     icon: PiChalkboardTeacher,
     desc: "Lecture design, research supervision and internationalisation in higher education.",
+    unitsCount: 12,
   },
   {
     value: "TEACHER_ASSISTANT",
@@ -217,6 +220,7 @@ export const cpdPathways = [
     role: "Teaching Assistant (TA)",
     icon: MdPeopleOutline,
     desc: "Classroom support, differentiation and safeguarding for teaching assistants.",
+    unitsCount: 12,
   },
   {
     value: "MENTOR",
@@ -225,6 +229,7 @@ export const cpdPathways = [
     role: "Mentor",
     icon: MdSchool,
     desc: "Coaching, observation and developmental feedback for teacher mentors.",
+    unitsCount: 10,
   },
 ];
 

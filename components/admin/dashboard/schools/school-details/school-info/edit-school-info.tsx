@@ -11,7 +11,7 @@ import {
 } from "@/utils/validation/admin";
 import { Form, Formik } from "formik";
 import { toast } from "sonner";
-import { mutate } from "swr";
+import { useSWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 
 type EditSchoolInfoProps = {
@@ -29,12 +29,14 @@ export const EditSchoolInfo = ({
 }: EditSchoolInfoProps) => {
   const { trigger, isMutating } = useSWRMutation(
     schoolId ? updateSchoolKey(schoolId) : null,
-    editSchoolInfo
+    editSchoolInfo,
   );
+
+  const { mutate } = useSWRConfig();
 
   async function onSubmit(
     values: EditSchoolInfoFormValue,
-    { resetForm }: { resetForm: VoidFunction }
+    { resetForm }: { resetForm: VoidFunction },
   ) {
     try {
       const payload = {

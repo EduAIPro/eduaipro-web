@@ -53,15 +53,12 @@ function CpdPathwaySection({ error }: { error?: string | null }) {
   }, []);
 
   const pathway =
-    cpdPathways.find((p) => p.value === values.teachingLevel) ??
-    cpdPathways[0];
+    cpdPathways.find((p) => p.value === values.teachingLevel) ?? cpdPathways[0];
   const Icon = pathway.icon;
 
   return (
     <div>
-      <p className="font-medium text-base mb-1 text-grey-650">
-        CPD pathway
-      </p>
+      <p className="font-medium text-base mb-1 text-grey-650">CPD pathway</p>
       <div className="flex items-center gap-3 rounded-lg border border-primary-300/30 bg-primary-300/5 p-3.5">
         <span className="shrink-0 rounded-full bg-white p-2 text-primary-300 shadow-sm">
           <Icon size={20} />
@@ -72,8 +69,8 @@ function CpdPathwaySection({ error }: { error?: string | null }) {
             {pathway.name}
           </p>
           <p className="mt-0.5 text-xs text-grey-500 leading-relaxed">
-            Set from the role you chose at sign-up ({pathway.role}). This is
-            the certificate you&apos;ll earn.
+            Set from the role you chose at sign-up ({pathway.role}). This is the
+            certificate you&apos;ll earn.
           </p>
         </div>
         <button
@@ -155,7 +152,7 @@ function CpdPathwaySection({ error }: { error?: string | null }) {
                             {p.name}
                           </p>
                           <p className="text-xs text-grey-500">
-                            12 units · 30 CPD hours
+                            {p.unitsCount} units · 30 CPD hours
                           </p>
                         </span>
                       </button>

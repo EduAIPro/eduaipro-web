@@ -1,13 +1,17 @@
 "use client";
 
-import { schoolAccessKey, schoolDemoKey } from "@/api/keys";
+import {
+  getSchoolStaffsKey,
+  schoolAccessKey,
+  schoolDemoKey,
+  schoolSeatsKey,
+} from "@/api/keys";
 import { failureCopy } from "@/lib/billing-dates";
 import { clearCheckout, readCheckout } from "@/lib/school-checkout";
-import { invalidateRoster, invalidateSeats } from "@/lib/school-invalidate";
 import { SchoolTransaction } from "@/types/school/billing";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { mutate } from "swr";
+import { useSWRConfig } from "swr";
 import { toast } from "sonner";
 
 export const POLL_INTERVAL_MS = 3000;
@@ -31,6 +35,7 @@ export default function useCheckoutReturn(
   const [failureReason, setFailureReason] = useState<string | null>(null);
   const stored = useRef(readCheckout());
   const started = useRef(false);
+  const { mutate } = useSWRConfig();
 
   const strip = () => router.replace("/school/billing");
 
@@ -60,8 +65,8 @@ export default function useCheckoutReturn(
     if (tx?.status === "SUCCESS") {
       toast.success("Payment confirmed");
       clearCheckout();
-      invalidateSeats();
-      invalidateRoster();
+      mutate(schoolSeatsKey);
+      mutate((key) => Array.isArray(key) && key[0] === getSchoolStaffsKey);
       mutate(schoolAccessKey);
       mutate(schoolDemoKey);
       setPhase("idle");
