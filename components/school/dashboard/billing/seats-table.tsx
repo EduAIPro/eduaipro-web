@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SimpleTooltip } from "@/components/ui/simple-tooltip";
 import { schoolBillingMessage } from "@/lib/school-billing-errors";
-import { invalidateSeatsAndRoster } from "@/lib/school-invalidate";
+import { useSchoolInvalidate } from "@/lib/school-invalidate";
 import { cn } from "@/lib/utils";
 import { Seat, SeatState } from "@/types/school/billing";
 import { useState } from "react";
@@ -37,6 +37,9 @@ export const SeatsTable = ({ seats, onAssign }: SeatsTableProps) => {
     releaseSchoolSeatKey,
     releaseSchoolSeat,
   );
+
+  const reversed = seats.toReversed();
+  const { invalidateSeatsAndRoster } = useSchoolInvalidate();
 
   const onRelease = async () => {
     if (!releasing) return;
@@ -72,7 +75,7 @@ export const SeatsTable = ({ seats, onAssign }: SeatsTableProps) => {
           </thead>
           <tbody>
             {seats.length ? (
-              seats.map((s) => (
+              reversed.map((s) => (
                 <tr key={s.id} className="border-t">
                   <td className="px-4 py-2.5">
                     {s.staff ? (

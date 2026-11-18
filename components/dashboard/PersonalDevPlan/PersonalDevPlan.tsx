@@ -24,6 +24,7 @@ import { Assessment } from "./assessment";
 import { AssessmentCompletedModal } from "./assessment/completed-modal";
 import { AssessmentResults } from "./assessment/results";
 import CourseMedia from "./course-media";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { UnitsContent } from "./units-content";
 import useUser from "@/hooks/use-user";
 import { updatePersonalInfo } from "@/api/mutations";
@@ -235,30 +236,32 @@ const PersonalDevPlan = ({
   );
 
   const rightPanel = (
-    <UnitsContent
-      setCurrentPage={setCurrentPage}
-      setModuleId={setModuleId}
-      moduleId={moduleId}
-      handleIntroPlayed={handleIntroPlayed}
-      introHasPlayed={introHasPlayed}
-      units={units}
-      pdfUrl={pdfUrl}
-      setPdfUrl={setPdfUrl}
-      values={accordionValues}
-      moduleValues={moduleAccValues}
-      setModuleValues={setModuleAccValues}
-      setValues={setAccordionValues}
-      courseProgress={props.courseProgress}
-      overallProgress={props.overallProgress}
-      generateQuestions={startAssessment}
-      isGeneratingQuestions={isMutating}
-      isQuizOn={isQuizOn}
-      setActiveUnitId={setActiveUnitId}
-      unitInfo={unitInfo}
-      isLoading={isLoading}
-      isMobileLandscape={isMobileLandscape}
-      currentPage={currentPage}
-    />
+    <ErrorBoundary name="pdp-units-content">
+      <UnitsContent
+        setCurrentPage={setCurrentPage}
+        setModuleId={setModuleId}
+        moduleId={moduleId}
+        handleIntroPlayed={handleIntroPlayed}
+        introHasPlayed={introHasPlayed}
+        units={units}
+        pdfUrl={pdfUrl}
+        setPdfUrl={setPdfUrl}
+        values={accordionValues}
+        moduleValues={moduleAccValues}
+        setModuleValues={setModuleAccValues}
+        setValues={setAccordionValues}
+        courseProgress={props.courseProgress}
+        overallProgress={props.overallProgress}
+        generateQuestions={startAssessment}
+        isGeneratingQuestions={isMutating}
+        isQuizOn={isQuizOn}
+        setActiveUnitId={setActiveUnitId}
+        unitInfo={unitInfo}
+        isLoading={isLoading}
+        isMobileLandscape={isMobileLandscape}
+        currentPage={currentPage}
+      />
+    </ErrorBoundary>
   );
 
   const isLastUnit = useMemo(() => {

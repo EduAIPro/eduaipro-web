@@ -104,8 +104,9 @@ function saveLocalProgress(
       progressStorageKey(staffId),
       JSON.stringify(state),
     );
-  } catch {
+  } catch (err) {
     // ignore quota/serialization errors — progress just won't persist this session
+    console.log({ err });
   }
 }
 

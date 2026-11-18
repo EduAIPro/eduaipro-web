@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { schoolBillingMessage } from "@/lib/school-billing-errors";
-import { invalidateSeatsAndRoster } from "@/lib/school-invalidate";
+import { useSchoolInvalidate } from "@/lib/school-invalidate";
 import { RosterStaff, staffName } from "@/lib/school-roster";
 import { Seat } from "@/types/school/billing";
 import { useEffect, useState } from "react";
@@ -48,6 +48,7 @@ export const AssignSeatModal = ({
     assignSchoolSeatKey,
     assignSchoolSeat,
   );
+  const { invalidateSeatsAndRoster } = useSchoolInvalidate();
 
   useEffect(() => {
     if (!open) return;

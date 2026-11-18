@@ -1,22 +1,20 @@
 "use client";
 
 import { format } from "date-fns";
-import { schoolDemoKey } from "@/api/keys";
+import { schoolDemoKey, schoolSeatsKey } from "@/api/keys";
 import { startSchoolDemo } from "@/api/mutations";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import useSchoolDemo from "@/hooks/use-school-demo";
 import useSchoolSeats from "@/hooks/use-school-seats";
 import { schoolBillingMessage } from "@/lib/school-billing-errors";
-import { invalidateSeats } from "@/lib/school-invalidate";
 import { getSchoolInfo, schoolAccessKey } from "@/api/keys";
 import { generalFetcher } from "@/api/queries";
 import { PAYWALL_HINT } from "@/components/school/layout/access-gate";
 import { RetrieveSchoolInfoResponse } from "@/types/school/auth";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { EyeIcon, LockIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { mutate } from "swr";
 import { toast } from "sonner";
 import useSWRMutation from "swr/mutation";
 import { SeatPurchaseFlow } from "./seat-purchase-flow";
@@ -42,6 +40,8 @@ export const SeatPaywall = () => {
     generalFetcher,
   );
   const { seats } = useSchoolSeats();
+  const { mutate } = useSWRConfig();
+
   const openInvoices =
     seats?.purchases.filter((p) => p.status === "PENDING" && p.invoiceNumber) ??
     [];
@@ -109,7 +109,7 @@ export const SeatPaywall = () => {
           initialQuantity={
             Number.isInteger(requested) && requested > 0 ? requested : undefined
           }
-          onInvoiceDone={invalidateSeats}
+          onInvoiceDone={() => mutate(schoolSeatsKey)}
         />
       </Card>
 
