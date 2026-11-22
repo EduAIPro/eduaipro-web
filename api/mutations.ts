@@ -69,6 +69,8 @@ import {
 import {
   AssignSeatPayload,
   AssignSeatResponse,
+  AssignSeatsPayload,
+  AssignSeatsResponse,
   BuySeatsPayload,
   BuySeatsResponse,
   CheckoutResponse,
@@ -830,6 +832,14 @@ export async function assignSchoolSeat(
 ): Promise<AssignSeatResponse> {
   const { seatId, ...body } = arg;
   return schoolBillingPost("assign", url.replace(":seatId", seatId), body);
+}
+
+/** Bulk: the server picks the seats. All or nothing for a list of ids. */
+export async function assignSchoolSeats(
+  url: string,
+  { arg }: { arg: AssignSeatsPayload },
+): Promise<AssignSeatsResponse> {
+  return schoolBillingPost("assignBulk", url, arg);
 }
 
 export async function releaseSchoolSeat(

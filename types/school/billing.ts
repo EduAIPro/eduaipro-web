@@ -86,6 +86,24 @@ export type AssignSeatResponse = {
   certificatesQueued: number;
 };
 
+/** Bulk assignment: the server picks the seats. "MAX" seats every unseated
+ *  teacher it can, A-Z, until the free seats run out. */
+export type AssignSeatsPayload = { staffIds: string[] | "MAX" };
+
+export type AssignedSeat = {
+  seatId: string;
+  staffId: string;
+  firstName: string;
+  lastName: string;
+};
+
+export type AssignSeatsResponse = {
+  /** everyone who got a seat now, in the order they were seated */
+  assigned: AssignedSeat[];
+  certificatesQueued: number;
+  freeSeatsLeft: number;
+};
+
 export type SchoolTransactionStatus = Transaction["status"];
 export type SchoolTransaction = Transaction;
 export type SchoolTransactionsData = TransactionsData;

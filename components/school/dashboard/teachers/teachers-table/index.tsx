@@ -31,7 +31,7 @@ import {
   staffName,
 } from "@/lib/school-roster";
 import { SchoolStaffsData } from "@/types/school/teachers";
-import { DownloadIcon, MegaphoneIcon } from "lucide-react";
+import { ArmchairIcon, DownloadIcon, MegaphoneIcon } from "lucide-react";
 import { Fragment, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { InviteTeacherModal } from "../modals";
@@ -186,6 +186,18 @@ export const TeachersTable = () => {
               >
                 <DownloadIcon /> Export CSV
               </Button>
+              {(seats?.available ?? 0) > 0 ? (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setAssignStaffId(null);
+                    setAssignOpen(true);
+                  }}
+                >
+                  <ArmchairIcon /> Assign seats
+                </Button>
+              ) : null}
               <SendMessageModal
                 type="school"
                 modalTrigger={
@@ -270,6 +282,10 @@ export const TeachersTable = () => {
         seat={firstAvailable}
         staff={roster}
         staffId={assignStaffId}
+        seats={seatList}
+        available={seats?.available}
+        allowBulk
+        defaultMode={assignStaffId ? "single" : "bulk"}
       />
       <BuySeatsModal open={buyOpen} onOpenChange={setBuyOpen} />
     </Fragment>
