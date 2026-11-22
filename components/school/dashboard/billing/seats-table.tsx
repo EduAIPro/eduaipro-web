@@ -55,6 +55,13 @@ export const SeatsTable = ({ seats, forbidden, onAssign }: SeatsTableProps) => {
     }
   };
 
+  const notes = {
+    ASSIGNED:
+      "The teacher is currently assigned to the seat but has not earned a certificate",
+    CONSUMED: "The teacher has earned a certificate with this seat",
+    AVAILABLE: "The seat has not been assigned to a teacher yet",
+  };
+
   return (
     <Card className="overflow-hidden">
       <div className="border-b p-4 flex items-center justify-between">
@@ -103,14 +110,16 @@ export const SeatsTable = ({ seats, forbidden, onAssign }: SeatsTableProps) => {
                     {format(new Date(s.termEndsAt), "do MMM, yyyy")}
                   </td>
                   <td className="px-4 py-2.5">
-                    <span
-                      className={cn(
-                        "rounded-full px-2.5 py-0.5 text-[10.5px] font-semibold capitalize",
-                        STATE_STYLE[s.state],
-                      )}
-                    >
-                      {s.state.toLowerCase()}
-                    </span>
+                    <SimpleTooltip content={notes[s.state]}>
+                      <span
+                        className={cn(
+                          "rounded-full px-2.5 py-0.5 text-[10.5px] font-semibold capitalize",
+                          STATE_STYLE[s.state],
+                        )}
+                      >
+                        {s.state.toLowerCase()}
+                      </span>
+                    </SimpleTooltip>
                   </td>
                   <td className="px-4 py-2.5 text-right">
                     {/* {s.state === "AVAILABLE" ? (
@@ -118,13 +127,20 @@ export const SeatsTable = ({ seats, forbidden, onAssign }: SeatsTableProps) => {
                         Assign
                       </Button>
                     ) : s.state === "ASSIGNED" ? ( */}
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => setReleasing(s)}
-                    >
-                      Release
-                    </Button>
+                    {s.state === "ASSIGNED" ? (
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => setReleasing(s)}
+                      >
+                        Release
+                      </Button>
+                    ) : s.state === "CONSUMED" ? (
+                      <SimpleTooltip content="Locked until the term ends because this teacher earned a certificate">
+                        <span className="text-xs text-grey-500">Locked</span>
+                      </SimpleTooltip>
+                    ) : null}
+
                     {/* ) : (
                       <SimpleTooltip content="Locked until the term ends because this teacher earned a certificate">
                         <span className="text-xs text-grey-500">Locked</span>
