@@ -28,17 +28,18 @@ const seatHolder = (s: Seat) =>
 
 type SeatsTableProps = {
   seats: Seat[];
-  onAssign: (seat: Seat) => void;
+  onAssign: VoidFunction;
+  forbidden: boolean;
 };
 
-export const SeatsTable = ({ seats, onAssign }: SeatsTableProps) => {
+export const SeatsTable = ({ seats, forbidden, onAssign }: SeatsTableProps) => {
   const [releasing, setReleasing] = useState<Seat | null>(null);
   const { trigger, isMutating } = useSWRMutation(
     releaseSchoolSeatKey,
     releaseSchoolSeat,
   );
 
-  const reversed = seats.toReversed();
+  const reversed = seats.toReversed().filter((s) => s.state !== "AVAILABLE");
   const { invalidateSeatsAndRoster } = useSchoolInvalidate();
 
   const onRelease = async () => {
@@ -56,8 +57,15 @@ export const SeatsTable = ({ seats, onAssign }: SeatsTableProps) => {
 
   return (
     <Card className="overflow-hidden">
-      <div className="border-b p-4">
+      <div className="border-b p-4 flex items-center justify-between">
         <h3 className="text-sm font-bold text-grey-800">Seats</h3>
+
+        {!forbidden &&
+        (seats?.filter((s) => s.state === "AVAILABLE") ?? 0).length > 0 ? (
+          <Button variant="secondary" onClick={onAssign}>
+            Assign seats
+          </Button>
+        ) : null}
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
@@ -105,23 +113,23 @@ export const SeatsTable = ({ seats, onAssign }: SeatsTableProps) => {
                     </span>
                   </td>
                   <td className="px-4 py-2.5 text-right">
-                    {s.state === "AVAILABLE" ? (
+                    {/* {s.state === "AVAILABLE" ? (
                       <Button size="sm" onClick={() => onAssign(s)}>
                         Assign
                       </Button>
-                    ) : s.state === "ASSIGNED" ? (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setReleasing(s)}
-                      >
-                        Release
-                      </Button>
-                    ) : (
+                    ) : s.state === "ASSIGNED" ? ( */}
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => setReleasing(s)}
+                    >
+                      Release
+                    </Button>
+                    {/* ) : (
                       <SimpleTooltip content="Locked until the term ends because this teacher earned a certificate">
                         <span className="text-xs text-grey-500">Locked</span>
                       </SimpleTooltip>
-                    )}
+                    )} */}
                   </td>
                 </tr>
               ))

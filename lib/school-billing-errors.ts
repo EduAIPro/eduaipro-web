@@ -4,6 +4,8 @@ export type SchoolBillingCall =
   | "purchase"
   | "renew"
   | "assign"
+  /** bulk assignment; its 400/409 messages are already owner-facing */
+  | "assignBulk"
   | "release"
   | "demo";
 

@@ -77,6 +77,7 @@ export const renewSchoolSeatPurchaseKey =
 export const schoolAccessKey = "/school/access";
 export const schoolDemoKey = "/school/demo";
 export const assignSchoolSeatKey = "/billing/school/seats/:seatId/assign";
+export const assignSchoolSeatsKey = "/billing/school/seats/assign";
 export const releaseSchoolSeatKey = "/billing/school/seats/:seatId/release";
 
 // ADMIN

@@ -16,5 +16,5 @@ export const useSchoolInvalidate = () => {
     setTimeout(invalidateRoster, delayedRosterMs);
   };
 
-  return { invalidateSeatsAndRoster };
+  return { invalidateSeats, invalidateSeatsAndRoster };
 };
